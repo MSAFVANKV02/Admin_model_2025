@@ -5,7 +5,7 @@ type Props = {
     link?: string
 }
 
-export default function Logo({link="/"}: Props) {
+export default function Logo({link="/dashboard"}: Props) {
   return (
     <Link className="flex gap-2 group items-center select-none" to={`${link}`}>
     <div className="h-10 relative w-10  rounded-2xl bg-textMain flex items-center justify-center overflow-hidden">

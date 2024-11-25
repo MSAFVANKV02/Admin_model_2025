@@ -1,26 +1,24 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "./IsAuthenticated";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  isProtected?: boolean;
-  isHomeLogin?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  children,
-}) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const isLogged = isAuthenticated();
-
-  // If logged in and trying to access a protected route that's not KYC, redirect to KYC
+  const { pathname } = useLocation();
 
   if (!isLogged) {
+    // Redirect to login if user is not authenticated
     return <Navigate to="/login" replace />;
   }
 
-
-
+  // Redirect to dashboard if logged in and accessing "/" or "/login"
+  if (pathname === "/login" || pathname === "/") {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   // Allow authenticated users to access protected routes
   return <>{children}</>;

@@ -5,9 +5,9 @@
     transition: all 0.2s ease-in-out;
   }
   
-  /* .radio-button:hover {
+  .radio-button:hover {
       transform: translateY(-2px);
-    } */
+    }
   
   .radio-button input[type="radio"] {
     display: none;
@@ -16,8 +16,8 @@
   .radio-checkmark {
     display: inline-block;
     position: relative;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     margin-right: 10px;
     border: 2px solid #4e4e4e;
     border-radius: 50%;

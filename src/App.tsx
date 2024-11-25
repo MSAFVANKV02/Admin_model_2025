@@ -1,4 +1,4 @@
-import "@/assets/css/style.css"
+import "@/assets/css/style.css";
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -23,10 +23,11 @@ import {
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess"; // Collapse icon
 import ExpandMore from "@mui/icons-material/ExpandMore"; // Expand icon
-import {  Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Logo from "./components/navbar_/Logo";
+import { cn } from "./lib/utils";
 
 const drawerWidth = 260;
 
@@ -84,7 +85,6 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -127,7 +127,7 @@ const NAVIGATION = [
     kind: "page",
     segment: "/products",
     title: "Products",
-    icon: <Icon icon="mdi:package-variant" />,
+    icon: <Icon icon="entypo:box" />,
     isChild: true,
     children: [
       { title: "Add New Product", segment: "/products/add-new" },
@@ -142,12 +142,18 @@ const NAVIGATION = [
     kind: "page",
     segment: "/sales",
     title: "Sales",
-    icon: <Icon icon="ic:baseline-point-of-sale" />,
+    icon: <Icon icon="streamline:graph-bar-increase-solid" />,
     isChild: true,
     children: [
       { title: "All Orders", segment: "/sales/orders" },
       { title: "Customer Refunds", segment: "/sales/refunds" },
     ],
+  },
+  {
+    kind: "page",
+    segment: "/customers/refund",
+    title: "Customer Refund",
+    icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
   },
   {
     kind: "page",
@@ -263,146 +269,166 @@ export default function MiniDrawer() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        color="default"
-        sx={{ boxShadow: "none" }}
-        open={open}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ marginRight: 5, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            {/* <img src={MyLogo} alt="My Logo" style={{ height: '40px', marginRight: '10px' }} /> */}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
+    <div
+      className={cn(``, {
+        "debug-screens": import.meta.env.MODE === "development",
+      })}
+    >
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          color="default"
+          sx={{
+            boxShadow: " rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
 
-        variant="permanent"
-        open={open}
-        sx={{
-          "& .MuiDrawer-paper": {
-            backgroundColor: "#1E1E1E", // Black background
-            color: "#fff", // White text color (optional)
-          },
-          "& .MuiListItemIcon-root": {
-            color: "#AF61CC", // Icon color
-          },
-          
-        }}
-      >
-        <DrawerHeader className="py-7">
-          {open && (
-            <>
-              <Logo />
+            // borderBottom:"0.9px solid #4E4E4E"
+          }}
+          open={open}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ marginRight: 5, ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              {/* <img src={MyLogo} alt="My Logo" style={{ height: '40px', marginRight: '10px' }} /> */}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          open={open}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "#1E1E1E", // Black background
+              color: "#fff", // White text color (optional)
+            },
+            "& .MuiListItemIcon-root": {
+              color: "#AF61CC", // Icon color
+            },
+          }}
+        >
+          <DrawerHeader className="py-7">
+            {open && (
+              <>
+                <Logo />
 
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <ChevronLeftIcon className="text-white" />
-                )}
-              </IconButton>
-            </>
-          )}
-        </DrawerHeader>
-        {/* <Divider /> */}
-        <List>
-          {NAVIGATION.map((item, index) => {
-            if (item.isChild) {
-              return (
-                <React.Fragment key={index}>
-                  <ListItemButton onClick={() => handleCollapseToggle(index)}>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={item.title} />
-                    {collapseStates[index] ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse
-                    in={collapseStates[index]}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <List component="div" disablePadding>
-                      {item.children?.map((child, childIndex) => (
-                        <ListItemButton
-                          key={childIndex}
-                          sx={{ pl: 4 }}
-                          onClick={() => handleNavigation(child.segment)}
-                        >
-                          {child.segment === pathname ? (
-                            <label className="radio-button">
-                              <input
-                                id={`option-${childIndex}`} // Use unique IDs for each input
-                                name="radio-group"
-                                type="radio"
-                                checked
-                              />
-                              <span className="radio-checkmark"></span>
-                            </label>
-                          ) : (
-                            <label className="radio-button">
-                              <input
-                                id={`option-${childIndex}`} // Use unique IDs for each input
-                                name="radio-group"
-                                type="radio"
-                              />
-                              <span className="radio-checkmark"></span>
-                            </label>
-                          )}
-
-                          <ListItemText
-                            primaryTypographyProps={{ fontSize: "0.75rem" }}
-                            primary={child.title}
-                          />
-                        </ListItemButton>
-                      ))}
-                    </List>
-                  </Collapse>
-                </React.Fragment>
-              );
-            } else {
-              return (
-                <ListItem
-                  key={index}
-                  disablePadding
-                  sx={{
-                    backgroundColor:
-                      item.segment === pathname ? "#818080cc" : "undefined,opacity: 0.8",  // Use undefined instead of false
-                  }}
-                >
-                  <ListItemButton
-                    onClick={() => handleNavigation(item.segment)}
-                  >
-                    <ListItemIcon
-                      sx={{ display: open || isLargeScreen ? "block" : "none" }}
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon />
+                  ) : (
+                    <ChevronLeftIcon className="text-white" />
+                  )}
+                </IconButton>
+              </>
+            )}
+          </DrawerHeader>
+          {/* <Divider /> */}
+          <List>
+            {NAVIGATION.map((item, index) => {
+              if (item.isChild) {
+                return (
+                  <React.Fragment key={index}>
+                    <ListItemButton onClick={() => handleCollapseToggle(index)}>
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText
+                        primary={item.title}
+                        primaryTypographyProps={{
+                          fontSize: "16px", // Adjust child item font size
+                          // Optional: Change text color
+                        }}
+                      />
+                      {collapseStates[index] ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse
+                      in={collapseStates[index]}
+                      timeout="auto"
+                      unmountOnExit
                     >
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.title}
-                      sx={{ display: open || isLargeScreen ? "block" : "none", }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
-            }
-          })}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 0, p: 2 }}>
-        <DrawerHeader />
-        <Outlet />
+                      <List component="div" disablePadding>
+                        {item.children?.map((child, childIndex) => (
+                          <ListItemButton
+                            key={childIndex}
+                            sx={{ pl: 4 }}
+                            onClick={() => handleNavigation(child.segment)}
+                          >
+                            {child.segment === pathname ? (
+                              <label className="radio-button">
+                                <input
+                                  id={`option-${childIndex}`} // Use unique IDs for each input
+                                  name="radio-group"
+                                  type="radio"
+                                  checked
+                                />
+                                <span className="radio-checkmark"></span>
+                              </label>
+                            ) : (
+                              <label className="radio-button">
+                                <input
+                                  id={`option-${childIndex}`} // Use unique IDs for each input
+                                  name="radio-group"
+                                  type="radio"
+                                />
+                                <span className="radio-checkmark"></span>
+                              </label>
+                            )}
+
+                            <ListItemText
+                              primaryTypographyProps={{ fontSize: "0.75rem" }}
+                              primary={child.title}
+                            />
+                          </ListItemButton>
+                        ))}
+                      </List>
+                    </Collapse>
+                  </React.Fragment>
+                );
+              } else {
+                return (
+                  <ListItem
+                    key={index}
+                    disablePadding
+                    sx={{
+                      backgroundColor:
+                        item.segment === pathname
+                          ? "#818080cc"
+                          : "undefined,opacity: 0.8", // Use undefined instead of false
+                    }}
+                  >
+                    <ListItemButton
+                      onClick={() => handleNavigation(item.segment)}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          display: open || isLargeScreen ? "block" : "none",
+                        }}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={item.title}
+                        sx={{
+                          display: open || isLargeScreen ? "block" : "none",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              }
+            })}
+          </List>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 2, bgcolor: "#F7F7F7" }}>
+          <DrawerHeader />
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 }

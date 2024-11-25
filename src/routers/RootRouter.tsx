@@ -1,5 +1,5 @@
 import App from "@/App";
-import Home from "@/pages/Home/Home";
+import DashboardPage from "@/pages/dashboard/dashboard-page";
 import { createBrowserRouter } from "react-router-dom";
 
 import ProtectedRoute from "@/middlewares/ProtectedRoute";
@@ -28,7 +28,7 @@ const rootRouter = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Home />,
+        element: <DashboardPage />,
       },
       {
         path: "/products",

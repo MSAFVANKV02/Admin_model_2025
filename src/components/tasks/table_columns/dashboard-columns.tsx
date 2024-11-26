@@ -4,8 +4,8 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import {  priorities, statuses } from "../data/data"
 import { Task } from "../data/schema"
-import { DataTableRowActions } from "../task_components/data-table-row-actions"
 import { DataTableColumnHeader } from "../task_components/data-table-column-header"
+import { DataTableRowActionsDashboard } from "../table_actions/data-table-action-dashboard"
 
 export const columns: ColumnDef<Task>[] = [
  
@@ -80,6 +80,6 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <DataTableRowActionsDashboard  isOfflineTable={true} row={row}/> ,
   },
 ]

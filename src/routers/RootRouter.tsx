@@ -5,18 +5,17 @@ import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "@/middlewares/ProtectedRoute";
 import ErrorPage from "@/Error-Page";
 import LoginPage from "@/pages/auth/Login-Page";
-import { ProductsLayout, SalesLayout, StoreManagementLayout, SettingsLayout } from "@/layouts/Sidbar_Layout";
-
-
+import {
+  ProductsLayout,
+  SalesLayout,
+  StoreManagementLayout,
+  SettingsLayout,
+} from "@/layouts/Sidbar_Layout";
 
 const rootRouter = createBrowserRouter([
   {
     path: "/login",
-    element: (
-   
-        <LoginPage />
-      
-    ),
+    element: <LoginPage />,
   },
   {
     path: "/",
@@ -64,9 +63,7 @@ const rootRouter = createBrowserRouter([
       {
         path: "/settings",
         element: <SettingsLayout />,
-        children: [
-          { path: "shipping", element: <div>Shipping Page</div> },
-        ],
+        children: [{ path: "shipping", element: <div>Shipping Page</div> }],
       },
     ],
   },

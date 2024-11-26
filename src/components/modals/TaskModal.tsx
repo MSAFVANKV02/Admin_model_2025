@@ -21,7 +21,7 @@ export default function TaskModal({ children,className }: ModalComponent) {
       isOpen={isOpen}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
-      overlayClassName="fixed inset-0 bg-black/20 backdrop-filter  flex items-center justify-center z-[10001] "
+      overlayClassName="fixed inset-0 bg-black/10 backdrop-filter  flex items-center justify-center z-[10001] "
       className={cn(`bg-white rounded-lg  max-w-xl p-4 md:max-h-[80vh] h-full  w-full overflow-y-auto relative z-[10001]`,className)}
     >
       <div className="mb-3">

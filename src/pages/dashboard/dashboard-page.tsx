@@ -5,6 +5,9 @@ import { taskSchema } from "@/components/tasks/data/schema";
 import { z } from "zod";
 import { kycColumn } from "@/components/tasks/table_columns/kyc_column";
 import { columns } from "@/components/tasks/table_columns/dashboard-columns";
+import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
+import { TopProductsColumn } from "@/components/tasks/table_columns/top-products-column";
+import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 
 type Props = {};
 
@@ -44,13 +47,13 @@ export default function DashboardPage({}: Props) {
       />
       <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
       data={tasks}
-      columns={columns}
-      columnsTwo={kycColumn}
+      columns={TopProductsColumn}
+      columnsTwo={TopStoresColumn}
       />
 
       <DashSec02 titleOne="Top Seller" tableTwo={false} 
-      columns={columns}
-      columnsTwo={kycColumn}
+      columns={TopSellerColumn}
+      columnsTwo={TopSellerColumn}
       data={tasks}
       />
     </div>

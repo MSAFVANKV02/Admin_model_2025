@@ -91,12 +91,16 @@ export function DataTableDashboard<TData, TValue>({
         />
       <div className="rounded-md ">
         <Table>
-          <TableHeader>
+          <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id}
+              className="font-bold text-black "
+              >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} colSpan={header.colSpan}>
+                    <TableHead key={header.id} colSpan={header.colSpan}
+                      className="font-bold text-black"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -115,7 +119,7 @@ export function DataTableDashboard<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                    className="hover:bg-bgHardSoft border-none"
+                    className="hover:bg-bgHardSoft border-none "
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -142,7 +146,7 @@ export function DataTableDashboard<TData, TValue>({
       </div>
       <DataTablePagination 
       table={table} 
-      isDashboard
+      isDashboard={true}
       />
     </div>
   );

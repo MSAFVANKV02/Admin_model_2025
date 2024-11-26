@@ -4,7 +4,7 @@ type Props = {}
 
 export default function DashboardPage({}: Props) {
   return (
-    <div className="w-full ">
+    <div className="w-full flex flex-col gap-6">
         <DashSec01/>
     </div>
   )

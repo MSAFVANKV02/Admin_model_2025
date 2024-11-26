@@ -120,7 +120,7 @@ export default function HomeSec01({}: Props) {
   ];
 
   return (
-    <div className="flex justify-between gap-3 lg:flex-row flex-col w-full">
+    <div className="flex justify-between gap-6 lg:flex-row flex-col w-full">
       <section className="grid md:grid-cols-2 grid-cols-2 lg:w-[40%] w-full gap-6">
         {/* Admin data count cards */}
         {CardData.map((d, i) => (

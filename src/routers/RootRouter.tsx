@@ -13,9 +13,9 @@ const rootRouter = createBrowserRouter([
   {
     path: "/login",
     element: (
-      <ProtectedRoute>
+   
         <LoginPage />
-      </ProtectedRoute>
+      
     ),
   },
   {

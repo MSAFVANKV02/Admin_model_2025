@@ -81,12 +81,9 @@ export function DataTableRowActionsDashboard<TData>({
                 <span></span>
               </div>
               {/*  */}
-              <div className="flex items-center gap-2 mt-5">
+              <div className="flex flex-col gap-2 mt-5">
                 <p className="text-sm">Referral document :</p>
-                <span></span>
-              </div>
-              {/* =====  ends details ==== */}
-              {/* ===== pdf docs ======= */}
+                  {/* ===== pdf docs ======= */}
               <div className="md:w-3/4 w-full flex items-start ">
                 <a
                   href={"/Invoice_INV1482989614215502 (16).pdf"}
@@ -98,13 +95,16 @@ export function DataTableRowActionsDashboard<TData>({
 
                   <PdfFile
                     fileURL={"/Invoice_INV1482989614215502 (16).pdf"}
-                    className="h-16 w-16"
+                    className="h-16 w-12"
                   />
-                  <div className="absolute h-16 w-16 bg-black/50 top-0 rounded-md flex items-center justify-center ">
+                  <div className="absolute h-16 w-12 bg-black/50 top-0 rounded-md flex items-center justify-center ">
                     <Icon icon="solar:eye-bold" fontSize={25} color="#fff" />
                   </div>
                 </a>
               </div>
+              </div>
+              {/* =====  ends details ==== */}
+           
             </div>
             <div className="flex-shrink-0">
               <Select>

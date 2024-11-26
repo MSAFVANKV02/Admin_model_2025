@@ -17,8 +17,6 @@ export default function OrderStatusCard({
   icon,
   count,
   label,
-  discription,
-  className,
   bgcolor,
   iColor
 }: StatusCardProps) {

@@ -47,7 +47,7 @@ export function DataTableRowActionsDashboard<TData>({
       {/* modal starts ==== 
       ================= */}
       <TaskModal className="h-[70vh]">
-        <div className="">
+        <form className="">
           <div className="flex">
             <div className="flex-1">
               {/*  */}
@@ -122,7 +122,7 @@ export function DataTableRowActionsDashboard<TData>({
               </Select>
             </div>
           </div>
-        </div>
+        </form>
       </TaskModal>
     </>
   );

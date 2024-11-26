@@ -1,11 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 
-import { priorities, statuses } from "../data/data";
+import {  statuses } from "../data/data";
 import { Task } from "../data/schema";
 import { DataTableColumnHeader } from "../task_components/data-table-column-header";
-import { DataTableRowActions } from "../task_components/data-table-row-actions";
 import { DataTableRowActionsDashboard } from "../table_actions/data-table-action-dashboard";
 
 export const kycColumn: ColumnDef<Task>[] = [

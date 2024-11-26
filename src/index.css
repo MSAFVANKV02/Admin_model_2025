@@ -6,6 +6,10 @@
 
 
 /* ... */
+span{
+  font-size: 12px;
+  color: gray ;
+}
 
 @layer base {
   :root {
@@ -152,3 +156,16 @@
   -webkit-background-clip: text; 
   -webkit-text-fill-color: transparent; 
  }
+
+ /* In your global CSS or Tailwind config */
+.dialog-backdrop {
+  z-index: 99999 !important;
+}
+/* Override backdrop z-index */
+/* [data-state="open"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10001; 
+} */

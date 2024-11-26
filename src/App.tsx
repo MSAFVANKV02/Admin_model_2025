@@ -92,12 +92,14 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+  zIndex: theme.zIndex.drawer + 2, 
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": {
       ...openedMixin(theme),
       backgroundColor: "#000", // Black background
       color: "#fff", // White text color (optional)
+      zIndex: theme.zIndex.drawer + 2, 
     },
     "& .MuiListItemIcon-root": {
       color: "#AF61CC", // Icon color

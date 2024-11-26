@@ -5,24 +5,35 @@ import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DataTableViewOptions } from "@/app/(app)/examples/tasks/components/data-table-view-options"
 
 import { priorities, statuses } from "../data/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
+import { DataTableViewOptions } from "./data-table-view-options"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  enableStatus?: boolean
+  enablePriority?: boolean
+  enableTitle?: boolean
+  enableView?: boolean
+  enableSearch?: boolean
 }
 
 export function DataTableToolbar<TData>({
   table,
+  enableStatus,
+  enablePriority,
+  enableView,
+  enableSearch
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Input
+        {
+          enableSearch && (
+            <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
@@ -30,14 +41,18 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn("status") && (
+          )
+        }
+        
+        
+        {table.getColumn("status") && enableStatus && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
             options={statuses}
           />
         )}
-        {table.getColumn("priority") && (
+        {table.getColumn("priority") && enablePriority && (
           <DataTableFacetedFilter
             column={table.getColumn("priority")}
             title="Priority"
@@ -55,7 +70,11 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      {
+        enableView && (
+          <DataTableViewOptions table={table} />
+        )
+      }
     </div>
   )
 }

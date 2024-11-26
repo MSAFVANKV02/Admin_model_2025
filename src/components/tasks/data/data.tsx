@@ -52,6 +52,34 @@ export const statuses = [
   },
 ]
 
+// export const statuses = [
+//   {
+//     value: "pending",
+//     label: "Pending",
+//     icon: HelpCircle,
+//   },
+//   {
+//     value: "shipped",
+//     label: "Shipped",
+//     icon: Timer,
+//   },
+//   {
+//     value: "confirmed",
+//     label: "Confirmed",
+//     icon: CheckCircle,
+//   },
+//   {
+//     value: "cancelled",
+//     label: "Cancelled",
+//     icon: CircleOff,
+//   },
+//   {
+//     value: "delivery",
+//     label: "Out for Delivery",
+//     icon: Circle,
+//   },
+// ];
+
 export const priorities = [
   {
     label: "Low",

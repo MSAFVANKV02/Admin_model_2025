@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTableToolbarDashboard } from "./data-table-toolbar-dashboard";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,15 +36,17 @@ interface DataTableProps<TData, TValue> {
   enableTitle?: boolean;
   enableView?: boolean;
   enableSearch?: boolean;
+  DashBoardDataTableTitle?: string;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableDashboard<TData, TValue>({
   columns,
   data,
   enableStatus,
   enableView,
   enablePriority,
-  enableSearch
+  enableSearch,
+  DashBoardDataTableTitle
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -78,15 +80,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar
+      <DataTableToolbarDashboard
        table={table}
        enableStatus={enableStatus}
        enablePriority={enablePriority}
        enableSearch={enableSearch}
+       DashBoardDataTableTitle={DashBoardDataTableTitle}
       //  enableTitle={enableTitle}
       enableView={enableView}
         />
-      <div className="rounded-md border">
+      <div className="rounded-md ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -112,6 +115,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                    className="hover:bg-bgHardSoft border-none"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -136,7 +140,10 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination 
+      table={table} 
+      isDashboard
+      />
     </div>
   );
 }

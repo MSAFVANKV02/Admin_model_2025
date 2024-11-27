@@ -13,14 +13,11 @@ import TopStoresDashModal from "@/components/modals/top_stores_dash_modal";
 import TopProductsDashModal from "@/components/modals/top_products_dash_modal";
 import TopSellerDashModal from "@/components/modals/top_seller_dash_modal";
 import OfflineDashModal from "@/components/modals/offline_dash_modal";
+import { useCallback } from "react";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
-  isOfflineTable?: boolean;
-  isKycTable?: boolean;
-  isTopStoresTable?: boolean;
-  isTopProductsTable?: boolean;
-  isTopSellerTable?: boolean;
+  type?: IModalTypes;
 }
 
 export type IModalTypes =
@@ -33,32 +30,37 @@ export type IModalTypes =
 
 export function DataTableRowActionsDashboard<TData>({
   row,
-  isOfflineTable,
-  isTopStoresTable,
-  isTopProductsTable,
-  isTopSellerTable,
-  isKycTable
+  type,
 }: DataTableRowActionsProps<TData>) {
-  const { openModal, selectedTask } = useModal(); // Get the modal context
+  const { openModal, selectedTask, modalTypeDashboard } = useModal(); // Get the modal context
   const task = taskSchema.parse(row.original);
 
   const handleOpenModal = () => {
     if (!task) return; // Ensure task is valid
-    openModal(task); // This should set `selectedTask` in the context
+    openModal(task, type || ""); // This should set `selectedTask` in the context
   };
+
+  const memoizedRenderModalContent = useCallback(() => {
+    console.log(type);
+    
+    if (!selectedTask) return null;
   
-  // if (isModal==="offline_dash_modal") return <OfflineDashModal />;
-  // if (isModal=="top_stores_dash_modal") return <TopStoresDashModal />;
-  // if (isModal==='top_products_dash_modal') return <TopProductsDashModal />;
-  // if (isModal==='top_seller_dash_modal') return <TopSellerDashModal />;
-  const renderModalContent = () => {
-    if (!selectedTask) return null; 
-    if (isOfflineTable) return <OfflineDashModal />;
-    if (isTopStoresTable) return <TopStoresDashModal />;
-    if (isTopProductsTable) return <TopProductsDashModal />;
-    if (isTopSellerTable) return <TopSellerDashModal />;
-     if (isKycTable) return <KycDashModal />;
-  };
+    switch (modalTypeDashboard) {
+      case "offline_dash_modal":
+        return <OfflineDashModal />;
+      case "kyc_dash_modal":
+        return <KycDashModal />;
+      // case "top_stores_dash_modal":
+      //   return <TopStoresDashModal />;
+      // case "top_products_dash_modal":
+      //   return <TopProductsDashModal />;
+      // case "top_seller_dash_modal":
+      //   return <TopSellerDashModal />;
+      default:
+        return null;
+    }
+  }, [modalTypeDashboard, selectedTask]);
+  
 
   return (
     <>
@@ -72,8 +74,8 @@ export function DataTableRowActionsDashboard<TData>({
       </Button>
       {/* modal starts ==== 
       ================= */}
-      
-      {renderModalContent()}
+
+      {memoizedRenderModalContent()}
     </>
   );
 }

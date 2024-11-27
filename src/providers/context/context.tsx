@@ -1,16 +1,18 @@
+import { IModalTypes } from "@/components/tasks/table_actions/data-table-action-dashboard";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Define the context type
 interface ModalContextType {
   isOpen: boolean;
   selectedTask: any | null;
-  openModal: (task: any) => void;
+  openModal: (task: any, type:IModalTypes) => void;
   closeModal: () => void;
   isOfflineTable: boolean;
   isKycTable: boolean;
   isTopStoresTable: boolean;
   isTopProductsTable: boolean;
   isTopSellerTable: boolean;
+  modalTypeDashboard: IModalTypes;
 
 }
 
@@ -28,11 +30,15 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [isTopStoresTable, setIsTopStoresTable] = useState(false);
   const [isTopProductsTable, setIsTopProductsTable] = useState(false);
   const [isTopSellerTable, setIsTopSellerTable] = useState(false);
+  const [modalTypeDashboard, setModalTypeDashboard] = useState<IModalTypes>("");
 
 
-  const openModal = (task: any) => {
+
+
+  const openModal = (task: any, type:IModalTypes) => {
     setSelectedTask(task);
     setIsOpen(true);
+    setModalTypeDashboard(type);
 
   };
 
@@ -59,6 +65,8 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         isTopStoresTable,
         isTopProductsTable,
         isTopSellerTable,
+        modalTypeDashboard,
+        
       }}
     >
       {children}

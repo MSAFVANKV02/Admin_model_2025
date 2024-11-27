@@ -80,6 +80,6 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActionsDashboard  isOfflineTable={true} row={row}/> ,
+    cell: ({ row }) => <DataTableRowActionsDashboard  type="offline_dash_modal" row={row}/> ,
   },
 ]

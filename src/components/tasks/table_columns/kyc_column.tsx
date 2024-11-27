@@ -53,6 +53,6 @@ export const kycColumn: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActionsDashboard row={row} isKycTable={true}/>,
+    cell: ({ row }) => <DataTableRowActionsDashboard row={row} type="kyc_dash_modal"/>,
   },
 ];

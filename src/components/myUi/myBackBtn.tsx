@@ -18,7 +18,7 @@ function MyBackBtn({
   icon = "bx:arrow-back",
   className,
   title,
-  iconSize,
+  iconSize=15,
   tooltipTitle = "back",
   placeTooltip = "right",
   clickEvent
@@ -36,7 +36,7 @@ function MyBackBtn({
     <Tooltip title={tooltipTitle} className="w-fit" placement={placeTooltip}>
       <button
         onClick={handleClick}
-        className={cn(`flex items-center gap-2`, className)}
+        className={cn(`flex items-center `, className)}
       >
         <Icon icon={`${icon}`} fontSize={iconSize} />{" "}
         <span>{title && title}</span>

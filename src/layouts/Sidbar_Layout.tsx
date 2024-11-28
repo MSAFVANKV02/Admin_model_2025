@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 
 export const ProductsLayout = () => (
     <div>
-      <h1>Products Page</h1>
       <Outlet /> {/* Renders child routes */}
     </div>
   );

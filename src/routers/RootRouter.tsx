@@ -6,11 +6,12 @@ import ProtectedRoute from "@/middlewares/ProtectedRoute";
 import ErrorPage from "@/Error-Page";
 import LoginPage from "@/pages/auth/Login-Page";
 import {
-  ProductsLayout,
+ProductsLayout,
   SalesLayout,
   StoreManagementLayout,
   SettingsLayout,
 } from "@/layouts/Sidbar_Layout";
+import ProductAddPage from "@/pages/products/add-new/product-add-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const rootRouter = createBrowserRouter([
         path: "/products",
         element: <ProductsLayout />, // Parent layout for Products
         children: [
-          { path: "add-new", element: <div>Add New Product Page</div> },
+          { path: "add-new", element: <ProductAddPage /> },
           { path: "all", element: <div>All Products Page</div> },
           { path: "category", element: <div>Category Page</div> },
           { path: "brand", element: <div>Brand Page</div> },

@@ -9,11 +9,22 @@ import {
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { MenuIcon } from "lucide-react";
 import { Fullscreen, PublicOutlined } from "@mui/icons-material";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import FullViewScreen from "@/hooks/FullViewScreen";
 import useNavigateClicks from "@/hooks/useClicks";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import NotificationBarSheet from "./Notification_Sheet";
+import { Button } from "../ui/button";
 
 type Props = {
   open: boolean;
@@ -118,18 +129,43 @@ export default function NavAppBar({
 
           {/* User Details avatar and more settings =====
         ================================================ */}
-
-          <div className="flex gap-3 ml-5">
-            <div className="flex flex-col text-start">
-              <span className="text-sm font-medium text-gray-700">Admin</span>
-              <span className=" text-gray-400">shadcn</span>
-            </div>
-            {/* ====== */}
-            <Avatar className="w-7 h-7">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
+          <Dialog>
+            <DialogTrigger>
+              <div className="flex gap-3 ml-5">
+                <div className="flex flex-col text-start">
+                  <span className="text-sm font-medium text-gray-700">
+                    Admin
+                  </span>
+                  <span className=" text-gray-400">shadcn</span>
+                </div>
+                {/* ====== */}
+                <Avatar className="w-7 h-7">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  Logout from the application
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="sm:justify-end">
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+                    Close
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button type="button" variant="default">
+                    Logout
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           {/* =============================== */}
         </Box>

@@ -1,4 +1,4 @@
-import { useModal } from "@/providers/context/context";
+
 import TaskModal, { TaskModalContent, TaskModalFooter, TaskModalHeader } from "./TaskModal";
 import AyButton from "../myUi/AyButton";// Import shadcn UI components
 import { Label } from "../ui/label";
@@ -11,7 +11,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 type Props = {}
 
 export default function KycDashModal({}: Props) {
-  const { selectedTask } = useModal(); // Get the modal context
+  // const { selectedTask } = useModal(); // Get the modal context
 
   return (
     <TaskModal className="h-[85vh] lg:w-[40vw] sm:w-[70vw] w-full flex flex-col">

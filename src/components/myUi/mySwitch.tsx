@@ -1,10 +1,17 @@
+type SwitchProps = {
+  isOn: boolean;
+  handleToggle: () => void;
+  id: string;
+  colorOne?: string;
+  colorTwo?: string;
+};
 export const MySwitch = ({
   isOn,
   handleToggle,
   id,
-  colorOne,
-  colorTwo,
-}: any) => {
+  colorOne = "#69BF35",
+  colorTwo = "#ABABAB",
+}: SwitchProps) => {
   return (
     <>
       <input

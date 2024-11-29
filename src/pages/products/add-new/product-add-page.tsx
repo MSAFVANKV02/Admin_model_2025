@@ -44,12 +44,16 @@ export default function ProductAddPage() {
   //   ====== got to next step =================================
   const handleNextStep = () => {
     // setFormData((prevData) => ({ ...prevData, ...data }));
+    if (currentStep === 4){
+      return
+    }
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     const nextPage: any = Object.keys(pageToStep).find(
       (key) => pageToStep[key] === nextStep
     );
     setSelectedPage(nextPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     navigate(`${pathname}?q=${nextPage}`);
   };
 
@@ -64,10 +68,10 @@ export default function ProductAddPage() {
   };
 
   //   ==== switch pages =======
-  const renderPageComponent = (setFieldValue:any, values:any) => {
+  const renderPageComponent = (setFieldValue:any, values:any, errors:any) => {
     switch (selectedPage || "general") {
       case "general":
-        return <GeneralSection setFieldValue={setFieldValue} values={values} />;
+        return <GeneralSection setFieldValue={setFieldValue} values={values} errors={errors} />;
       case "files-media":
         return <FilesMediaSectionPage />;
       case "price-stock":
@@ -78,6 +82,9 @@ export default function ProductAddPage() {
         return null;
     }
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <ProductLayout>
@@ -93,7 +100,7 @@ export default function ProductAddPage() {
         
         }}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, errors }) => (
           <Form>
             <ProductHeader className="flex-col w-full items-start gap-5">
             <AddProductsNavbar />
@@ -104,9 +111,10 @@ export default function ProductAddPage() {
             {currentStep === 4 && "Shipping Configuration"}
           </div>
             </ProductHeader>
+            
 
             <ProductContent className="h-full px-4">
-              {renderPageComponent(setFieldValue, values)}
+              {renderPageComponent(setFieldValue, values, errors)}
             
             </ProductContent>
 

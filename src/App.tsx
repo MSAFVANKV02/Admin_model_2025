@@ -5,8 +5,6 @@ import { cn } from "./lib/utils";
 import NavbarDrawer, { DrawerHeader } from "./components/navbar_/Navbar_Drawer";
 import { Outlet } from "react-router-dom";
 
-
-
 // const NAVIGATION = [
 //   {
 //     kind: "page",
@@ -122,7 +120,6 @@ import { Outlet } from "react-router-dom";
 // ];
 
 export default function MiniDrawer() {
-
   return (
     <div
       className={cn(``, {
@@ -137,6 +134,9 @@ export default function MiniDrawer() {
           <Outlet />
         </Box>
       </Box>
+      <div className="h-10 bg-black w-full flex justify-center items-center">
+      <span className="select-none">© 2024 HAASH INDIA EXPORTS PVT LTD</span>
+      </div>
     </div>
   );
 }

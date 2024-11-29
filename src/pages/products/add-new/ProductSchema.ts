@@ -15,11 +15,34 @@ export const GeneralSchema = Yup.object({
   minQty: Yup.number()
     .min(1, "Minimum Qty must be at least 1")
     .required("Minimum Qty is required"),
-  weight: Yup.number().optional(),
-  dimensions: Yup.string().optional(),
-  taxSlab: Yup.string().optional(),
+  weight: Yup.number()
+    .min(1, "Minimum Weight must be at least 1g")
+    .required("Product Weight is required"),
+  height: Yup.string().optional(),
+  length: Yup.string().optional(),
+  width: Yup.string().optional(),
+
+  taxSlab: Yup.array().optional(),
   status: Yup.boolean().default(false),
-  todaysDeal: Yup.boolean().default(false),
+//   todaysDeal: Yup.boolean().default(false),
+//   featured: Yup.boolean().default(false),
   description: Yup.string().optional(),
+  isCess: Yup.boolean().default(false),
+//   cess: Yup.array().when("isCess", (isCess, schema) => {
+//     return isCess ? schema.required("Cess is required") : schema.optional();
+//   }),
+cess: Yup.array()
+  .of(
+    Yup.object().shape({
+      _id: Yup.string().required("Cess ID is required"),
+      name: Yup.string().required("Cess name is required"),
+    })
+  )
+  .when("isCess", {
+    is: true,
+    then: (schema) => schema.min(1, "At least one Cess must be selected").required("Cess is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
+
 });
 // Combined schema

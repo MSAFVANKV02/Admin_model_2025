@@ -1,9 +1,20 @@
-import React from 'react'
+import { Formik, Form } from "formik";
+import { GeneralInitialValues } from "./initialValues";
 
-type Props = {}
-
-export default function FilesMediaSectionPage({}: Props) {
+export default function FilesMediaSectionPage() {
   return (
-    <div>FilesMediaSectionPage</div>
-  )
+    <div className="">
+      {/* Main container starts here ======= */}
+      <Formik
+        initialValues={GeneralInitialValues}
+        onSubmit={(values) => {
+          console.log("submit", values);
+        }}
+      >
+        {({ values, setValues, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}></Form>
+        )}
+      </Formik>
+    </div>
+  );
 }

@@ -4,7 +4,7 @@ import ProductLayout, {
   ProductFooter,
   ProductHeader,
 } from "./product-layout";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,11 @@ import GeneralSection from "./GeneralSection-page";
 import FilesMediaSectionPage from "./FilesMeadiaSection-page";
 import PriceStockSectionPage from "./PriceStockSection-page";
 import ShippingSectionPage from "./ShippingSection-page";
+import { Form, Formik } from "formik";
+import { GeneralInitialValues } from "./initialValues";
+import { GeneralSchema } from "./ProductSchema";
+
+import AddProductsNavbar from '@/components/products/Add_Products_TaskBar'
 
 const pageToStep: any = {
   general: 1,
@@ -25,7 +30,10 @@ export default function ProductAddPage() {
   const navigate = useNavigate(); // For navigation
   const { selectedPage, setSelectedPage } = useModal();
   const [currentStep, setCurrentStep] = useState(1);
-  const searchParams = new URLSearchParams(search);
+  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+
+  //   ====== formik =========================
+
 
   useEffect(() => {
     const currentPath = searchParams.get("q") || "general";
@@ -34,7 +42,7 @@ export default function ProductAddPage() {
   }, [searchParams, setSelectedPage]);
 
   //   ====== got to next step =================================
-  const handleNextStep = (data: any) => {
+  const handleNextStep = () => {
     // setFormData((prevData) => ({ ...prevData, ...data }));
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
@@ -56,39 +64,16 @@ export default function ProductAddPage() {
   };
 
   //   ==== switch pages =======
-  const renderPageComponent = () => {
+  const renderPageComponent = (setFieldValue:any, values:any) => {
     switch (selectedPage || "general") {
       case "general":
-        return <GeneralSection />;
+        return <GeneralSection setFieldValue={setFieldValue} values={values} />;
       case "files-media":
-        return (
-          <FilesMediaSectionPage
-          //   handleSave={handleSave}
-          //     onNext={handleNextStep}
-          //     onPrev={handlePrevStep}
-          //     formData={formData}
-          />
-        );
+        return <FilesMediaSectionPage />;
       case "price-stock":
-        return (
-          <PriceStockSectionPage
-          // onNext={handleNextStep}
-          // onPrev={handlePrevStep}
-          // formData={formData}
-          // handleSave={handleSave}
-          />
-        );
+        return <PriceStockSectionPage />;
       case "shipping":
-        return (
-          <ShippingSectionPage
-          // onNext={handleNextStep}
-          // onPrev={handlePrevStep}
-          // formData={formData}
-          // setFormData={setFormData}
-          // handleSave={handleSaveComplete}
-          // setCurrentStep={setCurrentStep}
-          />
-        );
+        return <ShippingSectionPage />;
       default:
         return null;
     }
@@ -96,35 +81,58 @@ export default function ProductAddPage() {
 
   return (
     <ProductLayout>
-      <ProductHeader>
-        <h5 className="text-lg font-bold">Product Information</h5>
-      </ProductHeader>
+      <Formik
+        initialValues={GeneralInitialValues}
+        validationSchema={GeneralSchema}
+        onSubmit={(values) => {
+          console.log("submit", values);
+          if(currentStep !== 4 ){
+            return  handleNextStep();
+          }
 
-      <ProductContent className="h-full">
-        {renderPageComponent()}
-        {/* Add components for General, Price & Stock, and Shipping steps */}
-      </ProductContent>
+        
+        }}
+      >
+        {({ values, setFieldValue }) => (
+          <Form>
+            <ProductHeader className="flex-col w-full items-start gap-5">
+            <AddProductsNavbar />
+            <div className="text-lg font-bold capitalize px-4">
+            {currentStep === 1 && "Product Information"}
+            {currentStep === 2 && "Product Files & Media"}
+            {currentStep === 3 && "Product Price & Stock"}
+            {currentStep === 4 && "Shipping Configuration"}
+          </div>
+            </ProductHeader>
 
-      <ProductFooter>
-        <Button
-          className={cn("bg-gray-300 hover:bg-gray-400 text-black", {
-            "opacity-50 cursor-not-allowed": currentStep === 1,
-          })}
-          disabled={currentStep === 1}
-          onClick={handlePrevStep}
-        >
-          Prev
-        </Button>
-        <Button
-          className={cn(" text-white", {
-            " ": currentStep === 4,
-          })}
-          //   disabled={currentStep === 4}
-          onClick={handleNextStep}
-        >
-          {currentStep === 4 ? "save Product" : " Next"}
-        </Button>
-      </ProductFooter>
+            <ProductContent className="h-full px-4">
+              {renderPageComponent(setFieldValue, values)}
+            
+            </ProductContent>
+
+            <ProductFooter>
+              <Button
+                className={cn("bg-gray-300 hover:bg-gray-400 text-black", {
+                  "opacity-50 cursor-not-allowed": currentStep === 1,
+                })}
+                disabled={currentStep === 1}
+                onClick={handlePrevStep}
+              >
+                Prev
+              </Button>
+              <Button
+                type="submit"
+                variant={'b2bStyle'}
+                className={cn(" text-white w-40", {
+                  " ": currentStep === 4,
+                })}
+              >
+                {currentStep === 4 ? "save Product" : " Next"}
+              </Button>
+            </ProductFooter>
+          </Form>
+        )}
+      </Formik>
     </ProductLayout>
   );
 }

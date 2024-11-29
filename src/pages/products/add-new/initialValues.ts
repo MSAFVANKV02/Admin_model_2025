@@ -1,0 +1,15 @@
+export const GeneralInitialValues = {
+    productName: '',
+    mrp: 0,
+    sku: '',
+    barcode: '',
+    brand: '',
+    keywords: '',
+    minQty: 1,
+    weight: 0,
+    dimensions: '',
+    taxSlab: '',
+    status: false,
+    todaysDeal: false,
+    description: '',
+  }

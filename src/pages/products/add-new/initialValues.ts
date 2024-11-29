@@ -18,4 +18,6 @@ export const GeneralInitialValues = {
     description: '',
     isCess: false,
     cess: [],
+    // ===== File upload section =================
+    
   }

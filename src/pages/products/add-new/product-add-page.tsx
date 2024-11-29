@@ -8,15 +8,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import GeneralSection from "./GeneralSection-page";
-import FilesMediaSectionPage from "./FilesMeadiaSection-page";
+import GeneralSection from "./Page_Sections/GeneralSection-page";
+import FilesMediaSectionPage from "./Page_Sections/FilesMeadiaSection-page";
 import PriceStockSectionPage from "./PriceStockSection-page";
 import ShippingSectionPage from "./ShippingSection-page";
 import { Form, Formik } from "formik";
 import { GeneralInitialValues } from "./initialValues";
 import { GeneralSchema } from "./ProductSchema";
 
-import AddProductsNavbar from '@/components/products/Add_Products_TaskBar'
+import AddProductsNavbar from "@/components/products/Add_Products_TaskBar";
 
 const pageToStep: any = {
   general: 1,
@@ -34,7 +34,6 @@ export default function ProductAddPage() {
 
   //   ====== formik =========================
 
-
   useEffect(() => {
     const currentPath = searchParams.get("q") || "general";
     setSelectedPage(currentPath);
@@ -44,8 +43,8 @@ export default function ProductAddPage() {
   //   ====== got to next step =================================
   const handleNextStep = () => {
     // setFormData((prevData) => ({ ...prevData, ...data }));
-    if (currentStep === 4){
-      return
+    if (currentStep === 4) {
+      return;
     }
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
@@ -68,12 +67,28 @@ export default function ProductAddPage() {
   };
 
   //   ==== switch pages =======
-  const renderPageComponent = (setFieldValue:any, values:any, errors:any) => {
+  const renderPageComponent = (
+    setFieldValue: any,
+    values: any,
+    errors: any
+  ) => {
     switch (selectedPage || "general") {
       case "general":
-        return <GeneralSection setFieldValue={setFieldValue} values={values} errors={errors} />;
+        return (
+          <GeneralSection
+            setFieldValue={setFieldValue}
+            values={values}
+            errors={errors}
+          />
+        );
       case "files-media":
-        return <FilesMediaSectionPage />;
+        return (
+          <FilesMediaSectionPage
+            setFieldValue={setFieldValue}
+            values={values}
+            errors={errors}
+          />
+        );
       case "price-stock":
         return <PriceStockSectionPage />;
       case "shipping":
@@ -93,29 +108,25 @@ export default function ProductAddPage() {
         validationSchema={GeneralSchema}
         onSubmit={(values) => {
           console.log("submit", values);
-          if(currentStep !== 4 ){
-            return  handleNextStep();
+          if (currentStep !== 4) {
+            return handleNextStep();
           }
-
-        
         }}
       >
         {({ values, setFieldValue, errors }) => (
           <Form>
             <ProductHeader className="flex-col w-full items-start gap-5">
-            <AddProductsNavbar />
-            <div className="text-lg font-bold capitalize px-4">
-            {currentStep === 1 && "Product Information"}
-            {currentStep === 2 && "Product Files & Media"}
-            {currentStep === 3 && "Product Price & Stock"}
-            {currentStep === 4 && "Shipping Configuration"}
-          </div>
+              <AddProductsNavbar />
+              <div className="text-lg font-bold capitalize px-4">
+                {currentStep === 1 && "Product Information"}
+                {currentStep === 2 && "Product Files & Media"}
+                {currentStep === 3 && "Product Price & Stock"}
+                {currentStep === 4 && "Shipping Configuration"}
+              </div>
             </ProductHeader>
-            
 
             <ProductContent className="h-full px-4">
               {renderPageComponent(setFieldValue, values, errors)}
-            
             </ProductContent>
 
             <ProductFooter>
@@ -130,7 +141,7 @@ export default function ProductAddPage() {
               </Button>
               <Button
                 type="submit"
-                variant={'b2bStyle'}
+                variant={"b2bStyle"}
                 className={cn(" text-white w-40", {
                   " ": currentStep === 4,
                 })}

@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState, ReactNode, Dispatch, SetSta
 // Define the context type
 interface ModalContextType {
   isOpen: boolean;
-  selectedTask: null;
-  openModal: (task: null, type:IModalTypes) => void;
+  selectedTask: any;
+  openModal: (task: any, type:IModalTypes) => void;
   closeModal: () => void;
   isOfflineTable: boolean;
   isKycTable: boolean;
@@ -15,6 +15,7 @@ interface ModalContextType {
   modalTypeDashboard: IModalTypes;
   selectedPage: string | null;
   setSelectedPage: Dispatch<SetStateAction<string | null>>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 
 }
 
@@ -59,6 +60,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     <ModalContext.Provider
       value={{
         isOpen,
+        setIsOpen,
         selectedTask,
         openModal,
         closeModal,

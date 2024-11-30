@@ -13,9 +13,9 @@ import PdfFile from "@/components/myUi/PdfFile";
 import TaskModal from "./TaskModal";
 import AyButton from "../myUi/AyButton";
 
-type Props = {};
 
-export default function OfflineDashModal({}: Props) {
+
+export default function OfflineDashModal() {
   const { selectedTask } = useModal(); // Get the modal context
 
   return (

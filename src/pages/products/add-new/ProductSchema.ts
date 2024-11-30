@@ -46,3 +46,24 @@ cess: Yup.array()
 
 });
 // Combined schema
+
+
+export const FilesSchema = Yup.object({
+  galleryImages: Yup.array().min(1, "Must add Gallery Image").required("Gallery Images are required"),
+  thumbnails: Yup.array()
+    .min(1, "Must add thumbnail")
+    .required("Must add thumbnail"),
+  productImages: Yup.array().min(1, "Must add Product Image").required("Product Images are required"),
+  sizeImages: Yup.array().min(1, "Must add Size Images").required("Size Images are required"),
+})
+
+export const getValidationSchema = (step: number) => {
+  switch (step) {
+    case 1:
+      return GeneralSchema;
+    case 2:
+      return FilesSchema;
+    // Add cases for other schemas when implementing PriceStockSectionPage and ShippingSectionPage
+   
+  }
+};

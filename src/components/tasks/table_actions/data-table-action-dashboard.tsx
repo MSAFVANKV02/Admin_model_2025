@@ -7,11 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { taskSchema } from "../data/schema";
 import { useModal } from "@/providers/context/context";
-import TaskModal from "@/components/modals/TaskModal";
 import KycDashModal from "@/components/modals/kyc_dash_modal";
-import TopStoresDashModal from "@/components/modals/top_stores_dash_modal";
-import TopProductsDashModal from "@/components/modals/top_products_dash_modal";
-import TopSellerDashModal from "@/components/modals/top_seller_dash_modal";
 import OfflineDashModal from "@/components/modals/offline_dash_modal";
 import { useCallback } from "react";
 
@@ -41,7 +37,7 @@ export function DataTableRowActionsDashboard<TData>({
   };
 
   const memoizedRenderModalContent = useCallback(() => {
-    console.log(type);
+    // console.log(type);
     
     if (!selectedTask) return null;
   

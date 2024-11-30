@@ -14,7 +14,7 @@ import PriceStockSectionPage from "./PriceStockSection-page";
 import ShippingSectionPage from "./ShippingSection-page";
 import { Form, Formik } from "formik";
 import { GeneralInitialValues } from "./initialValues";
-import { GeneralSchema } from "./ProductSchema";
+import {  getValidationSchema } from "./ProductSchema";
 
 import AddProductsNavbar from "@/components/products/Add_Products_TaskBar";
 
@@ -105,7 +105,7 @@ export default function ProductAddPage() {
     <ProductLayout>
       <Formik
         initialValues={GeneralInitialValues}
-        validationSchema={GeneralSchema}
+        validationSchema={getValidationSchema(currentStep)}
         onSubmit={(values) => {
           console.log("submit", values);
           if (currentStep !== 4) {
@@ -134,6 +134,7 @@ export default function ProductAddPage() {
                 className={cn("bg-gray-300 hover:bg-gray-400 text-black", {
                   "opacity-50 cursor-not-allowed": currentStep === 1,
                 })}
+                type="button"
                 disabled={currentStep === 1}
                 onClick={handlePrevStep}
               >

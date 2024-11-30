@@ -19,5 +19,9 @@ export const GeneralInitialValues = {
     isCess: false,
     cess: [],
     // ===== File upload section =================
+    galleryImages: [],
+    thumbnails:[],
+    productImages: [],
+    sizeImages: [],
     
   }

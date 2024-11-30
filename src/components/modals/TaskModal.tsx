@@ -12,9 +12,9 @@ type ModalComponent = {
 };
 
 export default function TaskModal({ children,className }: ModalComponent) {
-  const { isOpen, selectedTask, closeModal } = useModal();
+  const { isOpen, closeModal } = useModal();
 
-  if (!selectedTask) return null; // If there's no selected task, don't render the modal
+  // if (!selectedTask) return null; // If there's no selected task, don't render the modal
 
   return (
     <Modal
@@ -22,7 +22,7 @@ export default function TaskModal({ children,className }: ModalComponent) {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       overlayClassName="fixed inset-0 bg-black/10 backdrop-filter  flex items-center justify-center z-[10001] "
-      className={cn(`bg-white r rounded-lg  min-w-xl w-[30vw] p-4 h-[80vh]    overflow-y-auto relative z-[10001]`,className)}
+      className={cn(`bg-white r rounded-lg  min-w-xl w-[30vw] p-4 h-[80vh]  outline-none  overflow-y-auto relative z-[10001]`,className)}
     >
       <div className="md:hidden block">
         <MyBackBtn

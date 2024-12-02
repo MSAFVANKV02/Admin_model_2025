@@ -136,6 +136,10 @@ export default function FilesMediaSectionPage({
           colorName,
         }));
 
+        if (localProductImages.length === 0 && values.productImages.length > 0){
+          setProductLocalImages(values.productImages);
+        }
+
         setIsOpen(true);
         setProductLocalImages((prev) => [...prev, ...newImages]);
       } else {
@@ -148,6 +152,10 @@ export default function FilesMediaSectionPage({
 
   const handleSaveColors = () => {
     // Validate: Ensure all images have a selected color
+    if(localProductImages.length === 0 &&  values.productImages.length > 0){
+      makeToastError("Please add at least one product image");
+      return;
+    }
     const isAllColorsSelected = localProductImages.every(
       (image) => image.colorCode && image.colorName
     );
@@ -167,6 +175,7 @@ export default function FilesMediaSectionPage({
 
       <div className="space-y-5">
         <FormFieldGenal
+          setFieldValue={setFieldValue}
           values={values.galleryImages}
           id="galleryImages"
           name="galleryImages"
@@ -177,6 +186,7 @@ export default function FilesMediaSectionPage({
         {/* thumbnail */}
         <FormFieldGenal
           values={values.thumbnails}
+          setFieldValue={setFieldValue}
           id="thumbnails"
           name="thumbnails"
           title="Add Thumbnail Image (300x300)"
@@ -186,7 +196,9 @@ export default function FilesMediaSectionPage({
         {/* productImages */}
         <FormFieldGenal
           values={values.productImages}
+          setFieldValue={setFieldValue}
           id="productImages"
+          setIsOpen={setIsOpen}
           name="productImages"
           title="Product images (600x600)"
           onChange={(e) => handleFileChange(e, "productImages")}
@@ -195,6 +207,7 @@ export default function FilesMediaSectionPage({
         {/* sizeImages */}
         <FormFieldGenal
           values={values.sizeImages}
+          setFieldValue={setFieldValue}
           id="sizeImages"
           name="sizeImages"
           title="Size chart"
@@ -202,8 +215,8 @@ export default function FilesMediaSectionPage({
         />
       </div>
 
-      {/* selected images */}
-      <div className="flex flex-wrap mt-10">
+      {/* ============= selected images ==== starts currently changes to FormFieldGenal  */}
+      {/* <div className="flex flex-wrap mt-10">
         <SelectedImages
           value={values.galleryImages}
           name="galleryImages"
@@ -212,13 +225,7 @@ export default function FilesMediaSectionPage({
           setFieldValue={setFieldValue}
         />
 
-        {/* <SelectedImages
-          value={values.productImages}
-          name="productImages"
-          title="selected Product Images"
-          alt="gallery images"
-          setFieldValue={setFieldValue}
-        /> */}
+      
         {values.productImages.length > 0 && (
           <div className="flex flex-col">
             <span>Selected Product Images</span>
@@ -258,7 +265,8 @@ export default function FilesMediaSectionPage({
           alt="gallery images"
           setFieldValue={setFieldValue}
         />
-      </div>
+      </div> */}
+      {/*========= selected images ==== Ends currently changes to FormFieldGenal  */}
 
       <TaskModal className="h-[50vh] p-0 shadow-xl border border-black/20 b">
         <TaskModalHeader className="bg-gray-200">
@@ -317,7 +325,9 @@ type FormFieldGenalProps = {
   name: string;
   fieldClassName?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setFieldValue: any;
   values: any[];
+  setIsOpen?: (value: boolean) => void;
 };
 
 export function FormFieldGenal({
@@ -326,8 +336,10 @@ export function FormFieldGenal({
   id,
   name,
   fieldClassName,
+  setFieldValue,
   onChange,
   values = [],
+  setIsOpen,
 }: FormFieldGenalProps) {
   return (
     <div className={cn("flex items-center justify-between gap-10", className)}>
@@ -360,6 +372,45 @@ export function FormFieldGenal({
           )}
         </div>
         <ErrorMessage name={name} component="span" className="text-red-500" />
+        {name === "productImages" ? (
+          <>
+            {values.length > 0 && (
+              <div className="flex flex-col">
+                <span>Selected Product Images</span>
+                <div
+                  onClick={() => {
+                    if (setIsOpen) {
+                      setIsOpen(true);
+                    }
+                  }}
+                  className="grid grid-cols-4 gap-2 mt-3 w-[300px]"
+                >
+                  {values.map((value) => (
+                    <Tooltip
+                      title={`Color: ${value.colorName}`}
+                      placement="top"
+                      className="cursor-pointer"
+                    >
+                      <img
+                        className="h-12 w-12 rounded-full border border-gray-300"
+                        src={URL.createObjectURL(value.image)}
+                        alt="gallery images"
+                      />
+                    </Tooltip>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <SelectedImages
+            value={values}
+            name="galleryImages"
+            title="selected Gallery Images"
+            alt="gallery images"
+            setFieldValue={setFieldValue}
+          />
+        )}
       </div>
 
       <input

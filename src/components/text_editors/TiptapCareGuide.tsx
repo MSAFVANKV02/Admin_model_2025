@@ -72,7 +72,7 @@ export default function TiptapCareGuide({ careGuide, onChange, label }: Props) {
       <Label htmlFor="" className="block text-sm font-medium text-textGray">
         {label}
       </Label>
-      <div className="w-3/4">
+      <div className="w-3/4 changed">
          <TipTapToolbar editor={editor} />
       <EditorContent editor={editor} />
       </div>

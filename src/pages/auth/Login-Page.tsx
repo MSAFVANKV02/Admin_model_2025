@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
     const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@ayb.com");
+  const [password, setPassword] = useState("123");
 
   const login = (e: React.FormEvent) => {
 

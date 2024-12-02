@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/select";
 import { Tooltip } from "@mui/material";
 import { makeToastError } from "@/utils/toaster";
-import { FileFormValues } from "@/pages/products/add-new/Page_Sections/FilesMeadiaSection-page";
 import { useEffect, useState } from "react";
 import ColorPicker from "../myUi/ColorPicker";
+import { IProducts } from "@/types/productType";
 
 interface Color {
   value: string;
@@ -35,7 +35,7 @@ type MetadataFormProps = {
   setFieldValue: any;
   setIsOpen: (value: boolean) => void;
   setSelectedColor: (value: boolean) => void;
-  values: FileFormValues;
+  values: IProducts;
 };
 
 export const ProductImageModal = ({
@@ -113,8 +113,8 @@ export const ProductImageModal = ({
 
     // Update Formik values if the image exists in the Formik state
     setFieldValue(
-      "productImages",
-      values.productImages.filter(
+      "variations",
+      values.variations.filter(
         (product) => product.image !== imageToDelete.image
       )
     );
@@ -129,10 +129,10 @@ export const ProductImageModal = ({
   };
 
   useEffect(() => {
-    if (productLocalImages.length === 0 && values.productImages.length > 0) {
-      setProductLocalImages(values.productImages);
+    if (productLocalImages.length === 0 && values.variations.length > 0) {
+      setProductLocalImages(values.variations);
     }
-  }, [productLocalImages, setProductLocalImages, values.productImages]);
+  }, [productLocalImages, setProductLocalImages, values.variations]);
 
   return (
     <div className="flex flex-col gap-3 h-[350px] overflow-y-auto">
@@ -146,13 +146,12 @@ export const ProductImageModal = ({
           <div className="w-[70%] relative">
             {showColorPicker && (
               <div className="absolute z-50 left-1/2 top-1/2">
-                  <ColorPicker
-              setShowColor={setShowColorPicker}
-                onSaveColor={handleSaveNewColor}
-                colorOptions={colorOptions}
-              />
+                <ColorPicker
+                  setShowColor={setShowColorPicker}
+                  onSaveColor={handleSaveNewColor}
+                  colorOptions={colorOptions}
+                />
               </div>
-            
             )}
             <Select
               onValueChange={(value) => {
@@ -178,7 +177,6 @@ export const ProductImageModal = ({
                 />
               </SelectTrigger>
               <SelectContent className="z-[10003]">
-               
                 {colorOptions.map((color) => (
                   <SelectItem key={color.code} value={color.code}>
                     <div
@@ -193,13 +191,15 @@ export const ProductImageModal = ({
                     </div>
                   </SelectItem>
                 ))}
-                 <span 
-                 className="relative flex w-full hover:bg-gray-50 select-none items-center
+                <span
+                  className="relative flex w-full hover:bg-gray-50 select-none items-center
                  cursor-pointer
                   rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground
                   data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onClick={()=>  setShowColorPicker(true)}
-                >Add New Color</span>
+                  onClick={() => setShowColorPicker(true)}
+                >
+                  Add New Color
+                </span>
               </SelectContent>
             </Select>
           </div>

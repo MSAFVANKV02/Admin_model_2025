@@ -57,6 +57,7 @@ export const FilesSchema = Yup.object({
   sizeImages: Yup.array().min(1, "Must add Size Images").required("Size Images are required"),
 })
 
+
 export const getValidationSchema = (step: number) => {
   switch (step) {
     case 1:

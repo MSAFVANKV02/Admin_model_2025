@@ -21,7 +21,17 @@ export const GeneralInitialValues = {
     // ===== File upload section =================
     galleryImages: [],
     thumbnails:[],
-    productImages: [],
+    // productImages: [],
     sizeImages: [],
+    // ===== price stock section =================
+    
+    basePrice:null,
+    samplePrice:null,
+    discount:null,
+    discountType:"",
+    pricePerPieces:[],
+    selectWise:"",
+    store:"",
+    variations:[],
     
   }

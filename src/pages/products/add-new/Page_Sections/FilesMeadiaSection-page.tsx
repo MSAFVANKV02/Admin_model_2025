@@ -14,17 +14,18 @@ import { ProductImageModal } from "@/components/products/Product_Image_Modal";
 import { Button } from "@/components/ui/button";
 import { makeToastError } from "@/utils/toaster";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import { IProducts } from "@/types/productType";
 
 type Props = {
   setFieldValue: any;
-  values: FileFormValues;
+  values: IProducts;
   errors: any;
 };
 
 export type FileFormValues = {
   galleryImages: File[];
   thumbnails: File[];
-  productImages: { image: File; colorCode: string; colorName: string }[];
+  variations: { image: File; colorCode: string; colorName: string }[];
   sizeImages: File[];
 };
 
@@ -47,7 +48,7 @@ export default function FilesMediaSectionPage({
   //   if (files) {
   //     const fileArray = Array.from(files); // Convert FileList to an array
 
-  //     if (fieldName === "productImages" && files) {
+  //     if (fieldName === "variations" && files) {
   //       const colorCode = ""; // Replace with actual color code logic
   //       const colorName = ""; // Replace with actual color name logic
 
@@ -93,7 +94,7 @@ export default function FilesMediaSectionPage({
 
     try {
       for (const file of fileArray) {
-        if (fieldName === "productImages" || fieldName === "galleryImages") {
+        if (fieldName === "variations" || fieldName === "galleryImages") {
           // Set required dimensions
           const requiredWidth = 600;
           const requiredHeight = 600;
@@ -126,7 +127,7 @@ export default function FilesMediaSectionPage({
       }
 
       // If all images are valid, proceed
-      if (fieldName === "productImages") {
+      if (fieldName === "variations") {
         const colorCode = ""; // Replace with actual color code logic
         const colorName = ""; // Replace with actual color name logic
 
@@ -136,8 +137,8 @@ export default function FilesMediaSectionPage({
           colorName,
         }));
 
-        if (localProductImages.length === 0 && values.productImages.length > 0){
-          setProductLocalImages(values.productImages);
+        if (localProductImages.length === 0 && values.variations.length > 0){
+          setProductLocalImages(values.variations);
         }
 
         setIsOpen(true);
@@ -152,7 +153,7 @@ export default function FilesMediaSectionPage({
 
   const handleSaveColors = () => {
     // Validate: Ensure all images have a selected color
-    if(localProductImages.length === 0 &&  values.productImages.length > 0){
+    if(localProductImages.length === 0 &&  values.variations.length > 0){
       makeToastError("Please add at least one product image");
       return;
     }
@@ -162,7 +163,7 @@ export default function FilesMediaSectionPage({
 
     if (isAllColorsSelected) {
       // Save to Formik field
-      setFieldValue("productImages", localProductImages);
+      setFieldValue("variations", localProductImages);
       setIsOpen(false); // Close the modal
     } else {
       alert("Please select colors for all product images.");
@@ -193,15 +194,15 @@ export default function FilesMediaSectionPage({
           onChange={(e) => handleFileChange(e, "thumbnails")}
         />
 
-        {/* productImages */}
+        {/* variations */}
         <FormFieldGenal
-          values={values.productImages}
+          values={values.variations}
           setFieldValue={setFieldValue}
-          id="productImages"
+          id="variations"
           setIsOpen={setIsOpen}
-          name="productImages"
+          name="variations"
           title="Product images (600x600)"
-          onChange={(e) => handleFileChange(e, "productImages")}
+          onChange={(e) => handleFileChange(e, "variations")}
         />
 
         {/* sizeImages */}
@@ -226,14 +227,14 @@ export default function FilesMediaSectionPage({
         />
 
       
-        {values.productImages.length > 0 && (
+        {values.variations.length > 0 && (
           <div className="flex flex-col">
             <span>Selected Product Images</span>
             <div
               onClick={() => setIsOpen(true)}
               className="grid grid-cols-4 gap-2 mt-3"
             >
-              {values.productImages.map((value) => (
+              {values.variations.map((value) => (
                 <Tooltip
                   title={`Color: ${value.colorName}`}
                   placement="top"
@@ -372,7 +373,7 @@ export function FormFieldGenal({
           )}
         </div>
         <ErrorMessage name={name} component="span" className="text-red-500" />
-        {name === "productImages" ? (
+        {name === "variations" ? (
           <>
             {values.length > 0 && (
               <div className="flex flex-col">

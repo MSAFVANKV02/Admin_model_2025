@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import GeneralSection from "./Page_Sections/GeneralSection-page";
 import FilesMediaSectionPage from "./Page_Sections/FilesMeadiaSection-page";
-import PriceStockSectionPage from "./PriceStockSection-page";
-import ShippingSectionPage from "./ShippingSection-page";
+import PriceStockSectionPage from "./Page_Sections/PriceStockSection-page";
+import ShippingSectionPage from "./Page_Sections/ShippingSection-page";
 import { Form, Formik } from "formik";
 import { GeneralInitialValues } from "./initialValues";
 import {  getValidationSchema } from "./ProductSchema";
@@ -90,7 +90,11 @@ export default function ProductAddPage() {
           />
         );
       case "price-stock":
-        return <PriceStockSectionPage />;
+        return <PriceStockSectionPage 
+        setFieldValue={setFieldValue}
+        values={values}
+        errors={errors}
+        />;
       case "shipping":
         return <ShippingSectionPage />;
       default:

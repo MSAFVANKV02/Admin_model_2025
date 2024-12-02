@@ -24,13 +24,13 @@ export const GeneralInitialValues = {
     // productImages: [],
     sizeImages: [],
     // ===== price stock section =================
-    
+
     basePrice:null,
     samplePrice:null,
     discount:null,
     discountType:"",
     pricePerPieces:[],
-    selectWise:"",
+    selectWise:"size",
     store:"",
     variations:[],
     

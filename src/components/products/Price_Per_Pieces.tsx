@@ -76,7 +76,7 @@ export default function PricePerPieces({
 
             <span className="pt-3">=</span>
             <div className=" flex flex-col items-center">
-            {index === 0 && <span className="">discount</span>}
+            {index === 0 && <span className="text-white select-none">discount</span>}
             <Input
               type="number"
               className="w-full"
@@ -97,8 +97,9 @@ export default function PricePerPieces({
       <div className="p-2">
         <Button
           variant="outline"
+
           type="button"
-          className="w-full border-dashed bg-gray-50"
+          className="w-full border-dashed bg-gray-50 border-textMain"
           onClick={handleAddField}
         >
           Add New +

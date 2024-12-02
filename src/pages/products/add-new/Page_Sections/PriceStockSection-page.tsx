@@ -12,6 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import PricePerPieces from "@/components/products/Price_Per_Pieces";
+import { Checkbox, styled } from "@mui/material";
+import SelectWise from "@/components/products/Select_Wise";
 
 type Props = {
   setFieldValue: any;
@@ -23,10 +25,14 @@ export default function PriceStockSectionPage({
   values,
   setFieldValue,
 }: Props) {
+
+  console.log(values,'values');
+  
+
   return (
     <div className="f">
       <div
-        className="md:w-1/2 flex
+        className="lg:w-1/2 flex
      flex-col gap-4"
       >
         {/* ===== basePrice ===== */}
@@ -64,7 +70,7 @@ export default function PriceStockSectionPage({
               setFieldValue("discountType", value);
             }}
           >
-            <SelectTrigger className="md:w-3/4 p-6">
+            <SelectTrigger className="lg:w-3/4 p-6">
               <SelectValue placeholder="Discount Type" />
             </SelectTrigger>
             <SelectContent>
@@ -74,18 +80,70 @@ export default function PriceStockSectionPage({
           </Select>
         </div>
         {/* === */}
-          {/* ===== Price per Pieces  =====
+        {/* ===== Price per Pieces  =====
           ================================= */}
+        <div className="flex lg:flex-row flex-col justify-between">
+          <Label className="text-sm text-textGray">Price / pieces</Label>
           <PricePerPieces
-          pricePerPieces={values.pricePerPieces}
+            pricePerPieces={values.pricePerPieces}
+            setFieldValue={setFieldValue}
+          />
+        </div>
+
+        {/* ===== select wise  =====
+          ================================= */}
+        <div className="flex lg:flex-row flex-col items-center justify-between">
+          <Label className="text-sm text-textGray">Price / pieces</Label>
+          <div className="lg:w-3/4 flex">
+            <div className="flex items-center gap-2">
+              <CustomCheckbox
+                name="selectWise"
+                id="selectWise-size"
+                checked={values.selectWise === "size"}
+                onChange={() =>
+                  setFieldValue("selectWise", values.selectWise === "size" ? "" : "size")
+                }
+              />
+              <Label className="text-textGray" htmlFor="selectWise-size">Size wise</Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <CustomCheckbox
+                id="selectWise-bundle"
+                name="selectWise"
+                checked={values.selectWise === "bundle"}
+                onChange={() =>
+                  setFieldValue("selectWise", values.selectWise === "bundle" ? "" : "bundle")
+                }
+              />
+              <Label className="text-textGray" htmlFor="selectWise-bundle">Bundle wise</Label>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== select wise ends =====
+          ================================= */}
+            {/* ===== select wise size starts =====
+          ================================= */}
+          <div className="">
+       
+          <SelectWise
+          values={values}
           setFieldValue={setFieldValue}
-        />
+          />
+          </div>
       </div>
     </div>
   );
 }
 
 //  =================================================================
+
+const CustomCheckbox = styled(Checkbox)({
+  color: "#ccc", // Default color
+  "&.Mui-checked": {
+    color: "#5F08B1", // Color when checked
+  },
+});
 
 type FormFieldGenalProps = {
   // children: React.ReactNode;
@@ -111,11 +169,16 @@ export function FormFieldGenal({
   type = "text", // default type is text
 }: FormFieldGenalProps) {
   return (
-    <div className={cn("flex md:flex-row flex-col md:items-center gap-3 justify-between", className)}>
+    <div
+      className={cn(
+        "flex lg:flex-row flex-col lg:items-center gap-3 justify-between",
+        className
+      )}
+    >
       <Label htmlFor={name} className="text-textGray">
         {title}
       </Label>
-      <div className="flex flex-col md:w-3/4 gap-2">
+      <div className="flex flex-col lg:w-3/4 gap-2">
         <Field
           id={id}
           name={name}

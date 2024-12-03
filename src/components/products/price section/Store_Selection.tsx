@@ -22,7 +22,7 @@ export function StoreSelection({
   
 }:Props) {
   return (
-  <div className="lg:w-3/4">
+  <div className="">
       <Select
       onValueChange={(value) =>{
         setFieldValue("store", value);

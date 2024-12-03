@@ -39,15 +39,15 @@ store:""
 
 export type IPricePerPieces = {
     _id?: string;
-    min_Piece?: number;
-    max_Piece?: number;
-    discount: number;
+    min_Piece?: number ;
+    max_Piece?: number ;
+    discount: number ;
 }
 
 export type IVariants = {
     _id?: string;
     size: string;
-    bundleSizes?:[{ size: string, quantity: number}];
+    // bundleSizes?:[{ size: string, quantity: number}];
     bundleQuantity?: number;
     stock: number;
     discount: number;

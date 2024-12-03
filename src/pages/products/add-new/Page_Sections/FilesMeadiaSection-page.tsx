@@ -137,7 +137,7 @@ export default function FilesMediaSectionPage({
           colorName,
         }));
 
-        if (localProductImages.length === 0 && values.variations.length > 0){
+        if (localProductImages.length === 0 && values.variations.length > 0) {
           setProductLocalImages(values.variations);
         }
 
@@ -169,44 +169,44 @@ export default function FilesMediaSectionPage({
   //     alert("Please select colors for all product images.");
   //   }
   // };
+  
   // const handleSaveColors = () => {
   //   // Validate: Ensure at least one product image exists if variations are present
   //   if (localProductImages.length === 0 && values.variations.length > 0) {
   //     makeToastError("Please add at least one product image");
   //     return;
   //   }
-  
+
   //   // Validate that all images have a selected color and name
   //   const isAllColorsSelected = localProductImages.every(
   //     (image) => image.colorCode && image.colorName && image.image
   //   );
-  
+
   //   if (isAllColorsSelected) {
-  //     // Save to Formik field
+  //     // Update Formik's variations with local images
   //     setFieldValue(
   //       "variations",
-  //       values.variations.map((variation) => ({
-  //         ...variation,
-  //         details: variation.details.map((details) => {
-  //           const matchedImage = localProductImages.find(
-  //             (item) => item.colorCode === variation.colorCode
-  //           );
-  
-  //           return {
-  //             ...details,
-  //             colorCode: matchedImage?.colorCode,
-  //             colorName: matchedImage?.colorName,
-  //             image: matchedImage?.image,
-  //           };
-  //         }),
+  //       localProductImages.map((image) => ({
+  //         image: image.image,
+  //         colorCode: image.colorCode,
+  //         colorName: image.colorName,
+  //         details: [
+  //           {
+  //             stock: 0,
+  //             size: "",
+  //             sellingPrice:0,
+  //             discount:0,
+  //           },
+  //         ],
   //       }))
   //     );
-  
+
   //     setIsOpen(false); // Close the modal
   //   } else {
   //     alert("Please select colors for all product images.");
   //   }
   // };
+
   const handleSaveColors = () => {
     // Validate: Ensure at least one product image exists if variations are present
     if (localProductImages.length === 0 && values.variations.length > 0) {
@@ -220,19 +220,39 @@ export default function FilesMediaSectionPage({
     );
   
     if (isAllColorsSelected) {
-      // Update Formik's variations with local images
-      setFieldValue(
-        "variations",
-        localProductImages.map((image) => ({
+      // Filter out duplicates by checking `colorCode` and `colorName`
+      const newVariations = localProductImages.filter(
+        (image) =>
+          !values.variations.some(
+            (variation) =>
+              variation.colorCode === image.colorCode &&
+              variation.colorName === image.colorName
+          )
+      );
+  
+      // Create updated variations by appending only new variations
+      const updatedVariations = [
+        ...values.variations, // Preserve existing variations
+        ...newVariations.map((image) => ({
           image: image.image,
           colorCode: image.colorCode,
           colorName: image.colorName,
-          details:[{
-            stock:0,
-            size:"",
-          }]
-        }))
-      );
+          details: [
+            {
+              stock: 0,
+              size: "",
+              sellingPrice: 0,
+              discount: 0,
+            },
+          ],
+        })),
+      ];
+  
+      // Update Formik's field with merged variations
+      setFieldValue("variations", updatedVariations);
+  
+      // Clear local images to avoid duplicating them on the next save
+      setProductLocalImages([]);
   
       setIsOpen(false); // Close the modal
     } else {
@@ -463,11 +483,13 @@ export function FormFieldGenal({
                       placement="top"
                       className="cursor-pointer"
                     >
-                      <img
-                        className="h-12 w-12 rounded-full border border-gray-300"
-                        src={URL.createObjectURL(value.image)}
-                        alt="gallery images"
-                      />
+                      {value.image && (
+                        <img
+                          className="h-12 w-12 rounded-full border border-gray-300"
+                          src={URL.createObjectURL(value.image)}
+                          alt="gallery images"
+                        />
+                      )}
                     </Tooltip>
                   ))}
                 </div>

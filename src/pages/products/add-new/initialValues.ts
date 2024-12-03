@@ -33,5 +33,14 @@ export const GeneralInitialValues = {
     selectWise:"size",
     store:"",
     variations:[],
+    // variations: [
+    //   {
+    //     colorCode: '',
+    //     colorName: '',
+    //     image: null,
+    //     details: [{ size: '', stock: 0, mrp: 0, sellingPrice: 0 }],
+    //   },
+    // ],
     
   }
+ 

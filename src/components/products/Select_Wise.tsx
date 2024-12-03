@@ -17,9 +17,10 @@ import BundleCreation from "../size/Bundle_Creation";
 type Props = {
   setFieldValue: (field: string, value: any) => void;
   values: IProducts;
+  errors: any;  
 };
 
-export default function SelectWise({ setFieldValue, values }: Props) {
+export default function SelectWise({ setFieldValue, values, errors }: Props) {
   const [sizeOptions] = useState([
     { _id: "S", name: "S" },
     { _id: "M", name: "M" },
@@ -129,7 +130,8 @@ export default function SelectWise({ setFieldValue, values }: Props) {
           <Label htmlFor="size" className="text-textGray">
             Select size
           </Label>
-          <div className="flex w-3/4 gap-3 items-center">
+          <div className=" w-3/4">
+            <div className="flex gap-3 items-center">
             <MultiSelect
               fieldName="sizes"
               selectedValue={selectedSizes}
@@ -138,6 +140,7 @@ export default function SelectWise({ setFieldValue, values }: Props) {
               }}
               options={sizeOptions}
             />
+            
             <AyButton
               title="Add New Size"
               sx={{
@@ -150,6 +153,13 @@ export default function SelectWise({ setFieldValue, values }: Props) {
               variant="outlined"
               onClick={() => setNewSize(true)}
             />
+            </div>
+
+{
+            <span className="text-red-500">
+              {errors.variations}
+            </span>
+          }
           </div>
 
           {/* add new sizes */}

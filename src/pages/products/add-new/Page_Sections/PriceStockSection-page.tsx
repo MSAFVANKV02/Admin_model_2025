@@ -26,8 +26,11 @@ type Props = {
 export default function PriceStockSectionPage({
   values,
   setFieldValue,
+  errors,
 }: Props) {
+  console.log(errors, "error");
   console.log(values, "values");
+
 
   return (
     <div className="">
@@ -39,6 +42,7 @@ export default function PriceStockSectionPage({
         <FormFieldGenal
           value={values.basePrice}
           title="Base Price"
+          type="number"
           id="basePrice"
           name="basePrice"
           placeholder="Enter Price"
@@ -48,6 +52,7 @@ export default function PriceStockSectionPage({
         <FormFieldGenal
           value={values.samplePrice}
           title="Sample Price"
+          type="number"
           id="samplePrice"
           name="samplePrice"
           placeholder="Enter Sample Price"
@@ -58,6 +63,7 @@ export default function PriceStockSectionPage({
           value={values.discount}
           title="Discount (% / flat)"
           id="discount"
+          type="number"
           name="discount"
           placeholder="Enter Discount"
           fieldAs={Input}
@@ -84,10 +90,17 @@ export default function PriceStockSectionPage({
           ================================= */}
         <div className="flex lg:flex-row flex-col justify-between">
           <Label className="text-sm text-textGray">Price / pieces</Label>
-          <PricePerPieces
-            pricePerPieces={values.pricePerPieces}
-            setFieldValue={setFieldValue}
-          />
+          <div className="md:w-3/4 w-full">
+            <PricePerPieces
+              pricePerPieces={values.pricePerPieces}
+              setFieldValue={setFieldValue}
+            />
+            <ErrorMessage
+              name="pricePerPieces"
+              component="span"
+              className="text-red-500"
+            />
+          </div>
         </div>
 
         {/* ===== select wise  =====
@@ -135,32 +148,32 @@ export default function PriceStockSectionPage({
         {/* ===== select wise size starts =====
           ================================= */}
         <div className="">
-          <SelectWise values={values} setFieldValue={setFieldValue} />
+          <SelectWise
+            errors={errors}
+            values={values}
+            setFieldValue={setFieldValue}
+          />
         </div>
 
         {/* select store ====
         ==================== */}
         <div className="flex items-center lg:flex-row flex-col justify-between">
           <Label className="text-textGray">Store</Label>
-          <StoreSelection
-          values={values}
-           setFieldValue={setFieldValue}
-          />
+          <div className="lg:w-3/4">
+            <StoreSelection values={values} setFieldValue={setFieldValue} />
+            <ErrorMessage
+              name="store"
+              component="span"
+              className="text-red-500"
+            />
+          </div>
         </div>
-
-
-
       </div>
 
-
-          {/* ======= All Selected Details In Table ======== */}
-          <div className="flex justify-end mt-10 w-[90%]">
-            
-       <AllNewProductsTable
-           values={values}
-           setFieldValue={setFieldValue}
-          />
-       </div>
+      {/* ======= All Selected Details In Table ======== */}
+      <div className="flex justify-end mt-10 w-[90%]">
+        <AllNewProductsTable values={values} setFieldValue={setFieldValue} />
+      </div>
     </div>
   );
 }

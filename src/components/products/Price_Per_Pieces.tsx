@@ -2,6 +2,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { IPricePerPieces } from "@/types/productType";
 import { Icon } from "@iconify/react";
+import { makeToastError } from "@/utils/toaster";
 
 type Props = {
   pricePerPieces: IPricePerPieces[];
@@ -23,6 +24,10 @@ export default function PricePerPieces({
   };
 
   const handleRemoveField = (id: string) => {
+    if(pricePerPieces.length === 1) {
+      makeToastError("Cannot remove the first field.");
+      return;
+    }
     const updatedFields = pricePerPieces.filter((item) => item._id !== id);
     setFieldValue("pricePerPieces", updatedFields);
   };
@@ -39,7 +44,7 @@ export default function PricePerPieces({
   };
 
   return (
-    <div className="border rounded-md md:w-3/4 w-full">
+    <div className="border rounded-md ">
       <div className="p-2 border-b flex items-center">
         <span className="w-1/2 text-center">Piece Limit</span>
         <span className="w-1/2 text-center">Discount</span>

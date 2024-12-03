@@ -54,6 +54,7 @@ interface SelectOption {
 export default function GeneralSectionPage({
   values,
   setFieldValue,
+  errors,
   
 }: Props) {
   const [selectedCessOptions, setSelectedCessOptions] = useState<
@@ -102,6 +103,7 @@ export default function GeneralSectionPage({
           title="Product MRP"
           id="mrp"
           name="mrp"
+          type="number"
           placeholder="Product MRP"
           fieldAs={Input}
         />
@@ -237,6 +239,9 @@ export default function GeneralSectionPage({
               }}
             />
           </div>
+          {
+            errors.taxSlab && <span className="text-red-500">{errors.taxSlab}</span>
+          }
         </div>
 
         {/* #Cess ========== */}

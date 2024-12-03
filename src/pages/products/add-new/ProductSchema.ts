@@ -10,7 +10,7 @@ export const GeneralSchema = Yup.object({
     .required("MRP is required"),
   sku: Yup.string().min(1, "SKU is required").required("SKU is required"),
   barcode: Yup.string().optional(),
-  brand: Yup.string().optional(),
+  brand: Yup.string().required("Brand is required"),
   keywords: Yup.string().optional(),
   minQty: Yup.number()
     .min(1, "Minimum Qty must be at least 1")
@@ -18,11 +18,11 @@ export const GeneralSchema = Yup.object({
   weight: Yup.number()
     .min(1, "Minimum Weight must be at least 1g")
     .required("Product Weight is required"),
-  height: Yup.string().optional(),
-  length: Yup.string().optional(),
-  width: Yup.string().optional(),
+  height: Yup.string().required("Height is required"),
+  length: Yup.string().required("Length is required"),
+  width: Yup.string().required("Width is required"),
 
-  taxSlab: Yup.array().optional(),
+  taxSlab: Yup.array().required("Must Add A Value in Tax slab is required"),
   status: Yup.boolean().default(false),
   //   todaysDeal: Yup.boolean().default(false),
   //   featured: Yup.boolean().default(false),
@@ -142,6 +142,12 @@ export const PriceStockSchema = Yup.object({
     .required("Variations are required"),
 });
 
+// export const ShippingSectionSchema = Yup.object({
+//   code:Yup.boolean().default(false),
+//   freeShipping:Yup.boolean().default(false),
+
+// })
+
 export const getValidationSchema = (step: number) => {
   switch (step) {
     case 1:
@@ -150,6 +156,9 @@ export const getValidationSchema = (step: number) => {
       return FilesSchema;
     case 3:
       return PriceStockSchema;
+      case 4:
+        // Combine all schemas for a comprehensive validation
+        return GeneralSchema.concat(FilesSchema).concat(PriceStockSchema);
     // Add cases for other schemas when implementing PriceStockSectionPage and ShippingSectionPage
   }
 };

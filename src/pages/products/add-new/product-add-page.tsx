@@ -96,7 +96,11 @@ export default function ProductAddPage() {
         errors={errors}
         />;
       case "shipping":
-        return <ShippingSectionPage />;
+        return <ShippingSectionPage
+        setFieldValue={setFieldValue}
+        values={values}
+        errors={errors}
+        />;
       default:
         return null;
     }
@@ -113,9 +117,9 @@ export default function ProductAddPage() {
         enableReinitialize={true}
         onSubmit={(values) => {
           console.log("submit", values);
-          if (currentStep !== 4) {
-            return handleNextStep();
-          }
+          // if (currentStep !== 4) {
+          //   return handleNextStep();
+          // }
         }}
       >
         {({ values, setFieldValue, errors }) => (

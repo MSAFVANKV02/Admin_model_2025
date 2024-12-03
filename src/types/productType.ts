@@ -35,6 +35,10 @@ pricePerPieces: IPricePerPieces[];
 selectWise: "size" | "bundle";
 store:""
 
+    // ===== shipping section =================
+cod:boolean;
+freeShipping: boolean;
+
 } 
 
 export type IPricePerPieces = {

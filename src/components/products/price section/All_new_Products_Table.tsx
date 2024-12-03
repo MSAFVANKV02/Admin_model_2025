@@ -13,12 +13,19 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
       <table className="table-auto w-full ">
         <thead>
           <tr className="">
-            <th className="border rounded-tl-xl text-xs text-textGray px-4 py-4">Variant</th>
+            <th className="border rounded-tl-xl text-xs text-textGray px-4 py-4">
+              Variant
+            </th>
             <th className="border text-xs text-textGray px-4 py-2">Size</th>
             <th className="border text-xs text-textGray px-4 py-2">Stock</th>
             <th className="border text-xs text-textGray px-4 py-2">
               Discount (%)
             </th>
+            {values.selectWise === "bundle" && (
+              <th className="border text-xs text-textGray px-4 py-2">
+                Bundle Quantity
+              </th>
+            )}
             <th className="border text-xs text-textGray px-4 py-2">
               Selling Price
             </th>
@@ -48,7 +55,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                         <div
                           className="w-5 h-5 rounded-full"
                           style={{
-                            backgroundColor: `${variation.colorCode }`,
+                            backgroundColor: `${variation.colorCode}`,
                           }}
                         ></div>
                         <span className=" font-medium">
@@ -67,7 +74,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                     <input
                       type="number"
                       min="0"
-                      className="w-full border rounded px-2 text-center"
+                      className="w-full border rounded px-2 text-center py-2"
                       value={variant.stock || 0}
                       onChange={(e) =>
                         setFieldValue(
@@ -84,7 +91,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       type="number"
                       min="0"
                       max="100"
-                      className="w-full border rounded px-2 text-center"
+                      className="w-full border rounded px-2 text-center py-2"
                       value={variant.discount || 0}
                       onChange={(e) =>
                         setFieldValue(
@@ -95,12 +102,30 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                     />
                   </td>
 
+                  {/* bundle quantity ========= */}
+                  {values.selectWise === "bundle" && (
+                    <td className="border px-4 py-1 text-center">
+                      <input
+                        type="number"
+                        min="0"
+                        className="w-full border rounded px-2 text-center py-2"
+                        value={variant.bundleQuantity || 0}
+                        onChange={(e) =>
+                          setFieldValue(
+                            `variations[${vIndex}].details[${index}].bundleQuantity`,
+                            parseFloat(e.target.value) || 0
+                          )
+                        }
+                      />
+                    </td>
+                  )}
+
                   {/* Selling Price */}
                   <td className="border px-4 py-1 text-center">
                     <input
                       type="number"
                       min="0"
-                      className="w-full border rounded px-2 text-center"
+                      className="w-full border rounded px-2 text-center py-2"
                       value={variant.sellingPrice || 0}
                       onChange={(e) =>
                         setFieldValue(
@@ -115,8 +140,9 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                   <td className="border px-4 py-1 text-center">
                     <input
                       type="text"
-                      className="w-full border rounded px-2 text-center"
+                      className="l border rounded min-w-[150px] w-full px-2 text-center py-2"
                       value={variant.skuId || ""}
+                      placeholder="Sku here"
                       onChange={(e) =>
                         setFieldValue(
                           `variations[${vIndex}].details[${index}].skuId`,
@@ -223,7 +249,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
 //                       <input
 //                         type="number"
 //                         min="0"
-//                         className="w-full border rounded px-2 text-center"
+//                         className="w-full border rounded px-2 text-center py-2"
 //                         value={variant.stock || 0}
 //                         onChange={(e) =>
 //                           setFieldValue(
@@ -240,7 +266,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
 //                         type="number"
 //                         min="0"
 //                         max="100"
-//                         className="w-full border rounded px-2 text-center"
+//                         className="w-full border rounded px-2 text-center py-2"
 //                         value={variant.discount || 0}
 //                         onChange={(e) =>
 //                           setFieldValue(
@@ -256,7 +282,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
 //                       <input
 //                         type="number"
 //                         min="0"
-//                         className="w-full border rounded px-2 text-center"
+//                         className="w-full border rounded px-2 text-center py-2"
 //                         value={variant.sellingPrice || 0}
 //                         onChange={(e) =>
 //                           setFieldValue(
@@ -271,7 +297,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
 //                     <td className="border px-4 py-1 text-center">
 //                       <input
 //                         type="text"
-//                         className="w-full border rounded px-2 text-center"
+//                         className="w-full border rounded px-2 text-center py-2"
 //                         value={variant.skuId || ""}
 //                         onChange={(e) =>
 //                           setFieldValue(

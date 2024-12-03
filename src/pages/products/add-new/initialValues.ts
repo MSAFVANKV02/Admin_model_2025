@@ -1,11 +1,11 @@
 export const GeneralInitialValues = {
-    productName: 'test',
-    mrp: 1,
-    sku: 'sku',
+    productName: '',
+    mrp: 0,
+    sku: '',
     barcode: '',
     brand: '',
     keywords: '',
-    minQty: 1,
+    minQty: 0,
     weight: 0,
     height: '',
     length: '',
@@ -41,6 +41,10 @@ export const GeneralInitialValues = {
     //     details: [{ size: '', stock: 0, mrp: 0, sellingPrice: 0 }],
     //   },
     // ],
+
+    // ===== shipping section =================
+    cod:false,
+    freeShipping:false,
     
   }
  

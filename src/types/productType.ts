@@ -23,7 +23,7 @@ export type IProducts = {
 //   files section
 galleryImages: File[];
 thumbnails: File[];
-variations: { image: File; colorCode: string; colorName: string, details:IVariants[] }[];
+variations: { image: File; colorCode: string; colorName: string; sample:boolean; details:IVariants[] }[];
 sizeImages: File[];
 
 // === price stock ===
@@ -46,12 +46,14 @@ export type IPricePerPieces = {
 
 export type IVariants = {
     _id?: string;
-    size: number;
+    size: string;
+    bundleSizes?:[{ size: string, quantity: number}];
+    bundleQuantity?: number;
     stock: number;
     discount: number;
     sellingPrice: number;
     skuId: string;
-    sample:boolean;
+   
 }
 
 export interface SelectOption {

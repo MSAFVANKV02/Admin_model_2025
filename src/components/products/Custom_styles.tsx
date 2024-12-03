@@ -2,9 +2,10 @@
 export const customStyles = {
     control: (base: any) => ({
       ...base,
-      borderColor: 'gray',
+      borderColor: '#CCCCCC',
       borderRadius: '8px',
       padding: '5px',
+      fontSize:"0.8rem",
       boxShadow: 'none',
       '&:hover': {
         borderColor: '#1E40AF',
@@ -27,7 +28,7 @@ export const customStyles = {
     }),
     placeholder: (base: any) => ({
       ...base,
-      color: 'gray',
+      color: '#8E8E8E',
     }),
   };
   

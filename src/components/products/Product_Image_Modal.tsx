@@ -135,7 +135,16 @@ export const ProductImageModal = ({
   }, [productLocalImages, setProductLocalImages, values.variations]);
 
   return (
-    <div className="flex flex-col gap-3 h-[350px] overflow-y-auto">
+    <div className="flex flex-col gap-3 h-[350px] overflow-y-auto relative">
+        {showColorPicker && (
+              <div className="absolute z-50 left-1/2 top-0">
+                <ColorPicker
+                  setShowColor={setShowColorPicker}
+                  onSaveColor={handleSaveNewColor}
+                  colorOptions={colorOptions}
+                />
+              </div>
+            )}
       {productLocalImages.map((product, index) => (
         <div key={index} className="flex justify-between">
           <img
@@ -144,15 +153,7 @@ export const ProductImageModal = ({
             className="w-10 h-10"
           />
           <div className="w-[70%] relative">
-            {showColorPicker && (
-              <div className="absolute z-50 left-1/2 top-1/2">
-                <ColorPicker
-                  setShowColor={setShowColorPicker}
-                  onSaveColor={handleSaveNewColor}
-                  colorOptions={colorOptions}
-                />
-              </div>
-            )}
+          
             <Select
               onValueChange={(value) => {
                 // if (value === "addNew") {

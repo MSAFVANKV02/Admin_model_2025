@@ -151,24 +151,95 @@ export default function FilesMediaSectionPage({
     }
   };
 
+  // const handleSaveColors = () => {
+  //   // Validate: Ensure all images have a selected color
+  //   if(localProductImages.length === 0 &&  values.variations.length > 0){
+  //     makeToastError("Please add at least one product image");
+  //     return;
+  //   }
+  //   const isAllColorsSelected = localProductImages.every(
+  //     (image) => image.colorCode && image.colorName
+  //   );
+
+  //   if (isAllColorsSelected) {
+  //     // Save to Formik field
+  //     setFieldValue("variations", localProductImages);
+  //     setIsOpen(false); // Close the modal
+  //   } else {
+  //     alert("Please select colors for all product images.");
+  //   }
+  // };
+  // const handleSaveColors = () => {
+  //   // Validate: Ensure at least one product image exists if variations are present
+  //   if (localProductImages.length === 0 && values.variations.length > 0) {
+  //     makeToastError("Please add at least one product image");
+  //     return;
+  //   }
+  
+  //   // Validate that all images have a selected color and name
+  //   const isAllColorsSelected = localProductImages.every(
+  //     (image) => image.colorCode && image.colorName && image.image
+  //   );
+  
+  //   if (isAllColorsSelected) {
+  //     // Save to Formik field
+  //     setFieldValue(
+  //       "variations",
+  //       values.variations.map((variation) => ({
+  //         ...variation,
+  //         details: variation.details.map((details) => {
+  //           const matchedImage = localProductImages.find(
+  //             (item) => item.colorCode === variation.colorCode
+  //           );
+  
+  //           return {
+  //             ...details,
+  //             colorCode: matchedImage?.colorCode,
+  //             colorName: matchedImage?.colorName,
+  //             image: matchedImage?.image,
+  //           };
+  //         }),
+  //       }))
+  //     );
+  
+  //     setIsOpen(false); // Close the modal
+  //   } else {
+  //     alert("Please select colors for all product images.");
+  //   }
+  // };
   const handleSaveColors = () => {
-    // Validate: Ensure all images have a selected color
-    if(localProductImages.length === 0 &&  values.variations.length > 0){
+    // Validate: Ensure at least one product image exists if variations are present
+    if (localProductImages.length === 0 && values.variations.length > 0) {
       makeToastError("Please add at least one product image");
       return;
     }
+  
+    // Validate that all images have a selected color and name
     const isAllColorsSelected = localProductImages.every(
-      (image) => image.colorCode && image.colorName
+      (image) => image.colorCode && image.colorName && image.image
     );
-
+  
     if (isAllColorsSelected) {
-      // Save to Formik field
-      setFieldValue("variations", localProductImages);
+      // Update Formik's variations with local images
+      setFieldValue(
+        "variations",
+        localProductImages.map((image) => ({
+          image: image.image,
+          colorCode: image.colorCode,
+          colorName: image.colorName,
+          details:[{
+            stock:0,
+            size:"",
+          }]
+        }))
+      );
+  
       setIsOpen(false); // Close the modal
     } else {
       alert("Please select colors for all product images.");
     }
   };
+  
 
   return (
     <div className="">

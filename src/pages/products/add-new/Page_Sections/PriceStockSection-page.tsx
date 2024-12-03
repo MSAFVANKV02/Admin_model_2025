@@ -14,6 +14,8 @@ import {
 import PricePerPieces from "@/components/products/Price_Per_Pieces";
 import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
+import { StoreSelection } from "@/components/products/price section/Store_Selection";
+import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
 
 type Props = {
   setFieldValue: any;
@@ -25,12 +27,10 @@ export default function PriceStockSectionPage({
   values,
   setFieldValue,
 }: Props) {
-
-  console.log(values,'values');
-  
+  console.log(values, "values");
 
   return (
-    <div className="f">
+    <div className="">
       <div
         className="lg:w-1/2 flex
      flex-col gap-4"
@@ -101,10 +101,15 @@ export default function PriceStockSectionPage({
                 id="selectWise-size"
                 checked={values.selectWise === "size"}
                 onChange={() =>
-                  setFieldValue("selectWise", values.selectWise === "size" ? "" : "size")
+                  setFieldValue(
+                    "selectWise",
+                    values.selectWise === "size" ? "" : "size"
+                  )
                 }
               />
-              <Label className="text-textGray" htmlFor="selectWise-size">Size wise</Label>
+              <Label className="text-textGray" htmlFor="selectWise-size">
+                Size wise
+              </Label>
             </div>
             <div className="flex items-center gap-2">
               <CustomCheckbox
@@ -112,26 +117,50 @@ export default function PriceStockSectionPage({
                 name="selectWise"
                 checked={values.selectWise === "bundle"}
                 onChange={() =>
-                  setFieldValue("selectWise", values.selectWise === "bundle" ? "" : "bundle")
+                  setFieldValue(
+                    "selectWise",
+                    values.selectWise === "bundle" ? "" : "bundle"
+                  )
                 }
               />
-              <Label className="text-textGray" htmlFor="selectWise-bundle">Bundle wise</Label>
+              <Label className="text-textGray" htmlFor="selectWise-bundle">
+                Bundle wise
+              </Label>
             </div>
           </div>
         </div>
 
         {/* ===== select wise ends =====
           ================================= */}
-            {/* ===== select wise size starts =====
+        {/* ===== select wise size starts =====
           ================================= */}
-          <div className="">
-       
-          <SelectWise
+        <div className="">
+          <SelectWise values={values} setFieldValue={setFieldValue} />
+        </div>
+
+        {/* select store ====
+        ==================== */}
+        <div className="flex items-center lg:flex-row flex-col justify-between">
+          <Label className="text-textGray">Store</Label>
+          <StoreSelection
           values={values}
-          setFieldValue={setFieldValue}
+           setFieldValue={setFieldValue}
           />
-          </div>
+        </div>
+
+
+
       </div>
+
+
+          {/* ======= All Selected Details In Table ======== */}
+          <div className="flex justify-end mt-10 w-[90%]">
+            
+       <AllNewProductsTable
+           values={values}
+           setFieldValue={setFieldValue}
+          />
+       </div>
     </div>
   );
 }

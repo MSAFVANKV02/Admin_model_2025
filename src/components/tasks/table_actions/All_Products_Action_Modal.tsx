@@ -1,6 +1,7 @@
 import TaskModal, {
   TaskModalContent,
-  TaskModalHeader,
+  TaskModalFooter,
+  
 } from "@/components/modals/TaskModal";
 import { useModal } from "@/providers/context/context";
 import {
@@ -15,6 +16,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { IProducts } from "@/types/productType";
 import useDownloadXl from "@/hooks/DownloadStockReport";
 import { IconButton } from "@mui/material";
+import { Form, Formik } from "formik";
+import { InitialValues } from "@/pages/products/add-new/initialValues";
+import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
+import AyButton from "@/components/myUi/AyButton";
 
 type Props = {
   product: IProducts; // The product object to be passed to the modal
@@ -22,8 +27,7 @@ type Props = {
 
 export default function AllProductsActionModal({ product }: Props) {
   const { openProductModal, selectedProducts } = useModal();
-
-  console.log(selectedProducts, "selectedProducts");
+//   const [formInitialValues, setFormInitialValues] = useState(InitialValues);
 
   const { downloadStockReport } = useDownloadXl();
 
@@ -57,10 +61,30 @@ export default function AllProductsActionModal({ product }: Props) {
 
       {/* modal starts */}
 
-      <TaskModal>
-        <TaskModalHeader>Select Store</TaskModalHeader>
-
-        <TaskModalContent>{selectedProducts?.productName}</TaskModalContent>
+      <TaskModal className="w-[60vw]  ">
+        {/* <TaskModalHeader>Select Store</TaskModalHeader> */}
+        <Formik
+          initialValues={InitialValues}
+          onSubmit={() => {
+            console.log("form submitted");
+          }}
+        >
+          {({values, setFieldValue }) => (
+            <Form
+            className="flex flex-col justify-between h-full"
+            >
+              <TaskModalContent>
+                <AllNewProductsTable
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
+              </TaskModalContent>
+              <TaskModalFooter>
+                <AyButton title="Save" />
+              </TaskModalFooter>
+            </Form>
+          )}
+        </Formik>
       </TaskModal>
     </div>
   );

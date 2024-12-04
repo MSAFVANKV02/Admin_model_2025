@@ -3,7 +3,7 @@ import { IProducts } from "@/types/productType";
 import React from "react";
 
 type Props = {
-  values: IProducts;
+  values: IProducts | null;
   setFieldValue: (field: string, value: any) => void;
 };
 
@@ -21,7 +21,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
             <th className="border text-xs text-textGray px-4 py-2">
               Discount (%)
             </th>
-            {values.selectWise === "bundle" && (
+            {values?.selectWise === "bundle" && (
               <th className="border text-xs text-textGray px-4 py-2">
                 Bundle Quantity
               </th>
@@ -34,7 +34,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
           </tr>
         </thead>
         <tbody>
-          {(values.variations || []).map((variation, vIndex) => (
+          {(values?.variations || []).map((variation, vIndex) => (
             <React.Fragment key={vIndex}>
               {(variation.details || []).map((variant, index) => (
                 <tr key={`${vIndex}-${index}`} className="border text-xs">
@@ -45,12 +45,18 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       rowSpan={variation.details?.length || 1}
                     >
                       <div className="flex items-center gap-2">
-                        {variation.image && (
+                        {variation.image && typeof variation.image === "string" ? (
                           <img
-                            src={URL.createObjectURL(variation.image)}
+                            src={""}
                             alt="Variant"
                             className="w-7 h-7 object-cover rounded-sm"
                           />
+                        ):(
+                          <img
+                          src={URL.createObjectURL(variation.image)??""}
+                          alt="Variant"
+                          className="w-7 h-7 object-cover rounded-sm"
+                        />
                         )}
                         <div
                           className="w-5 h-5 rounded-full"
@@ -103,7 +109,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                   </td>
 
                   {/* bundle quantity ========= */}
-                  {values.selectWise === "bundle" && (
+                  {values?.selectWise === "bundle" && (
                     <td className="border px-4 py-1 text-center">
                       <input
                         type="number"

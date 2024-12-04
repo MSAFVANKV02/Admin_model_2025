@@ -36,6 +36,12 @@ interface DataTableProps<TData, TValue> {
   enableTitle?: boolean;
   enableView?: boolean;
   enableSearch?: boolean;
+  searchWith?: string;
+  statuses: Array<{
+    value: string;
+    label: string;
+    icon: React.ElementType;
+  }>;
 }
 
 export function DataTable<TData, TValue>({
@@ -44,7 +50,9 @@ export function DataTable<TData, TValue>({
   enableStatus,
   enableView,
   enablePriority,
-  enableSearch
+  enableSearch,
+  searchWith,
+  statuses
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -83,6 +91,8 @@ export function DataTable<TData, TValue>({
        enableStatus={enableStatus}
        enablePriority={enablePriority}
        enableSearch={enableSearch}
+       searchWith={searchWith}
+       statuses={statuses}
       //  enableTitle={enableTitle}
       enableView={enableView}
         />

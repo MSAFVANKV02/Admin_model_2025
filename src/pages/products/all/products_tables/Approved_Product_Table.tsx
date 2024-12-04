@@ -15,6 +15,7 @@ export default function ApprovedProductTable<TData, TValue>({
   return (
     <div>
         <DataTable
+        enableSearch
         columns={columns}
         data={data}
         />

@@ -1,16 +1,28 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SellerRequestTable from "./products_tables/Seller_Request_Table";
-import ApprovedProductTable from "./products_tables/Approved_Product_Table";
 import { useEffect, useState } from "react";
-
-import { IProducts } from "@/types/productType";
 import { ProductTableColumns } from "@/components/tasks/table_columns/products-table-columns";
+import { DataTable } from "@/components/tasks/task_components/data-table";
+import {  CircleOff,  ShieldCheck } from "lucide-react";
+
+const statuses = [
+    {
+      value: "active",
+      label: "Active",
+      icon: ShieldCheck,
+    },
+    {
+      value: "hold",
+      label: "Hold",
+      icon: CircleOff,
+    }
+  ]
 
 export default function AllProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(products);
+  //   console.log(products);
 
   useEffect(() => {
     async function fetchTasks() {
@@ -53,7 +65,17 @@ export default function AllProductsPage() {
 
         {/* tab .1 ===== */}
         <TabsContent value="approved">
-          <ApprovedProductTable columns={ProductTableColumns} data={products} />
+          {/* <ApprovedProductTable columns={ProductTableColumns} data={products} /> */}
+          <DataTable
+            enableSearch
+            columns={ProductTableColumns}
+            data={products}
+            searchWith="productName"
+            statuses={statuses}
+            enableStatus={true}
+            enableView
+
+          />
         </TabsContent>
 
         {/* tab .2 ===== */}

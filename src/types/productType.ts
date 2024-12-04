@@ -13,12 +13,13 @@ export type IProducts = {
   width?: number;
   dimensions?: string;
   taxSlab?: SelectOption[];
-  status: boolean;
+  status: "active" | "hold";
   todaysDeal: boolean;
   description?: string;
   isCess: boolean;
   cess?: SelectOption[];
   featured: boolean;
+  published:boolean;
 
 //   files section
 galleryImages: File[];

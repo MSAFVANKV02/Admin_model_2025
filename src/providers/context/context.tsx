@@ -1,4 +1,5 @@
 import { IModalTypes } from "@/components/tasks/table_actions/data-table-action-dashboard";
+import { IProducts } from "@/types/productType";
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 
 // Define the context type
@@ -6,6 +7,7 @@ interface ModalContextType {
   isOpen: boolean;
   selectedTask: any;
   openModal: (task: any, type:IModalTypes) => void;
+  openProductModal:(task: any) => void;
   closeModal: () => void;
   isOfflineTable: boolean;
   isKycTable: boolean;
@@ -16,6 +18,7 @@ interface ModalContextType {
   selectedPage: string | null;
   setSelectedPage: Dispatch<SetStateAction<string | null>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  selectedProducts:IProducts | null;
 
 }
 
@@ -28,6 +31,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<null>(null);
+  const [selectedProducts, setSelectedProducts] = useState<IProducts | null>(null);
   const [isOfflineTable, setIsOfflineTable] = useState(false);
   const [isKycTable, setIsKycTable] = useState(false);
   const [isTopStoresTable, setIsTopStoresTable] = useState(false);
@@ -43,6 +47,11 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     setIsOpen(true);
     setModalTypeDashboard(type);
 
+  };
+
+  const openProductModal = (task: IProducts) => { // Accept a single product
+    setSelectedProducts(task); // Wrap in an array
+    setIsOpen(true);
   };
 
   const closeModal = () => {
@@ -63,6 +72,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         setIsOpen,
         selectedTask,
         openModal,
+        openProductModal,
         closeModal,
         isOfflineTable,
         isKycTable,
@@ -71,7 +81,8 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         isTopSellerTable,
         modalTypeDashboard,
         selectedPage,
-        setSelectedPage
+        setSelectedPage,
+        selectedProducts
       }}
     >
       {children}

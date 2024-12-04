@@ -39,7 +39,7 @@ function MyBackBtn({
         className={cn(`flex items-center `, className)}
       >
         <Icon icon={`${icon}`} fontSize={iconSize} />{" "}
-        <span>{title && title}</span>
+        <span className="span">{title && title}</span>
       </button>
     </Tooltip>
   );

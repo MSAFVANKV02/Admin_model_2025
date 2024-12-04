@@ -156,7 +156,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             </div>
 
 {
-            <span className="text-red-500">
+            <span className="text-red-500 text-xs">
               {errors.variations}
             </span>
           }

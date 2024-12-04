@@ -12,9 +12,9 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import PdfFile from "@/components/myUi/PdfFile";
 import TaskModal from "./TaskModal";
 
-type Props = {}
 
-export default function TopSellerDashModal({}: Props) {
+
+export default function TopSellerDashModal() {
   const { selectedTask  } = useModal(); // Get the modal context
 
   return (
@@ -25,32 +25,32 @@ export default function TopSellerDashModal({}: Props) {
            {/*  */}
            <div className="flex items-center gap-2">
              <h3>Order Id:</h3>
-             <span>{selectedTask.orderId}</span>
+             <span className="span">{selectedTask.orderId}</span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2">
              <p className="text-sm">Date:</p>
-             <span>{selectedTask.date}</span>
+             <span className="span">{selectedTask.date}</span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2 mt-5">
              <p className="text-sm">Transaction ID :</p>
-             <span></span>
+             <span className="span"></span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2 mt-5">
              <p className="text-sm">Customer name :</p>
-             <span></span>
+             <span className="span"></span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2 mt-5">
              <p className="text-sm">Amount :</p>
-             <span></span>
+             <span className="span"></span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2 mt-5">
              <p className="text-sm">Payment method :</p>
-             <span></span>
+             <span className="span"></span>
            </div>
            {/*  */}
            <div className="flex flex-col gap-2 mt-5">

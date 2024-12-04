@@ -6,17 +6,17 @@ export const TopStoresColumn: ColumnDef<Task>[] = [
   {
     accessorKey: "title",
     header: "Product Name",
-    cell: ({ row }) => <span>{row.getValue("title")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("title")}</span>,
   },
   {
     accessorKey: "amount",
     header: "Orders",
-    cell: ({ row }) => <span>{row.getValue("amount")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("amount")}</span>,
   },
   {
     accessorKey: "amount",
     header: "Total sales(₹)",
-    cell: ({ row }) => <span>{row.getValue("amount")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("amount")}</span>,
   },
  
   // {

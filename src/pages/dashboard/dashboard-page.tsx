@@ -9,9 +9,8 @@ import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-col
 import { TopProductsColumn } from "@/components/tasks/table_columns/top-products-column";
 import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 
-type Props = {};
 
-export default function DashboardPage({}: Props) {
+export default function DashboardPage() {
   const [tasks, setTasks] = useState<z.infer<typeof taskSchema>[]>([]);
   const [loading, setLoading] = useState(true);
 

@@ -51,7 +51,7 @@ export default function NavAppBar({
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })<AppBarProps>(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer - 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -92,7 +92,7 @@ export default function NavAppBar({
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ marginRight: 5, ...(open && { display: "none" }) }}
+            sx={{ marginRight: 5, marginLeft:5, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>

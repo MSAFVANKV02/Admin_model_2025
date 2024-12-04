@@ -9,19 +9,19 @@ export const kycColumn: ColumnDef<Task>[] = [
   {
     accessorKey: "businessName",
     header: "Business Name",
-    cell: ({ row }) => <span>{row.getValue("businessName")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("businessName")}</span>,
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({ row }) => <span>{row.getValue("email")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("email")}</span>,
   },
   {
     accessorKey: "mobile",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mobile" />
     ),
-    cell: ({ row }) => <span>{row.getValue("mobile")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("mobile")}</span>,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
@@ -43,7 +43,7 @@ export const kycColumn: ColumnDef<Task>[] = [
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
-          <span>{status.label}</span>
+          <span className="span">{status.label}</span>
         </div>
       );
     },

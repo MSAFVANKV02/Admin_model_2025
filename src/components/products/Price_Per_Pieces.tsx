@@ -53,7 +53,7 @@ export default function PricePerPieces({
         {pricePerPieces.map((field, index) => (
           <div key={field._id} className="flex items-center gap-4 mb-2">
             <div className=" flex flex-col items-center">
-            {index === 0 && <span>min</span>}
+            {index === 0 && <span className="span">min</span>}
             
               <Input
                 type="number"
@@ -67,7 +67,7 @@ export default function PricePerPieces({
             </div>
             <span className="pt-3">-</span>
             <div className=" flex flex-col items-center">
-            {index === 0 && <span>max</span>}
+            {index === 0 && <span className="span">max</span>}
               <Input
                 type="number"
                 className="w-[60px]"

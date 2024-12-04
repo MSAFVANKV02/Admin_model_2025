@@ -168,7 +168,7 @@ export default function GeneralSectionPage({
               <ErrorMessage
                 name="width"
                 component="span"
-                className="text-red-500"
+                className="text-red-500 text-xs"
               />
             </div>
 
@@ -186,7 +186,7 @@ export default function GeneralSectionPage({
               <ErrorMessage
                 name="height"
                 component="span"
-                className="text-red-500"
+                className="text-red-500 text-xs"
               />
             </div>
 
@@ -203,7 +203,7 @@ export default function GeneralSectionPage({
               <ErrorMessage
                 name="length"
                 component="span"
-                className="text-red-500"
+                className="text-red-500 text-xs"
               />
             </div>
           </div>
@@ -247,7 +247,7 @@ export default function GeneralSectionPage({
                <ErrorMessage
             name="taxSlab"
             component="span"
-            className="text-red-500"
+            className="text-red-500 text-xs"
           />
           </div>
        
@@ -293,7 +293,7 @@ export default function GeneralSectionPage({
               <ErrorMessage
                 name="cess"
                 component="span"
-                className="text-red-500"
+                className="text-red-500 text-xs"
               />
             </div>
           </div>
@@ -376,7 +376,7 @@ export function FormFieldGenal({
           as={fieldAs}
           value={value} // Bind field value to Formik
         />
-        <ErrorMessage name={name} component="span" className="text-red-500" />
+        <ErrorMessage name={name} component="span" className="text-red-500 text-xs" />
       </div>
     </div>
   );

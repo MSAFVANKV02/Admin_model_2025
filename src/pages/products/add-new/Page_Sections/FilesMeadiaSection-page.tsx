@@ -320,7 +320,7 @@ export default function FilesMediaSectionPage({
       
         {values.variations.length > 0 && (
           <div className="flex flex-col">
-            <span>Selected Product Images</span>
+            <span className="span">Selected Product Images</span>
             <div
               onClick={() => setIsOpen(true)}
               className="grid grid-cols-4 gap-2 mt-3"
@@ -450,7 +450,7 @@ export function FormFieldGenal({
             >
               Brows
             </span>
-            <span>Choose File</span>
+            <span className="span">Choose File</span>
           </Label>
           {values.length > 0 && (
             <span className={`rounded-full`}>
@@ -463,12 +463,12 @@ export function FormFieldGenal({
             </span>
           )}
         </div>
-        <ErrorMessage name={name} component="span" className="text-red-500" />
+        <ErrorMessage name={name} component="span" className="text-red-500 text-xs" />
         {name === "variations" ? (
           <>
             {values.length > 0 && (
               <div className="flex flex-col">
-                <span>Selected Product Images</span>
+                <span className="span">Selected Product Images</span>
                 <div
                   onClick={() => {
                     if (setIsOpen) {
@@ -543,7 +543,7 @@ export function SelectedImages({
     <>
       {value.length > 0 && (
         <div className={cn("", className)}>
-          <span>{title}</span>
+          <span className="span">{title}</span>
           <div className="grid grid-cols-3 w-[200px] gap-2">
             {value?.map((image: any, index: number) => (
               <div className="" key={index}>

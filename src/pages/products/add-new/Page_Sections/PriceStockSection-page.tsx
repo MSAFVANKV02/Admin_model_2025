@@ -98,7 +98,7 @@ export default function PriceStockSectionPage({
             <ErrorMessage
               name="pricePerPieces"
               component="span"
-              className="text-red-500"
+              className="text-red-500 text-xs"
             />
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function PriceStockSectionPage({
             <ErrorMessage
               name="store"
               component="span"
-              className="text-red-500"
+              className="text-red-500 text-xs"
             />
           </div>
         </div>
@@ -230,7 +230,7 @@ export function FormFieldGenal({
           as={fieldAs}
           value={value} // Bind field value to Formik
         />
-        <ErrorMessage name={name} component="span" className="text-red-500" />
+        <ErrorMessage name={name} component="span" className="text-red-500 text-xs" />
       </div>
     </div>
   );

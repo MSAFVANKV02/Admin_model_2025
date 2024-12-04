@@ -134,8 +134,8 @@ export default function MiniDrawer() {
           <Outlet />
         </Box>
       </Box>
-      <div className="h-10 bg-black w-full flex justify-center items-center">
-      <span className="select-none">© 2024 HAASH INDIA EXPORTS PVT LTD</span>
+      <div className="h-10 bg-white border-t text-gray-400 text-xs w-full flex justify-end items-center px-3">
+      <span className="select-none text-xs">Copyright 2024 All Rights Are Reserved | © Ayaboo by Haash.Tech</span>
       </div>
     </div>
   );

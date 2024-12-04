@@ -63,10 +63,10 @@ export default function NotificationBarSheet() {
               </div>
               <div className="flex flex-col text-start">
                 <h3>{item.title}</h3>
-                <span>{item.description}</span>
+                <span className="span">{item.description}</span>
               </div>
               <div className="ml-auto cursor-pointer">
-                <span className="capitalize text-textMain">Mark as Read</span>
+                <span className="capitalize text-textMain text-sm">Mark as Read</span>
               </div>
             </div>
           ))}

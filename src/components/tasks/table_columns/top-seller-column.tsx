@@ -6,12 +6,12 @@ export const TopSellerColumn: ColumnDef<Task>[] = [
   {
     accessorKey: "title",
     header: "Seller Name",
-    cell: ({ row }) => <span>{row.getValue("title")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("title")}</span>,
   },
   {
     accessorKey: "email",
     header: "Sales quantity",
-    cell: ({ row }) => <span>{row.getValue("email")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("email")}</span>,
   },
  
   // {

@@ -5,12 +5,12 @@ export const TopProductsColumn: ColumnDef<Task>[] = [
   {
     accessorKey: "title",
     header: "Product Name",
-    cell: ({ row }) => <span>{row.getValue("title")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("title")}</span>,
   },
   {
     accessorKey: "email",
     header: "Sales Qty",
-    cell: ({ row }) => <span>{row.getValue("email")}</span>,
+    cell: ({ row }) => <span className="span">{row.getValue("email")}</span>,
   },
  
   // {

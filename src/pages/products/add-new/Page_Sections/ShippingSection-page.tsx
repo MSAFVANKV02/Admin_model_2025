@@ -1,40 +1,103 @@
 import { MySwitch } from "@/components/myUi/mySwitch";
 import { Label } from "@/components/ui/label";
 import { IProducts } from "@/types/productType";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
   setFieldValue: any;
   values: IProducts;
   errors: any;
+  sectionRefs: {
+    general: React.RefObject<HTMLDivElement>;
+    "files-media": React.RefObject<HTMLDivElement>;
+    "price-stock": React.RefObject<HTMLDivElement>;
+    shipping: React.RefObject<HTMLDivElement>;
+  };
 };
 
 export default function ShippingSectionPage({
   values,
   setFieldValue,
   errors,
+  sectionRefs
 }: Props) {
-  console.log(errors, "shipping");
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  
+
+
+  const errorToPage = {
+    productName: "general",
+    mrp: "general",
+    sku: "general",
+    barcode: "general",
+    brand: "general",
+    keywords: "general",
+    minQty: "general",
+    weight: "general",
+    height: "general",
+    length: "general",
+    width: "general",
+    taxSlab: "general",
+    status: "general",
+    description: "general",
+    isCess: "general",
+    cess: "general",
+    galleryImages: "files-media",
+    thumbnails: "files-media",
+    variations: "files-media",
+    sizeImages: "files-media",
+    basePrice: "price-stock",
+    samplePrice: "price-stock",
+    discount: "price-stock",
+    discountType: "price-stock",
+    pricePerPieces: "price-stock",
+    selectWise: "price-stock",
+    store: "price-stock",
+    shipping: "shipping",
+  } as const;
+
+  // Filter errors to get unresolved errors
+  const unresolvedErrors = Object.keys(errors).filter((key): key is keyof typeof errorToPage =>
+    key in errorToPage && !["cod", "freeShipping"].includes(key)
+  );
+
+  // Utility function to navigate to the error page
+  // const navigateToErrorPage = (errorKey: keyof typeof errorToPage) => {
+  //   const step = errorToPage[errorKey];
+  //   if (step) {
+  //     navigate(`${pathname}?q=${step}`);
+  //   }
+  // };
+  const handleScrollToField = (errorKey: keyof typeof errorToPage) => {
+    const step = errorToPage[errorKey]; // Get the step for the error
+    if (step && sectionRefs[step]?.current) {
+      sectionRefs[step].current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    navigate(`${pathname}?q=${step}`); // Update the query parameter
+  };
+  
 
   return (
-    <div className=" xl:h-[60vh] md:h-[55vh] sm:h-[40vh] h-[50vh]">
-      <div className="flex flex-col gap-4 lg:w-[30%] ">
+    <div className="xl:min-h-[60vh] md:min-h-[55vh] sm:min-h-[40vh] min-h-[50vh]">
+      <div className="flex flex-col gap-4 lg:w-[30%]">
         <div className="flex items-center justify-between">
           <Label htmlFor="cod" className="text-textGray">
             COD
           </Label>
           <MySwitch
-            id="code"
+            id="cod"
             isOn={values.cod}
             handleToggle={() => {
               setFieldValue("cod", !values.cod);
             }}
           />
         </div>
-      {/* free shipping */}
-
+        {/* free shipping */}
         <div className="flex items-center justify-between">
           <Label htmlFor="freeShipping" className="text-textGray">
-            COD
+            Free Shipping
           </Label>
           <MySwitch
             id="freeShipping"
@@ -44,9 +107,27 @@ export default function ShippingSectionPage({
             }}
           />
         </div>
+      </div>
 
-        {/* error */}
-        {errors && <span className="text-red-500">Please Fill All Mandatory Fields</span>}
+      {/* Error Display */}
+      <div className="flex flex-col mt-5 items-center">
+        {unresolvedErrors.length > 0 && (
+          <div className="bg-red-100 text-red-600 p-4 text-sm rounded-md w-fit">
+            <p className="font-bold">Unresolved Issues:</p>
+            <p>Please resolve these errors in the corresponding steps.</p>
+            <ul className="list-disc pl-6 space-y-1 mt-1">
+              {unresolvedErrors.map((key) => (
+                <li
+                  key={key}
+                  onClick={() => handleScrollToField(key)}
+                  className="cursor-pointer underline text-red-600"
+                >
+                  {errors[key]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import ProductLayout, {
   ProductFooter,
   ProductHeader,
 } from "./product-layout";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,8 +13,8 @@ import FilesMediaSectionPage from "./Page_Sections/FilesMeadiaSection-page";
 import PriceStockSectionPage from "./Page_Sections/PriceStockSection-page";
 import ShippingSectionPage from "./Page_Sections/ShippingSection-page";
 import { Form, Formik } from "formik";
-import { GeneralInitialValues } from "./initialValues";
-import {  getValidationSchema } from "./ProductSchema";
+import { InitialValues } from "./initialValues";
+import { getValidationSchema } from "./ProductSchema";
 
 import AddProductsNavbar from "@/components/products/Add_Products_TaskBar";
 
@@ -33,6 +33,12 @@ export default function ProductAddPage() {
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
 
   //   ====== formik =========================
+  const sectionRefs = {
+    general: useRef<HTMLDivElement>(null),
+    "files-media": useRef<HTMLDivElement>(null),
+    "price-stock": useRef<HTMLDivElement>(null),
+    shipping: useRef<HTMLDivElement>(null),
+  };
 
   useEffect(() => {
     const currentPath = searchParams.get("q") || "general";
@@ -75,32 +81,45 @@ export default function ProductAddPage() {
     switch (selectedPage || "general") {
       case "general":
         return (
-          <GeneralSection
-            setFieldValue={setFieldValue}
-            values={values}
-            errors={errors}
-          />
+          <div className="" ref={sectionRefs.general}>
+            <GeneralSection
+              setFieldValue={setFieldValue}
+              values={values}
+              errors={errors}
+            />
+          </div>
         );
       case "files-media":
         return (
-          <FilesMediaSectionPage
+          <div ref={sectionRefs["files-media"]}>
+            <FilesMediaSectionPage
+              setFieldValue={setFieldValue}
+              values={values}
+              errors={errors}
+            />
+          </div>
+        );
+      case "price-stock":
+        return (
+          <div ref={sectionRefs["price-stock"]}>
+            <PriceStockSectionPage
+              setFieldValue={setFieldValue}
+              values={values}
+              errors={errors}
+            />
+          </div>
+        );
+      case "shipping":
+        return (
+          <div ref={sectionRefs.shipping}>
+          <ShippingSectionPage
             setFieldValue={setFieldValue}
             values={values}
             errors={errors}
+            sectionRefs={sectionRefs} 
           />
+        </div>
         );
-      case "price-stock":
-        return <PriceStockSectionPage 
-        setFieldValue={setFieldValue}
-        values={values}
-        errors={errors}
-        />;
-      case "shipping":
-        return <ShippingSectionPage
-        setFieldValue={setFieldValue}
-        values={values}
-        errors={errors}
-        />;
       default:
         return null;
     }
@@ -112,14 +131,14 @@ export default function ProductAddPage() {
   return (
     <ProductLayout>
       <Formik
-        initialValues={GeneralInitialValues}
+        initialValues={InitialValues}
         validationSchema={getValidationSchema(currentStep)}
         enableReinitialize={true}
         onSubmit={(values) => {
           console.log("submit", values);
-          // if (currentStep !== 4) {
-          //   return handleNextStep();
-          // }
+          if (currentStep !== 4) {
+            return handleNextStep();
+          }
         }}
       >
         {({ values, setFieldValue, errors }) => (

@@ -22,7 +22,15 @@ export const GeneralSchema = Yup.object({
   length: Yup.string().required("Length is required"),
   width: Yup.string().required("Width is required"),
 
-  taxSlab: Yup.array().required("Must Add A Value in Tax slab is required"),
+  taxSlab: Yup.array()
+  .of(
+    Yup.object().shape({
+      _id: Yup.string().required("ID is required"),
+      name: Yup.string().required("Name is required"),
+    })
+  )
+  .min(1, "At least one tax slab must be selected"),
+
   status: Yup.boolean().default(false),
   //   todaysDeal: Yup.boolean().default(false),
   //   featured: Yup.boolean().default(false),

@@ -1,4 +1,4 @@
-export const GeneralInitialValues = {
+export const InitialValues = {
     productName: '',
     mrp: 0,
     sku: '',

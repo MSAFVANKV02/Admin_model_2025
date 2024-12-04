@@ -33,7 +33,7 @@ export default function FilesMediaSectionPage({
   setFieldValue,
   values,
 }: Props) {
-  console.log(values, "values");
+  // console.log(values, "values");
   const { setIsOpen } = useModal();
   const [localProductImages, setProductLocalImages] = useState<
     { image: File; colorCode: string; colorName: string }[]

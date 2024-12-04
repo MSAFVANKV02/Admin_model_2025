@@ -54,8 +54,7 @@ interface SelectOption {
 export default function GeneralSectionPage({
   values,
   setFieldValue,
-  errors,
-  
+  // errors,
 }: Props) {
   const [selectedCessOptions, setSelectedCessOptions] = useState<
     MultiValue<SelectOption>
@@ -65,6 +64,8 @@ export default function GeneralSectionPage({
   >(values.taxSlab || []);
 
   // console.log(errors, "errors");
+  // console.log(values, "values");
+
 
   return (
     <Box display="flex" gap="13px">
@@ -150,7 +151,9 @@ export default function GeneralSectionPage({
 
         {/* #Dimension ==== */}
         <div className={cn("flex items-center justify-between")}>
-          <Label htmlFor="dimension" className="text-textGray">Dimension</Label>
+          <Label htmlFor="dimension" className="text-textGray">
+            Dimension
+          </Label>
           <div className="flex  md:w-3/4 gap-2">
             <div className="w-full">
               <Field
@@ -217,11 +220,14 @@ export default function GeneralSectionPage({
 
         <b>Tax details</b>
         <div className="flex justify-between w-full mb-10">
-          <Label htmlFor="taxSlab" className="text-textGray">Tax Slab</Label>
-          <div className="w-3/4">
+          <Label htmlFor="taxSlab" className="text-textGray">
+            Tax Slab
+          </Label>
+          <div className="w-3/4 flex flex-col gap-1">
             <Select
               isMulti
               components={animatedComponents}
+              name="taxSlab"
               className=""
               styles={customStyles}
               value={selectedTaxSlab}
@@ -238,15 +244,20 @@ export default function GeneralSectionPage({
                 setFieldValue("taxSlab", selectedOptions);
               }}
             />
+               <ErrorMessage
+            name="taxSlab"
+            component="span"
+            className="text-red-500"
+          />
           </div>
-          {
-            errors.taxSlab && <span className="text-red-500">{errors.taxSlab}</span>
-          }
+       
         </div>
 
         {/* #Cess ========== */}
         <div className="flex justify-between w-full mb-10">
-          <Label htmlFor="cess" className="text-textGray">CESS</Label>
+          <Label htmlFor="cess" className="text-textGray">
+            CESS
+          </Label>
           <div className="w-3/4 flex ">
             <MySwitch
               id="cess"
@@ -291,7 +302,9 @@ export default function GeneralSectionPage({
         {/* #status toggle ========= */}
         <b>Status</b>
         <div className="flex justify-between">
-          <Label htmlFor="featured" className="text-textGray">Featured</Label>
+          <Label htmlFor="featured" className="text-textGray">
+            Featured
+          </Label>
           <div className="flex items-center justify-start w-3/4 gap-2">
             <MySwitch
               id="featured"
@@ -302,15 +315,18 @@ export default function GeneralSectionPage({
         </div>
         {/* #todays Deal============= */}
         <div className="flex justify-between">
-          <Label htmlFor="todaysDeal" className="text-textGray">Todays Deal</Label>
+          <Label htmlFor="todaysDeal" className="text-textGray">
+            Todays Deal
+          </Label>
           <div className="flex items-center justify-start w-3/4 gap-2">
             <MySwitch
               id="todaysDeal"
               isOn={values.todaysDeal}
-              handleToggle={() => setFieldValue("todaysDeal",!values.todaysDeal)}
+              handleToggle={() =>
+                setFieldValue("todaysDeal", !values.todaysDeal)
+              }
             />
-            </div>
-  
+          </div>
         </div>
       </div>
 
@@ -347,7 +363,9 @@ export function FormFieldGenal({
 }: FormFieldGenalProps) {
   return (
     <div className={cn("flex items-center justify-between", className)}>
-      <Label htmlFor={name} className="text-textGray">{title}</Label>
+      <Label htmlFor={name} className="text-textGray">
+        {title}
+      </Label>
       <div className="flex flex-col md:w-3/4 gap-2">
         <Field
           id={id}

@@ -9,27 +9,33 @@ import makeAnimated from "react-select/animated";
 import { MySwitch } from "@/components/myUi/mySwitch";
 import { useState } from "react";
 import { customStyles } from "@/components/products/Custom_styles";
+import { IProductDimensions, ITaxDetails } from "@/types/productType";
 // Define the type for form values
 export interface GeneralFormValues {
-  productName: string;
+  product_name: string;
   mrp: number;
-  sku: string;
+  product_sku: string;
   barcode?: string;
   brand?: string;
   keywords?: string;
-  minQty: number;
-  weight?: number;
-  height?: number;
-  length?: number;
-  width?: number;
+  minimum_quantity: number;
+  product_weight?: number;
+
+  // height?: number;
+  // length?: number;
+  // width?: number;
+  product_dimensions: IProductDimensions;
+
   dimensions?: string;
-  taxSlab?: SelectOption[];
+  tax_details:ITaxDetails;
+  // taxSlab?: SelectOption[];
+  // isCess: boolean;
+  // cess?: SelectOption[];
   status: boolean;
-  todaysDeal: boolean;
+  is_todays_deal: boolean;
   description?: string;
-  isCess: boolean;
-  cess?: SelectOption[];
-  featured: boolean;
+  
+  is_featured_product: boolean;
 }
 
 //   ==== formik =========================
@@ -56,12 +62,20 @@ export default function GeneralSectionPage({
   setFieldValue,
   // errors,
 }: Props) {
-  const [selectedCessOptions, setSelectedCessOptions] = useState<
-    MultiValue<SelectOption>
-  >(values.cess || []);
-  const [selectedTaxSlab, setSelectedTaxSlab] = useState<
-    MultiValue<SelectOption>
-  >(values.taxSlab || []);
+  // const [selectedCessOptions, setSelectedCessOptions] = useState<
+  //   MultiValue<SelectOption>
+  // >(values.cess || []);
+  // const [selectedTaxSlab, setSelectedTaxSlab] = useState<
+  //   MultiValue<SelectOption>
+  // >(values.taxSlab || []);
+
+  // =========================================
+//   const [selectedCessOptions, setSelectedCessOptions] = useState<
+//   MultiValue<SelectOption>
+// >(values.tax_details.cess || []);
+const [selectedTaxSlab, setSelectedTaxSlab] = useState<
+  MultiValue<SelectOption>
+>(values.tax_details.taxSlab || []);
 
   // console.log(errors, "errors");
   // console.log(values, "values");
@@ -71,20 +85,20 @@ export default function GeneralSectionPage({
     <Box display="flex" gap="13px">
       <div className="w-3/4 flex flex-col gap-3">
         <FormFieldGenal
-          value={values.productName}
+          value={values.product_name}
           title="Product Name"
-          id="productName"
-          name="productName"
+          id="product_name"
+          name="product_name"
           placeholder="Enter Product Name"
           fieldAs={Input}
         />
 
         {/* #sku ==== */}
         <FormFieldGenal
-          value={values.sku}
+          value={values.product_sku}
           title="SKU id"
-          id="sku"
-          name="sku"
+          id="product_sku"
+          name="product_sku"
           placeholder="SKU ID"
           fieldAs={Input}
         />
@@ -129,23 +143,23 @@ export default function GeneralSectionPage({
           fieldAs={Input}
         />
 
-        {/* #minQty ==== */}
+        {/* #minimum_quantity ==== */}
         <FormFieldGenal
-          value={values.minQty}
+          value={values.minimum_quantity}
           title="Minimum Qty*"
-          id="minQty"
-          name="minQty"
+          id="minimum_quantity"
+          name="minimum_quantity"
           placeholder="Quantity"
           fieldAs={Input}
         />
 
-        {/* #weight ==== */}
+        {/* #product_weight ==== */}
         <FormFieldGenal
-          value={values.weight}
-          title="Product weight in gm"
-          id="weight"
-          name="weight"
-          placeholder="weight"
+          value={values.product_weight}
+          title="Product product_weight in gm"
+          id="product_weight"
+          name="product_weight"
+          placeholder="product_weight"
           fieldAs={Input}
         />
 
@@ -157,16 +171,16 @@ export default function GeneralSectionPage({
           <div className="flex  md:w-3/4 gap-2">
             <div className="w-full">
               <Field
-                id="width"
-                name="width"
+                id="product_dimensions.product_width"
+                name="product_dimensions.product_width"
                 placeholder="width"
                 type="number"
                 className={cn(` p-6`)}
                 as={Input}
-                value={values.width} // Bind field value to Formik
+                value={values.product_dimensions.product_width} // Bind field value to Formik
               />
               <ErrorMessage
-                name="width"
+                name="product_dimensions.product_width"
                 component="span"
                 className="text-red-500 text-xs"
               />
@@ -175,16 +189,16 @@ export default function GeneralSectionPage({
             {/* #Height */}
             <div className="w-full">
               <Field
-                id="height"
-                name="height"
+                id="product_dimensions.product_height"
+                name="product_dimensions.product_height"
                 placeholder="Height"
                 type="number"
                 className={cn(` p-6`)}
                 as={Input}
-                value={values.height} // Bind field value to Formik
+                value={values.product_dimensions.product_height} // Bind field value to Formik
               />
               <ErrorMessage
-                name="height"
+                name="product_dimensions.product_height"
                 component="span"
                 className="text-red-500 text-xs"
               />
@@ -193,15 +207,15 @@ export default function GeneralSectionPage({
             {/* #Height */}
             <div className="w-full">
               <Field
-                id="length"
-                name="length"
-                placeholder="length"
+                id="product_dimensions.product_length"
+                name="product_dimensions.product_length"
+                placeholder="product_length"
                 className={cn(` p-6`)}
                 as={Input}
-                value={values.length} // Bind field value to Formik
+                value={values.product_dimensions.product_length} // Bind field value to Formik
               />
               <ErrorMessage
-                name="length"
+                name="product_dimensions.product_length"
                 component="span"
                 className="text-red-500 text-xs"
               />
@@ -220,14 +234,14 @@ export default function GeneralSectionPage({
 
         <b>Tax details</b>
         <div className="flex justify-between w-full mb-10">
-          <Label htmlFor="taxSlab" className="text-textGray">
+          <Label htmlFor="tax_details.taxSlab" className="text-textGray">
             Tax Slab
           </Label>
           <div className="w-3/4 flex flex-col gap-1">
             <Select
               isMulti
               components={animatedComponents}
-              name="taxSlab"
+              name="tax_details.taxSlab"
               className=""
               styles={customStyles}
               value={selectedTaxSlab}
@@ -241,11 +255,11 @@ export default function GeneralSectionPage({
                 const selectedOptions = selected.map((option) => option);
                 setSelectedTaxSlab(selectedOptions);
 
-                setFieldValue("taxSlab", selectedOptions);
+                setFieldValue("tax_details.taxSlab", selectedOptions);
               }}
             />
                <ErrorMessage
-            name="taxSlab"
+            name="tax_details.taxSlab"
             component="span"
             className="text-red-500 text-xs"
           />
@@ -255,26 +269,36 @@ export default function GeneralSectionPage({
 
         {/* #Cess ========== */}
         <div className="flex justify-between w-full mb-10">
-          <Label htmlFor="cess" className="text-textGray">
+          <Label htmlFor="tax_details.cess" className="text-textGray">
             CESS
           </Label>
           <div className="w-3/4 flex ">
             <MySwitch
-              id="cess"
-              isOn={values.isCess}
+              id="tax_details.cess"
+              isOn={values.tax_details.isCess}
               handleToggle={() => {
-                setFieldValue("isCess", !values.isCess);
-                if (!values.isCess) setFieldValue("cess", []);
+                setFieldValue("tax_details.isCess", !values.tax_details.isCess);
+                if (!values.tax_details.isCess) setFieldValue("values.tax_details.cess", []);
               }}
             />
             <div className="w-full">
-              <Select
+            <Field
+                id="tax_details.cess"
+                name="tax_details.cess"
+                placeholder="product_length"
+                className={cn(` p-6 ml-3`)}
+                type="number"
+                as={Input}
+                value={values.tax_details.cess} // Bind field value to Formik
+              />
+             
+              {/* <Select
                 isMulti
                 components={animatedComponents}
                 className="w-full pl-3"
                 styles={customStyles}
-                placeholder="Select tax slab"
-                isDisabled={!values.isCess}
+                placeholder="Select Cess"
+                isDisabled={!values.tax_details.isCess}
                 value={selectedCessOptions}
                 closeMenuOnSelect={false}
                 options={taxSlabs}
@@ -287,11 +311,11 @@ export default function GeneralSectionPage({
                   const selectedOptions = selected.map((option) => option);
                   setSelectedCessOptions(selectedOptions);
 
-                  setFieldValue("cess", selectedOptions); // Save only the names
+                  setFieldValue("tax_details.cess", selectedOptions); // Save only the names
                 }}
-              />
+              /> */}
               <ErrorMessage
-                name="cess"
+                name="tax_details.cess"
                 component="span"
                 className="text-red-500 text-xs"
               />
@@ -302,28 +326,28 @@ export default function GeneralSectionPage({
         {/* #status toggle ========= */}
         <b>Status</b>
         <div className="flex justify-between">
-          <Label htmlFor="featured" className="text-textGray">
-            Featured
+          <Label htmlFor="is_featured_product" className="text-textGray">
+            is_featured_product
           </Label>
           <div className="flex items-center justify-start w-3/4 gap-2">
             <MySwitch
-              id="featured"
-              isOn={values.featured}
-              handleToggle={() => setFieldValue("featured", !values.featured)}
+              id="is_featured_product"
+              isOn={values.is_featured_product}
+              handleToggle={() => setFieldValue("is_featured_product", !values.is_featured_product)}
             />
           </div>
         </div>
         {/* #todays Deal============= */}
         <div className="flex justify-between">
-          <Label htmlFor="todaysDeal" className="text-textGray">
+          <Label htmlFor="is_todays_deal" className="text-textGray">
             Todays Deal
           </Label>
           <div className="flex items-center justify-start w-3/4 gap-2">
             <MySwitch
-              id="todaysDeal"
-              isOn={values.todaysDeal}
+              id="is_todays_deal"
+              isOn={values.is_todays_deal}
               handleToggle={() =>
-                setFieldValue("todaysDeal", !values.todaysDeal)
+                setFieldValue("is_todays_deal", !values.is_todays_deal)
               }
             />
           </div>

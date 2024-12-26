@@ -11,7 +11,7 @@ import AllProductsActionModal from "../table_actions/All_Products_Action_Modal";
 
 export const ProductTableColumns: ColumnDef<IProducts>[] = [
   {
-    accessorKey: "productName",
+    accessorKey: "product_name",
 
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Product" />
@@ -30,25 +30,28 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
       return (
         <div className="flex items-start gap-4">
           <img
-            src={`${product.galleryImages[0]}`}
-            alt={product.productName}
+            src={`${product.gallery_image[0]}`}
+            alt={product.product_name}
             width={50}
             height={50}
             className="object-cover rounded text-xs"
           />
           <div>
-            <div className="font-semibold">{product.productName}</div>
+            <div className="font-semibold">{product.product_name}</div>
             <div className="text-xs text-gray-500">
               <b>Brand:</b> {product.brand || "N/A"}
             </div>
             <div className="text-xs text-gray-500">
-              <b>Weight:</b> {product.weight} gm
+              <b>product_weight:</b> {product.product_weight} gm
             </div>
             <div className="text-xs text-gray-500">
-              <b>Min. Order:</b> {product.minQty} pieces
+              <b>Min. Order:</b> {product.minimum_quantity} pieces
             </div>
             <div className="text-xs text-gray-500">
               <b>Sizes:</b> {allSizes}
+            </div>
+            <div className="text-xs text-gray-500">
+              <b>Added By:</b> {product.product_owner}{" "}
             </div>
             <div className="text-xs text-gray-500">
               <b>Colors:</b> {allColors}
@@ -120,19 +123,19 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     },
   },
   {
-    accessorKey: "sellingPrice",
+    accessorKey: "selling_price",
     // header: "Selling Price",
     header: () => <div className="font-bold text-black">Selling Price</div>,
     cell: ({ row }) => {
-      return <span>${row.original.basePrice}</span>;
+      return <span>${row.original.base_price}</span>;
     },
   },
   {
-    accessorKey: "pricePerPieces",
+    accessorKey: "price_per_pieces",
     // header: "Price / Pieces",
     header: () => <div className="font-bold text-black">Piece / Pieces</div>,
     cell: ({ row }) => {
-      const prices = row.original.pricePerPieces;
+      const prices = row.original.price_per_pieces;
       return (
         <div className="text-sm">
           {prices.map((price: any) => (
@@ -149,10 +152,10 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     },
   },
   {
-    accessorKey: "samplePrice",
+    accessorKey: "sample_price",
     // header: "Sample Price",
     header: () => <div className="font-bold text-black">Sample Price</div>,
-    cell: ({ row }) => <span>${row.original.samplePrice}</span>,
+    cell: ({ row }) => <span>${row.original.sample_price}</span>,
   },
   {
     accessorKey: "priceMRP",
@@ -161,13 +164,13 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     cell: ({ row }) => <span>${row.original.mrp}</span>,
   },
   {
-    accessorKey: "todaysDeal",
+    accessorKey: "is_todays_deal",
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Today's Deal</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.todaysDeal}
-        id="todaysDeal"
+        isOn={row.original.is_todays_deal}
+        id="is_todays_deal"
         handleToggle={() => {
           console.log("toggled");
           //  row.original.status =!row.original.status;
@@ -176,13 +179,13 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     ),
   },
   {
-    accessorKey: "published",
-    // header: "Published",
-    header: () => <div className="font-bold text-black">Published</div>,
+    accessorKey: "is_published",
+    // header: "is_published",
+    header: () => <div className="font-bold text-black">published</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.published}
-        id="published"
+        isOn={row.original.is_published}
+        id="is_published"
         handleToggle={() => {
           console.log("toggled");
           //  row.original.status =!row.original.status;
@@ -191,13 +194,13 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     ),
   },
   {
-    accessorKey: "featured",
-    // header: "Featured",
-    header: () => <div className="font-bold text-black">Featured</div>,
+    accessorKey: "is_featured_product",
+    // header: "is_featured_product",
+    header: () => <div className="font-bold text-black">featured</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.featured}
-        id="featured"
+        isOn={row.original.is_featured_product}
+        id="is_featured_product"
         handleToggle={() => {
           console.log("toggled");
           //  row.original.status =!row.original.status;

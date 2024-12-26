@@ -1,4 +1,5 @@
 import { IModalTypes } from "@/components/tasks/table_actions/data-table-action-dashboard";
+import { ICategory } from "@/types/categorytypes";
 import { IProducts } from "@/types/productType";
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 
@@ -19,6 +20,9 @@ interface ModalContextType {
   setSelectedPage: Dispatch<SetStateAction<string | null>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   selectedProducts:IProducts | null;
+  selectedCategory: ICategory | null;
+  openCategoryModal: (task: ICategory) => void;
+
 
 }
 
@@ -32,6 +36,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<null>(null);
   const [selectedProducts, setSelectedProducts] = useState<IProducts | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<ICategory | null>(null);
   const [isOfflineTable, setIsOfflineTable] = useState(false);
   const [isKycTable, setIsKycTable] = useState(false);
   const [isTopStoresTable, setIsTopStoresTable] = useState(false);
@@ -51,6 +56,10 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
 
   const openProductModal = (task: IProducts) => { // Accept a single product
     setSelectedProducts(task); // Wrap in an array
+    setIsOpen(true);
+  };
+  const openCategoryModal = (task: ICategory) => { 
+    setSelectedCategory(task); // Wrap in an array
     setIsOpen(true);
   };
 
@@ -82,7 +91,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         modalTypeDashboard,
         selectedPage,
         setSelectedPage,
-        selectedProducts
+        selectedProducts,
+        openCategoryModal,
+        selectedCategory
       }}
     >
       {children}

@@ -64,13 +64,13 @@ export default function AllProductsPage() {
         </TabsList>
 
         {/* tab .1 ===== */}
-        <TabsContent value="approved">
+        <TabsContent value="approved" className="2xl:max-w-[100%]  xl:max-w-[95%] mx-auto  max-w-[90%]">
           {/* <ApprovedProductTable columns={ProductTableColumns} data={products} /> */}
           <DataTable
             enableSearch
             columns={ProductTableColumns}
             data={products}
-            searchWith="productName"
+            searchWith="product_name"
             statuses={statuses}
             enableStatus={true}
             enableView

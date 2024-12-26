@@ -5,18 +5,18 @@ const useDownloadXl = () => {
   const downloadStockReport = (products: IProducts[]) => {
     // Prepare the stock data for export
     const stockData = products.map((product) => ({
-      ProductName: product.productName,
+      product_name: product.product_name,
       Brand: product.brand || "N/A",
-      Weight: product.weight || "N/A",
-      "Min Order": product.minQty,
+      product_weight: product.product_weight || "N/A",
+      "Min Order": product.minimum_quantity,
       Variations: product.variations
         .map((variant) => `${variant.colorName}: ${variant.details.map((detail) => `${detail.size}(${detail.stock})`).join(", ")}`)
         .join(" | "),
-      "Base Price": product.basePrice,
+      "Base Price": product.base_price,
       "Discount (%)": product.discount,
       "Price (MRP)": product.mrp,
-      "Published?": product.published ? "Yes" : "No",
-      "Featured?": product.featured ? "Yes" : "No",
+      "is_published?": product.is_published ? "Yes" : "No",
+      "is_featured_product?": product.is_featured_product ? "Yes" : "No",
     }));
 
     // Create a new workbook and add the stock data

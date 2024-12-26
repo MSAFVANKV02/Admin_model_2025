@@ -13,6 +13,7 @@ ProductsLayout,
 } from "@/layouts/Sidbar_Layout";
 import ProductAddPage from "@/pages/products/add-new/product-add-page";
 import AllProductsPage from "@/pages/products/all/All-Products-page";
+import CategoryPage from "@/pages/products/category/category-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ const rootRouter = createBrowserRouter([
         children: [
           { path: "add-new", element: <ProductAddPage /> },
           { path: "all", element: <AllProductsPage /> },
-          { path: "category", element: <div>Category Page</div> },
+          { path: "category", element: <CategoryPage /> },
           { path: "brand", element: <div>Brand Page</div> },
           { path: "reviews", element: <div>Product Reviews Page</div> },
           { path: "colors", element: <div>Colors Page</div> },

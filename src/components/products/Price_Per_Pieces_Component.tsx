@@ -9,7 +9,7 @@ type Props = {
   setFieldValue: (field: string, value: any) => void;
 };
 
-export default function PricePerPieces({
+export default function PricePerPiecesComponent({
   pricePerPieces,
   setFieldValue,
 }: Props) {
@@ -20,7 +20,7 @@ export default function PricePerPieces({
       max_Piece: 0,
       discount: 0,
     };
-    setFieldValue("pricePerPieces", [...pricePerPieces, newField]);
+    setFieldValue("price_per_pieces", [...pricePerPieces, newField]);
   };
 
   const handleRemoveField = (id: string) => {
@@ -29,7 +29,7 @@ export default function PricePerPieces({
       return;
     }
     const updatedFields = pricePerPieces.filter((item) => item._id !== id);
-    setFieldValue("pricePerPieces", updatedFields);
+    setFieldValue("price_per_pieces", updatedFields);
   };
 
   const handleChange = (
@@ -40,7 +40,7 @@ export default function PricePerPieces({
     const updatedFields = pricePerPieces.map((item) =>
       item._id === id ? { ...item, [field]: value } : item
     );
-    setFieldValue("pricePerPieces", updatedFields);
+    setFieldValue("price_per_pieces", updatedFields);
   };
 
   return (

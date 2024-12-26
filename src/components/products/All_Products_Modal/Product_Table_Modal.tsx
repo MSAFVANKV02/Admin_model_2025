@@ -7,9 +7,12 @@ type Props = {
   setFieldValue: (field: string, value: any) => void;
 };
 
-export default function ProductTableModalData({ values, setFieldValue }: Props) {
+export default function ProductTableModalData({
+  values,
+  setFieldValue,
+}: Props) {
   return (
-    <div className="lg:w-[86%] overflow-x-auto">
+    <div className=" overflow-x-auto">
       <table className="table-auto w-full ">
         <thead>
           <tr className="">
@@ -45,18 +48,19 @@ export default function ProductTableModalData({ values, setFieldValue }: Props) 
                       rowSpan={variation.details?.length || 1}
                     >
                       <div className="flex items-center gap-2">
-                        {variation.image && typeof variation.image === "string" ? (
+                        {variation.image &&
+                        typeof variation.image === "string" ? (
                           <img
                             src={""}
                             alt="Variant"
                             className="w-7 h-7 object-cover rounded-sm"
                           />
-                        ):(
+                        ) : (
                           <img
-                          src={URL.createObjectURL(variation.image)??""}
-                          alt="Variant"
-                          className="w-7 h-7 object-cover rounded-sm"
-                        />
+                            src={URL.createObjectURL(variation.image) ?? ""}
+                            alt="Variant"
+                            className="w-7 h-7 object-cover rounded-sm"
+                          />
                         )}
                         <div
                           className="w-5 h-5 rounded-full"
@@ -115,10 +119,10 @@ export default function ProductTableModalData({ values, setFieldValue }: Props) 
                         type="number"
                         min="0"
                         className="w-full border rounded px-2 text-center py-2"
-                        value={variant.bundleQuantity || 0}
+                        value={variant.bundle_quantity || 0}
                         onChange={(e) =>
                           setFieldValue(
-                            `variations[${vIndex}].details[${index}].bundleQuantity`,
+                            `variations[${vIndex}].details[${index}].bundle_quantity`,
                             parseFloat(e.target.value) || 0
                           )
                         }
@@ -132,10 +136,10 @@ export default function ProductTableModalData({ values, setFieldValue }: Props) 
                       type="number"
                       min="0"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={variant.sellingPrice || 0}
+                      value={variant.selling_price || 0}
                       onChange={(e) =>
                         setFieldValue(
-                          `variations[${vIndex}].details[${index}].sellingPrice`,
+                          `variations[${vIndex}].details[${index}].selling_price`,
                           parseFloat(e.target.value) || 0
                         )
                       }
@@ -164,14 +168,22 @@ export default function ProductTableModalData({ values, setFieldValue }: Props) 
                       className="border px-4 py-1 text-center align-top"
                       rowSpan={variation.details?.length || 1}
                     >
+                      {/* <input type="checkbox" name={`${variation.sample}`} id={`${variation.sample}`} checked={variation.sample} onChange={()=>{
+                        setFieldValue(
+                          `variations[${vIndex}].sample`,
+                         !variation.sample
+                        );
+                      }} /> */}
                       <MySwitch
                         isOn={variation.sample}
-                        id={`sample-${vIndex}-${variation.sample}`}
+                        id={`sample-${vIndex}-${Date.now()}`}
                         handleToggle={() => {
+                          // console.log("Before Toggle:", variation.sample);
                           setFieldValue(
                             `variations[${vIndex}].sample`,
                             !variation.sample
                           );
+                          // console.log("After Toggle:", !variation.sample);
                         }}
                       />
                     </td>

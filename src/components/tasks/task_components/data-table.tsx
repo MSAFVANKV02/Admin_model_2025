@@ -37,7 +37,7 @@ interface DataTableProps<TData, TValue> {
   enableView?: boolean;
   enableSearch?: boolean;
   searchWith?: string;
-  statuses: Array<{
+  statuses?: Array<{
     value: string;
     label: string;
     icon: React.ElementType;

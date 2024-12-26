@@ -46,17 +46,17 @@ export default function ProductAddPage() {
         barcode: "",
         brand: "",
         keywords: "",
-        minQty: 1, // Minimum quantity default
-        weight: 0,
+        minimum_quantity: 1, // Minimum quantity default
+        product_weight: 0,
         dimensions: "",
         taxSlab: "",
         status: false, // Default to false for status
-        todaysDeal: false, // Default to false for today's deal
+        is_todays_deal: false, // Default to false for today's deal
         description: "",
       },
       filesMedia: { images: [] },
       priceStock: { price: 0, stock: 0 },
-      shipping: { weight: 0, dimensions: "" },
+      shipping: { product_weight: 0, dimensions: "" },
     },
     mode: "onChange",
   });

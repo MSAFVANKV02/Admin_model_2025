@@ -68,7 +68,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
   //         size: size.name,
   //         stock: 0,
   //         discount: 0,
-  //         sellingPrice: 0,
+  //         selling_price: 0,
   //         skuId: "",
   //         sample: false, // Add sample property if required in your `IVariants`
   //       })),
@@ -100,7 +100,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             size: size.name, // Update size (in case of new addition)
             stock: existingDetail?.stock || 0, // Retain or set default
             discount: existingDetail?.discount || 0,
-            sellingPrice: existingDetail?.sellingPrice || 0,
+            selling_price: existingDetail?.selling_price || 0,
             skuId: existingDetail?.skuId || "",
           };
         });
@@ -112,7 +112,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             size: size.name,
             stock: 0,
             discount: 0,
-            sellingPrice: 0,
+            selling_price: 0,
             skuId: "",
           })),
           sample: variation.sample || false, // Sample moved outside details
@@ -135,7 +135,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             <MultiSelect
               fieldName="sizes"
               selectedValue={selectedSizes}
-              setSelectedValues={(fieldName, value) => {
+              setSelectedValues={(_, value) => {
                 handleSizeChange(value);
               }}
               options={sizeOptions}
@@ -195,10 +195,10 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
                     return {
                       ...existingDetail,
                       size: item.size,
-                      bundleQuantity: item.quantity,
+                      bundle_quantity: item.quantity,
                       stock: existingDetail?.stock ?? 0,
                       discount: existingDetail?.discount ?? 0,
-                      sellingPrice: existingDetail?.sellingPrice ?? 0,
+                      selling_price: existingDetail?.selling_price ?? 0,
                       skuId: existingDetail?.skuId ?? "",
                     };
                   });

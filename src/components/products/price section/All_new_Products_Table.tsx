@@ -115,10 +115,10 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                         type="number"
                         min="0"
                         className="w-full border rounded px-2 text-center py-2"
-                        value={variant.bundleQuantity || 0}
+                        value={variant.bundle_quantity || 0}
                         onChange={(e) =>
                           setFieldValue(
-                            `variations[${vIndex}].details[${index}].bundleQuantity`,
+                            `variations[${vIndex}].details[${index}].bundle_quantity`,
                             parseFloat(e.target.value) || 0
                           )
                         }
@@ -132,10 +132,10 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       type="number"
                       min="0"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={variant.sellingPrice || 0}
+                      value={variant.selling_price || 0}
                       onChange={(e) =>
                         setFieldValue(
-                          `variations[${vIndex}].details[${index}].sellingPrice`,
+                          `variations[${vIndex}].details[${index}].selling_price`,
                           parseFloat(e.target.value) || 0
                         )
                       }
@@ -289,10 +289,10 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
 //                         type="number"
 //                         min="0"
 //                         className="w-full border rounded px-2 text-center py-2"
-//                         value={variant.sellingPrice || 0}
+//                         value={variant.selling_price || 0}
 //                         onChange={(e) =>
 //                           setFieldValue(
-//                             `variations[${vIndex}].details[${index}].sellingPrice`,
+//                             `variations[${vIndex}].details[${index}].selling_price`,
 //                             parseFloat(e.target.value) || 0
 //                           )
 //                         }

@@ -23,7 +23,7 @@ type Props = {
 };
 
 export type FileFormValues = {
-  galleryImages: File[];
+  gallery_image: File[];
   thumbnails: File[];
   variations: { image: File; colorCode: string; colorName: string }[];
   sizeImages: File[];
@@ -94,7 +94,7 @@ export default function FilesMediaSectionPage({
 
     try {
       for (const file of fileArray) {
-        if (fieldName === "variations" || fieldName === "galleryImages") {
+        if (fieldName === "variations" || fieldName === "gallery_image") {
           // Set required dimensions
           const requiredWidth = 600;
           const requiredHeight = 600;
@@ -194,7 +194,7 @@ export default function FilesMediaSectionPage({
   //           {
   //             stock: 0,
   //             size: "",
-  //             sellingPrice:0,
+  //             selling_price:0,
   //             discount:0,
   //           },
   //         ],
@@ -241,7 +241,7 @@ export default function FilesMediaSectionPage({
             {
               stock: 0,
               size: "",
-              sellingPrice: 0,
+              selling_price: 0,
               discount: 0,
             },
           ],
@@ -268,11 +268,11 @@ export default function FilesMediaSectionPage({
       <div className="space-y-5">
         <FormFieldGenal
           setFieldValue={setFieldValue}
-          values={values.galleryImages}
-          id="galleryImages"
-          name="galleryImages"
+          values={values.gallery_image}
+          id="gallery_image"
+          name="gallery_image"
           title="Gallery Images (600x600)"
-          onChange={(e) => handleFileChange(e, "galleryImages")}
+          onChange={(e) => handleFileChange(e, "gallery_image")}
         />
 
         {/* thumbnail */}
@@ -310,8 +310,8 @@ export default function FilesMediaSectionPage({
       {/* ============= selected images ==== starts currently changes to FormFieldGenal  */}
       {/* <div className="flex flex-wrap mt-10">
         <SelectedImages
-          value={values.galleryImages}
-          name="galleryImages"
+          value={values.gallery_image}
+          name="gallery_image"
           title="selected Gallery Images"
           alt="gallery images"
           setFieldValue={setFieldValue}
@@ -499,7 +499,7 @@ export function FormFieldGenal({
         ) : (
           <SelectedImages
             value={values}
-            name="galleryImages"
+            name="gallery_image"
             title="selected Gallery Images"
             alt="gallery images"
             setFieldValue={setFieldValue}

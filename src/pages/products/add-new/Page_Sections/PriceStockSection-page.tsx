@@ -11,11 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import PricePerPieces from "@/components/products/Price_Per_Pieces";
 import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
 import { StoreSelection } from "@/components/products/price section/Store_Selection";
 import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
+import PricePerPiecesComponent from "@/components/products/Price_Per_Pieces_Component";
 
 type Props = {
   setFieldValue: any;
@@ -38,23 +38,23 @@ export default function PriceStockSectionPage({
         className="lg:w-1/2 flex
      flex-col gap-4"
       >
-        {/* ===== basePrice ===== */}
+        {/* ===== base_price ===== */}
         <FormFieldGenal
-          value={values.basePrice}
+          value={values.base_price}
           title="Base Price"
           type="number"
-          id="basePrice"
-          name="basePrice"
+          id="base_price"
+          name="base_price"
           placeholder="Enter Price"
           fieldAs={Input}
         />
-        {/* ===== samplePrice ===== */}
+        {/* ===== sample_price ===== */}
         <FormFieldGenal
-          value={values.samplePrice}
+          value={values.sample_price}
           title="Sample Price"
           type="number"
-          id="samplePrice"
-          name="samplePrice"
+          id="sample_price"
+          name="sample_price"
           placeholder="Enter Sample Price"
           fieldAs={Input}
         />
@@ -73,7 +73,7 @@ export default function PriceStockSectionPage({
           <Label className="text-sm text-textGray">Discount Type</Label>
           <Select
             onValueChange={(value) => {
-              setFieldValue("discountType", value);
+              setFieldValue("discount_type", value);
             }}
           >
             <SelectTrigger className="lg:w-3/4 p-6">
@@ -91,8 +91,8 @@ export default function PriceStockSectionPage({
         <div className="flex lg:flex-row flex-col justify-between">
           <Label className="text-sm text-textGray">Price / pieces</Label>
           <div className="md:w-3/4 w-full">
-            <PricePerPieces
-              pricePerPieces={values.pricePerPieces}
+            <PricePerPiecesComponent
+              pricePerPieces={values.price_per_pieces}
               setFieldValue={setFieldValue}
             />
             <ErrorMessage

@@ -1,29 +1,33 @@
 [
   {
     "_id": 1,
-    "productName": "Task 1",
+    "product_name": "Task 1",
     "brand": "Odio",
+    "product_owner":"seller",
     "sku": "SKU-001",
     "barcode": "1234567890123",
     "mrp": 500,
     "description": "This is the first task",
-    "published": false,
-    "minQty": 1,
-    "weight": 1.2,
-    "height": 10,
-    "length": 5,
-    "width": 3,
+    "is_published": false,
+    "minimum_quantity": 1,
+    "product_weight": 1.2,
+    "product_dimensions":{
+      "product_height":10,
+      "product_length":20.3,
+      "product_width":5
+    },
+    
     "dimensions": "10x5x3 cm",
     "taxSlab": [
       { "_id": "1", "name": "5%" },
       { "_id": "2", "name": "12%" }
     ],
-    "status": "active",
-    "todaysDeal": false,
+    "status": "approved",
+    "is_todays_deal": false,
     "isCess": true,
     "cess": [{ "_id": "1", "name": "GST" }],
-    "featured": true,
-    "galleryImages": [
+    "is_featured_product": true,
+    "gallery_image": [
       "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=2788&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
@@ -43,7 +47,7 @@
             "size": "M",
             "stock": 50,
             "discount": 10,
-            "sellingPrice": 450,
+            "selling_price": 450,
             "skuId": "SKU-M1"
           },
           {
@@ -51,7 +55,7 @@
             "size": "L",
             "stock": 30,
             "discount": 12,
-            "sellingPrice": 470,
+            "selling_price": 470,
             "skuId": "SKU-L1"
           }
         ]
@@ -67,7 +71,7 @@
             "size": "S",
             "stock": 70,
             "discount": 5,
-            "sellingPrice": 480,
+            "selling_price": 480,
             "skuId": "SKU-S1"
           },
           {
@@ -75,7 +79,7 @@
             "size": "XL",
             "stock": 20,
             "discount": 8,
-            "sellingPrice": 490,
+            "selling_price": 490,
             "skuId": "SKU-XL1"
           }
         ]
@@ -85,11 +89,11 @@
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
-    "basePrice": 500,
-    "samplePrice": 450,
+    "base_price": 500,
+    "sample_price": 450,
     "discount": 15,
-    "discountType": "percentage",
-    "pricePerPieces": [
+    "discount_type": "percentage",
+    "price_per_pieces": [
       { "_id": "pp-1", "min_Piece": 1, "max_Piece": 10, "discount": 5 },
       { "_id": "pp-2", "min_Piece": 11, "max_Piece": 20, "discount": 10 }
     ],
@@ -100,28 +104,31 @@
   },
   {
     "_id": 2,
-    "productName": "Task 2",
+    "product_name": "Task 2",
     "sku": "SKU-002",
+    "product_owner":"admin",
     "barcode": "9876543210987",
     "mrp": 1000,
     "description": "This is the second task",
-    "published": true,
-    "minQty": 2,
-    "weight": 1.5,
-    "height": 15,
-    "length": 7,
-    "width": 4,
+    "is_published": true,
+    "minimum_quantity": 2,
+    "product_weight": 1.5,
+    "product_dimensions":{
+      "product_height":10,
+      "product_length":20.3,
+      "product_width":5
+    },
     "dimensions": "15x7x4 cm",
     "taxSlab": [
       { "_id": "3", "name": "18%" },
       { "_id": "4", "name": "28%" }
     ],
     "status": "hold",
-    "todaysDeal": true,
+    "is_todays_deal": true,
     "isCess": false,
     "cess": [],
-    "featured": false,
-    "galleryImages": [
+    "is_featured_product": false,
+    "gallery_image": [
       "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=2788&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
@@ -141,7 +148,7 @@
             "size": "S",
             "stock": 100,
             "discount": 5,
-            "sellingPrice": 950,
+            "selling_price": 950,
             "skuId": "SKU-S2"
           },
           {
@@ -149,7 +156,7 @@
             "size": "M",
             "stock": 80,
             "discount": 7,
-            "sellingPrice": 960,
+            "selling_price": 960,
             "skuId": "SKU-M2"
           }
         ]
@@ -159,11 +166,11 @@
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
-    "basePrice": 1000,
-    "samplePrice": 900,
+    "base_price": 1000,
+    "sample_price": 900,
     "discount": 10,
-    "discountType": "flat",
-    "pricePerPieces": [
+    "discount_type": "flat",
+    "price_per_pieces": [
       { "_id": "pp-3", "min_Piece": 1, "max_Piece": 5, "discount": 10 },
       { "_id": "pp-4", "min_Piece": 6, "max_Piece": 15, "discount": 15 }
     ],

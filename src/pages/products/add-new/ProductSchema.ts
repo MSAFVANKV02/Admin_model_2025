@@ -2,63 +2,94 @@ import * as Yup from "yup";
 
 // Define validation schemas for each section
 export const GeneralSchema = Yup.object({
-  productName: Yup.string()
+  product_name: Yup.string()
     .min(1, "Name is required")
     .required("Name is required"),
   mrp: Yup.number()
     .positive("MRP must be greater than 0")
     .required("MRP is required"),
-  sku: Yup.string().min(1, "SKU is required").required("SKU is required"),
+  product_sku: Yup.string().min(1, "SKU is required").required("SKU is required"),
   barcode: Yup.string().optional(),
   brand: Yup.string().required("Brand is required"),
   keywords: Yup.string().optional(),
-  minQty: Yup.number()
+  minimum_quantity: Yup.number()
     .min(1, "Minimum Qty must be at least 1")
     .required("Minimum Qty is required"),
-  weight: Yup.number()
-    .min(1, "Minimum Weight must be at least 1g")
-    .required("Product Weight is required"),
-  height: Yup.string().required("Height is required"),
-  length: Yup.string().required("Length is required"),
-  width: Yup.string().required("Width is required"),
+  product_weight: Yup.number()
+    .min(1, "Minimum product_weight must be at least 1g")
+    .required("Product product_weight is required"),
+  // height: Yup.string().required("Height is required"),
+  // length: Yup.string().required("Length is required"),
+  // width: Yup.string().required("Width is required"),
+  product_dimensions: Yup.object({
+    product_height: Yup.number()
+      .positive("Height must be a positive number")
+      .required("Height is required"),
+    product_length: Yup.number()
+      .positive("Length must be a positive number")
+      .required("Length is required"),
+    product_width: Yup.number()
+      .positive("Width must be a positive number")
+      .required("Width is required"),
+  }).required("Product dimensions are required"),
 
-  taxSlab: Yup.array()
-  .of(
-    Yup.object().shape({
-      _id: Yup.string().required("ID is required"),
-      name: Yup.string().required("Name is required"),
-    })
-  )
-  .min(1, "At least one tax slab must be selected"),
+  // ========= tax details starts==========================
+  tax_details: Yup.object({
+    taxSlab: Yup.array()
+    .of(
+      Yup.object().shape({
+        _id: Yup.string().required("ID is required"),
+        name: Yup.string().required("Name is required"),
+      })
+    )
+    .min(1, "At least one tax slab must be selected"),
+    isCess: Yup.boolean().default(false),
+    //   cess: Yup.array().when("isCess", (isCess, schema) => {
+    //     return isCess ? schema.required("Cess is required") : schema.optional();
+    //   }),
+    // cess: Yup.array()
+    //   .of(
+    //     Yup.object().shape({
+    //       _id: Yup.string().required("Cess ID is required"),
+    //       name: Yup.string().required("Cess name is required"),
+    //     })
+    //   )
+    //   .when("isCess", {
+    //     is: true,
+    //     then: (schema) =>
+    //       schema
+    //         .min(1, "At least one Cess must be selected")
+    //         .required("Cess is required"),
+    //     otherwise: (schema) => schema.optional(),
+    //   }),
+    cess: Yup.number()
+  .when("isCess", {
+    is: true,
+    then: (schema) =>
+      schema
+        .positive("Cess must be a positive number")
+        .required("Cess is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
 
-  status: Yup.boolean().default(false),
-  //   todaysDeal: Yup.boolean().default(false),
-  //   featured: Yup.boolean().default(false),
-  description: Yup.string().optional(),
+  }),
+  //========= tax details Ends ==========================
+
   isCess: Yup.boolean().default(false),
   //   cess: Yup.array().when("isCess", (isCess, schema) => {
   //     return isCess ? schema.required("Cess is required") : schema.optional();
   //   }),
-  cess: Yup.array()
-    .of(
-      Yup.object().shape({
-        _id: Yup.string().required("Cess ID is required"),
-        name: Yup.string().required("Cess name is required"),
-      })
-    )
-    .when("isCess", {
-      is: true,
-      then: (schema) =>
-        schema
-          .min(1, "At least one Cess must be selected")
-          .required("Cess is required"),
-      otherwise: (schema) => schema.optional(),
-    }),
+
+  status: Yup.boolean().default(false),
+  //   is_todays_deal: Yup.boolean().default(false),
+  //   is_featured_product: Yup.boolean().default(false),
+  description: Yup.string().optional(),
+  
 });
 // Combined schema
 
 export const FilesSchema = Yup.object({
-  galleryImages: Yup.array()
+  gallery_image: Yup.array()
     .min(1, "Must add Gallery Image")
     .required("Gallery Images are required"),
   thumbnails: Yup.array()
@@ -82,13 +113,13 @@ export const FilesSchema = Yup.object({
 
 export const PriceStockSchema = Yup.object({
   // Base Price
-  basePrice: Yup.number()
+  base_price: Yup.number()
     .nullable()
     .min(0, "Base Price must be a positive number")
     .required("Base Price is required"),
 
   // Sample Price
-  samplePrice: Yup.number()
+  sample_price: Yup.number()
     .nullable()
     .min(0, "Sample Price must be a positive number")
     .required("Sample Price is required"),
@@ -101,7 +132,7 @@ export const PriceStockSchema = Yup.object({
     .required("Discount is required"),
 
   // Discount Type
-  discountType: Yup.string()
+  discount_type: Yup.string()
     .oneOf(
       ["flat", "percentage"],
       "Discount type must be either 'flat' or 'percentage'"
@@ -134,7 +165,7 @@ export const PriceStockSchema = Yup.object({
             stock: Yup.number()
               .min(0, "Stock must be a positive number")
               .required("Stock is required"),
-            sellingPrice: Yup.number()
+            selling_price: Yup.number()
               .min(0, "MRP must be a positive number")
               .required("MRP is required"),
             // discount: Yup.number()

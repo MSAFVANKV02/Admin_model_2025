@@ -21,6 +21,8 @@ import makeAnimated from "react-select/animated";
 import { SelectOption } from "@/types/productType";
 import { Label } from "@/components/ui/label";
 import { makeToastError } from "@/utils/toaster";
+import * as Yup from "yup";
+
 const animatedComponents = makeAnimated();
 
 const Category = [
@@ -43,6 +45,14 @@ const Category = [
     published: true,
   },
 ];
+
+
+const categorySchema = Yup.object().shape({
+  category_name: Yup.string().required("Category name is required"),
+  parent_category: Yup.string().required("Parent category is required"),
+  coverImage: Yup.string().required("Parent cover image is required"),
+  icon: Yup.string().required("category icon is required"),
+});
 
 export default function CategoryPage() {
   const [isMain, setIsMain] = useState(true);
@@ -178,6 +188,7 @@ export default function CategoryPage() {
         <TaskModal className="w-[45vw]">
           <Formik
             enableReinitialize
+            validationSchema={categorySchema}
             initialValues={{
               category_name: "",
               parent_category: "",

@@ -47,23 +47,13 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [selectedPage, setSelectedPage] = useState<string | null>("general");
 
 
-
+//  ===== modal open in dashboard =================
   const openModal = (task: null, type:IModalTypes) => {
     setSelectedTask(task);
     setIsOpen(true);
     setModalTypeDashboard(type);
 
   };
-
-  const openProductModal = (task: IProducts) => { // Accept a single product
-    setSelectedProducts(task); // Wrap in an array
-    setIsOpen(true);
-  };
-  const openCategoryModal = (task: ICategory) => { 
-    setSelectedCategory(task); // Wrap in an array
-    setIsOpen(true);
-  };
-
   const closeModal = () => {
     setIsOpen(false);
     setSelectedTask(null);
@@ -74,6 +64,23 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     setIsTopSellerTable(false);
     
   };
+
+
+//  ===== modal open in product all page =================
+
+  const openProductModal = (task: IProducts) => { // Accept a single product
+    setSelectedProducts(task); // Wrap in an array
+    setIsOpen(true);
+  };
+
+//  ===== modal open in category page =================
+
+  const openCategoryModal = (task: ICategory) => { 
+    setSelectedCategory(task); // Wrap in an array
+    setIsOpen(true);
+  };
+
+
 
   return (
     <ModalContext.Provider

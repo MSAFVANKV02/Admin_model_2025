@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { Document, Page } from "react-pdf";
-import "react-pdf/dist/cjs/Page/AnnotationLayer.css";
-import "react-pdf/dist/cjs/Page/TextLayer.css";
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { Document, Page } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 interface PdfFileProps {
   fileURL: string;
@@ -25,12 +25,7 @@ export default function PdfFile({ fileURL, className }: PdfFileProps) {
   }
 
   return (
-    <div
-      className={cn(
-        `w-16 h-24 overflow-hidden border border-gray-300 rounded-lg flex items-center justify-center`,
-        className
-      )}
-    >
+    <div className={cn(`w-16 h-24 overflow-hidden border border-gray-300 rounded-lg flex items-center justify-center`,className)}>
       {error && <p className="text-red-600">{error}</p>}
       <Document
         file={fileURL}

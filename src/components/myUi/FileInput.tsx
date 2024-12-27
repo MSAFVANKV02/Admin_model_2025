@@ -7,18 +7,20 @@ type Props = {
   name: string;
   type: string;
   accept: string;
-  selectedData: any;
-  className: string;
+  selectedData?: any;
+  className?: string;
+  id: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function FileInput({
   name,
-  type,
+  type="file",
   accept,
   selectedData,
   onChange,
   className,
+  id
 }: Props) {
   return (
     <Label
@@ -33,6 +35,7 @@ export default function FileInput({
       </div>
 
       <Input
+      id={id}
         type={type}
         name={name}
         className="hidden"

@@ -1,21 +1,18 @@
+import { useModal } from "@/providers/context/context";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { IconButton } from "@mui/material";
+import TaskModal, { TaskModalHeader } from "../modals/TaskModal";
 
-type Props = {};
+type Props = {
+  brands: {
+    id: number;
+    name: string;
+    logo: string; // Replace with actual image path
+  }[];
+};
 
-const brands = [
-  {
-    id: 1,
-    name: "Brand Name",
-    logo: "/public/img/logo/Logo_black.svg", // Replace with actual image path
-  },
-  {
-    id: 2,
-    name: "Brand Name",
-    logo: "/public/img/logo/Logo_black.svg", // Replace with actual image path
-  },
-];
-
-export default function BrandApprovedTable({}: Props) {
+export default function BrandApprovedTable({ brands }: Props) {
+    const {setIsOpen} = useModal();
   return (
     <div className="overflow-x-auto rounded-lg border mt-5 h-[68vh] overflow-y-auto ">
       <table className="w-full border-collapse rounded-lg overflow-hidden">
@@ -27,7 +24,7 @@ export default function BrandApprovedTable({}: Props) {
             <th className="py-2 px-4 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-xs">
           {brands.map((brand, index) => (
             <tr
               key={brand.id}
@@ -37,31 +34,40 @@ export default function BrandApprovedTable({}: Props) {
             >
               <td className="py-3 px-4">{index + 1}</td>
               <td className="py-3 px-4">{brand.name}</td>
-              <td className="py-3 px-4">
+              <td className="py-3 px-4 ">
                 <img
                   src={brand.logo}
                   alt={`${brand.name} Logo`}
-                  className="w-12 h-12 object-contain"
+                  className="w-20 h-20 object-contain"
                 />
               </td>
-              <td className="py-3 px-4 text-right space-x-2">
-                <button
-                  className=""
-                  title="Edit"
+              <td className="py-3 px-4 text-right space-x-1">
+                <IconButton>
+                  <Icon icon="bxs:edit" fontSize={20} className="" />
+                </IconButton>
+                <IconButton
+                onClick={()=>{
+                    setIsOpen(true);
+                }}
                 >
-                  <Icon icon="bxs:edit" fontSize={25} className="" />
-                </button>
-                <button
-                  className=""
-                  title="Delete"
-                >
-                  <Icon icon="material-symbols:delete" fontSize={25} className="" />
-                </button>
+                  <Icon
+                    icon="material-symbols:delete"
+                    fontSize={20}
+                    className=""
+                  />
+                </IconButton>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+          <TaskModal>
+            <TaskModalHeader>
+                <h5>Brand request</h5>
+            </TaskModalHeader>
+          </TaskModal>
+
     </div>
   );
 }

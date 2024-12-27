@@ -19,6 +19,7 @@ interface ModalContextType {
   selectedPage: string | null;
   setSelectedPage: Dispatch<SetStateAction<string | null>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setSelectedCategory: Dispatch<SetStateAction<ICategory | null>>;
   selectedProducts:IProducts | null;
   selectedCategory: ICategory | null;
   openCategoryModal: (task: ICategory) => void;
@@ -93,7 +94,8 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
         setSelectedPage,
         selectedProducts,
         openCategoryModal,
-        selectedCategory
+        selectedCategory,
+        setSelectedCategory
       }}
     >
       {children}

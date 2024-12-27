@@ -140,13 +140,21 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
 
   {
     accessorKey: "category_name",
-    // header: "Variants",
-    // header: ({ column }) => (
-    //   <DataTableColumnHeader column={column} title="Category Name" />
-    // ),
-    header: () => <div className="font-bold text-black max-w-32 ">Main Category</div>,
+    header: () => <div className="font-bold text-black max-w-32 ">All Categories</div>,
     cell: ({ row }) => {
       const catName = row.original.category_name;
+      return (
+        <div>
+         {catName}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "parent_category",
+    header: () => <div className="font-bold text-black max-w-32 ">Parent Category</div>,
+    cell: ({ row }) => {
+      const catName = row.original.parent_category;
       return (
         <div>
          {catName}

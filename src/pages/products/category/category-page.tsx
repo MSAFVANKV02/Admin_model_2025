@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useModal } from "@/providers/context/context";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FormFieldGenal } from "../add-new/Page_Sections/GeneralSection-page";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -22,96 +22,125 @@ import { SelectOption } from "@/types/productType";
 import { Label } from "@/components/ui/label";
 import { makeToastError } from "@/utils/toaster";
 import * as Yup from "yup";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { addCategory } from "@/redux/actions/category_Slice";
 
 const animatedComponents = makeAnimated();
 
-const Category = [
-  {
-    _id: "1",
-    parent_category: "1234253675",
-    category_name: "Electronics",
-    coverImage: "/public/img/products/Group 710.jpg",
-    icon: "/public/img/products/image 61.png",
-    featured: true,
-    published: true,
-  },
-  {
-    _id: "2",
-    parent_category: null,
-    category_name: "Clothing",
-    coverImage: "/public/img/products/Group 710.jpg",
-    icon: "/public/img/products/image 61.png",
-    featured: false,
-    published: true,
-  },
-];
+// const Category = [
+//   {
+//     _id: "1",
+//     parent_category: "1234253675",
+//     category_name: "Electronics",
+//     coverImage: "img/products/Group 710.jpg",
+//     icon: "img/products/image 61.png",
+//     featured: true,
+//     published: true,
+//   },
+//   {
+//     _id: "2",
+//     parent_category: null,
+//     category_name: "Clothing",
+//     coverImage: "img/products/Group 710.jpg",
+//     icon: "img/products/image 61.png",
+//     featured: false,
+//     published: true,
+//   },
+// ];
 
-
-const categorySchema = Yup.object().shape({
+const categorySchemaMain = Yup.object().shape({
   category_name: Yup.string().required("Category name is required"),
-  parent_category: Yup.string().required("Parent category is required"),
-  coverImage: Yup.string().required("Parent cover image is required"),
+  parent_category: Yup.mixed()
+    .nullable()
+    .test(
+      "is-valid-parent",
+      "Parent category is required",
+      (value) => value === null || typeof value === "string"
+    ),
+  coverImage: Yup.string().required("Cover image is required"),
+  icon: Yup.string().required("category icon is required"),
+});
+
+const categorySchemaAll = Yup.object().shape({
+  category_name: Yup.string().required("Category name is required"),
+  // parent_category: Yup.mixed()
+  //   .nullable()
+  //   .required("Parent category is required"),
+  // coverImage: Yup.string().required("Parent cover image is required"),
   icon: Yup.string().required("category icon is required"),
 });
 
 export default function CategoryPage() {
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector((state) => state.category.categories);
   const [isMain, setIsMain] = useState(true);
-  const { setIsOpen } = useModal();
+  const { setIsOpen , selectedCategory, setSelectedCategory} = useModal();
   const [selectedParent, setSelectedParent] = useState<SelectOption | null>(
     null
   );
+
+  // console.log(selectedCategory);
+  
 
   // const [coverImageFile, setCoverImageFile] = useState<File[]>([]);
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
   const [categoryIcon, setCategoryIcon] = useState<File | null>(null);
 
-
-
-
-  const filterMainCat = Category.filter(
-    (category) => category.parent_category === null
+  const filterMainCat = useMemo(
+    () => categories.filter((category) => category.parent_category === null),
+    [categories]
   );
-  const filterSubCat = Category.filter(
-    (category) => category.parent_category !== null
+  // const filterSubCat = categories.filter(
+  //   (category) => category.parent_category !== null
+  // );
+
+  const handleImageChange = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement>,
+      setImageFile: React.Dispatch<React.SetStateAction<File | null>>,
+      setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+      fieldName: string
+    ) => {
+      if (event.target.files && event.target.files.length > 0) {
+        const file = event.target.files[0];
+        const img = new window.Image(); // Use window.Image to access the native Image constructor
+  
+        img.src = URL.createObjectURL(file);
+  
+        img.onload = () => {
+          const { width, height } = img;
+  
+          // Validate if dimensions are 256x256 @1x or 512x512 @2x
+          if (
+            (width === 256 && height === 256) ||
+            (width === 512 && height === 512) ||
+            (width < 256 && height < 256)
+          ) {
+            setImageFile(file);
+            setFieldValue(fieldName, file);
+          } else {
+            makeToastError("Image must be 256x256 @1x, or smaller");
+          }
+        };
+  
+        img.onerror = () => {
+          makeToastError("Failed to load image. Please try again.");
+        };
+      }
+    },
+    []
   );
 
-  const handleImageChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setImageFile: React.Dispatch<React.SetStateAction<File | null>>,
-    setFieldValue: (
-      field: string,
-      value: any,
-      shouldValidate?: boolean
-    ) => void,
-    fieldName: string
-  ) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const img = new window.Image(); // Use window.Image to access the native Image constructor
-
-      img.src = URL.createObjectURL(file);
-
-      img.onload = () => {
-        const { width, height } = img;
-
-        // Validate if dimensions are 256x256 @1x or 512x512 @2x
-        if (
-          (width === 256 && height === 256) ||
-          (width === 512 && height === 512) ||
-          (width < 256 && height < 256)
-        ) {
-          setImageFile(file);
-          setFieldValue(fieldName, file);
-        } else {
-          makeToastError("Image must be 256x256 @1x, or smaller");
-        }
-      };
-
-      img.onerror = () => {
-        makeToastError("Failed to load image. Please try again.");
-      };
-    }
-  };
+  const categoryOptions = useMemo(
+    () => [
+      { _id: "none", name: "No Parent" },
+      ...categories.map((cat) => ({
+        _id: cat._id,
+        name: cat.category_name,
+      })),
+    ],
+    [categories]
+  );
 
   return (
     <div>
@@ -153,6 +182,7 @@ export default function CategoryPage() {
               }}
               onClick={() => {
                 setIsOpen(true);
+                setSelectedCategory(null);
               }}
             />
           </div>
@@ -173,7 +203,7 @@ export default function CategoryPage() {
             <DataTable
               enableSearch
               columns={CategoryColumnAll}
-              data={filterSubCat}
+              data={categories}
               searchWith="category_name"
               // statuses={statuses}
 
@@ -185,21 +215,33 @@ export default function CategoryPage() {
 
         {/* =========== category Modal ============ */}
 
-        <TaskModal className="w-[45vw]">
+        <TaskModal className="w-[45vw] p-8">
           <Formik
             enableReinitialize
-            validationSchema={categorySchema}
+            validationSchema={isMain ? categorySchemaMain : categorySchemaAll}
             initialValues={{
-              category_name: "",
-              parent_category: "",
-              coverImage: null,
-              icon: null,
+              category_name: selectedCategory ? selectedCategory.category_name :"",
+              parent_category:selectedCategory ? selectedCategory.parent_category : null,
+              coverImage:selectedCategory ? selectedCategory.coverImage : null,
+              icon: selectedCategory ? selectedCategory.icon :null,
               featured: false,
               published: true,
               _id: "",
             }}
-            onSubmit={(values) => {
-              console.log("Updated Values:", values);
+            onSubmit={(values, { resetForm }) => {
+              // console.log("Updated Values:", values);
+
+              // const newCategory = {
+              //   ...values,
+              //   coverImage: coverImageFile,
+              //   icon: categoryIcon,
+              // };
+              dispatch(addCategory(values));
+              resetForm();
+              setIsOpen(false);
+              setSelectedParent(null);
+              setCoverImageFile(null);
+              setCategoryIcon(null);
             }}
           >
             {({ values, setFieldValue }) => (
@@ -207,7 +249,7 @@ export default function CategoryPage() {
                 <TaskModalHeader>
                   <h3>Add New Category</h3>
                 </TaskModalHeader>
-                <TaskModalContent className="space-y-7">
+                <TaskModalContent className="space-y-7 ">
                   <div className="flex justify-between w-full">
                     <FormFieldGenal
                       id="category_name"
@@ -222,121 +264,134 @@ export default function CategoryPage() {
 
                   {/* ======  Starting Parent Category ===== */}
                   <div className=" flex justify-between gap-1 items-center">
-                    <Label  className="text-textGray">Parent Category</Label>
-                    <Select
-                      components={animatedComponents}
-                      name="parent_category"
-                      styles={{
-                        control: (base: any) => ({
-                          ...base,
-                          borderColor: '#e3dfdf',
-                          borderRadius: '8px',
-                          padding: '5px',
-                          fontSize:"0.8rem",
-                          boxShadow: 'none',
-                          color:"#e3dfdf",
-                          '&:hover': {
-                            borderColor: '#1E40AF',
-                          },
-                        }),
-                      }}
-                      className="w-3/4 text-xs"
-                      value={
-                        selectedParent
-                          ? {
-                              _id: selectedParent._id,
-                              name: selectedParent.name,
-                            }
-                          : null
-                      }
-                      placeholder="Select Parent Category"
-                      options={Category.map((cat) => ({
-                        _id: cat._id,
-                        name: cat.category_name,
-                      }))}
-                      getOptionLabel={(e: SelectOption) => e.name}
-                      getOptionValue={(e: SelectOption) => e._id}
-                      isMulti={false} // Single selection
-                      onChange={(selected: SelectOption | null) => {
-                        setSelectedParent(selected); // Update state with the selected option
-                        console.log(values);
-
-                        setFieldValue(
-                          "parent_category",
-                          selected ? selected._id : null
-                        ); // Update Formik with the selected _id
-                      }}
-                    />
-
-                    <ErrorMessage
-                      name="parent_category"
-                      component="span"
-                      className="text-red-500 text-xs"
-                    />
-                  </div>
-
-                  {/* ==== cover image starting ==== */}
-                  <div className="flex justify-between ">
-                    <Label htmlFor="coverImage" className="text-textGray">Cover Image</Label>
-                    <div className="flex flex-col w-3/4 ">
-                      <Label
-                        htmlFor="coverImage"
-                        className="w-full border h-12 rounded-md flex items-center cursor-pointer"
-                      >
-                        <div className="px-5 border-r h-full text-center flex items-center bg-gray-100">
-                          Browse
-                        </div>
-                        <div className="px-5  h-full text-center flex items-center truncate whitespace-nowrap overflow-hidden">
-                          {
-                            coverImageFile? coverImageFile.name : " Choose File"
-                          }
-                         
-                        </div>
-                      </Label>
-                      <Input
-                        id="coverImage"
-                        name="coverImage"
-                        type="file"
-                        accept="image/png, image/jpeg, image/jpg, image/webp"
-                        onChange={(e) => {
-                          // handleImageChange(e);
-                          if (e.target.files && e.target.files.length > 0) {
-                            setFieldValue("coverImage", e.target.files[0]);
-                            setCoverImageFile(e.target.files[0]);
-                          }
+                    <Label className="text-textGray">Parent Category</Label>
+                    <div className="flex flex-col gap-3 w-3/4">
+                      <Select
+                        components={animatedComponents}
+                        name="parent_category"
+                        styles={{
+                          control: (base: any) => ({
+                            ...base,
+                            borderColor: "#e3dfdf",
+                            borderRadius: "8px",
+                            padding: "5px",
+                            fontSize: "0.8rem",
+                            boxShadow: "none",
+                            color: "#e3dfdf",
+                            "&:hover": {
+                              borderColor: "#1E40AF",
+                            },
+                          }),
                         }}
-                        className="w-full hidden"
-                        placeholder="Cover Image URL"
+                        className="w-full text-xs"
+                        value={
+                          selectedParent
+                            ? {
+                                _id: selectedParent._id,
+                                name: selectedParent.name,
+                              }
+                            : null
+                        }
+                        placeholder="Select Parent Category"
+                        // options={Category.map((cat) => ({
+                        //   _id: cat._id,
+                        //   name: cat.category_name,
+                        // }))}
+                        options={categoryOptions}
+                        getOptionLabel={(e: SelectOption) => e.name}
+                        getOptionValue={(e: SelectOption) => e._id}
+                        isMulti={false} // Single selection
+                        onChange={(selected: SelectOption | null) => {
+                          setSelectedParent(selected); // Update state with the selected option
+                          console.log(values);
+
+                          setFieldValue(
+                            "parent_category",
+                            selected && selected._id !== "none"
+                              ? selected._id
+                              : null
+                          ); // Update Formik with the selected _id
+                        }}
                       />
-                      {/* ===== selected cover image */}
-                      {coverImageFile &&  (
-                        <div
-                          className="relative w-20 h-20 mt-5 border rounded-md overflow-hidden"
-                        >
-                          <img
-                            src={URL.createObjectURL(coverImageFile)}
-                            alt="Selected"
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            className="absolute top-1 right-1 text-red-400"
-                            onClick={() => {
-                              setCoverImageFile(null); // Clear preview
-                              setFieldValue("coverImage", null); // Clear Formik field
-                            }}
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      )}
+
+                      <ErrorMessage
+                        name="parent_category"
+                        component="span"
+                        className="text-red-500 text-xs"
+                      />
                     </div>
                   </div>
 
+                  {/* ==== cover image starting ==== */}
+                  {isMain && (
+                    <div className="flex justify-between ">
+                      <Label htmlFor="coverImage" className="text-textGray">
+                        Cover Image
+                      </Label>
+                      <div className="flex flex-col w-3/4 gap-3">
+                        <Label
+                          htmlFor="coverImage"
+                          className="w-full border h-12 rounded-md flex items-center cursor-pointer"
+                        >
+                          <div className="px-5 border-r h-full text-center flex items-center bg-gray-100">
+                            Browse
+                          </div>
+                          <div className="px-5  h-full text-center flex items-center truncate whitespace-nowrap overflow-hidden">
+                            {coverImageFile
+                              ? coverImageFile.name
+                              : " Choose File"}
+                          </div>
+                        </Label>
+                        <ErrorMessage
+                          name="coverImage"
+                          component="span"
+                          className="text-red-500 text-xs"
+                        />
+                        <Input
+                          id="coverImage"
+                          name="coverImage"
+                          type="file"
+                          accept="image/png, image/jpeg, image/jpg, image/webp"
+                          onChange={(e) => {
+                            // handleImageChange(e);
+                            if (e.target.files && e.target.files.length > 0) {
+                              setFieldValue("coverImage", e.target.files[0]);
+                              setCoverImageFile(e.target.files[0]);
+                            }
+                          }}
+                          className="w-full hidden"
+                          placeholder="Cover Image URL"
+                        />
+                        {/* ===== selected cover image */}
+                        {coverImageFile && (
+                          <div className="relative w-20 h-20  border rounded-md overflow-hidden">
+                            <img
+                              src={URL.createObjectURL(coverImageFile)}
+                              alt="Selected"
+                              className="w-full h-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              className="absolute top-1 right-1 text-red-400"
+                              onClick={() => {
+                                setCoverImageFile(null); // Clear preview
+                                setFieldValue("coverImage", null); // Clear Formik field
+                              }}
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {/* ==== Icon image starting ==== */}
                   <div className="flex justify-between ">
-                    <Label htmlFor="icon" className="text-textGray">Icon Image</Label>
-                    <div className="flex flex-col w-3/4 ">
+                    <Label htmlFor="icon" className="text-textGray">
+                      Icon Image
+                    </Label>
+                    <div className="flex flex-col w-3/4 gap-3">
                       <Label
                         htmlFor="icon"
                         className="w-full border h-12 rounded-md flex items-center cursor-pointer"
@@ -345,12 +400,14 @@ export default function CategoryPage() {
                           Browse
                         </div>
                         <div className="px-5  h-full text-center flex items-center truncate whitespace-nowrap overflow-hidden">
-                          {
-                            categoryIcon? categoryIcon.name : " Choose File"
-                          }
-                         
+                          {categoryIcon ? categoryIcon.name : " Choose File"}
                         </div>
                       </Label>
+                      <ErrorMessage
+                        name="icon"
+                        component="span"
+                        className="text-red-500 text-xs"
+                      />
                       <Input
                         id="icon"
                         name="icon"
@@ -368,10 +425,8 @@ export default function CategoryPage() {
                         placeholder="Cover Image URL"
                       />
                       {/* ===== selected cover image */}
-                      {categoryIcon &&  (
-                        <div
-                          className="relative w-20 h-20 mt-5 border rounded-md overflow-hidden"
-                        >
+                      {categoryIcon && (
+                        <div className="relative w-20 h-20 border rounded-md overflow-hidden">
                           <img
                             src={URL.createObjectURL(categoryIcon)}
                             alt="Selected"

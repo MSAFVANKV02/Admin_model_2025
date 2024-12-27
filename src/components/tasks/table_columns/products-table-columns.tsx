@@ -36,7 +36,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
             height={50}
             className="object-cover rounded text-xs"
           />
-          <div>
+          <div className="flex flex-col gap-1">
             <div className="font-semibold">{product.product_name}</div>
             <div className="text-xs text-gray-500">
               <b>Brand:</b> {product.brand || "N/A"}
@@ -72,13 +72,15 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
       return (
         <div>
           {variations.map((variant: any) => (
-            <div key={variant.colorName} className="flex items-center gap-2">
-              {/* <div
-                style={{ backgroundColor: variant.colorCode }}
-                className="w-4 h-4 rounded-full"
-              ></div> */}
-              <img src={`${variant.image}`} alt="" className="w-8 h-8" />
+            <div key={variant.colorName} className="flex items- flex-col gap-5 justify-start">
+           
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 bg-gray-200">
+                <img src={`${variant.image}`} alt="" className="w-full h-full mb-4 bg-gray-400 object-cover" />
+                </div>
+             
               <span className="text-sm">{variant.colorName}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -102,7 +104,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
       return (
         <div className="">
           {variations.map((variant: any) => (
-            <div key={variant.colorName} className="flex items-center gap-2">
+            <div key={variant.colorName} className="flex items-center gap-2 w-8 h-8 mb-3">
               {variant.details.map((detail: any) => (
                 <div key={detail._id}>
                   {detail.size}-{detail.stock},
@@ -119,7 +121,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     // header: "Discount",
     header: () => <div className="font-bold text-black">Discount</div>,
     cell: ({ row }) => {
-      return <span>${row.original.discount}</span>;
+      return <span className=" w-8 h-8 mb-3 flex items-center">${row.original.discount}</span>;
     },
   },
   {
@@ -127,7 +129,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     // header: "Selling Price",
     header: () => <div className="font-bold text-black">Selling Price</div>,
     cell: ({ row }) => {
-      return <span>${row.original.base_price}</span>;
+      return <span className="gap-2 w-8 h-8 mb-3 flex items-center">${row.original.base_price}</span>;
     },
   },
   {

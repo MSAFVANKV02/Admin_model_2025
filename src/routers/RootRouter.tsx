@@ -16,6 +16,7 @@ import AllProductsPage from "@/pages/products/all/All-Products-page";
 import CategoryPage from "@/pages/products/category/category-page";
 import BrandPage from "@/pages/products/brand/brand-page";
 import ProductReviewPage from "@/pages/products/product-review/product-review-page";
+import ColorPage from "@/pages/products/colors/color-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -43,7 +44,7 @@ const rootRouter = createBrowserRouter([
           { path: "category", element: <CategoryPage /> },
           { path: "brand", element: <BrandPage /> },
           { path: "reviews", element: <ProductReviewPage /> },
-          { path: "colors", element: <div>Colors Page</div> },
+          { path: "colors", element: <ColorPage /> },
         ],
       },
       {

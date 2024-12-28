@@ -42,12 +42,15 @@ const Reviews:IReviews[] = [
 export default function ProductReviewPage() {
   return (
     <div>
-      <div className="bg-white p-5 rounded-md shadow-sm min-h-[85vh]">
+      <div className=" p-4">
+        <h1 className="font-bold">Product Reviews</h1>
+      </div>
+      <div className="page-outer">
         <DataTable
           enableSearch
           columns={ProductReviewColumn}
           data={Reviews}
-          searchWith="product Name"
+          searchWith="product_name"
           // statuses={statuses}
 
           enableStatus={false}

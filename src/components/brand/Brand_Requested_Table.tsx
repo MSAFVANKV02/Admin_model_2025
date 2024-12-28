@@ -1,5 +1,8 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { IconButton } from "@mui/material";
+import { useModal } from "@/providers/context/context";
+import MyEyeIcon from "../icons/My_EyeIcon";
+import TaskModal, { TaskModalContent, TaskModalHeader } from "../modals/TaskModal";
+import MyCloseIcon from "../icons/My_CloseIcon";
+import BrandAcceptionForm from "./Brand_Acception_Form";
 
 type Props = {
     brands: {
@@ -14,6 +17,8 @@ type Props = {
 
 
 export default function BrandRequestedTable({brands}: Props) {
+  const { setIsOpen } = useModal();
+
   return (
     <div className="overflow-x-auto rounded-lg border mt-5 h-[68vh] overflow-y-auto ">
       <table className="w-full border-collapse rounded-lg overflow-hidden">
@@ -48,17 +53,37 @@ export default function BrandRequestedTable({brands}: Props) {
                   className="w-20 h-20 object-contain"
                 />
               </td>
-              <td className="py-3 px-4 text-right space-x-2">
-                <IconButton>
-                <Icon icon="mdi:eye" fontSize={20} className="text-textGray" />
-                </IconButton>
-               
+              <td className="py-3 px-4 flex justify-end">
+               <MyEyeIcon
+               onClick={()=>{
+                 setIsOpen(true);
+                 // Open brand details modal
+               }}
+               />
                
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <TaskModal className="p-7">
+        <TaskModalHeader>
+          <h5 className="font-bold capitalize">Brand request</h5>
+          {/* Close Icon */}
+          <MyCloseIcon
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            isTooltip={false}
+          />
+        </TaskModalHeader>
+
+        <TaskModalContent >
+          {/* Brand Details */}
+          <BrandAcceptionForm />
+        </TaskModalContent>
+      </TaskModal>
     </div>
   );
 }

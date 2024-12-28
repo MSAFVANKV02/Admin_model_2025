@@ -195,7 +195,7 @@ export default function CategoryPage() {
               searchWith="category_Name"
               // statuses={statuses}
 
-              enableStatus={true}
+              enableStatus={false}
               enableView={false}
             />
           </TabsContent>
@@ -207,7 +207,7 @@ export default function CategoryPage() {
               searchWith="category_name"
               // statuses={statuses}
 
-              enableStatus={true}
+              enableStatus={false}
               enableView={false}
             />
           </TabsContent>

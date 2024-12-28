@@ -28,7 +28,7 @@ export default function BrandPage() {
       <div className="sm:w-1/2 w-full mb-3">
         <Input
           type="text"
-          className="border-none outline-none sm:w-1/2 w-3/4 text-xs"
+          className="border-none outline-none sm:w-1/2 w-3/4 text-xs p-6 shadow-sm"
           placeholder="Search By Brand Name"
         />
         {/* ==== search option brand ===== */}

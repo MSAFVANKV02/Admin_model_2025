@@ -15,6 +15,7 @@ import ProductAddPage from "@/pages/products/add-new/product-add-page";
 import AllProductsPage from "@/pages/products/all/All-Products-page";
 import CategoryPage from "@/pages/products/category/category-page";
 import BrandPage from "@/pages/products/brand/brand-page";
+import ProductReviewPage from "@/pages/products/product-review/product-review-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -41,7 +42,7 @@ const rootRouter = createBrowserRouter([
           { path: "all", element: <AllProductsPage /> },
           { path: "category", element: <CategoryPage /> },
           { path: "brand", element: <BrandPage /> },
-          { path: "reviews", element: <div>Product Reviews Page</div> },
+          { path: "reviews", element: <ProductReviewPage /> },
           { path: "colors", element: <div>Colors Page</div> },
         ],
       },

@@ -21,7 +21,7 @@ export default function TaskModal({ children,className }: ModalComponent) {
       isOpen={isOpen}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
-      overlayClassName="fixed inset-0 bg-black/10 backdrop-filter  flex items-center justify-center z-[10001] "
+      overlayClassName="fixed inset-0 bg-black/20 backdrop-filter  flex items-center justify-center z-[10000] "
       className={cn(`bg-white r rounded-lg  min-w-xl w-[30vw] p-4 h-[80vh]  outline-none  overflow-y-auto relative z-[10001]`,className)}
     >
       <div className="md:hidden block">

@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { cn } from "./lib/utils";
 import NavbarDrawer, { DrawerHeader } from "./components/navbar_/Navbar_Drawer";
 import { Outlet } from "react-router-dom";
+import ThemProviderMui from "./providers/metrialUi/theme-provider";
 
 // const NAVIGATION = [
 //   {
@@ -120,6 +121,8 @@ import { Outlet } from "react-router-dom";
 // ];
 
 export default function MiniDrawer() {
+
+  
   return (
     <div
       className={cn(``, {
@@ -129,10 +132,13 @@ export default function MiniDrawer() {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <NavbarDrawer />
-        <Box component="main" sx={{ flexGrow: 1, p: 2, bgcolor: "#F7F7F7" }}>
+        <ThemProviderMui >
+            <Box component="main" sx={{ flexGrow: 1, p: 2, bgcolor: "#F7F7F7" }}>
           <DrawerHeader />
           <Outlet />
         </Box>
+        </ThemProviderMui>
+      
       </Box>
       <div className="h-10 bg-white border-t text-gray-400 text-xs w-full flex justify-end items-center px-3">
       <span className="select-none text-xs">Copyright 2024 All Rights Are Reserved | © Ayaboo by Haash.Tech</span>

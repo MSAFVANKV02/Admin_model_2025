@@ -106,7 +106,7 @@ export default function BrandCreateSection() {
                     htmlFor="logo"
                     className="text-xs font-bold text-textGray select-none"
                   >
-                    Brand Logo
+                   Brand Logo(120*80)
                   </Label>
                   <FileInput
                     id="logo"

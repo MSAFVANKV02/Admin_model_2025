@@ -17,6 +17,7 @@ import CategoryPage from "@/pages/products/category/category-page";
 import BrandPage from "@/pages/products/brand/brand-page";
 import ProductReviewPage from "@/pages/products/product-review/product-review-page";
 import ColorPage from "@/pages/products/colors/color-page";
+import AllOrdersPage from "@/pages/orders/all/all-oders-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const rootRouter = createBrowserRouter([
         path: "/sales",
         element: <SalesLayout />, // Parent layout for Sales
         children: [
-          { path: "orders", element: <div>All Orders Page</div> },
+          { path: "orders", element: <AllOrdersPage /> },
           { path: "refunds", element: <div>Customer Refunds Page</div> },
         ],
       },

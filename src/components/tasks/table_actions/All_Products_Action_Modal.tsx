@@ -185,7 +185,7 @@ const InitialValues: IProducts = {
   base_price: 0,
   sample_price: 0,
   discount: 0,
-  discount_type: "",
+  discount_type: "flat",
   pricePerPieces: [],
   selectWise: "size",
   store: "",

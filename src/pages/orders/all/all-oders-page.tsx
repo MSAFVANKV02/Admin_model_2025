@@ -20,6 +20,7 @@ export const Orders: IOrders[] = [
     paymentStatus: "Un-paid",
     refund: "No Refund",
     createdAt: "12/12/2015",
+    returnType: "replace",
   },
   {
     orderCode: "20240506–21040495",
@@ -32,6 +33,7 @@ export const Orders: IOrders[] = [
     paymentStatus: "Un-paid",
     refund: "No Refund",
     createdAt: "12/12/2015",
+    returnType: "replace",
   },
   {
     orderCode: "20240506–21040477",
@@ -44,6 +46,7 @@ export const Orders: IOrders[] = [
     paymentStatus: "Un-paid",
     refund: "No Refund",
     createdAt: "12/12/2015",
+    returnType: "refund",
   },
   {
     orderCode: "20240506–21040470",
@@ -56,6 +59,7 @@ export const Orders: IOrders[] = [
     paymentStatus: "Paid",
     refund: "No Refund",
     createdAt: "12/12/2015",
+    returnType: "replace",
   },
 ];
 

@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { IOrders } from "@/types/orderTypes";
-import OrderTableActionModal from "../../table_actions/Orders/order-table-action-modal";
 import OrderReturnAction from "../../table_actions/Orders/order-return-action";
 
 export const OrderReturnColumn: ColumnDef<IOrders>[] = [
@@ -54,10 +53,10 @@ export const OrderReturnColumn: ColumnDef<IOrders>[] = [
     accessorKey: "actions",
     header: () => <div className="font-bold text-black max-w-32"></div>,
     cell: ({ row }) => {
-      const orderId = row.original.orderCode;
+      const order = row.original;
       return (
         <div className="relative flex justify-end">
-          <OrderReturnAction orderId={orderId} />
+          <OrderReturnAction order={order} />
           {/* Additional action logic can go here */}
         </div>
       );

@@ -1,62 +1,87 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { useModal } from "@/providers/context/context";
+import { IOrders } from "@/types/orderTypes";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import ReturnModalTypeAll from "@/components/modals/orders/Return_Modal_Type_All";
+import { useSearchParams } from "react-router-dom";
+import ReturnModalTypeRefund from "@/components/modals/orders/Return_Modal_Type_Refund";
+import ReturnModalTypeReplace from "@/components/modals/orders/Return_Modal_Type_Replace";
 
 type Props = {
-    orderId:string;
-}
+  order: IOrders;
+};
 
-export default function OrderReturnAction({orderId}: Props) {
-    // const {setIsOpen} = useModal();
-    const navigate = useNavigate();
+export default function OrderReturnAction({ order }: Props) {
+  const { setIsOpen } = useModal(); // Ensure the modal state management works
+  const [selectedOrder, setSelectedOrder] = useState<IOrders | null>(null); // To hold the selected order
+  const [searchParams] = useSearchParams();
+  //   const [returnPages, setReturnPages] = useState<"all" | "replace" | "refund">(
+  //     "all"
+  //   );
+  const returnTypeFilter = searchParams.get("return") as
+    | "all"
+    | "replace"
+    | "refund"
+    | null;
 
-    const showOrderDetails = (orderId:string) =>{
-        navigate(`/sales/orders?order=${orderId}`)
-    }
+  const showOrderDetails = (order: IOrders) => {
+    setIsOpen(true);
+    setSelectedOrder(order); // Set the selected order
+  };
 
   return (
     <div className="flex">
-    
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <IconButton>
-          <Icon icon="mi:options-vertical" />
-        </IconButton>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-10 ">
-        <DropdownMenuItem className="text-xs px-3 cursor-pointer"
-        onClick={()=>{
-            // setIsOpen(true)
-            showOrderDetails(orderId);
-        }}
-        >View</DropdownMenuItem>
-        <Separator />
-        <DropdownMenuItem className="text-xs px-3 cursor-pointer">Delete</DropdownMenuItem>
-       
-      </DropdownMenuContent>
-    </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <IconButton>
+            <Icon icon="mi:options-vertical" />
+          </IconButton>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="mr-10">
+          <DropdownMenuItem
+            className="text-xs px-3 cursor-pointer"
+            onClick={() => showOrderDetails(order)} // Trigger the modal
+          >
+            View
+          </DropdownMenuItem>
+          <Separator />
+          <DropdownMenuItem
+            className="text-xs px-3 cursor-pointer"
+            onClick={() => console.log("Delete action triggered")}
+          >
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-    {/* <TaskModal className="w-[60vw]">
-      <Formik
-        enableReinitialize
-        onSubmit={(values) => {
-          console.log("Updated Values:", values);
-        }}
-      >
-        {({ values, setFieldValue }) => (
-          <Form className="flex flex-col justify-between h-full">
-            <TaskModalContent>
-            </TaskModalContent>
-            <TaskModalFooter>
-              <AyButton title="Save" type="submit" />
-            </TaskModalFooter>
-          </Form>
-        )}
-      </Formik>
-    </TaskModal> */}
-  </div>
-  )
+      {selectedOrder && (
+        <>
+          {returnTypeFilter === "replace" ? (
+            <ReturnModalTypeReplace
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+            />
+          ) : returnTypeFilter === "refund" ? (
+            <ReturnModalTypeRefund
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+            />
+          ) : (
+            <ReturnModalTypeAll
+              selectedOrder={selectedOrder}
+              setSelectedOrder={setSelectedOrder}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
 }

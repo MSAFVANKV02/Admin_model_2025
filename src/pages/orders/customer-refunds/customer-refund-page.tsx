@@ -4,6 +4,7 @@ import { IOrders } from "@/types/orderTypes";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCallback, useMemo } from "react";
+import AyButton from "@/components/myUi/AyButton";
 
 const Orders: IOrders[] = [
   {
@@ -58,6 +59,7 @@ function CustomerRefundPage() {
     | "replace"
     | "refund"
     | null;
+  console.log(returnTypeFilter);
 
   //   const filteredOrders =
   //     returnTypeFilter && returnTypeFilter !== "all"
@@ -111,9 +113,42 @@ function CustomerRefundPage() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <DataTable data={filteredOrders} columns={OrderReturnColumn} />
+        <div className="flex md:flex-row flex-col gap-3">
+          <div className={`${returnTypeFilter === "refund" ? "w-3/4":"w-full"} `}>
+            <DataTable data={filteredOrders} columns={OrderReturnColumn} />
+          </div>
 
-        {returnTypeFilter === "refund" && <div className=""></div>}
+          {returnTypeFilter === "refund" && (
+            <div className="flex-grow  min-h-[60vh]">
+              <table className="">
+                <thead>
+                  <tr className="text-sm ">
+                    <th className="py-2 px-2 min-w-32 text-left">Customer</th>
+                    <th className="py-2 px-2 min-w-32 text-left">Refund amount</th>
+                    <th className="py-2 px-2 min-w-32 text-left">Process</th>
+                  </tr>
+                </thead>
+                <tbody className="border ">
+                  <tr>
+                    <td className="py-2 px-2 text-left">John Doe</td>
+                    <td className="py-2 px-2 text-left">500</td>
+                    <td className="py-2 px-2 text-left">
+                      <AyButton
+                        title="Refund process"
+                        sx={{
+                          bgcolor: "#2B90EC",
+                          "&:hover": {
+                            bgcolor: "rgba(43, 144, 236, 0.80)", // Subtle hover background
+                          },
+                        }}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -21,6 +21,7 @@ import AllOrdersPage from "@/pages/orders/all/all-oders-page";
 import UserManagementPage from "@/pages/settings/user-management/user-management-page";
 import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-page";
 import CustomersPage from "@/pages/customers/customers-page";
+import MarketingPage from "@/pages/marketing/marketing-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -62,9 +63,13 @@ const rootRouter = createBrowserRouter([
       {
         path: "/customers",
         element: <CustomersPage />, // Parent layout for Sales
-        // children: [
-        //   { path: "orders", element: <AllOrdersPage /> },
-        // ],
+      },
+      {
+        path: "/marketing",
+        element: <SalesLayout />, // Parent layout for Sales
+        children: [
+          { path: "coupons", element: <MarketingPage /> },
+        ],
       },
       {
         path: "/store",

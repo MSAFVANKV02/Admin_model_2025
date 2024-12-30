@@ -20,6 +20,7 @@ import ColorPage from "@/pages/products/colors/color-page";
 import AllOrdersPage from "@/pages/orders/all/all-oders-page";
 import UserManagementPage from "@/pages/settings/user-management/user-management-page";
 import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-page";
+import CustomersPage from "@/pages/customers/customers-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -57,6 +58,13 @@ const rootRouter = createBrowserRouter([
           { path: "orders", element: <AllOrdersPage /> },
           { path: "refunds", element: <CustomerRefundPage /> },
         ],
+      },
+      {
+        path: "/customers",
+        element: <CustomersPage />, // Parent layout for Sales
+        // children: [
+        //   { path: "orders", element: <AllOrdersPage /> },
+        // ],
       },
       {
         path: "/store",

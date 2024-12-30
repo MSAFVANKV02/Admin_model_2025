@@ -59,7 +59,7 @@ function CustomerRefundPage() {
     | "replace"
     | "refund"
     | null;
-  console.log(returnTypeFilter);
+  // console.log(returnTypeFilter);
 
   //   const filteredOrders =
   //     returnTypeFilter && returnTypeFilter !== "all"

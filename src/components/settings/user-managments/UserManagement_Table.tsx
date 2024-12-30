@@ -1,10 +1,8 @@
 import { UserManagementColumn } from '@/components/tasks/table_columns/user-management-table-column';
 import { DataTable } from '@/components/tasks/task_components/data-table'
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 
-type Props = {}
-
-export default function UserManagementTable({}: Props) {
+export default function UserManagementTable() {
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);

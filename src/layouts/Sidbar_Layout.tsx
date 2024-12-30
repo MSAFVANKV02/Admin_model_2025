@@ -24,3 +24,10 @@ export const SettingsLayout = () => (
     <Outlet />
   </div>
 );
+
+
+export const CustomerLayout = () => (
+  <div>
+    <Outlet />
+  </div>
+);

@@ -1,9 +1,8 @@
-
-
 import { Orders } from "./all-oders-page";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import OrderStatusSelectionSection from "@/components/orders/Order_Status_Selection_Section";
 import { Separator } from "@/components/ui/separator";
+import AllOrdersBottom from "./all_orders_bottom";
 
 type Props = {
   params: string | null;
@@ -20,12 +19,12 @@ export default function ViewOrder({ params }: Props) {
           {/* ==============================
                    ==============================
                    ================================== */}
-                   {/* order status change options ==== */}
+          {/* order status change options ==== */}
           <div className="flex justify-end gap-6">
-           <OrderStatusSelectionSection />
+            <OrderStatusSelectionSection />
           </div>
 
-          <Separator/>
+          <Separator />
 
           <div className="grid lg:grid-cols-4 grid-cols-2 lg:gap-0 gap-4">
             <div className="flex flex-col gap-2">
@@ -88,6 +87,39 @@ export default function ViewOrder({ params }: Props) {
               <div className="flex flex-col pl-6">
                 <small>{order.paymentStatus}</small>
                 <small>{order.paymentMethod}</small>
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* table starts here ======= */}
+
+          <div className="flex lg:flex-row flex-col gap-3">
+            <AllOrdersBottom />
+
+            {/* price section starts */}
+            <div className="lg:ml-auto lg:w-[20%] mt-auto w-full  rounded-md  flex flex-col gap-2">
+              <div className="flex justify-between">
+                <b>Sub Total:</b>
+                <span>₹978</span>
+              </div>
+              <div className="flex justify-between">
+                <b>Tax:</b>
+                <span>₹978</span>
+              </div>
+              <div className="flex justify-between">
+                <b>Shipping:</b>
+                <span>₹978</span>
+              </div>
+              <div className="flex justify-between">
+                <b>Coupon:</b>
+                <span>₹978</span>
+              </div>
+              <hr className="my-2 border-t border-gray-300" />
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total Amount:</span>
+                <span>₹1978</span>
               </div>
             </div>
           </div>

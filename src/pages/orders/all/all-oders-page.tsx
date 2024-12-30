@@ -1,10 +1,12 @@
-import { AllOrdersTableColumn } from "@/components/tasks/table_columns/orders-table-columns";
+
 import { DataTable } from "@/components/tasks/task_components/data-table";
 import { IOrders } from "@/types/orderTypes";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ViewOrder from "./view_order";
 import AyButton from "@/components/myUi/AyButton";
+import '@/assets/css/orders.css'
+import { AllOrdersTableColumn } from "@/components/tasks/table_columns/ordes/orders-table-columns";
 
 export const Orders: IOrders[] = [
   {

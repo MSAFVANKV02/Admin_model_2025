@@ -5,6 +5,7 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { MenuIcon } from "lucide-react";
@@ -45,6 +46,8 @@ export default function NavAppBar({
 }: Props) {
   // handle full screen mode ====
   const { handleFullScreen } = FullViewScreen();
+  const isLargeScreen = useMediaQuery("(min-width: 1024px)");
+
   // click
   const { handleClick } = useNavigateClicks();
 
@@ -92,7 +95,7 @@ export default function NavAppBar({
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ marginRight: 5, marginLeft:5, ...(open && { display: "none" }) }}
+            sx={{ marginRight: 5, marginLeft:isLargeScreen ?5:0, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>

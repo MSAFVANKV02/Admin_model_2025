@@ -5,6 +5,7 @@ import { cn } from "./lib/utils";
 import NavbarDrawer, { DrawerHeader } from "./components/navbar_/Navbar_Drawer";
 import { Outlet } from "react-router-dom";
 import ThemProviderMui from "./providers/metrialUi/theme-provider";
+import { useMediaQuery } from "@mui/material";
 
 // const NAVIGATION = [
 //   {
@@ -122,7 +123,7 @@ import ThemProviderMui from "./providers/metrialUi/theme-provider";
 
 export default function MiniDrawer() {
 
-  
+  const isLargeScreen = useMediaQuery("(min-width: 1024px)");
   return (
     <div
       className={cn(``, {
@@ -133,7 +134,7 @@ export default function MiniDrawer() {
         <CssBaseline />
         <NavbarDrawer />
         <ThemProviderMui >
-            <Box component="main" sx={{ flexGrow: 1, p: 2, bgcolor: "#F7F7F7" }}>
+            <Box component="main" sx={{  flexGrow: isLargeScreen ? 1 : 0, p: isLargeScreen ? 2 : 0, bgcolor: "#F7F7F7" }}>
           <DrawerHeader />
           <Outlet />
         </Box>

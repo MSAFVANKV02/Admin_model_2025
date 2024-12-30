@@ -6,7 +6,7 @@ import ProtectedRoute from "@/middlewares/ProtectedRoute";
 import ErrorPage from "@/Error-Page";
 import LoginPage from "@/pages/auth/Login-Page";
 import {
-ProductsLayout,
+  ProductsLayout,
   SalesLayout,
   StoreManagementLayout,
   SettingsLayout,
@@ -18,6 +18,8 @@ import BrandPage from "@/pages/products/brand/brand-page";
 import ProductReviewPage from "@/pages/products/product-review/product-review-page";
 import ColorPage from "@/pages/products/colors/color-page";
 import AllOrdersPage from "@/pages/orders/all/all-oders-page";
+import UserManagementPage from "@/pages/settings/user-management/user-management-page";
+import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -53,7 +55,7 @@ const rootRouter = createBrowserRouter([
         element: <SalesLayout />, // Parent layout for Sales
         children: [
           { path: "orders", element: <AllOrdersPage /> },
-          { path: "refunds", element: <div>Customer Refunds Page</div> },
+          { path: "refunds", element: <CustomerRefundPage /> },
         ],
       },
       {
@@ -70,7 +72,17 @@ const rootRouter = createBrowserRouter([
       {
         path: "/settings",
         element: <SettingsLayout />,
-        children: [{ path: "shipping", element: <div>Shipping Page</div> }],
+        children: [
+          { path: "shipping", element: <div>Shipping Page</div> },
+          {
+            path: "user-management",
+            element:<UserManagementPage />,
+          },
+          {
+            path: "user-strict",
+            element:  <ErrorPage />,
+          },
+        ],
       },
     ],
   },

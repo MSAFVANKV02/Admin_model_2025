@@ -113,7 +113,9 @@ function NavigationList() {
       title: "Settings",
       icon: <Icon icon="mdi:cog-outline" />,
       isChild: true,
-      children: [{ title: "Shipping", segment: "/settings/shipping" }],
+      children: [{ title: "Shipping", segment: "/settings/shipping" },
+        { title: "User Management", segment: "/settings/user-management" }
+      ],
     },
   ];
   return {

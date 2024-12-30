@@ -9,5 +9,8 @@ export type IOrders = {
     paymentStatus: string;
     refund: string;
     createdAt: string;
+    returnType: IReturnTypes;
   };
   
+
+ export type IReturnTypes = "all" | "replace" | "refund";

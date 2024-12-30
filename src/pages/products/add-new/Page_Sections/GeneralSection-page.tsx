@@ -1,7 +1,7 @@
 import { Field, ErrorMessage } from "formik";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { cn } from "@/lib/utils";
 import TiptapCareGuide from "@/components/text_editors/TiptapCareGuide";
 import Select, { MultiValue } from "react-select";
@@ -62,6 +62,8 @@ export default function GeneralSectionPage({
   setFieldValue,
   // errors,
 }: Props) {
+  const isLargeScreen = useMediaQuery("(min-width: 1024px)");
+
   // const [selectedCessOptions, setSelectedCessOptions] = useState<
   //   MultiValue<SelectOption>
   // >(values.cess || []);
@@ -82,8 +84,10 @@ const [selectedTaxSlab, setSelectedTaxSlab] = useState<
 
 
   return (
-    <Box display="flex" gap="13px">
-      <div className="w-3/4 flex flex-col gap-3">
+    <Box display="flex"  sx={{
+      flexDirection:isLargeScreen ?"row":"column"
+    }} gap="13px">
+      <div className="md:w-3/4 w-full flex flex-col gap-3">
         <FormFieldGenal
           value={values.product_name}
           title="Product Name"
@@ -356,7 +360,7 @@ const [selectedTaxSlab, setSelectedTaxSlab] = useState<
 
       {/* ================  Category Selection =====================
       ============================================================== */}
-      <div className="flex-grow">Category</div>
+      <div className="flex-grow ">Category</div>
     </Box>
   );
 }
@@ -386,7 +390,7 @@ export function FormFieldGenal({
   type = "text", // default type is text
 }: FormFieldGenalProps) {
   return (
-    <div className={cn("flex items-center justify-between", className)}>
+    <div className={cn("flex md:flex-row flex-col gap-2 md:items-center justify-between", className)}>
       <Label htmlFor={name} className="text-textGray">
         {title}
       </Label>

@@ -34,7 +34,7 @@ export default function DashboardPage() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className=" flex flex-col gap-6">
       <DashSec01 />
 
       {/* tables starts =====

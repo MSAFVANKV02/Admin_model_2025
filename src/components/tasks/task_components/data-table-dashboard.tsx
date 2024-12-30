@@ -79,7 +79,7 @@ export function DataTableDashboard<TData, TValue>({
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 md:w-auto w-[90vw]">
       <DataTableToolbarDashboard
        table={table}
        enableStatus={enableStatus}

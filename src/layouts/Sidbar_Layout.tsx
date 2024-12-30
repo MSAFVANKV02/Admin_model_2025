@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 export const ProductsLayout = () => (
-  <div>
+  <div className="">
     <Outlet /> {/* Renders child routes */}
   </div>
 );
@@ -21,7 +21,6 @@ export const StoreManagementLayout = () => (
 
 export const SettingsLayout = () => (
   <div>
-    <h1>Store Management Page</h1>
     <Outlet />
   </div>
 );

@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { IOrders } from "@/types/orderTypes";
-import OrderTableActionModal from "../table_actions/order-table-action-modal";
+import OrderTableActionModal from "../../table_actions/Orders/order-table-action-modal";
 
 export const AllOrdersTableColumn: ColumnDef<IOrders>[] = [
   {

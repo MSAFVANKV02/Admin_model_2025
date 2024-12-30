@@ -121,7 +121,7 @@ export default function HomeSec01({}: Props) {
 
   return (
     <div className="flex justify-between gap-6 lg:flex-row flex-col w-full">
-      <section className="grid md:grid-cols-2 grid-cols-2 lg:w-[40%] w-full gap-6">
+      <section className="grid md:grid-cols-2  grid-cols-1 lg:w-[40%] w-full gap-6">
         {/* Admin data count cards */}
         {CardData.map((d, i) => (
           <Card
@@ -144,7 +144,7 @@ export default function HomeSec01({}: Props) {
             <Button variant="secondary">All orders</Button>
           </div>
           {/* Order Status================================================= */}
-          <section className="grid md:grid-cols-3 grid-cols-2 w-full gap-6">
+          <section className="grid md:grid-cols-3 sm:grid-cols-2 w-full gap-6">
             {StatusCardData.map((d, i) => (
               <OrderStatusCard
                 key={i}

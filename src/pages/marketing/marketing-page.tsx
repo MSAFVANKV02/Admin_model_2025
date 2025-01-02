@@ -1,11 +1,16 @@
 // import CouponsTable from "@/components/marketing/Coupons_Table";
-import CouponsForm from "@/components/marketing/Coupons_Form";
+import CouponsForm from "@/components/marketing/coupon_forms/Coupons_Form";
+import CouponsFormForProduct from "@/components/marketing/coupon_forms/Coupons_Form_Product";
+import CouponsFormForStore from "@/components/marketing/coupon_forms/Coupons_Form_Store";
+import CouponsFormForWelcome from "@/components/marketing/coupon_forms/Coupons_Form_Wlcome";
+
 import AyButton from "@/components/myUi/AyButton";
 import { CouponTableColumn } from "@/components/tasks/table_columns/marketing/Couon_table_columns";
 import { DataTable } from "@/components/tasks/task_components/data-table";
 import { ICoupon } from "@/types/types";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Select from 'react-select';
 
 const coupons: ICoupon[] = [
   {
@@ -28,33 +33,63 @@ const coupons: ICoupon[] = [
   // Add more coupon objects here
 ];
 
+type CouponOption = {
+  value: string;
+  label: string;
+};
+
+const couponOptions: CouponOption[] = [
+  { value: "product", label: "For Product" },
+  { value: "store", label: "For Store" },
+  { value: "total_order", label: "For Total Order" },
+  { value: "welcome_coupon", label: "Welcome Coupon" },
+];
+
+
 export default function MarketingPage() {
- 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [view, setView] = useState(false);
+  const [selectedCouponType, setSelectedCouponType] = useState<CouponOption | null>(null);
 
   const params = searchParams.get("add");
 
+  const showCouponForm = (params: string) => {
+    navigate(`/marketing/coupons?add=${params}`);
+  };
 
-  const showCouponForm = (params:string) =>{
-    navigate(`/marketing/coupons?add=${params}`)
-}
-const handleCouponsPage = () => {
-  navigate("/marketing/coupons",{replace:false}); // Navigate to the base route without query parameters
-  setView(false);
-};
-
-useEffect(() => {
-
-  if (params ) {
-    setView(true);
-  } else {
+  const handleCouponsPage = () => {
+    navigate("/marketing/coupons", { replace: false }); // Navigate to the base route without query parameters
     setView(false);
-  }
-}, [searchParams, params]);
+  };
 
+  const handleCouponTypeChange = (selectedOption: CouponOption | null) => {
+    setSelectedCouponType(selectedOption);
+  };
+  
 
+  useEffect(() => {
+    if (params) {
+      setView(true);
+    } else {
+      setView(false);
+    }
+  }, [searchParams, params]);
+
+  const renderFormContent = () => {
+    switch (selectedCouponType?.value) {
+      case "product":
+        return   <CouponsFormForProduct/>;
+      case "store":
+        return <CouponsFormForStore />;
+      case "total_order":
+        return <CouponsForm />;
+      case "welcome_coupon":
+        return <CouponsFormForWelcome />;
+      default:
+        return <p>Select a coupon type to start.</p>;
+    }
+  };
 
   return (
     <div>
@@ -63,61 +98,76 @@ useEffect(() => {
       </div>
       {/* ===== */}
       <div className="page-outer">
-        <div className="flex justify-end mb-5">
-          {
-            view ? (
+        <div className="flex justify-between mb-5">
+          {view ? (
+            <>
+              <span className="text-sm font-bold capitalize">Add Coupon </span>
+
               <AyButton
-              title="Show All Coupons"
-              sx={{
-                borderRadius:"100px",
-                height:"50px",
-              }}
-              onClick={() => {
-                // Navigate to CouponsForm
-                // setIsOpen(true);
-                handleCouponsPage();
-              }}
+                title="Show All Coupons"
+                sx={{
+                  borderRadius: "100px",
+                  height: "50px",
+                }}
+                onClick={() => {
+                  // Navigate to CouponsForm
+                  // setIsOpen(true);
+                  handleCouponsPage();
+                }}
               />
-            ):(
+            </>
+          ) : (
+            <>
+              <span className="text-sm font-bold capitalize">Coupon List</span>
               <AyButton
-              title="+ Add New Coupon"
-              sx={{
-                borderRadius:"100px",
-                height:"50px",
-              }}
-              onClick={() => {
-                // Navigate to CouponsForm
-                // setIsOpen(true);
-                showCouponForm("coupon")
-              }}
+                title="+ Add New Coupon"
+                sx={{
+                  borderRadius: "100px",
+                  height: "50px",
+                }}
+                onClick={() => {
+                  // Navigate to CouponsForm
+                  // setIsOpen(true);
+                  showCouponForm("coupon");
+                }}
               />
-            )
-          }
-        
+            </>
+          )}
         </div>
         {/* <CouponsTable /> */}
 
-        {
-          !view ? (
-  <DataTable
-          enableSearch
-          searchWith="name"
-          data={coupons}
-          columns={CouponTableColumn}
-        />
-          ): (
-            <CouponsForm />
-          )
-        }
-      
+        {!view ? (
+          <DataTable
+            enableSearch
+            searchWith="name"
+            data={coupons}
+            columns={CouponTableColumn}
+          />
+        ) : (
+          <div className="max-w-screen-lg mx-auto ">
+            <Select
+              className="basic-single text-xs"
+              classNamePrefix="select"
+              isClearable
+              isSearchable
+              placeholder="Select Coupon Type"
+              options={couponOptions}
+              value={selectedCouponType}
+              onChange={handleCouponTypeChange}
+            />
+             <div className="mt-4">
+              {renderFormContent()}
+            </div>
+          
+          </div>
+         
+        )}
       </div>
-
 
       {/* 
       
       ===== coupons adding from ===============================================================
       */}
-     
     </div>
   );
 }

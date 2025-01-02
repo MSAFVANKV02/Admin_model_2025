@@ -12,6 +12,7 @@ export interface ICoupon {
     applicable_product_id: string[]; // Foreign key(s) for applicable product(s)
     applicable_store_id: string[]; // Foreign key(s) for applicable store(s)
     applicable_seller_id: string[]; // Foreign key(s) for applicable seller(s)
+    purchase_limit?: number; //
     createdAt: Date; // Date of creation
     updatedAt: Date; // Date of last update
   }

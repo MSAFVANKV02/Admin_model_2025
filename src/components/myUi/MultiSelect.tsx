@@ -2,6 +2,7 @@ import { SelectOption } from "@/types/productType";
 import Select, { MultiValue } from "react-select";
 import makeAnimated from "react-select/animated";
 import { customStyles } from "../products/Custom_styles";
+import { cn } from "@/lib/utils";
 
 const animatedComponents = makeAnimated();
 
@@ -10,6 +11,8 @@ type Props = {
   selectedValue: MultiValue<SelectOption>;
   options: SelectOption[];
   fieldName: string;
+  className?: string; 
+  placeholder?: string; 
 };
 
 export default function MultiSelect({
@@ -17,15 +20,17 @@ export default function MultiSelect({
   selectedValue,
   options,
   fieldName,
+  className,
+  placeholder='Select sizes'
 }: Props) {
   return (
     <Select
       isMulti
       components={animatedComponents}
-      className="w-full"
+      className={cn(`w-full`,className)}
       styles={customStyles}
       value={selectedValue}
-      placeholder="Select sizes"
+      placeholder={placeholder}
       closeMenuOnSelect={false}
       options={options}
       getOptionLabel={(e: SelectOption) => e.name}

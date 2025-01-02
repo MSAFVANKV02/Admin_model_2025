@@ -1,9 +1,6 @@
 import { useModal } from "@/providers/context/context";
 
-import AyButton from "../myUi/AyButton";
 import { ErrorMessage, Form, Formik } from "formik";
-import { Input } from "../ui/input";
-import { FormField } from "../myUi/FormField";
 import {
   Select,
   SelectContent,
@@ -11,55 +8,74 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "../ui/label";
 import { Calendar } from "@/components/ui/calendar";
 
-import { MySwitch } from "../myUi/mySwitch";
 import * as Yup from "yup";
-
-
+import { FormField } from "@/components/myUi/FormField";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { MySwitch } from "@/components/myUi/mySwitch";
+import AyButton from "@/components/myUi/AyButton";
+import MultiSelect from "@/components/myUi/MultiSelect";
+import { SelectOption } from "@/types/productType";
+import { useState } from "react";
 
 const validationSchema = Yup.object().shape({
-    coupon_code: Yup.string().required("Coupon code is required"),
-    discount_type: Yup.string().required("Discount type is required"),
-    discount_amount: Yup.number().required("Discount amount is required"),
-    minimum_purchase_amount: Yup.number().required("Minimum purchase amount is required"),
-    start_date: Yup.date().required("Start date is required").nullable(),
-    expired_at: Yup.date()
-      .required("Expiration date is required")
-      .nullable()
-      .test("expired_at", "Expiration date cannot be earlier than start date", function (value) {
+  coupon_code: Yup.string().required("Coupon code is required"),
+  discount_type: Yup.string().required("Discount type is required"),
+  // discount_amount: Yup.number().required("Discount amount is required"),
+  // minimum_purchase_amount: Yup.number().required("Minimum purchase amount is required"),
+  discount_amount: Yup.number()
+    .typeError("Discount amount must be a number")
+    .required("Discount amount is required"),
+
+  start_date: Yup.date().required("Start date is required").nullable(),
+  expired_at: Yup.date()
+    .required("Expiration date is required")
+    .nullable()
+    .test(
+      "expired_at",
+      "Expiration date cannot be earlier than start date",
+      function (value) {
         const { start_date } = this.parent;
         if (start_date && value) {
           return new Date(value) >= new Date(start_date);
         }
         return true;
-      }),
-    is_active: Yup.boolean(),
-  });
+      }
+    ),
+  is_active: Yup.boolean(),
+  applicable_store_id: Yup.array()
+  .of(Yup.string().required())
+  .min(1, "At least one product must be selected")
+  .required("Applicable products are required"),
+});
 
-export default function CouponsForm() {
+const storeOptions: SelectOption[] = [
+  { _id: "product_1", name: "Product 1" },
+  { _id: "product_2", name: "Product 2" },
+  { _id: "product_3", name: "Product 3" },
+];
+
+
+export default function CouponsFormForStore() {
   const { setIsOpen } = useModal();
+  const [selectedStores, setSelectedStores] = useState<SelectOption[]>([]);
 
 
   return (
-    <div className="max-w-screen-xl mx-auto border p-5 shadow-xl rounded-lg">
+    <div className="border p-5 shadow-xl rounded-lg">
       <Formik
-      validationSchema={validationSchema}
+        validationSchema={validationSchema}
         initialValues={{
           id: "",
           coupon_code: "",
           discount_type: "percentage",
           discount_amount: 0,
-          minimum_purchase_amount: 0,
           start_date: new Date(),
           expired_at: new Date(),
           is_active: false,
-          applicable_brand_id: [],
-          applicable_category_id: [],
-          applicable_product_id: [],
           applicable_store_id: [],
-          applicable_seller_id: [],
         }}
         onSubmit={(values, { resetForm }) => {
           console.log(values);
@@ -120,15 +136,32 @@ export default function CouponsForm() {
             />
 
             {/* 4. minimum purchase amount */}
-            <FormField
-              value={values.minimum_purchase_amount}
-              title="Minimum Purchase Amount"
-              id="minimum_purchase_amount"
-              name="minimum_purchase_amount"
-              type="number"
-              placeholder="Enter minimum purchase amount"
-              fieldAs={Input}
-            />
+            {/* Applicable Product ID */}
+            <div className="flex justify-between lg:flex-row flex-col gap-2">
+              <Label htmlFor="applicable_store_id" className="text-sm text-textGray">
+                Applicable Stores
+              </Label>
+              <MultiSelect
+                placeholder="Select Stores"
+                className="lg:w-3/4 border-slate-600"
+                fieldName="applicable_store_id"
+                options={storeOptions}
+                selectedValue={selectedStores} // ensure it's an array
+                setSelectedValues={(fieldName, selectedOptions) => {
+                  setFieldValue(
+                    fieldName,
+                    selectedOptions.map((option: SelectOption) => option?._id)
+                  );
+                  setSelectedStores(selectedOptions);
+                }}
+              />
+             
+              <ErrorMessage
+                name="applicable_store_id"
+                component="span"
+                className="text-red-500 text-xs"
+              />
+            </div>
 
             {/* === Dates Started ===== */}
 

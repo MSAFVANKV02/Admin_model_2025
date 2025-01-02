@@ -23,13 +23,13 @@ export type IProducts = {
 
   //   ===== tax  details ============
 
-  is_featured_product: boolean;
-  is_published: boolean;
-  is_todays_deal: boolean;
-  is_best_selling: boolean;
+  is_featured_product?: boolean;
+  is_published?: boolean;
+  is_todays_deal?: boolean;
+  is_best_selling?: boolean;
 
   //   files section
-  gallery_image: File[];
+  gallery_image?: File[];
   thumbnails: File[];
   variations: {
     image: File;
@@ -54,19 +54,19 @@ export type IProducts = {
   freeShipping: boolean;
 
   // ==== after uses of user side =================
-  rating_count: number;
-  total_ratings: number;
-  unit_soled: number;
-  avg_sale_per_customer: number;
-  return_rate: number;
-  search_count: number;
-  wishlist_count: number;
-  createdAt: Date;
-  updatedAt: Date;
+  rating_count?: number;
+  total_ratings?: number;
+  unit_soled?: number;
+  avg_sale_per_customer?: number;
+  return_rate?: number;
+  search_count?: number;
+  wishlist_count?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   //   admin side
   status: "approved" | "hold" | "reject";
-  reject_reason: string;
+  reject_reason?: string;
 };
 // ====== type ends =================
 export type ITaxDetails = {

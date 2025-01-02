@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { pdfjs } from 'react-pdf';
 import * as Yup from "yup";
 import FileInput from "@/components/myUi/FileInput";

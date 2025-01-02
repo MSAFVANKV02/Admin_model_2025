@@ -30,7 +30,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
       return (
         <div className="flex items-start gap-4">
           <img
-            src={`${product.gallery_image[0]}`}
+            src={`${product?.gallery_image || ""}`}
             alt={product.product_name}
             width={50}
             height={50}
@@ -171,7 +171,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     header: () => <div className="font-bold text-black">Today's Deal</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.is_todays_deal}
+        isOn={!row.original.is_todays_deal}
         id="is_todays_deal"
         handleToggle={() => {
           console.log("toggled");
@@ -186,7 +186,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     header: () => <div className="font-bold text-black">published</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.is_published}
+        isOn={!row.original.is_published}
         id="is_published"
         handleToggle={() => {
           console.log("toggled");
@@ -201,7 +201,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     header: () => <div className="font-bold text-black">featured</div>,
     cell: ({ row }) => (
       <MySwitch
-        isOn={row.original.is_featured_product}
+        isOn={!row.original.is_featured_product}
         id="is_featured_product"
         handleToggle={() => {
           console.log("toggled");

@@ -268,7 +268,7 @@ export default function FilesMediaSectionPage({
       <div className="space-y-5">
         <FormFieldGenal
           setFieldValue={setFieldValue}
-          values={values.gallery_image}
+          values={values.gallery_image || []}
           id="gallery_image"
           name="gallery_image"
           title="Gallery Images (600x600)"

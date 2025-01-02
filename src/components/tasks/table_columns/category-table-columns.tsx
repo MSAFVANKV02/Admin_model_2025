@@ -47,7 +47,7 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     header: () => <div className="font-bold text-black">Cover Img</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.coverImage} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.coverImage||""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },
@@ -57,7 +57,7 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     header: () => <div className="font-bold text-black">Icon</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.icon} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.icon||""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },
@@ -169,7 +169,7 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
     header: () => <div className="font-bold text-black">Icon</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.icon} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.icon || ""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },

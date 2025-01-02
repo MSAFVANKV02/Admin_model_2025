@@ -53,7 +53,7 @@ const UserCreateForm = () => {
         resetForm();
       }}
     >
-      {({ values }) => (
+      {() => (
         <Form className="p-4 bg-white shadow-md rounded-md">
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-bold">

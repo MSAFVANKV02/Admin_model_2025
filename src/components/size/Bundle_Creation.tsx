@@ -85,7 +85,7 @@ export default function BundleCreation({ onClose, isOpen }: Props) {
           <MultiSelect
             fieldName="sizes"
             selectedValue={selectedSizes}
-            setSelectedValues={(fieldName, value) => {
+            setSelectedValues={(_, value) => {
               setSelectedSizes(value);
               // Ensure selectedBundles sync with selectedSizes
               const newBundles = value.map((size) => ({

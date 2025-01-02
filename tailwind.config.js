@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+// import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindcssAnimate from "tailwindcss-animate";
+import tailwindcssDebugScreens from "tailwindcss-debug-screens";
+import tailwindcssNoScrollbar from "tailwindcss-no-scrollbar";
+import tailwindScrollbar from "tailwind-scrollbar";
 
 const config = {
   darkMode: ["class"],
@@ -136,9 +140,13 @@ const config = {
   },
   plugins: [
     tailwindcssAnimate,
-    require("tailwindcss-debug-screens"),
-    require("tailwindcss-no-scrollbar"),
-    require("tailwind-scrollbar"),
+	tailwindcssAnimate,
+    tailwindcssDebugScreens,
+    tailwindcssNoScrollbar,
+    tailwindScrollbar,
+    // require("tailwindcss-debug-screens"),
+    // require("tailwindcss-no-scrollbar"),
+    // require("tailwind-scrollbar"),
   ],
 };
 

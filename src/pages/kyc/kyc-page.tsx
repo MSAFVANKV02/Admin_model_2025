@@ -43,7 +43,7 @@ export default function KycPage() {
             enableView
             
             />
-      
+      {/* ÷ */}
         </div>
     </div>
   )

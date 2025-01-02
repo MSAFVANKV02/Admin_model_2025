@@ -71,6 +71,12 @@ function NavigationList() {
     },
     {
       kind: "page",
+      segment: "/kyc",
+      title: "Kyc verification",
+      icon: <Icon icon="iconamoon:shield-yes-fill" />,
+    },
+    {
+      kind: "page",
       segment: "/website",
       title: "Website Group",
       icon: <Icon icon="mdi:web" />,

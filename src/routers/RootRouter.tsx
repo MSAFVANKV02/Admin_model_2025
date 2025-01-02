@@ -23,6 +23,7 @@ import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-
 import CustomersPage from "@/pages/customers/customers-page";
 import MarketingPage from "@/pages/marketing/marketing-page";
 import ProductSalePage from "@/pages/reports/product-sale/product-sale-page";
+import KycPage from "@/pages/kyc/kyc-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const rootRouter = createBrowserRouter([
         children: [
           { path: "product-sale", element: <ProductSalePage /> },
         ],
+      },
+      {
+        path: "/kyc",
+        element: <KycPage />,
       },
       {
         path: "/store",

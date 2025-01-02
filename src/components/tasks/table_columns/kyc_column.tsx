@@ -5,7 +5,13 @@ import { Task } from "../data/schema";
 import { DataTableColumnHeader } from "../task_components/data-table-column-header";
 import { DataTableRowActionsDashboard } from "../table_actions/data-table-action-dashboard";
 
+
+// interface KycColumnProps {
+//   isDashboard?: boolean; // optional prop for dashboard
+// }
+
 export const kycColumn: ColumnDef<Task>[] = [
+  // export const kycColumn = ({ isDashboard=true }: KycColumnProps): ColumnDef<Task>[] => [
   {
     accessorKey: "businessName",
     header: "Business Name",
@@ -53,6 +59,8 @@ export const kycColumn: ColumnDef<Task>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActionsDashboard row={row} type="kyc_dash_modal"/>,
+    cell: ({ row }) =>
+      <DataTableRowActionsDashboard row={row} type="kyc_dash_modal" />
+    ,
   },
 ];

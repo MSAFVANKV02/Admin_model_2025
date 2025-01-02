@@ -22,6 +22,7 @@ import UserManagementPage from "@/pages/settings/user-management/user-management
 import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-page";
 import CustomersPage from "@/pages/customers/customers-page";
 import MarketingPage from "@/pages/marketing/marketing-page";
+import ProductSalePage from "@/pages/reports/product-sale/product-sale-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const rootRouter = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+      {
+        path: "/",
+        element: <DashboardPage />,
+      },
       {
         path: "/dashboard",
         element: <DashboardPage />,
@@ -69,6 +74,13 @@ const rootRouter = createBrowserRouter([
         element: <SalesLayout />, // Parent layout for Sales
         children: [
           { path: "coupons", element: <MarketingPage /> },
+        ],
+      },
+      {
+        path: "/reports",
+        element: <SalesLayout />, // Parent layout for Sales
+        children: [
+          { path: "product-sale", element: <ProductSalePage /> },
         ],
       },
       {

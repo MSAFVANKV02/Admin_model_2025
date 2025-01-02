@@ -170,7 +170,7 @@ const [selectedTaxSlab, setSelectedTaxSlab] = useState<
         {/* #Dimension ==== */}
         <div className={cn("flex items-center justify-between")}>
           <Label htmlFor="dimension" className="text-textGray">
-            Dimension
+            Dimension (width / height / length)
           </Label>
           <div className="flex  md:w-3/4 gap-2">
             <div className="w-full">
@@ -289,10 +289,11 @@ const [selectedTaxSlab, setSelectedTaxSlab] = useState<
             <Field
                 id="tax_details.cess"
                 name="tax_details.cess"
-                placeholder="product_length"
+                placeholder="Cess"
                 className={cn(` p-6 ml-3`)}
                 type="number"
                 as={Input}
+                disabled={!values.tax_details.isCess}
                 value={values.tax_details.cess} // Bind field value to Formik
               />
              

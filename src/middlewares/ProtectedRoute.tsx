@@ -58,7 +58,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <>{children}</>;
   }
 
-  
+    // Redirect to dashboard if logged in and accessing "/" or "/login"
+    if (pathname === "/login" || pathname === "/") {
+      return <Navigate to="/dashboard" replace />;
+    }
 
   // Helper function to check if the user has access to the current route or its exact path
   const hasAccess = (path: string) => {
@@ -76,10 +79,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <Navigate to="/settings/user-strict" replace />;
   }
 
-  // Redirect to dashboard if logged in and accessing "/" or "/login"
-  if (pathname === "/login" || pathname === "/") {
-    return <Navigate to="/dashboard" replace />;
-  }
+
 
   // Allow authenticated users to access protected routes
   return <>{children}</>;

@@ -215,7 +215,7 @@ export default function CustomerDetailsModal({ onClose }: Props) {
               <div className="flex justify-between md:flex-row flex-col gap-3 items-start mb-4">
                 <Label>Uploaded Document</Label>
                 <div className="flex flex-col md:w-[70%] w-full text-sm">
-                  <MyPdf value="/public/Invoice_INV1482989614215502 (16).pdf" className="w-10 h-10" />
+                  <MyPdf value="/Invoice_INV1482989614215502 (16).pdf" className="w-10 h-10" />
                   <ErrorMessage
                     name="uploadedDocument"
                     component="div"

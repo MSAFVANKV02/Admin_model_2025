@@ -134,7 +134,7 @@ export default function MiniDrawer() {
         <CssBaseline />
         <NavbarDrawer />
         <ThemProviderMui >
-            <Box component="main" sx={{  flexGrow: isLargeScreen ? 1 : 0, p: isLargeScreen ? 2 : 0, bgcolor: "#F7F7F7" }}>
+            <Box component="main" sx={{  flexGrow: isLargeScreen ? 1 : 0,width:"100%", p: isLargeScreen ? 2 : 1, bgcolor: "#F7F7F7" }}>
           <DrawerHeader />
           <Outlet />
         </Box>

@@ -77,6 +77,12 @@ function NavigationList() {
     },
     {
       kind: "page",
+      segment: "/web-setup",
+      title: "Web Setup",
+      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+    },
+    {
+      kind: "page",
       segment: "/website",
       title: "Website Group",
       icon: <Icon icon="mdi:web" />,

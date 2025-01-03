@@ -24,6 +24,7 @@ import CustomersPage from "@/pages/customers/customers-page";
 import MarketingPage from "@/pages/marketing/marketing-page";
 import ProductSalePage from "@/pages/reports/product-sale/product-sale-page";
 import KycPage from "@/pages/kyc/kyc-page";
+import WebpSetupPage from "@/pages/web/webpsetup-page";
 
 const rootRouter = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const rootRouter = createBrowserRouter([
       {
         path: "/kyc",
         element: <KycPage />,
+      },
+      {
+        path: "/web-setup",
+        element: <WebpSetupPage />,
       },
       {
         path: "/store",

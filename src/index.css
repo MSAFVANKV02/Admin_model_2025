@@ -154,7 +154,7 @@
 }
 
 .page-outer{
-  @apply bg-white p-5 rounded-md shadow-sm min-h-[80vh];
+  @apply bg-white p-5 rounded-md shadow-sm min-h-[80vh] w-full;
 }
 
 /** Text Gradient Example */

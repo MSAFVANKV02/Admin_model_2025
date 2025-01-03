@@ -83,6 +83,12 @@ function NavigationList() {
     },
     {
       kind: "page",
+      segment: "/offline-payment",
+      title: "Offline Payment",
+      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+    },
+    {
+      kind: "page",
       segment: "/website",
       title: "Website Group",
       icon: <Icon icon="mdi:web" />,

@@ -30,7 +30,7 @@ export default function FileInput({
   return (
     <Label
       htmlFor={name}
-      className={cn(`w-full border h-12 rounded-md flex items-center cursor-pointer`,className)}
+      className={cn(`w-full border h-12 rounded-md flex items-center cursor-pointer overflow-hidden`,className)}
     >
       <div className="px-5 border-r h-full text-center flex items-center bg-gray-100">
         {

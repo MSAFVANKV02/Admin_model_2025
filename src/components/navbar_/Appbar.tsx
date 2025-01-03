@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { MenuIcon } from "lucide-react";
-import { Fullscreen, PublicOutlined } from "@mui/icons-material";
+import {  Fullscreen, PublicOutlined } from "@mui/icons-material";
 import {
   Dialog,
   DialogClose,
@@ -26,6 +26,7 @@ import useNavigateClicks from "@/hooks/useClicks";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import NotificationBarSheet from "./Notification_Sheet";
 import { Button } from "../ui/button";
+import { makeToast } from "@/utils/toaster";
 
 type Props = {
   open: boolean;
@@ -50,6 +51,21 @@ export default function NavAppBar({
 
   // click
   const { handleClick } = useNavigateClicks();
+
+    // Clear cache function
+    const handleClearCache = () => {
+      if (window.caches) {
+        caches.keys().then((keyList) => {
+          return Promise.all(keyList.map((key) => caches.delete(key)));
+        });
+      }
+      localStorage.clear();
+      sessionStorage.clear();
+      makeToast("Cache cleared successfully!"); // Show success toast
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500); 
+    };
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -129,6 +145,15 @@ export default function NavAppBar({
             ========================== */}
 
           <NotificationBarSheet />
+
+           {/* Clear Cache Button */}
+           <Tooltip title="Clear Cache">
+            <IconButton onClick={handleClearCache}>
+              <img src="/public/icons/clear-catche.svg" alt="clear catche" width={23} height={23} />
+              {/* <CleaningServicesIcon /> */}
+            </IconButton>
+          </Tooltip>
+
 
           {/* User Details avatar and more settings =====
         ================================================ */}

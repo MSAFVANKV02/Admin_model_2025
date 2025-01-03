@@ -25,6 +25,8 @@ import MarketingPage from "@/pages/marketing/marketing-page";
 import ProductSalePage from "@/pages/reports/product-sale/product-sale-page";
 import KycPage from "@/pages/kyc/kyc-page";
 import WebpSetupPage from "@/pages/web/webpsetup-page";
+import OfflinePaymentPage from "@/pages/payments/offline-payments/offline-payment-page";
+
 
 const rootRouter = createBrowserRouter([
   {
@@ -92,6 +94,10 @@ const rootRouter = createBrowserRouter([
       {
         path: "/web-setup",
         element: <WebpSetupPage />,
+      },
+      {
+        path: "/offline-payment",
+        element: <OfflinePaymentPage />,
       },
       {
         path: "/store",

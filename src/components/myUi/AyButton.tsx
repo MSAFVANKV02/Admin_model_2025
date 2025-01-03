@@ -10,7 +10,8 @@ type Props = {
   outLineColor?:string
   icon?:string; //
   iconSize?: number; // Font size for the icon
-  type?: "submit"|"reset"|"button"
+  type?: "submit"|"reset"|"button";
+  loading?: boolean;
   // onclickEvent?: (route:string)=>void; // Event handler for onClick event
 };
 
@@ -22,7 +23,9 @@ export default function AyButton({
   outLineColor,
   icon,
   iconSize,
-  type="button"
+  type="button",
+  loading,
+
 }: Props) {
   return (
     <Button
@@ -51,7 +54,17 @@ export default function AyButton({
         ...sx, // Allow overriding styles via `sx` prop
       }}
     >
-     <Icon icon={`${icon}`} fontSize={iconSize} /> {title}
+      {loading ? (
+        <div className="flex items-center">
+          <span className="loader mr-2"></span> {/* Replace with your spinner */}
+          Processing...
+        </div>
+      ) : (
+       <>
+        <Icon icon={`${icon}`} fontSize={iconSize} /> {title}
+       </>
+      )}
+     {/* <Icon icon={`${icon}`} fontSize={iconSize} /> {title} */}
     </Button>
   );
 }

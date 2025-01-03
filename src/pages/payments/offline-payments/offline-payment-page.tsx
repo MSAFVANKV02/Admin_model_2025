@@ -44,6 +44,8 @@ export default function OfflinePaymentPage() {
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div>
       <div className=""></div>

@@ -12,6 +12,36 @@ function NavigationList() {
     },
     {
       kind: "page",
+      segment: "/kyc",
+      title: "Kyc verification",
+      icon: <Icon icon="iconamoon:shield-yes-fill" />,
+    },
+    {
+      kind: "page",
+      segment: "/web-setup",
+      title: "Web Setup",
+      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+    },
+    {
+      kind: "page",
+      segment: "/offline-payment",
+      title: "Offline Payment",
+      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+    },
+    {
+      kind: "page",
+      segment: "/customers/refund",
+      title: "Customer Refund",
+      icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
+    },
+    {
+      kind: "page",
+      segment: "/customers",
+      title: "Customers",
+      icon: <Icon icon="mdi:account-group" />,
+    },
+    {
+      kind: "page",
       segment: "/products",
       title: "Products",
       icon: <Icon icon="entypo:box" />,
@@ -36,18 +66,8 @@ function NavigationList() {
         { title: "Customer Refunds", segment: "/sales/refunds" },
       ],
     },
-    {
-      kind: "page",
-      segment: "/customers/refund",
-      title: "Customer Refund",
-      icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
-    },
-    {
-      kind: "page",
-      segment: "/customers",
-      title: "Customers",
-      icon: <Icon icon="mdi:account-group" />,
-    },
+
+ 
     {
       kind: "page",
       segment: "/marketing",
@@ -69,24 +89,7 @@ function NavigationList() {
         { title: "User Searches", segment: "/reports/searches" },
       ],
     },
-    {
-      kind: "page",
-      segment: "/kyc",
-      title: "Kyc verification",
-      icon: <Icon icon="iconamoon:shield-yes-fill" />,
-    },
-    {
-      kind: "page",
-      segment: "/web-setup",
-      title: "Web Setup",
-      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
-    },
-    {
-      kind: "page",
-      segment: "/offline-payment",
-      title: "Offline Payment",
-      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
-    },
+   
     {
       kind: "page",
       segment: "/website",

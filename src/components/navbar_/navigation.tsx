@@ -28,12 +28,12 @@ function NavigationList() {
       title: "Offline Payment",
       icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
     },
-    {
-      kind: "page",
-      segment: "/customers/refund",
-      title: "Customer Refund",
-      icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
-    },
+    // {
+    //   kind: "page",
+    //   segment: "/customers/refund",
+    //   title: "Customer Refund",
+    //   icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
+    // },
     {
       kind: "page",
       segment: "/customers",

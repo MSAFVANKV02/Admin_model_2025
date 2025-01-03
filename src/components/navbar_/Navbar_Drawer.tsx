@@ -109,17 +109,35 @@ export default function NavbarDrawer() {
     setCollapseStates({});
   };
 
+  // const handleCollapseToggle = (index: number) => {
+  //   setOpen(true);
+
+  //   setCollapseStates((prev) => ({
+  //     ...prev,
+  //     [index]: !prev[index], // Toggle collapse state for this index
+  //   }));
+  // };
   const handleCollapseToggle = (index: number) => {
     setOpen(true);
-
-    setCollapseStates((prev) => ({
-      ...prev,
-      [index]: !prev[index], // Toggle collapse state for this index
-    }));
+  
+    setCollapseStates((prev) => {
+      // Collapse all other items except the clicked one
+      const newCollapseStates = Object.keys(prev).reduce((acc, key) => {
+        acc[parseInt(key)] = parseInt(key) === index ? !prev[parseInt(key)] : false;
+        return acc;
+      }, {} as { [key: number]: boolean });
+  
+      return {
+        ...newCollapseStates,
+        [index]: !prev[index], // Toggle the selected collapse
+      };
+    });
   };
+  
 
   const handleNavigation = (segment: string | undefined) => {
     if (segment) {
+      setCollapseStates({});
       navigate(segment); // Navigate to the specified segment
     }
   };
@@ -147,11 +165,9 @@ export default function NavbarDrawer() {
         }}
       >
         <DrawerHeader className="">
-        <Logo />
+          <Logo />
           {open && (
             <>
-            
-
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />
@@ -179,17 +195,17 @@ export default function NavbarDrawer() {
                         : "gray",
                       bgcolor: pathname.startsWith(item.segment) ? "black" : "",
                       primaryTypographyProps: {
-                        fontSize: "16px", // Adjust child item font size
+                        fontSize: "15px", // Adjust child item font size
                       },
                       borderRadius: "10px",
-                      mx: open ? "10px" :"",
+                      mx: open ? "10px" : "",
                     }}
                   >
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText
                       primary={item.title}
                       primaryTypographyProps={{
-                        fontSize: "16px", // Adjust child item font size
+                        fontSize: "15px", // Adjust child item font size
                         // Optional: Change text color
                       }}
                     />
@@ -263,7 +279,7 @@ export default function NavbarDrawer() {
                         item.segment === pathname
                           ? "black"
                           : "undefined,opacity: 0.8",
-                      mx: open ? "10px" :"",
+                      mx: open ? "10px" : "",
                       borderRadius: "10px",
                     }}
                   >
@@ -279,6 +295,10 @@ export default function NavbarDrawer() {
                       sx={{
                         display: open || isLargeScreen ? "block" : "none",
                         color: item.segment === pathname ? "#fff" : "gray",
+                        
+                      }}
+                      primaryTypographyProps={{
+                        fontSize: "15px", // Adjust font size for non-child items
                       }}
                     />
                   </ListItemButton>

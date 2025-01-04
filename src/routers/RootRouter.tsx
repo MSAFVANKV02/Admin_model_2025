@@ -26,6 +26,7 @@ import ProductSalePage from "@/pages/reports/product-sale/product-sale-page";
 import KycPage from "@/pages/kyc/kyc-page";
 import WebpSetupPage from "@/pages/web/webpsetup-page";
 import OfflinePaymentPage from "@/pages/payments/offline-payments/offline-payment-page";
+import ProductStockPage from "@/pages/reports/product-stock/product-stock-page";
 
 
 const rootRouter = createBrowserRouter([
@@ -85,6 +86,7 @@ const rootRouter = createBrowserRouter([
         element: <SalesLayout />, // Parent layout for Sales
         children: [
           { path: "product-sale", element: <ProductSalePage /> },
+          { path: "product-stock", element: <ProductStockPage /> },
         ],
       },
       {

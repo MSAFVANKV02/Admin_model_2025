@@ -7,14 +7,14 @@ const brands = [
   {
     id: 1,
     name: "Brand Name",
-    logo: "/public/img/logo/Logo_black.svg", // Replace with actual image path
+    logo: "/img/logo/Logo_black.svg", // Replace with actual image path
     brand_cert_owner_name:"Safvan",
     user:"seller",
   },
   {
     id: 2,
     name: "Brand Name",
-    logo: "/public/img/logo/Logo_black.svg", // Replace with actual image path
+    logo: "/img/logo/Logo_black.svg", // Replace with actual image path
     brand_cert_owner_name:"Fayiz",
     user:"store",
   },

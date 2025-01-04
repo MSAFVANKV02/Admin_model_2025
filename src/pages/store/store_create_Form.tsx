@@ -6,6 +6,7 @@ import useNavigateClicks from "@/hooks/useClicks";
 import { useModal } from "@/providers/context/context";
 import { StoreTypes } from "@/types/storeTypes";
 import { Form, Formik, Field } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
 
 
@@ -54,6 +55,8 @@ const validationSchema = Yup.object({
 
 export default function StoreCreateForm() {
   const { handleClick } = useNavigateClicks();
+  const [googleAddress, setGoogleAddress] = useState<string>('');
+
   const {setIsOpen} =  useModal();
 
   const initialValues: StoreTypes = {
@@ -201,6 +204,8 @@ export default function StoreCreateForm() {
             />
             {values.google_location}
             <GoogleMap  
+            setGoogleAddress={setGoogleAddress}
+            googleAddress={googleAddress}
             setFieldValue={setFieldValue}
             />
             {/* <FormField

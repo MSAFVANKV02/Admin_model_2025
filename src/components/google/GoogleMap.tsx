@@ -73,8 +73,13 @@ import MyCloseIcon from '../icons/My_CloseIcon';
 import AyButton from '../myUi/AyButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useModal } from '@/providers/context/context';
+import { makeToast } from '@/utils/toaster';
+// import axios from 'axios';
+
 type Props = {
   setFieldValue: any;
+  setGoogleAddress: (address: string) => void;
+  googleAddress?: string;
 };
 
 const containerStyle = {
@@ -126,10 +131,21 @@ export default function GoogleMapModal({ setFieldValue }: Props) {
     }
   };
 
-  const handleSaveGoogleLocation = () =>{
+  const handleSaveGoogleLocation = async () =>{
+
+    // try {
+    //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+    //     const res = await axios.post(url)
+    // } catch (error) {
+    //     console.error('Error fetching address from nominatim:', error);
+    //     makeToastError("Error fetching address from Nominatim")
+    //     return;
+    // }
+
     if(markerPosition){
+        makeToast("Google Location Added")
       setFieldValue('google_location', `${markerPosition.lat}, ${markerPosition.lng}`);
-      setIsOpen(true);
+      setIsOpen(false);
     }
   }
 
@@ -139,7 +155,10 @@ export default function GoogleMapModal({ setFieldValue }: Props) {
         <div className="w-full">
           <span>Set Location</span>
         </div>
-        <MyCloseIcon onClick={() => {}} />
+        <MyCloseIcon onClick={() => {
+            setIsOpen(false);
+  
+        }} />
       </TaskModalHeader>
       <TaskModalContent className='h-full'>
         {isLoaded && markerPosition ? (

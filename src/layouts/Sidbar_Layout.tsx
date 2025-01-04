@@ -14,7 +14,7 @@ export const SalesLayout = () => (
 
 export const StoreManagementLayout = () => (
   <div>
-    <h1>Store Management Page</h1>
+    {/* <h1>Store Management Page</h1> */}
     <Outlet />
   </div>
 );

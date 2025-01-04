@@ -27,6 +27,9 @@ import KycPage from "@/pages/kyc/kyc-page";
 import WebpSetupPage from "@/pages/web/webpsetup-page";
 import OfflinePaymentPage from "@/pages/payments/offline-payments/offline-payment-page";
 import ProductStockPage from "@/pages/reports/product-stock/product-stock-page";
+import UserSearchCountPage from "@/pages/reports/user-searches/user-search-count-page";
+import PayoutStorePage from "@/pages/store/payout-store/payout-store-page";
+import StoreManagementPage from "@/pages/store/store-management-page";
 
 
 const rootRouter = createBrowserRouter([
@@ -87,6 +90,7 @@ const rootRouter = createBrowserRouter([
         children: [
           { path: "product-sale", element: <ProductSalePage /> },
           { path: "product-stock", element: <ProductStockPage /> },
+          { path: "searches", element: <UserSearchCountPage /> },
         ],
       },
       {
@@ -105,7 +109,8 @@ const rootRouter = createBrowserRouter([
         path: "/store",
         element: <StoreManagementLayout />, // Parent layout for Store Management
         children: [
-          { path: "review", element: <div>Review Page</div> },
+          { path: "/store", element: <StoreManagementPage /> },
+          { path: "payout-store", element: <PayoutStorePage /> },
           { path: "postal-code", element: <div>Postal Code Page</div> },
           { path: "earnings", element: <div>Store Earnings Page</div> },
           { path: "overview", element: <div>Product Overview Page</div> },

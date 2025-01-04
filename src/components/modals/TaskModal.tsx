@@ -2,7 +2,7 @@ import React from "react";
 import { useModal } from "@/providers/context/context";
 
 import Modal from "react-modal";
-import MyBackBtn from "../myUi/myBackBtn";
+// import MyBackBtn from "../myUi/myBackBtn";
 import { cn } from "@/lib/utils";
 Modal.setAppElement("#root");
 
@@ -22,17 +22,17 @@ export default function TaskModal({ children,className }: ModalComponent) {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       overlayClassName="fixed inset-0 bg-black/20 backdrop-filter  flex items-center justify-center z-[10000] "
-      className={cn(`bg-white r rounded-lg  min-w-xl w-[30vw] p-4 h-[80vh]  outline-none  overflow-y-auto relative z-[10001]`,className)}
+      className={cn(`bg-white  md:rounded-lg rounded-none  min-w-xl md:w-[30vw] w-full p-4 h-[80vh]  outline-none  overflow-y-auto relative z-[10001]`,className)}
     >
       <div className="md:hidden block">
-        <MyBackBtn
+        {/* <MyBackBtn
           clickEvent={closeModal}
           iconSize={25}
           className=" absolute top-0 right-0 z-50 "
           tooltipTitle="close"
           placeTooltip="left"
           icon="ei:close"
-        />
+        /> */}
       </div>
       {children}
     </Modal>

@@ -46,6 +46,9 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [modalTypeDashboard, setModalTypeDashboard] = useState<IModalTypes>("");
   const [selectedPage, setSelectedPage] = useState<string | null>("general");
 
+  // store sections =======
+  // const [storeEdit]
+
 
 //  ===== modal open in dashboard =================
   const openModal = (task: null, type:IModalTypes) => {
@@ -79,6 +82,10 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
     setSelectedCategory(task); // Wrap in an array
     setIsOpen(true);
   };
+
+  // const handleStoreManagementEdit = (task: any) => {
+
+  // }
 
 
 

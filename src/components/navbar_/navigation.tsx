@@ -90,17 +90,17 @@ function NavigationList() {
       ],
     },
    
-    {
-      kind: "page",
-      segment: "/website",
-      title: "Website Group",
-      icon: <Icon icon="mdi:web" />,
-      isChild: true,
-      children: [
-        { title: "Group", segment: "/website/group" },
-        { title: "Preview", segment: "/website/preview" },
-      ],
-    },
+    // {
+    //   kind: "page",
+    //   segment: "/website",
+    //   title: "Website Group",
+    //   icon: <Icon icon="mdi:web" />,
+    //   isChild: true,
+    //   children: [
+    //     { title: "Group", segment: "/website/group" },
+    //     { title: "Preview", segment: "/website/preview" },
+    //   ],
+    // },
     {
       kind: "page",
       segment: "/store",
@@ -108,7 +108,8 @@ function NavigationList() {
       icon: <Icon icon="mdi:storefront-outline" />,
       isChild: true,
       children: [
-        { title: "Review", segment: "/store/review" },
+        { title: "Store", segment: "/store" },
+        { title: "Payout store", segment: "/store/payout-store" },
         { title: "Postal Code", segment: "/store/postal-code" },
         { title: "Store Earnings", segment: "/store/earnings" },
         { title: "Product Overview", segment: "/store/overview" },

@@ -61,7 +61,7 @@ export default function AyButton({
         </div>
       ) : (
        <>
-        <Icon icon={`${icon}`} fontSize={iconSize} /> {title}
+        <Icon icon={`${icon}`} fontSize={iconSize} className="mr-2"/> {title}
        </>
       )}
      {/* <Icon icon={`${icon}`} fontSize={iconSize} /> {title} */}

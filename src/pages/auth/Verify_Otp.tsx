@@ -74,7 +74,7 @@ export default function VerifyOtp() {
       }
     } catch (error: any) {
       console.error(error);
-      if (error.response?.data.success === false) {
+      if (error.response?.data) {
         makeToastError(error.response?.data.message);
       }
     }
@@ -93,7 +93,7 @@ export default function VerifyOtp() {
     } catch (error: unknown) {
       setLoading(false);
       if (axios.isAxiosError(error)) {
-        if (error.response?.data.success === false) {
+        if (error.response?.data) {
           makeToastError(error.response?.data.message);
         }
       }

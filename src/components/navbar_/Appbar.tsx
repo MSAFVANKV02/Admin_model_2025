@@ -159,7 +159,7 @@ export default function NavAppBar({
            <Tooltip title="Clear Cache">
            <div className="">
            <IconButton onClick={handleClearCache}>
-              <img src="/icons/clear-catche.svg" alt="clear catche" width={23} height={23} />
+              <img src="/icons/clear-catche.svg" alt="clear cache" width={23} height={23} />
               {/* <CleaningServicesIcon /> */}
             </IconButton>
            </div>

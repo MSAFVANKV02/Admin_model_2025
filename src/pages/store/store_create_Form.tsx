@@ -55,6 +55,7 @@ const validationSchema = Yup.object({
 export default function StoreCreateForm() {
   const { handleClick } = useNavigateClicks();
   const [googleAddress, setGoogleAddress] = useState<string>("");
+  // const location = useLocation();
 
   const { setIsOpen } = useModal();
 
@@ -110,7 +111,7 @@ export default function StoreCreateForm() {
         validationSchema={validationSchema}
         onSubmit={(values) => console.log(values)}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, resetForm }) => (
           <Form className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow">
             {/* Store Details */}
             <FormField
@@ -356,6 +357,10 @@ export default function StoreCreateForm() {
                 title="Cancel"
                 sx={{
                   borderRadius: "8px",
+                }}
+                onClick={()=>{
+                  resetForm();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               />
               <AyButton

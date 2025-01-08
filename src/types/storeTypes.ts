@@ -20,6 +20,9 @@ export type StoreTypes = {
       shift_code: string | null;
       upi_id: string | null;
     };
+    amount?: number | null;
     store_capacity_in_cubic_meter: number | null;
+    status?:"pending"|"paid";
+    created_at?: string | number | Date;
   };
   

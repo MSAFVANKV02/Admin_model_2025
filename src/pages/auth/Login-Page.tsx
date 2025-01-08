@@ -41,6 +41,8 @@ export default function LoginPage() {
       });
 
       if (status === 200) {
+        localStorage.setItem("otp-timer", "60"); 
+        localStorage.removeItem("otp-finished"); 
         if (data.success) {
           Cookie.set(
             "us_b2b_admin_otp", // Cookie name
@@ -56,7 +58,7 @@ export default function LoginPage() {
     } catch (error: any) {
       setLoading(false);
       console.error(error);
-      if (error.response?.data.success === false) {
+      if (error.response?.data) {
         makeToastError(error.response?.data.message);
       }
     } finally {
@@ -88,6 +90,8 @@ export default function LoginPage() {
               clickEvent={
                 ()=>{
                   Cookie.remove("us_b2b_admin_otp");
+                  localStorage.setItem("otp-timer", "0"); // Save new timer in localStorage
+                  localStorage.removeItem("otp-finished"); 
                   window.location.reload();
                 }
               }

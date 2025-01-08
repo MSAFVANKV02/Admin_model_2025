@@ -6,7 +6,7 @@ export type StoreTypes = {
     state: string | null;
     country: string | null;
     pincode: string | null;
-    google_location: string | null;
+    google_location: { lat: string | null; lng: string | null };
     store_manager: string | null;
     email_id: string | null;
     phone_number: string | null;

@@ -14,7 +14,7 @@ export const TopStoresColumn: ColumnDef<Task>[] = [
     cell: ({ row }) => <span className="span">{row.getValue("amount")}</span>,
   },
   {
-    accessorKey: "amount",
+    accessorKey: "amounts",
     header: "Total sales(₹)",
     cell: ({ row }) => <span className="span">{row.getValue("amount")}</span>,
   },

@@ -12,9 +12,12 @@ export default function MyCloseIcon({ onClick, isTooltip }: Props) {
       {isTooltip ? (
         <Toolbar disableGutters>
           <Tooltip title="Close" placement="top">
+            <div className="">
             <IconButton onClick={onClick}>
               <Close />
-            </IconButton>
+            </IconButton>   
+            </div>
+           
           </Tooltip>
         </Toolbar>
       ) : (

@@ -1,80 +1,17 @@
-// import React, { useEffect, useState } from 'react';
-// import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-// import TaskModal, { TaskModalContent, TaskModalFooter, TaskModalHeader } from '../modals/TaskModal';
-// import MyCloseIcon from '../icons/My_CloseIcon';
-// import AyButton from '../myUi/AyButton';
 
-// type Props = {
-//   setFieldValue: any;
-// };
-
-// const containerStyle = {
-//   width: '100%',
-//   height: '400px',
-// };
-
-// const center = {
-//   lat: 28.7041, // Default to a location in Delhi (can be changed)
-//   lng: 77.1025,
-// };
-
-// export default function GoogleMapModal({ setFieldValue }: Props) {
-//   const { isLoaded } = useJsApiLoader({
-//     googleMapsApiKey: 'AlzaSy6Y1_RkdZ_JtlecBl6bFHUXuQwbf-CnjmB', // Replace with your API key
-//     libraries: ['places'], // Include 'places' if you want autocomplete functionality
-//   });
-
-//   const [markerPosition, setMarkerPosition] = useState(center);
-
-//   const handleMapClick = (event: google.maps.MapMouseEvent) => {
-//     const latLng = event.latLng;
-//     if (latLng) {
-//       const newPos = { lat: latLng.lat(), lng: latLng.lng() };
-//       console.log(newPos,'newPos');
-      
-//       setMarkerPosition(newPos);
-//       setFieldValue('google_location', `${newPos.lat}, ${newPos.lng}`);
-//     }
-//   };
-
-//   return (
-//     <TaskModal>
-//       <TaskModalHeader>
-//         <div className="w-full">
-//           <span>Set Location</span>
-//         </div>
-//         <MyCloseIcon onClick={() => {}} />
-//       </TaskModalHeader>
-//       <TaskModalContent>
-//         {isLoaded ? (
-//           <GoogleMap
-//             mapContainerStyle={containerStyle}
-//             center={markerPosition}
-//             zoom={12}
-//             onClick={handleMapClick}
-//           >
-//             <Marker position={markerPosition} />
-//           </GoogleMap>
-//         ) : (
-//           <div>Loading...</div>
-//         )}
-//       </TaskModalContent>
-//       <TaskModalFooter>
-//         <AyButton title="Set This Location" onClick={() => {}} />
-//       </TaskModalFooter>
-//     </TaskModal>
-//   );
-// }
-// =====
-import  { useEffect, useState } from 'react';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import TaskModal, { TaskModalContent, TaskModalFooter, TaskModalHeader } from '../modals/TaskModal';
-import MyCloseIcon from '../icons/My_CloseIcon';
-import AyButton from '../myUi/AyButton';
-import CircularProgress from '@mui/material/CircularProgress';
-import { useModal } from '@/providers/context/context';
-import { makeToast } from '@/utils/toaster';
-// import axios from 'axios';
+import { memo, useEffect, useMemo, useState } from "react";
+import { GoogleMap, Libraries, Marker, useJsApiLoader } from "@react-google-maps/api";
+import TaskModal, {
+  TaskModalContent,
+  TaskModalFooter,
+  TaskModalHeader,
+} from "../modals/TaskModal";
+import MyCloseIcon from "../icons/My_CloseIcon";
+import AyButton from "../myUi/AyButton";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useModal } from "@/providers/context/context";
+import { makeToast, makeToastError } from "@/utils/toaster";
+// import axios from "axios";
 
 type Props = {
   setFieldValue: any;
@@ -82,19 +19,39 @@ type Props = {
   googleAddress?: string;
 };
 
-const containerStyle = {
-  width: '100%',
-  height: '400px',
-};
+// AlzaSy6Y1_RkdZ_JtlecBl6bFHUXuQwbf-CnjmB
+const libraries: Libraries = ["geometry"];
 
-export default function GoogleMapModal({ setFieldValue }: Props) {
-    const {setIsOpen} = useModal()
+function GoogleMapModal({ setFieldValue }: Props) {
+  const { setIsOpen } = useModal();
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AlzaSy6Y1_RkdZ_JtlecBl6bFHUXuQwbf-CnjmB', // Replace with your API key
-    libraries: ['places'], // Include 'places' if you want autocomplete functionality
+    googleMapsApiKey: "AIzaSyBpUCwzl4G9L6vrFOElEawM86H2QIQ6tdM", // Replace with your API key
+    // libraries: ["places"], // Include 'places' if you want autocomplete functionality
+    libraries,
   });
 
-  const [markerPosition, setMarkerPosition] = useState<{ lat: number; lng: number } | null>(null);
+  // useEffect(() => {
+  //   if (loadError) {
+  //     console.error("❌ Invalid Google Maps API Key:", loadError);
+  //     // setApiKeyValid(false);
+  //     makeToastError("Invalid Google Maps API Key. Please check your key.");
+  //   }
+  // }, [loadError]);
+  // makeToast("hshdas")
+
+  const [markerPosition, setMarkerPosition] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const containerStyle = useMemo(
+    () => ({
+      width: "100%",
+      height: "400px",
+    }),
+    []
+  );
 
   // Function to get the current location
   const getCurrentLocation = () => {
@@ -103,7 +60,7 @@ export default function GoogleMapModal({ setFieldValue }: Props) {
         (position) => {
           const { latitude, longitude } = position.coords;
           setMarkerPosition({ lat: latitude, lng: longitude });
-          setFieldValue('google_location', `${latitude}, ${longitude}`);
+          setFieldValue("google_location", `${latitude}, ${longitude}`);
         },
         (error) => {
           console.error("Error getting location: ", error);
@@ -125,42 +82,116 @@ export default function GoogleMapModal({ setFieldValue }: Props) {
     const latLng = event.latLng;
     if (latLng) {
       const newPos = { lat: latLng.lat(), lng: latLng.lng() };
-      console.log(newPos, 'newPos');
+      // console.log(newPos, 'newPos');
       setMarkerPosition(newPos);
-    //   setFieldValue('google_location', `${newPos.lat}, ${newPos.lng}`);
+      //   setFieldValue('google_location', `${newPos.lat}, ${newPos.lng}`);
     }
   };
 
-  const handleSaveGoogleLocation = async () =>{
+  // const handleSaveGoogleLocation = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${markerPosition?.lat}&lon=${markerPosition?.lng}`;
+  //     await fetch(url)
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Failed to fetch data from OpenStreetMap");
+  //         }
+  //         return response.json(); // Parse JSON response
+  //       })
+  //       .then((data) => {
+  //         console.log(data,'google location');
 
-    // try {
-    //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-    //     const res = await axios.post(url)
-    // } catch (error) {
-    //     console.error('Error fetching address from nominatim:', error);
-    //     makeToastError("Error fetching address from Nominatim")
-    //     return;
-    // }
+  //         setFieldValue("store_address", data.display_name || data.address.city || data.address.town || data.address.village);
+  //         setFieldValue("state", data.address.state);
+  //         setFieldValue("country", data.address.country);
+  //         setFieldValue("pincode", data.address.postcode);
+  //         setFieldValue("google_location", {
+  //           lat: markerPosition?.lat,
+  //           lng: markerPosition?.lng,
+  //         });
+  //       })
+  //       .catch(() => {
+  //         setIsLoading(false);
+  //         makeToastError("Something went wrong");
+  //       })
+  //       .finally(() => {
+  //         setIsLoading(false);
+  //         makeToast("Address Fetched By Your Location");
+  //         setIsOpen(false);
+  //       });
+  //   } catch (error) {
+  //     console.error("Error fetching address from nominatim:", error);
+  //     makeToastError("Error fetching address from Nominatim");
+  //     return;
+  //   }
 
-    if(markerPosition){
-        makeToast("Google Location Added")
-      setFieldValue('google_location', `${markerPosition.lat}, ${markerPosition.lng}`);
+  //   // if (markerPosition) {
+  //   //   // makeToast("Google Location Added");
+  //   //   // setFieldValue('google_location', `${markerPosition.lat}, ${markerPosition.lng}`);
+  //   //   setFieldValue("google_location", {
+  //   //     lat: markerPosition.lat,
+  //   //     lng: markerPosition.lng,
+  //   //   });
+  //   //   setIsOpen(false);
+  //   // }
+  // };
+  const reverseGeocodeUrl = useMemo(() => {
+    if (!markerPosition) return null;
+    return `https://nominatim.openstreetmap.org/reverse?format=json&lat=${markerPosition.lat}&lon=${markerPosition.lng}`;
+  }, [markerPosition]);
+
+  const handleSaveGoogleLocation = async () => {
+    if (!reverseGeocodeUrl) return;
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(reverseGeocodeUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data from OpenStreetMap");
+      }
+
+      const data = await response.json();
+
+      setFieldValue(
+        "store_address",
+        data.display_name ||
+          data.address.city ||
+          data.address.town ||
+          data.address.village
+      );
+      setFieldValue("state", data.address.state);
+      setFieldValue("country", data.address.country);
+      setFieldValue("pincode", data.address.postcode);
+      setFieldValue("google_location", {
+        lat: markerPosition?.lat,
+        lng: markerPosition?.lng,
+      });
+
+      makeToast("Address Fetched By Your Location");
       setIsOpen(false);
+    } catch (error) {
+      console.error("Error fetching address from Nominatim:", error);
+      makeToastError("Error fetching address from Nominatim");
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <TaskModal className='h-fit'>
+    <TaskModal className="h-fit 2xl:w-[40%] lg:w-[50%] md:w-[70%] w-full ">
       <TaskModalHeader>
         <div className="w-full">
           <span>Set Location</span>
         </div>
-        <MyCloseIcon onClick={() => {
+        <MyCloseIcon
+          onClick={() => {
             setIsOpen(false);
-  
-        }} />
+          }}
+        />
       </TaskModalHeader>
-      <TaskModalContent className='h-full'>
+      <TaskModalContent className="h-full">
         {isLoaded && markerPosition ? (
           <GoogleMap
             mapContainerStyle={containerStyle}
@@ -171,14 +202,21 @@ export default function GoogleMapModal({ setFieldValue }: Props) {
             <Marker position={markerPosition} />
           </GoogleMap>
         ) : (
-          <div className='w-full flex items-center justify-center h-[400px]'>
-              <CircularProgress color="inherit" />
+          <div className="w-full flex items-center justify-center h-[400px]">
+            <CircularProgress color="inherit" />
           </div>
         )}
       </TaskModalContent>
-      <TaskModalFooter className='mt-auto'>
-        <AyButton title="Set This Location" onClick={() => {handleSaveGoogleLocation()}} />
+      <TaskModalFooter className="mt-auto">
+        <AyButton
+          title={`${isLoading ? "loading..." : "Set This Location"}`}
+          onClick={() => {
+            handleSaveGoogleLocation();
+          }}
+        />
       </TaskModalFooter>
     </TaskModal>
   );
 }
+
+export default memo(GoogleMapModal);

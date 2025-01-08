@@ -27,6 +27,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import NotificationBarSheet from "./Notification_Sheet";
 import { Button } from "../ui/button";
 import { makeToast } from "@/utils/toaster";
+import Cookie from "js-cookie";
 
 type Props = {
   open: boolean;
@@ -106,7 +107,8 @@ export default function NavAppBar({
         }}
       >
         <Toolbar>
-          <IconButton
+          <div className="">
+           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -114,7 +116,9 @@ export default function NavAppBar({
             sx={{ marginRight: 5, marginLeft:isLargeScreen ?5:0, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton>    
+          </div>
+       
           <Typography variant="h6" noWrap component="div">
             {/* <img src={MyLogo} alt="My Logo" style={{ height: '40px', marginRight: '10px' }} /> */}
           </Typography>
@@ -127,18 +131,23 @@ export default function NavAppBar({
           {/* Full screen btn ======
             ========================== */}
           <Tooltip title="Full Screen">
-            <IconButton onClick={handleFullScreen}>
+            <div className="">
+                   <IconButton onClick={handleFullScreen}>
               <Fullscreen />
             </IconButton>
+            </div>
+       
           </Tooltip>
 
           {/* Home btn ======
             ========================== */}
 
           <Tooltip title="home">
-            <IconButton onClick={() => handleClick("/dashboard")}>
+          <div className="">
+          <IconButton onClick={() => handleClick("/dashboard")}>
               <PublicOutlined />
             </IconButton>
+          </div>
           </Tooltip>
 
           {/* Notification btn ======
@@ -148,10 +157,12 @@ export default function NavAppBar({
 
            {/* Clear Cache Button */}
            <Tooltip title="Clear Cache">
-            <IconButton onClick={handleClearCache}>
+           <div className="">
+           <IconButton onClick={handleClearCache}>
               <img src="/icons/clear-catche.svg" alt="clear catche" width={23} height={23} />
               {/* <CleaningServicesIcon /> */}
             </IconButton>
+           </div>
           </Tooltip>
 
 
@@ -187,7 +198,12 @@ export default function NavAppBar({
                   </Button>
                 </DialogClose>
                 <DialogClose asChild>
-                  <Button type="button" variant="default">
+                  <Button type="button" variant="default"
+                  onClick={()=>{
+                    Cookie.remove("ad_b2b_tkn");
+                    window.location.href = "/login";  // Redirect to login page after logout
+                  }}
+                  >
                     Logout
                   </Button>
                 </DialogClose>

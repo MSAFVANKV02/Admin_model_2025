@@ -41,10 +41,13 @@ export default function NotificationBarSheet() {
   return (
     <Sheet>
       <SheetTrigger>
-        <Tooltip title="Notification">
-          <IconButton>
-            <Notifications />
-          </IconButton>
+      <Tooltip title="Notification">
+          {/* Wrap IconButton in a div to prevent button nesting */}
+          <div>
+            <IconButton>
+              <Notifications />
+            </IconButton>
+          </div>
         </Tooltip>
       </SheetTrigger>
       <SheetContent className="z-[10002] w-[400px] sm:w-[940px] " isClearBtn={true} onClear={handleClearNotifications}>

@@ -1,6 +1,9 @@
 {
     "cSpell.words": [
         "Acception",
-        "ecommerce"
-    ]
+        "classnamewrapper",
+        "ecommerce",
+        "pincode"
+    ],
+    "tailwindCSS.classAttributes": ["class", "className", "fieldClassName","classnamewrapper"]
 }

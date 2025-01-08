@@ -9,7 +9,6 @@ import { Form, Formik, Field } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 
-
 const validationSchema = Yup.object({
   store_name: Yup.string().required("Store Name is required"),
   gst_number: Yup.string()
@@ -42,7 +41,7 @@ const validationSchema = Yup.object({
     account_number: Yup.string()
       .matches(/^\d+$/, "Account Number must be numeric")
       .required("Account Number is required"),
-      ifsc: Yup.string()
+    ifsc: Yup.string()
       .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
       .required("IFSC code is required"),
     shift_code: Yup.string().required("Shift Code is required"),
@@ -55,9 +54,9 @@ const validationSchema = Yup.object({
 
 export default function StoreCreateForm() {
   const { handleClick } = useNavigateClicks();
-  const [googleAddress, setGoogleAddress] = useState<string>('');
+  const [googleAddress, setGoogleAddress] = useState<string>("");
 
-  const {setIsOpen} =  useModal();
+  const { setIsOpen } = useModal();
 
   const initialValues: StoreTypes = {
     store_name: "",
@@ -67,7 +66,8 @@ export default function StoreCreateForm() {
     state: "",
     country: "",
     pincode: "",
-    google_location: "",
+    google_location: { lat: null, lng: null },
+
     store_manager: "",
     email_id: "",
     phone_number: "",
@@ -86,7 +86,7 @@ export default function StoreCreateForm() {
 
   const handleSetGoogleLocation = () => {
     setIsOpen(true);
-  }
+  };
 
   return (
     <div>
@@ -111,12 +111,12 @@ export default function StoreCreateForm() {
         onSubmit={(values) => console.log(values)}
       >
         {({ values, setFieldValue }) => (
-          <Form className="space-y-4 max-w-screen-md mx-auto md:p-5 border shadow">
+          <Form className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow">
             {/* Store Details */}
             <FormField
               id="store_name"
               name="store_name"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full "
               //   title="Store Name"
               placeholder="Enter store name"
               value={values.store_name || ""}
@@ -125,7 +125,7 @@ export default function StoreCreateForm() {
             <FormField
               id="gst_number"
               name="gst_number"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="GST Number"
               placeholder="Enter GST number"
               value={values.gst_number || ""}
@@ -134,7 +134,7 @@ export default function StoreCreateForm() {
             <FormField
               id="store_address"
               name="store_address"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Store Address"
               placeholder="Enter store address"
               value={values.store_address || ""}
@@ -143,9 +143,9 @@ export default function StoreCreateForm() {
             <FormField
               id="store_capacity_in_cubic"
               name="store_capacity_in_cubic"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Store Capacity in Cubic"
-              placeholder="Enter capacity"
+              placeholder="Store Capacity in cubic (e.g., 100.5)"
               value={values.store_capacity_in_cubic || "" || ""}
               fieldAs={Input}
             />
@@ -154,7 +154,7 @@ export default function StoreCreateForm() {
             <FormField
               id="state"
               name="state"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="State"
               placeholder="Enter state"
               value={values.state || ""}
@@ -163,7 +163,7 @@ export default function StoreCreateForm() {
             <FormField
               id="country"
               name="country"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Country"
               placeholder="Enter country"
               value={values.country || ""}
@@ -172,7 +172,7 @@ export default function StoreCreateForm() {
             <FormField
               id="pincode"
               name="pincode"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Pincode"
               placeholder="Enter pincode"
               value={values.pincode || ""}
@@ -180,38 +180,46 @@ export default function StoreCreateForm() {
             />
 
             {/* Google Location */}
-            <AyButton 
-            title="Set google location"
-            iconSize={23}
-            onClick={()=>{
-                handleSetGoogleLocation()
-            }}
-            icon="fluent:my-location-16-regular"
-            
-            sx={{
+            <div className="flex gap-3 items-center">
+            <AyButton
+              title="Set google location"
+              iconSize={23}
+              onClick={() => {
+                handleSetGoogleLocation();
+              }}
+              icon="fluent:my-location-16-regular"
+              sx={{
                 width: "fit-content",
-                px:"15px",
+                px: "15px",
                 bgcolor: "#F8E5FF",
-                border:"1px solid #C9C9C9",
-                borderRadius:"10px",
+                border: "1px solid #C9C9C9",
+                borderRadius: "10px",
                 color: "black",
                 cursor: "pointer",
                 "&:hover": {
                   bg: "blue.600",
                 },
-  
-            }}
+              }}
             />
-            {values.google_location}
-            <GoogleMap  
-            setGoogleAddress={setGoogleAddress}
-            googleAddress={googleAddress}
-            setFieldValue={setFieldValue}
+            {/* {values.google_location} */}
+            {values.google_location && values.google_location.lng    ? (
+              <span className="text-xs">
+                {`Lat: ${values.google_location.lat}, Lng: ${values.google_location.lng}`}
+              </span>
+            ) : (
+              <span className="text-xs">No location set</span>
+            )}
+            </div>
+
+            <GoogleMap
+              setGoogleAddress={setGoogleAddress}
+              googleAddress={googleAddress}
+              setFieldValue={setFieldValue}
             />
             {/* <FormField
               id="google_location"
               name="google_location"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Google Location"
               placeholder="Set google location"
               value={values.google_location || ""}
@@ -224,7 +232,7 @@ export default function StoreCreateForm() {
               <FormField
                 id="store_manager"
                 name="store_manager"
-                className2="w-full lg:w-full"
+                classnamewrapper="w-full lg:w-full"
                 placeholder="Select store manager"
                 value={values.store_manager || ""}
                 fieldAs={Input}
@@ -232,8 +240,7 @@ export default function StoreCreateForm() {
               <FormField
                 id="email_id"
                 name="email_id"
-                className2="w-full lg:w-full"
-                
+                classnamewrapper="w-full lg:w-full"
                 placeholder="Enter email"
                 value={values.email_id || ""}
                 fieldAs={Input}
@@ -241,39 +248,36 @@ export default function StoreCreateForm() {
               <FormField
                 id="phone_number"
                 name="phone_number"
-                className2="w-full lg:w-full"
-               
+                classnamewrapper="w-full lg:w-full"
                 placeholder="Enter phone number"
                 value={values.phone_number || ""}
                 fieldAs={Input}
               />
             </div>
 
-
             {/* user name password */}
             <div className=" grid sm:grid-cols-2 gap-2 w-full ">
-            <FormField
-              id="user_name"
-              name="user_name"
-              className2="w-full lg:w-full "
-              //   title="User Name"
-              fieldClassName="w-full"
-              placeholder="Enter user name"
-              value={values.user_name || ""}
-              fieldAs={Input}
-            />
-            <FormField
-              id="password"
-              name="password"
-              fieldClassName="w-full"
-              className2="w-full lg:w-full"
-              //   title="Password"
-              placeholder="Enter password"
-              type="password"
-              value={values.password || ""}
-              fieldAs={Input}
-            />
-
+              <FormField
+                id="user_name"
+                name="user_name"
+                classnamewrapper="w-full lg:w-full "
+                //   title="User Name"
+                fieldClassName="w-full"
+                placeholder="Enter user name"
+                value={values.user_name || ""}
+                fieldAs={Input}
+              />
+              <FormField
+                id="password"
+                name="password"
+                fieldClassName="w-full"
+                classnamewrapper="w-full lg:w-full"
+                //   title="Password"
+                placeholder="Enter password"
+                type="password"
+                value={values.password || ""}
+                fieldAs={Input}
+              />
             </div>
             {/* Checkbox for Boolean Field */}
             <div className="flex items-center gap-2">
@@ -282,7 +286,7 @@ export default function StoreCreateForm() {
                 type="checkbox"
                 id="in_house_product"
                 name="in_house_product"
-                className2="w-full lg:w-full"
+                classnamewrapper="w-full lg:w-full"
                 checked={values.in_house_product}
               />
             </div>
@@ -292,7 +296,7 @@ export default function StoreCreateForm() {
             <FormField
               id="bank_details.account_name"
               name="bank_details.account_name"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Account Name"
               placeholder="Enter account name"
               value={values.bank_details.account_name || ""}
@@ -301,7 +305,7 @@ export default function StoreCreateForm() {
             <FormField
               id="bank_details.account_number"
               name="bank_details.account_number"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Account Number"
               placeholder="Enter account number"
               value={values.bank_details.account_number || ""}
@@ -310,7 +314,7 @@ export default function StoreCreateForm() {
             <FormField
               id="bank_details.ifsc"
               name="bank_details.ifsc"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="IFSC"
               placeholder="Enter IFSC code"
               value={values.bank_details.ifsc || ""}
@@ -319,7 +323,7 @@ export default function StoreCreateForm() {
             <FormField
               id="bank_details.shift_code"
               name="bank_details.shift_code"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Shift Code"
               placeholder="Enter shift code"
               value={values.bank_details.shift_code || ""}
@@ -328,7 +332,7 @@ export default function StoreCreateForm() {
             <FormField
               id="bank_details.upi_id"
               name="bank_details.upi_id"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="UPI ID"
               placeholder="Enter UPI ID"
               value={values.bank_details.upi_id || ""}
@@ -339,7 +343,7 @@ export default function StoreCreateForm() {
             <FormField
               id="store_capacity_in_cubic_meter"
               name="store_capacity_in_cubic_meter"
-              className2="w-full lg:w-full"
+              classnamewrapper="w-full lg:w-full"
               //   title="Store Capacity in Cubic Meter"
               placeholder="Enter capacity"
               value={values.store_capacity_in_cubic_meter || "" || ""}

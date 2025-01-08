@@ -22,9 +22,11 @@ export default function OrderTableActionModal({orderId}: Props) {
     
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <IconButton>
+       <div className="">
+       <IconButton>
           <Icon icon="mi:options-vertical" />
         </IconButton>
+       </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mr-10 ">
         <DropdownMenuItem className="text-xs px-3 cursor-pointer"

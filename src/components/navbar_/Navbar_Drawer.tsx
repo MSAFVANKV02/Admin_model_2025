@@ -168,13 +168,18 @@ export default function NavbarDrawer() {
           <Logo />
           {open && (
             <>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === "rtl" ? (
+             <div className="">
+             <IconButton onClick={handleDrawerClose}>
+              <span>
+                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />
                 ) : (
                   <ChevronLeftIcon className="text-white" />
                 )}
+              </span>
+               
               </IconButton>
+             </div>
             </>
           )}
         </DrawerHeader>
@@ -229,7 +234,8 @@ export default function NavbarDrawer() {
                                 id={`option-${childIndex}`} // Use unique IDs for each input
                                 name="radio-group"
                                 type="radio"
-                                checked
+                                // checked
+                                checked={child.segment === pathname}
                               />
                               <span className="radio-checkmark"></span>
                             </label>

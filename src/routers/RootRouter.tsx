@@ -33,6 +33,7 @@ import StoreManagementPage from "@/pages/store/store-management-page";
 
 
 const rootRouter = createBrowserRouter([
+  
   {
     path: "/login",
     element: <LoginPage />,
@@ -138,6 +139,13 @@ const rootRouter = createBrowserRouter([
     path: "*",
     element: <ErrorPage />,
   },
-]);
+]
+// ,{
+//   future: {
+//     v7_fetcherPersist: true, // Enable the future flag for fetcher persistence in React Router v7
+//   },
+// }
+
+);
 
 export default rootRouter;

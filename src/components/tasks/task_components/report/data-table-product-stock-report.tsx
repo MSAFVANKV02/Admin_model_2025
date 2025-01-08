@@ -92,12 +92,14 @@ export default function DataTableProductStockReports({ data }: Props) {
       header: () => <div className="font-bold text-black w-0"></div>,
       cell: ({ row }) => (
         <TableCell style={{ width: "0px" }}>
-      <IconButton
+     <div className="">
+     <IconButton
         onClick={() => toggleAccordion(row.index)}
         aria-label="toggle details"
       >
         {openRow === row.index ? <ExpandLess /> : <ExpandMore />}
       </IconButton>
+     </div>
     </TableCell>
       ),
     },

@@ -10,9 +10,12 @@ function MyEyeIcon({ onClick, icon = "mdi:eye" }: Props) {
   return (
     <Toolbar disableGutters>
       <Tooltip title="View" placement="top">
-        <IconButton onClick={onClick}>
+        <div className="">
+           <IconButton onClick={onClick}>
           <Icon icon={icon} fontSize={20} />
-        </IconButton>
+        </IconButton>   
+        </div>
+    
       </Tooltip>
     </Toolbar>
   );

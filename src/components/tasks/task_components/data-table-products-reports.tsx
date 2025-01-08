@@ -177,12 +177,14 @@ export default function DataTableProductsReports({ data }: Props) {
                 <TableCell>{product.returnRate}</TableCell>
                 {/* 8 */}
                 <TableCell>
-                  <IconButton
+                 <div className="">
+                 <IconButton
                     onClick={() => toggleAccordion(productIndex)}
                     aria-label="toggle details"
                   >
                     {openRow === productIndex ? <ExpandLess /> : <ExpandMore />}
                   </IconButton>
+                 </div>
                 </TableCell>
               </TableRow>
 

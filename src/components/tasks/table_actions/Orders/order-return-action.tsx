@@ -41,9 +41,11 @@ export default function OrderReturnAction({ order }: Props) {
     <div className="flex">
       <DropdownMenu>
         <DropdownMenuTrigger>
+          <div className="">
           <IconButton>
             <Icon icon="mi:options-vertical" />
           </IconButton>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-10">
           <DropdownMenuItem

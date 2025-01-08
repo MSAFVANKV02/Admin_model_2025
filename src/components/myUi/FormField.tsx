@@ -13,7 +13,7 @@ type FormFieldGenalProps = {
   fieldAs?: React.ElementType;
   fieldClassName?: string;
   type?: string;
-  className2?: string; // Additional class for the field
+  classnamewrapper?: string; // Additional class for the field
 };
 
 export function FormField({
@@ -26,7 +26,7 @@ export function FormField({
   fieldAs,
   fieldClassName,
   type = "text", // default type is text
-  className2,
+  classnamewrapper,
 }: FormFieldGenalProps) {
   return (
     <div
@@ -41,7 +41,7 @@ export function FormField({
         </Label>
       )}
 
-<div className={cn(`flex flex-col gap-2 w-full lg:w-3/4`, className2)}>
+<div className={cn(`flex flex-col gap-2 w-full lg:w-3/4`, classnamewrapper)}>
         <Field
           id={id}
           name={name}

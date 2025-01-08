@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cookie from "js-cookie";
-import { isAuthOtp } from "@/middlewares/IsAuthenticated";
+import {  isAuthOtp } from "@/middlewares/IsAuthenticated";
 import VerifyOtp from "./Verify_Otp";
 import axios from "axios";
 import { ADMIN_SEND_OTP } from "@/types/urlPath";
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

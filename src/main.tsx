@@ -12,8 +12,8 @@ import axios from "axios";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-// axios.defaults.baseURL = "http://localhost:4000";
-axios.defaults.baseURL = "https://gateway.ayaboo.com";
+axios.defaults.baseURL = "http://localhost:4000";
+// axios.defaults.baseURL = "https://gateway.ayaboo.com";
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(

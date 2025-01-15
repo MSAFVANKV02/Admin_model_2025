@@ -1,6 +1,6 @@
 import { IUserTypes } from "@/types/adminUserTypes";
 import { ColumnDef } from "@tanstack/react-table";
-
+import AdminTableAction from "../table_actions/admins/admin-table-action";
 
 export const UserManagementColumn: ColumnDef<IUserTypes>[] = [
   {
@@ -16,7 +16,9 @@ export const UserManagementColumn: ColumnDef<IUserTypes>[] = [
   {
     accessorKey: "role",
     header: "Role",
-    cell: ({ row }) => <span className="span capitalize">{row.getValue("role")}</span>,
+    cell: ({ row }) => (
+      <span className="span capitalize">{row.getValue("role")}</span>
+    ),
   },
   {
     accessorKey: "pages",
@@ -24,13 +26,29 @@ export const UserManagementColumn: ColumnDef<IUserTypes>[] = [
     cell: ({ row }) => {
       const pages = row.getValue("pages") as string[]; // Assert that pages is a string array
       return (
-        <ul className="list-disc pl-4">
-          {pages.map((page, index) => (
-            <li key={index}>{page}</li>
-          ))}
-        </ul>
+        <>
+          {row.original.role === "admin" ? (
+            <div className="">
+              <span className="text-xs text-textGray">All Pages Access</span>
+            </div>
+          ) : (
+            <ul className="list-disc pl-4">
+              {pages.map((page, index) => (
+                <li key={index}>{page}</li>
+              ))}
+            </ul>
+          )}
+        </>
       );
     },
-  }
-  
+  },
+  {
+    accessorKey: "action",
+    header: "Action",
+    cell: ({ row }) => (
+      <div className="flex gap-2">
+        <AdminTableAction row={row.original} />
+      </div>
+    ),
+  },
 ];

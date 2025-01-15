@@ -14,6 +14,7 @@ type FormData = {
   home_slider_3: { imageUrl: File | string; imageLink: string }[];
   home_banner: { imageUrl: File | string; imageLink: string }[];
   kyc_slider: File[];
+  login_page: File[];
 };
 
 export default function WebBannerForm() {
@@ -24,6 +25,7 @@ export default function WebBannerForm() {
     home_slider_3: [],
     home_banner: [],
     kyc_slider: [],
+    login_page: [],
   };
 
   //   const handleNewImageUpload = (
@@ -67,6 +69,8 @@ export default function WebBannerForm() {
         makeToastError("You can only select up to 4 images for sliders");
       } else if (fieldName === "kyc_slider") {
         setFieldValue(fieldName, [...values.kyc_slider, ...selectedFiles]); // Allow multiple files for kyc_slider
+      } else if (fieldName === "login_page") {
+        setFieldValue(fieldName, [...values.login_page, ...selectedFiles]); // Allow multiple files for kyc_slider
       } else {
         const newImages = selectedFiles.map((file) => ({
           imageUrl: file,
@@ -90,7 +94,7 @@ export default function WebBannerForm() {
     if (!updatedValue.startsWith(baseLink)) {
       updatedValue = baseLink;
     }
-    if (fieldName !== "kyc_slider") {
+    if (fieldName !== "kyc_slider" && fieldName !== "login_page") {
       const updatedImages = [...values[fieldName]];
       updatedImages[index].imageLink = updatedValue;
       setFieldValue(fieldName, updatedImages);
@@ -112,6 +116,7 @@ export default function WebBannerForm() {
             makeToast("Form saved successfully!");
           } catch (error) {
             makeToastError("Failed to save form. Please try again.");
+            console.log(error);
           } finally {
             setLoading(false);
           }
@@ -220,29 +225,6 @@ export default function WebBannerForm() {
               />
 
               {/* 5 */}
-              <ImageUploader
-                label="Home Banner"
-                fieldName="home_banner"
-                images={values.home_banner}
-                setFieldValue={setFieldValue}
-                handleFileUpload={(e, fieldName) =>
-                  handleNewImageUpload(
-                    e,
-                    fieldName as keyof FormData,
-                    values,
-                    setFieldValue
-                  )
-                }
-                handleLinkChange={(e, index) =>
-                  handleImageLinkChange(
-                    e,
-                    index,
-                    "home_banner",
-                    values,
-                    setFieldValue
-                  )
-                }
-              />
 
               <div className="flex justify-between gap-4">
                 <label className="text-sm text-textGray font-bold">
@@ -290,6 +272,64 @@ export default function WebBannerForm() {
                           </div>
                         </div>
                       ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 6 */}
+              <div className="flex justify-between gap-4">
+                <label className="text-sm text-textGray font-bold">
+                  Login Page
+                </label>
+                <div className="lg:w-3/4 flex flex-col gap-3">
+                  <FileInput
+                    img="typcn:camera"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/webp"
+                    id="login_page"
+                    name="login_page"
+                    multiple
+                    onChange={(e) =>
+                      handleNewImageUpload(
+                        e,
+                        "login_page",
+                        values,
+                        setFieldValue
+                      )
+                    }
+                  />
+
+                  <div className="flex flex-wrap gap-4 mt-2">
+                    {values.login_page &&
+                      values.login_page.map((file, index) => {
+                        const fileUrl =
+                          typeof file === "string"
+                            ? file
+                            : URL.createObjectURL(file);
+
+                        return (
+                          <div key={index} className="relative w-16 h-16">
+                            <img
+                              src={fileUrl}
+                              alt={`Login Page ${index + 1}`}
+                              className="w-full h-full object-cover border rounded"
+                            />
+                            <div className="absolute -right-4 -top-8">
+                              <MyDeleteIcon
+                                color="#5F08B1"
+                                onClick={() => {
+                                  const updatedImages =
+                                    values.login_page.filter(
+                                      (_, i) => i !== index
+                                    );
+                                  setFieldValue("login_page", updatedImages);
+                                }}
+                                icon="zondicons:close-solid"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

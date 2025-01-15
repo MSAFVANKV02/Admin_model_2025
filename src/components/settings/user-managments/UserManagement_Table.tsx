@@ -1,23 +1,23 @@
 import { UserManagementColumn } from '@/components/tasks/table_columns/user-management-table-column';
 import { DataTable } from '@/components/tasks/task_components/data-table'
+import { fetchAdminDetails } from '@/redux/actions/adminSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import  { useEffect, useState } from 'react'
 
 export default function UserManagementTable() {
-
-  const [users, setUsers] = useState([]);
+  const dispatch = useAppDispatch();
+  const {admin} = useAppSelector((state)=>state.admin)
+  // const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  //   console.log(users);
+    // console.log(admin,'sdas');
+
 
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch(
-          "/src/components/tasks/data/admin-users.json"
-        ); // Replace with the appropriate API route
-        const data = await response.json();
-        // const validTasks = z.array(taskSchema).parse(data);
-        setUsers(data);
+     await dispatch(fetchAdminDetails())
+    
       } catch (error) {
         console.error("Error fetching tasks:", error);
       } finally {
@@ -34,7 +34,7 @@ export default function UserManagementTable() {
       <DataTable
       enableView
       columns={UserManagementColumn}
-      data={users}
+      data={admin}
       />
       {/* ===== */}
     </div>

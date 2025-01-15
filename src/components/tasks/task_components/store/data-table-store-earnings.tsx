@@ -14,9 +14,15 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -28,17 +34,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import StoreTableAction from "../../table_actions/store/store-table-action";
 import { StoreTypes } from "@/types/storeTypes";
-import AyButton from "@/components/myUi/AyButton";
-import { useNavigate } from "react-router-dom";
+import MyClock from "@/components/myUi/MyClock";
 
 type Props = {
   data: StoreTypes[];
 };
 
-export function DataTableStore({ data }: Props) {
-    const navigate = useNavigate();
+export function DataTableStoreEarnings({ data }: Props) {
+//   const navigate = useNavigate();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -49,26 +53,27 @@ export function DataTableStore({ data }: Props) {
 
   const columns: ColumnDef<StoreTypes>[] = [
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+      accessorKey: "created_at",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Date
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const date = row.original.created_at;
+
+        return (
+          <div className="lowercase">
+            <MyClock date={date} showTime={false} />
+          </div>
+        );
+      },
     },
     {
       accessorKey: "store_name",
@@ -88,22 +93,13 @@ export function DataTableStore({ data }: Props) {
       ),
     },
     {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center">
-            {/* <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
-              </DropdownMenuItem> */}
-
-            <StoreTableAction data={row.original} />
-          </div>
-        );
+      accessorKey: "amount",
+      header: () => {
+        return <div className="text-right">Sales earnings</div>;
       },
+      cell: ({ row }) => <div className="lowercase text-right">₹{row.original.amount}</div>,
     },
+   
   ];
 
   const table = useReactTable({
@@ -127,10 +123,12 @@ export function DataTableStore({ data }: Props) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex md:flex-row flex-col gap-3 md:items-center py-4">
         <Input
           placeholder="Filter emails..."
-          value={(table.getColumn("store_name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("store_name")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("store_name")?.setFilterValue(event.target.value)
           }
@@ -138,24 +136,18 @@ export function DataTableStore({ data }: Props) {
         />
 
         {/* add new button ==== starts */}
-        <AyButton
-        title="+  Add New Store"
-        sx={{
-          ml: {
-            md:"auto",
-           },
-           borderRadius: "100px",
-           width: {
-             md:"fit-content"
-           },
-           px: "14px",
-           py: "10px",
-        }}
-        onClick={()=>{
-            navigate(`/store?type=create`);
-        }}
-        />
-      
+        <div className="lg:ml-auto">
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="All store" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

@@ -108,6 +108,17 @@ export function DataTableStorePayout({ data }: Props) {
           <div className="lowercase">{row.original.amount}</div>
         ),
       },
+      {
+        accessorKey: "status",
+        header: () => {
+          return (
+           <div className="">Status</div>
+          );
+        },
+        cell: ({ row }) => (
+          <div className="lowercase">{row.original.status}</div>
+        ),
+      },
   ];
 
   const table = useReactTable({
@@ -131,7 +142,7 @@ export function DataTableStorePayout({ data }: Props) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex md:flex-row flex-col gap-3 md:items-center py-4">
         <Input
           placeholder="Filter emails..."
           value={
@@ -147,9 +158,13 @@ export function DataTableStorePayout({ data }: Props) {
         <AyButton
           title="+ Create store payment"
           sx={{
-            ml: "auto",
+            ml: {
+             md:"auto",
+            },
             borderRadius: "100px",
-            width: "fit-content",
+            width: {
+              md:"fit-content"
+            },
             px: "14px",
             py: "10px",
           }}

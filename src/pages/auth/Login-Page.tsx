@@ -3,54 +3,36 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cookie from "js-cookie";
-import {  isAuthOtp } from "@/middlewares/IsAuthenticated";
+import { isAuthOtp } from "@/middlewares/IsAuthenticated";
 import VerifyOtp from "./Verify_Otp";
-import axios from "axios";
-import { ADMIN_SEND_OTP } from "@/types/urlPath";
 import { makeToast, makeToastError } from "@/utils/toaster";
 import MyBackBtn from "@/components/myUi/myBackBtn";
+import { SendOtp_Login_Api } from "@/services/auth/route";
+import Draggable from "react-draggable"; // Import react-draggable
 
 export default function LoginPage() {
   const verifyOtp = isAuthOtp();
-  // const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Example authentication logic
-    // if (email === "admin@ayb.com" && password === "123") {
-    //   Cookie.set(
-    //     "us_b2b_admin_otp", // Cookie name
-    //     JSON.stringify({ username: email }), // Cookie value
-    //     { expires: 1, sameSite: "strict" } // Cookie expires in 1 day
-    //   );
-    //   navigate("/dashboard")
-    // } else {
-    //   alert("Invalid email or password.");
-    // }
     try {
       setLoading(true);
-      const { data, status } = await axios.post(ADMIN_SEND_OTP, {
-        email,
-        password,
-      });
+
+      const { data, status } = await SendOtp_Login_Api({ email, password });
 
       if (status === 200) {
-        localStorage.setItem("otp-timer", "60"); 
-        localStorage.removeItem("otp-finished"); 
+        localStorage.setItem("otp-timer", "60");
+        localStorage.removeItem("otp-finished");
         if (data.success) {
           Cookie.set(
-            "us_b2b_admin_otp", // Cookie name
-            JSON.stringify({ mobile: data.mobile,email: email }), // Cookie value
-            { expires: 0.5, sameSite: "strict" } // Cookie expires in 1 day
+            "us_b2b_admin_otp",
+            JSON.stringify({ mobile: data.mobile, email }),
+            { expires: 0.5, sameSite: "strict" }
           );
-          // for 12 hr 0.5, 
-          // for 1 hr 1 / 24, 
           makeToast(`${data.message}`);
           localStorage.setItem("otp-timer", "60");
         }
@@ -68,85 +50,85 @@ export default function LoginPage() {
 
   return (
     <div
-      className="h-screen w-full flex select-none"
+      className="min-h-screen w-full flex justify-center items-center select-none bg-[#FDF7FF]"
       style={{
-        backgroundImage: 'url("/img/bg/bg-admin04.jpg")',
+        backgroundImage: 'url("/img/bg/bg-admin-transparent.png")',
         backgroundPosition: "center",
-        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div
-        className={`relative m-auto w-[320px] bg-white/60 backdrop-filter overflow-hidden shadow-xl backdrop-blur-lg rounded-xl h-[40%] p-5 flex flex-col ${
-          verifyOtp ? "" : "justify-between"
-        } `}
+      {/* Draggable wrapper around the form */}
+      <Draggable
+      cancel="input, button, .no-drag"
       >
-        <div className="absolute w-96 h-96 bg-[#5f08b1]/15 blur-md shadow-[#5f08b1]/20 shadow-lg -z-50 rounded-full -top-[160px] -right-[160px]" />
+        <div
+          className={`relative w-[320px] cursor-pointer bg-white/40 backdrop-filter overflow-hidden shadow-[#5f08b1]/50 shadow-2xl backdrop-blur-lg rounded-xl mx-1 sm:h-[400px] h-[380px] p-5 flex flex-col ${
+            verifyOtp ? "" : "justify-between"
+          }`}
+        >
+          <div className="absolute w-96 h-96 bg-[#5f08b1]/10 blur-md shadow-[#5f08b1]/50 shadow-md -z-50 rounded-full -top-[160px] -right-[160px]" />
 
-        <div className="flex items-center justify-between w-full">
-          {verifyOtp && (
-            <div className="">
-              <MyBackBtn 
-              clickEvent={
-                ()=>{
-                  Cookie.remove("us_b2b_admin_otp");
-                  localStorage.setItem("otp-timer", "0"); // Save new timer in localStorage
-                  localStorage.removeItem("otp-finished"); 
-                  window.location.reload();
-                }
-              }
-              />
-            </div>
-          )}
-          <img src="/img/logo/Logo_black.svg" alt="Admin Logo" width={100} />
-          <p>Admin</p>
-        </div>
-        {verifyOtp ? (
-          <>
+          <div className="flex items-center justify-between w-full">
+            {verifyOtp && (
+              <div>
+                <MyBackBtn
+                  clickEvent={() => {
+                    Cookie.remove("us_b2b_admin_otp");
+                    localStorage.setItem("otp-timer", "0");
+                    localStorage.removeItem("otp-finished");
+                    window.location.reload();
+                  }}
+                />
+              </div>
+            )}
+            <img src="/img/logo/Logo_black.svg" alt="Admin Logo" width={100} />
+            <p>Admin</p>
+          </div>
+          {verifyOtp ? (
             <VerifyOtp />
-          </>
-        ) : (
-          <form onSubmit={handleLoginSubmit}>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mb-5"
-              placeholder="Email"
-              required
-            />
-            <div className="relative">
+          ) : (
+            <form onSubmit={handleLoginSubmit}>
               <Input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className=""
-                placeholder="Password"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="text-xs p-5 mb-5"
+                placeholder="Email"
                 required
               />
-              <Icon
-                onClick={() => setShowPassword(!showPassword)}
-                icon={
-                  !showPassword
-                    ? "fluent:eye-off-16-regular"
-                    : "fluent:eye-24-regular"
-                }
-                className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer"
-              />
-            </div>
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="text-xs p-5"
+                  placeholder="Password"
+                  required
+                />
+                <Icon
+                  onClick={() => setShowPassword(!showPassword)}
+                  icon={
+                    !showPassword
+                      ? "fluent:eye-off-16-regular"
+                      : "fluent:eye-24-regular"
+                  }
+                  className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer"
+                />
+              </div>
 
-            <AyButton
-              loading={loading}
-              title="LOGIN"
-              type="submit" // Ensures the button submits the form
-              sx={{
-                mt: "3rem",
-                width: "100%",
-              }}
-            />
-          </form>
-        )}
-      </div>
+              <AyButton
+                loading={loading}
+                title="LOGIN"
+                type="submit"
+                sx={{
+                  mt: "3rem",
+                  width: "100%",
+                }}
+              />
+            </form>
+          )}
+        </div>
+      </Draggable>
     </div>
   );
 }

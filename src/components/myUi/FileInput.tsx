@@ -34,7 +34,7 @@ export default function FileInput({
     >
       <div className="px-5 border-r h-full text-center flex items-center bg-gray-100">
         {
-          img ? <Icon icon={img} fontSize={20} color="#7A7A7A"/>:"Browse"
+          img ? <Icon icon={img} fontSize={25} color="#7A7A7A"/>:"Browse"
         }
        
       </div>

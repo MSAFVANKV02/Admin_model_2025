@@ -14,6 +14,7 @@ type FormFieldGenalProps = {
   fieldClassName?: string;
   type?: string;
   classnamewrapper?: string; // Additional class for the field
+  readonly?: boolean;
 };
 
 export function FormField({
@@ -27,6 +28,7 @@ export function FormField({
   fieldClassName,
   type = "text", // default type is text
   classnamewrapper,
+  readonly
 }: FormFieldGenalProps) {
   return (
     <div
@@ -46,10 +48,11 @@ export function FormField({
           id={id}
           name={name}
           placeholder={placeholder}
-          className={cn(`w-full p-6`, fieldClassName)}
+          className={cn(`w-full p-6 ${readonly &&"bg-gray-100 border-none outline-none focus:ring-0"}`, fieldClassName)}
           type={type}
           as={fieldAs}
           value={value} // Bind field value to Formik
+          readOnly={readonly} // Make the field read-only if specified
         />
         <ErrorMessage
           name={name}

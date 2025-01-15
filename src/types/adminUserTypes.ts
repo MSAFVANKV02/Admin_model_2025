@@ -4,5 +4,9 @@ export interface IUserTypes {
     email: string
     password: string
     role: "admin"|"ecommerce"|"social-media"
-    pages: string[]
+    pages: string[];
+    isBlocked: boolean;
+    mobile: string;
+    createdAt: string
+    updatedAt: string
   }

@@ -1,8 +1,9 @@
-
 import { StoreTypes } from "@/types/storeTypes";
 import { useSearchParams } from "react-router-dom";
 import StorePaymentForm from "./store_payment_form";
 import { DataTableStorePayout } from "@/components/tasks/task_components/store/data-table-store-payout";
+
+import PayoutStoreDue from "./payout-store-due";
 
 const storeData: StoreTypes[] = [
   {
@@ -13,7 +14,7 @@ const storeData: StoreTypes[] = [
     state: "Maharashtra",
     country: "India",
     pincode: "400001",
-    google_location: {lat:"",lng:""},
+    google_location: { lat: "", lng: "" },
     store_manager: "John Doe",
     email_id: "john.doe@greenmart.com",
     phone_number: "+91-9876543210",
@@ -29,7 +30,7 @@ const storeData: StoreTypes[] = [
     },
     store_capacity_in_cubic_meter: 1500,
     created_at: Date.now() - 24 * 60 * 60 * 1000,
-    status:"paid",
+    status: "paid",
     amount: 1000,
   },
   {
@@ -40,7 +41,7 @@ const storeData: StoreTypes[] = [
     state: "Karnataka",
     country: "India",
     pincode: "560001",
-    google_location: {lat:"12.9715987",lng:"77.594566"},
+    google_location: { lat: "12.9715987", lng: "77.594566" },
     store_manager: "John Doe",
     email_id: "manager@abcsupermart.com",
     phone_number: "+91 9876543210",
@@ -56,7 +57,7 @@ const storeData: StoreTypes[] = [
     },
     store_capacity_in_cubic_meter: 2000,
     created_at: Date.now(),
-    status:"paid",
+    status: "paid",
     amount: 1000,
   },
 ];
@@ -70,13 +71,21 @@ export default function PayoutStorePage() {
         <h1 className="font-bold text-textGray text-sm">Store Payout</h1>
       </div>
       {/*  */}
-      <div className="page-outer">
+      <div className="sm:p-5 rounded-md shadow-sm scrollbar-none min-h-[80vh] w-full bg-transparent">
         {urlType === "create" ? (
           <div className="">
-           <StorePaymentForm />
+            <StorePaymentForm />
           </div>
         ) : (
-          <DataTableStorePayout data={storeData} />
+          <div className="flex xl:flex-row flex-col gap-4">
+            <div className="xl:w-[60%] w-full  bg-white overflow-y-auto h-[80vh]  p-2 rounded-md">
+              <DataTableStorePayout data={storeData} />
+            </div>
+
+            <div className="xl:flex-grow bg-white p-2 rounded-md overflow-y-auto h-[80vh]">
+              <PayoutStoreDue />
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -1,12 +1,12 @@
 export type StoreTypes = {
-    store_name: string | null;
-    gst_number: string | null;
-    store_address: string | null;
-    store_capacity_in_cubic: number | null;
-    state: string | null;
-    country: string | null;
-    pincode: string | null;
-    google_location: { lat: string | null; lng: string | null };
+    store_name?: string | null;
+    gst_number?: string | null;
+    store_address?: string | null;
+    store_capacity_in_cubic?: number | null;
+    state?: string | null;
+    country?: string | null;
+    pincode?: string | null;
+    google_location?: { lat: string | null; lng: string | null };
     store_manager: string | null;
     email_id: string | null;
     phone_number: string | null;

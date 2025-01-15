@@ -12,6 +12,7 @@ type Props = {
   iconSize?: number; // Font size for the icon
   type?: "submit"|"reset"|"button";
   loading?: boolean;
+  disabled?: boolean; // Whether the button is disabled or not
   // onclickEvent?: (route:string)=>void; // Event handler for onClick event
 };
 
@@ -25,12 +26,14 @@ export default function AyButton({
   iconSize,
   type="button",
   loading,
+  disabled=false,
 
 }: Props) {
   return (
     <Button
     onClick={onClick}
     type={type}
+    disabled={disabled}
       sx={{
         ...(variant === "contained"
           ? {

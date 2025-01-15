@@ -99,8 +99,11 @@ export default function StoreCreateForm() {
             handleClick("/store");
           }}
           sx={{
-            ml: "auto",
+             ml: {
+             md:"auto",
+            },
             borderRadius: "100px",
+            py: "10px",
           }}
         />
       </div>

@@ -32,8 +32,8 @@ export const Verify_Otp_Api = async (data: {
 }) => await API.post(ADMIN_VERIFY_OTP, data, { withCredentials: true });
 
 // ------------------------- Resend Otp ---------------- ----------------
-export const Resend_Otp_Api = async (data: {email:string | null}) =>
-  await API.post(ADMIN_RESEND_OTP, { data }, { withCredentials: true });
+export const Resend_Otp_Api = async (email:string | null) =>
+  await API.post(ADMIN_RESEND_OTP, { email }, { withCredentials: true });
 
 
 // -------- create sub admins ----------------

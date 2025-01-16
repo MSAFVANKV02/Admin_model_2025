@@ -79,10 +79,14 @@ export default function VerifyOtp() {
     }
   };
 
+  // console.log(email,'email');
+  
+
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await Resend_Otp_Api({ email: email });
+      const response = await Resend_Otp_Api(email);
+      // const response = await axios.post(ADMIN_RESEND_OTP, {email});
 
       if (response.status === 200) {
         makeToast("OTP Resent Successfully");
@@ -93,6 +97,7 @@ export default function VerifyOtp() {
       setLoading(false);
       if (axios.isAxiosError(error)) {
         if (error.response?.data) {
+          localStorage.setItem("otp-timer", "0");
           makeToastError(error.response?.data.message);
         }
       }

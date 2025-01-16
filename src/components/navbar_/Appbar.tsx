@@ -28,6 +28,7 @@ import NotificationBarSheet from "./Notification_Sheet";
 import { Button } from "../ui/button";
 import { makeToast } from "@/utils/toaster";
 import Cookie from "js-cookie";
+import { useAppSelector } from "@/redux/hook";
 
 type Props = {
   open: boolean;
@@ -49,6 +50,8 @@ export default function NavAppBar({
   // handle full screen mode ====
   const { handleFullScreen } = FullViewScreen();
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
+  const { currentAdmin } = useAppSelector((state)=>state.admin);
+
 
   // click
   const { handleClick } = useNavigateClicks();
@@ -173,14 +176,14 @@ export default function NavAppBar({
               <div className="flex gap-3 ml-5">
                 <div className="flex flex-col text-start">
                   <span className="text-sm font-medium text-gray-700">
-                    Admin
+                    {currentAdmin?.role}
                   </span>
-                  <span className=" text-gray-400">shadcn</span>
+                  <span className=" text-gray-400">  {currentAdmin?.name || currentAdmin?.email.split("@")[0]}</span>
                 </div>
                 {/* ====== */}
                 <Avatar className="w-7 h-7">
                   <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>{currentAdmin?.name || 'Admin'}</AvatarFallback>
                 </Avatar>
               </div>
             </DialogTrigger>

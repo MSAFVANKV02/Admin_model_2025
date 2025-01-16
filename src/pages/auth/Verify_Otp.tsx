@@ -20,7 +20,7 @@ import MyOtpTimer from "@/components/myUi/MyOtpTimer";
 import { makeToast, makeToastError } from "@/utils/toaster";
 import axios from "axios";
 import Cookie from "js-cookie";
-import { ADMIN_RESEND_OTP, ADMIN_VERIFY_OTP } from "@/types/urlPath";
+import { Resend_Otp_Api, Verify_Otp_Api } from "@/services/auth/route";
 
 const formSchema = z.object({
   otp: z.string().min(6, { message: "OTP is required." }),
@@ -55,22 +55,21 @@ export default function VerifyOtp() {
   });
 
   const onSubmit = async (form: FormData) => {
-    console.log(form.otp);
-    console.log(mobile);
+    // console.log(form.otp);
+    // console.log(mobile);
 
-    
     try {
-      const response = await axios.post(ADMIN_VERIFY_OTP, {
-        mobile:mobile,
+      const response = await Verify_Otp_Api({
+        mobile: mobile,
         otp_Admin: form.otp,
-      },{withCredentials:true});
+      });
 
       if (response.data.success) {
         makeToast("OTP verified successfully!");
         navigate("/dashboard");
         Cookie.remove("us_b2b_admin_otp");
         localStorage.setItem("otp-timer", "0"); // Save new timer in localStorage
-        localStorage.removeItem("otp-finished"); 
+        localStorage.removeItem("otp-finished");
       }
     } catch (error: any) {
       console.error(error);
@@ -83,7 +82,7 @@ export default function VerifyOtp() {
   const handleResendOtp = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(ADMIN_RESEND_OTP, {email});
+      const response = await Resend_Otp_Api({ email: email });
 
       if (response.status === 200) {
         makeToast("OTP Resent Successfully");
@@ -104,8 +103,6 @@ export default function VerifyOtp() {
 
   return (
     <div className="relative flex flex-col justify-center items-center h-full">
-    
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4  ">
           <div className="flex items-center gap-1 justify-center text-xs">
@@ -149,17 +146,17 @@ export default function VerifyOtp() {
             initialTime={60}
             onTimerFinish={() => makeToast("You can resend OTP now.")}
           />
-            <div className="absolute bottom-4 left-0 right-0 w-full">
-        <AyButton
-        loading={loading}
-          title="Verify Otp"
-          type="submit"
-          sx={{
-            mt: "10px",
-            width: "100%",
-          }}
-        />
-      </div>
+          <div className="absolute bottom-4 left-0 right-0 w-full">
+            <AyButton
+              loading={loading}
+              title="Verify Otp"
+              type="submit"
+              sx={{
+                mt: "10px",
+                width: "100%",
+              }}
+            />
+          </div>
         </form>
       </Form>
     </div>

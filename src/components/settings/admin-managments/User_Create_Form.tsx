@@ -5,14 +5,17 @@ import AyButton from "@/components/myUi/AyButton";
 import { Create_Sub_Admins_Api, Update_Sub_Admins_Api } from "@/services/auth/route";
 import { makeToast } from "@/utils/toaster";
 import { useSearchParams } from "react-router-dom";
-import {  useAppSelector } from "@/redux/hook";
+import {  useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useEffect, useState } from "react";
 import { IUserTypes } from "@/types/adminUserTypes";
 import MyCopyAction from "@/components/myUi/MyCopyAction";
+import { Input } from "@/components/ui/input";
+import { fetchAdminDetails } from "@/redux/actions/adminSlice";
 
-const UserCreateForm = () => {
-  const { NAVIGATION } = NavigationList();
+const AdminCreateForm = () => {
+  const { navigationItems } = NavigationList();
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
   const {admin} = useAppSelector((state)=>state.admin);
   const [editAdmin,setEditAdmin] =useState<IUserTypes | null>(null)
   const [generatedPassword, setGeneratedPassword] = useState<string | null>(null);
@@ -29,13 +32,14 @@ const UserCreateForm = () => {
     if (editId) {
       const filterAdmin = admin.find((admin) => admin._id === editId);
       setEditAdmin(filterAdmin || null); // Use null if filterAdmin is undefined
+      dispatch(fetchAdminDetails())
     }
-  }, [editId, admin]); // Add `admin` as a dependency
+  }, []); // Add `admin` as a dependency
 
   // Helper function to flatten navigation for checkbox options
   const getAllPages = () => {
     const pages: { title: string; segment: string }[] = [];
-    NAVIGATION.forEach((navItem) => {
+    navigationItems.forEach((navItem) => {
       if (navItem.kind === "page") {
         pages.push({ title: navItem.title, segment: navItem.segment });
         if (navItem.children) {
@@ -70,8 +74,8 @@ const UserCreateForm = () => {
         name: editId ? editAdmin?.name ?? "" : "",
         email: editId ? editAdmin?.email ?? "" : "",
         mobile: editId ? editAdmin?.mobile ?? "" : "",
-        password: editId ? editAdmin?.password ?? "" : "", // Fallback to an empty string
-        role: editId ? editAdmin?.role ?? "admin" : "admin", // Default role is admin
+        password: "", // Fallback to an empty string
+        role: editId ? editAdmin?.role ?? "" : "", // Default role is admin
         pages: editId ? editAdmin?.pages ?? [] : [],
       }}
       validationSchema={validationSchema}
@@ -133,7 +137,9 @@ const UserCreateForm = () => {
             </label>
             <Field
               id="name"
+              as={Input}
               name="name"
+              
               placeholder="Enter name"
               className="border p-2 w-full rounded"
             />
@@ -152,6 +158,7 @@ const UserCreateForm = () => {
               id="email"
               name="email"
               type="email"
+              as={Input}
               placeholder="Enter email"
               className="border p-2 w-full rounded"
             />
@@ -169,6 +176,7 @@ const UserCreateForm = () => {
             <Field
               id="mobile"
               name="mobile"
+              as={Input}
               placeholder="Enter name"
               className="border p-2 w-full rounded"
             />
@@ -187,6 +195,7 @@ const UserCreateForm = () => {
               id="password"
               name="password"
               type="password"
+              as={Input}
               placeholder="Enter password"
               className="border p-2 w-full rounded"
             />
@@ -207,7 +216,7 @@ const UserCreateForm = () => {
               name="role"
               className="border p-2 w-full rounded"
             >
-              <option value="admin">Admin</option>
+              {/* <option value="admin">Admin</option> */}
               <option value="ecommerce">Ecommerce</option>
               <option value="social-media">Social Media</option>
             </Field>
@@ -259,4 +268,4 @@ const UserCreateForm = () => {
   );
 };
 
-export default UserCreateForm;
+export default AdminCreateForm;

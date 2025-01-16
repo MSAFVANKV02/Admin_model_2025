@@ -1,8 +1,11 @@
 import {
+  ADMIN_RESEND_OTP,
   ADMIN_SEND_OTP,
+  ADMIN_VERIFY_OTP,
   CREATE_SUB_ADMIN_URL,
   DELETE_ADMIN_URL,
   GET_ADMIN_URL,
+  GET_CURRENT_ADMIN_URL,
   UPDATE_SUB_ADMIN_URL,
 } from "@/types/urlPath";
 import axios from "axios";
@@ -14,12 +17,24 @@ const API = axios.create({
       : "https://gateway.ayaboo.com"
   }`,
 });
-
+// -------------------------Send Otp For Registration---------------------------------------
 export const SendOtp_Login_Api = async (data: {
   email: string;
   password: string;
 }) => await API.post(ADMIN_SEND_OTP, data, { withCredentials: true });
-// -------------------------Send Otp For Registration---------------------------------------
+
+
+
+// -------------------------Verify Otp For Login---------------------------------------
+export const Verify_Otp_Api = async (data: {
+  mobile: string | null;
+  otp_Admin: string;
+}) => await API.post(ADMIN_VERIFY_OTP, data, { withCredentials: true });
+
+// ------------------------- Resend Otp ---------------- ----------------
+export const Resend_Otp_Api = async (data: {email:string | null}) =>
+  await API.post(ADMIN_RESEND_OTP, { data }, { withCredentials: true });
+
 
 // -------- create sub admins ----------------
 export const Create_Sub_Admins_Api = async (data: {
@@ -44,6 +59,11 @@ export const Update_Sub_Admins_Api = async (data: {
 // -------- get sub admins ----------------
 export const Get_Admins_Api = async () =>
   await API.get(GET_ADMIN_URL, { withCredentials: true });
+
+
+// ---------------- get current admin ---------------- ----------------
+export const Get_Current_Admins_Api = async () =>
+  await API.get(GET_CURRENT_ADMIN_URL, { withCredentials: true });
 
 // ---------------- delete sub admins ---------------- ----------------
 export const Delete_Admins_Api = async (id:string) =>

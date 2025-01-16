@@ -1,5 +1,5 @@
-import UserCreateForm from "@/components/settings/user-managments/User_Create_Form";
-import UserManagementTable from "@/components/settings/user-managments/UserManagement_Table";
+import AdminCreateForm from "@/components/settings/admin-managments/User_Create_Form";
+import UserManagementTable from "@/components/settings/admin-managments/UserManagement_Table";
 import { Tabs,  TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCallback } from "react";
 
@@ -7,23 +7,23 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 function UserManagementPage() {
   const [searchParams] = useSearchParams();
-  const urlTypes = searchParams.get("type") as "users" | "create" | "edit" | null;
+  const urlTypes = searchParams.get("type") as "admins" | "create" | "edit" | null;
   const navigate = useNavigate();
 
   const handleTabClick = useCallback(
-    (type: "users" | "create"|"edit") => {
-      navigate(`/settings/user-management?type=${type}`);
+    (type: "admins" | "create"|"edit") => {
+      navigate(`/settings/admin-management?type=${type}`);
     },
     [navigate]
   );
 
   const renderAdminSetupTabs = () => {
     switch (urlTypes) {
-      case "users":
+      case "admins":
         return <UserManagementTable />;
       case "create":
       case "edit": // Both "create" and "edit" render the same form
-        return <UserCreateForm />;
+        return <AdminCreateForm />;
       default:
         return <UserManagementTable />;
     }
@@ -40,11 +40,11 @@ function UserManagementPage() {
           <TabsList className="border bg-transparent rounded-full py-6 ">
             <TabsTrigger
               value="offline"
-              data-state={urlTypes === "users" ? "active" : "inactive"}
+              data-state={urlTypes === "admins" || !urlTypes ? "active" : "inactive"}
               className="data-[state=active]:bg-bg text-xs min-w-36 font-bold w-auto py-3 data-[state=active]:text-white data-[state=active]:rounded-full"
-              onClick={() => handleTabClick("users")}
+              onClick={() => handleTabClick("admins")}
             >
-              Users
+              Admins | Roles
             </TabsTrigger>
             <TabsTrigger
               value="create"
@@ -52,7 +52,10 @@ function UserManagementPage() {
               className="data-[state=active]:bg-bg text-xs min-w-36 font-bold w-auto py-3 data-[state=active]:text-white data-[state=active]:rounded-full"
               onClick={() => handleTabClick("create")}
             >
-              User Setup
+              {
+                urlTypes === "edit" ? "Edit Admin" :"Admin Setup"
+              }
+              
             </TabsTrigger>
           </TabsList>
           <div>{renderAdminSetupTabs()}</div>

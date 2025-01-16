@@ -10,11 +10,13 @@ type FormData = {
     isLoading: boolean;
     isLogged: boolean;
     error: string | null;
+    currentAdmin: IUserTypes | null;
 }
 
 // Initial state
 const initialState:FormData = {
   admin: [],
+  currentAdmin:null,
   token: null,
   isLoading: false,
   isLogged:false,
@@ -42,6 +44,26 @@ export const fetchAdminDetails = createAsyncThunk(
   }
 );
 
+// export const fetchCurrentAdminDetails = createAsyncThunk(
+//   "admin/fetchAdminDetails",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await Get_Current_Admins_Api();
+//       // console.log(response);
+      
+//       if (response.status == 200 || response.data.success === true) {
+//         return response.data.admin;
+//       } else {
+//         return rejectWithValue("Failed to fetch admin details");
+//       }
+//     } catch (error:any) {
+//       return rejectWithValue(
+//         error.response ? error.response.data : "Network error"
+//       );
+//     }
+//   }
+// );
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -55,6 +77,9 @@ const authSlice = createSlice({
       state.admin = action.payload;
       state.isLogged = true;
     },
+    setCurrentAdminSlices: (state, action) =>{
+      state.currentAdmin = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -85,7 +110,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logoutState, setUserData } = authSlice.actions;
+export const { logoutState, setUserData, setCurrentAdminSlices } = authSlice.actions;
 
 export default authSlice.reducer;
 

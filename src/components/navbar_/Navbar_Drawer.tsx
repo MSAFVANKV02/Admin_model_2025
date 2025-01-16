@@ -86,7 +86,9 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function NavbarDrawer() {
-  const { NAVIGATION } = NavigationList();
+  // const { currentAdmin } = useAppSelector((state)=>state.admin);
+
+  const { navigationItems } = NavigationList();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [collapseStates, setCollapseStates] = React.useState<{
@@ -99,6 +101,7 @@ export default function NavbarDrawer() {
   //   alert(pathname)
 
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -185,7 +188,7 @@ export default function NavbarDrawer() {
         </DrawerHeader>
         {/* <Divider /> */}
         <List>
-          {NAVIGATION.map((item, index) => {
+          {navigationItems.map((item, index) => {
             // console.log(item.segment);
             // console.log(pathname);
 

@@ -63,9 +63,13 @@
 
 // export default ProtectedRoute;
 // =================================================================
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "./IsAuthenticated";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import {  setCurrentAdminSlices } from "@/redux/actions/adminSlice";
+import { Get_Current_Admins_Api } from "@/services/auth/route";
+import PreloaderPage from "@/preloader-page";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -73,17 +77,52 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const isLogged = isAuthenticated();
+  const [loading, setLoading] = useState(true);
+
+  const dispatch =useAppDispatch();
+  const { currentAdmin } = useAppSelector((state)=>state.admin);
   const location = useLocation(); // Access the current location
   const { pathname } = location;
 
-  const loginUser = {
-    _id: "2",
-    name: "Jane Doe",
-    email: "jane@gmail.com",
-    password: "12345",
-    role: "admin",
-    pages: ["/products/add-new", "/products/all"], // Example pages user has access to
-  };
+  // const loginUser = {
+  //   _id: "2",
+  //   name: "Jane Doe",
+  //   email: "jane@gmail.com",
+  //   password: "12345",
+  //   role: "admin",
+  //   pages: ["/products/add-new", "/products/all"], // Example pages user has access to
+  // };
+
+  // console.log(currentAdmin,'currentAdmin');
+  
+
+  useEffect(()=>{
+    if(isLogged){
+      fetchCurrentAdminDetails()
+    }
+
+  },[])
+
+  const fetchCurrentAdminDetails = async () => {
+    try {
+     const res = await Get_Current_Admins_Api();
+     if(res.status === 200){
+       dispatch(setCurrentAdminSlices(res.data.admin));
+     }
+    } catch (error) {
+      console.error("Error fetching current admin details:", error);
+      
+    }
+    finally {
+      setLoading(false); // Stop loading once the process completes
+    }
+  }
+
+  if (loading) {
+    return <div>
+      <PreloaderPage />
+    </div>;
+  }
 
   // Redirect unauthenticated users to the login page
   if (!isLogged) {
@@ -97,7 +136,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   // Admins have unrestricted access
-  if (loginUser.role === "admin") {
+  if (currentAdmin?.role === "admin") {
     return <>{children}</>;
   }
 
@@ -106,7 +145,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     if (path === "/settings/user-strict") {
       return true; // Allow access to this specific page
     }
-    return loginUser.pages.includes(path); // Check against user's allowed pages
+    return currentAdmin?.pages.includes(path); // Check against user's allowed pages
   };
 
   // Redirect users without access to the current route

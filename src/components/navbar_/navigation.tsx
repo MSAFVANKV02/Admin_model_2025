@@ -1,8 +1,14 @@
+import { useAppSelector } from "@/redux/hook";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useCallback } from "react";
 
 
 
 function NavigationList() {
+  const { currentAdmin } = useAppSelector((state)=>state.admin);
+
+
+
    const NAVIGATION = [
     {
       kind: "page",
@@ -10,11 +16,24 @@ function NavigationList() {
       title: "Dashboard",
       icon: <Icon icon="material-symbols:dashboard-rounded" />,
     },
+    // {
+    //   kind: "page",
+    //   segment: "/kyc",
+    //   title: "Kyc verification",
+    //   icon: <Icon icon="iconamoon:shield-yes-fill" />,
+    // },
     {
       kind: "page",
-      segment: "/kyc",
-      title: "Kyc verification",
-      icon: <Icon icon="iconamoon:shield-yes-fill" />,
+      segment: "/user-verification",
+      title: "User Verification",
+      icon: <Icon icon="streamline:graph-bar-increase-solid" />,
+      isChild: true,
+      children: [
+        { title: "User Kyc Verification", segment: "/kyc" },
+        { title: "User Credit Verification", segment: "/credit-varify" },
+
+      
+      ],
     },
     {
       kind: "page",
@@ -136,12 +155,48 @@ function NavigationList() {
       icon: <Icon icon="mdi:cog-outline" />,
       isChild: true,
       children: [{ title: "Shipping", segment: "/settings/shipping" },
-        { title: "User Management", segment: "/settings/user-management" }
+        { title: "Admin Roles", segment: "/settings/admin-management" },
+        { title: "Payment Setup", segment: "/settings/payment-setup" }
       ],
     },
   ];
+
+
+  // ====== filters =====
+
+  const filteredNavigation = useCallback(() => {
+    if (!currentAdmin) return [];
+
+    // Show all navigation items if the currentAdmin is an "admin"
+    if (currentAdmin.role === "admin") {
+      return NAVIGATION;
+    }
+
+    // Filter navigation items based on allowed pages for non-admin roles
+    if (currentAdmin.pages) {
+      return NAVIGATION.filter((item) => {
+        if (item.segment && currentAdmin.pages.includes(item.segment)) {
+          return true;
+        }
+
+        if (item.isChild) {
+          item.children = item.children?.filter((child) =>
+            currentAdmin.pages.includes(child.segment)
+          );
+          return item.children?.length > 0;
+        }
+
+        return false;
+      });
+    }
+
+    return [];
+  }, [currentAdmin]);
+
+  const navigationItems = filteredNavigation();
+  
   return {
-    NAVIGATION
+    navigationItems
   }
 }
 

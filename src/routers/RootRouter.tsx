@@ -18,7 +18,7 @@ import BrandPage from "@/pages/products/brand/brand-page";
 import ProductReviewPage from "@/pages/products/product-review/product-review-page";
 import ColorPage from "@/pages/products/colors/color-page";
 import AllOrdersPage from "@/pages/orders/all/all-oders-page";
-import UserManagementPage from "@/pages/settings/user-management/user-management-page";
+import UserManagementPage from "@/pages/settings/admin-management/admin-management-page";
 import CustomerRefundPage from "@/pages/orders/customer-refunds/customer-refund-page";
 import CustomersPage from "@/pages/customers/customers-page";
 import MarketingPage from "@/pages/marketing/marketing-page";
@@ -131,7 +131,7 @@ const rootRouter = createBrowserRouter(
           children: [
             { path: "shipping", element: <div>Shipping Page</div> },
             {
-              path: "user-management",
+              path: "admin-management",
               element: <UserManagementPage />,
             },
             {

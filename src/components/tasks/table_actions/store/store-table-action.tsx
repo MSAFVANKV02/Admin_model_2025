@@ -94,8 +94,8 @@ export default function StoreTableAction({ data }: Props) {
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Google Location :</Label>
               <div className="">
-                lat: <span>{selectedData.google_location.lat || "N/A"}</span>
-              lng: <span>{selectedData.google_location.lng || "N/A"}</span>
+                lat: <span>{selectedData?.google_location?.lat || "N/A"}</span>
+              lng: <span>{selectedData?.google_location?.lng || "N/A"}</span>
               </div>
               
             </div>

@@ -118,7 +118,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     }
   }
 
-  if (loading) {
+  if (isLogged && loading) {
     return <div>
       <PreloaderPage />
     </div>;

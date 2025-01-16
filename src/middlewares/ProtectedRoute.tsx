@@ -1,4 +1,3 @@
-
 // import React from "react";
 // import { Navigate, useLocation } from "react-router-dom";
 // import { isAuthenticated } from "./IsAuthenticated";
@@ -55,8 +54,6 @@
 //     return <Navigate to="/settings/user-strict" replace />;
 //   }
 
-
-
 //   // Allow authenticated users to access protected routes
 //   return <>{children}</>;
 // };
@@ -67,7 +64,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { isAuthenticated } from "./IsAuthenticated";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import {  setCurrentAdminSlices } from "@/redux/actions/adminSlice";
+import { setCurrentAdminSlices } from "@/redux/actions/adminSlice";
 import { Get_Current_Admins_Api } from "@/services/auth/route";
 import PreloaderPage from "@/preloader-page";
 
@@ -79,8 +76,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const isLogged = isAuthenticated();
   const [loading, setLoading] = useState(true);
 
-  const dispatch =useAppDispatch();
-  const { currentAdmin } = useAppSelector((state)=>state.admin);
+  const dispatch = useAppDispatch();
+  const { currentAdmin } = useAppSelector((state) => state.admin);
   const location = useLocation(); // Access the current location
   const { pathname } = location;
 
@@ -94,41 +91,38 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   // };
 
   // console.log(currentAdmin,'currentAdmin');
-  
 
-  useEffect(()=>{
-    if(isLogged){
-      fetchCurrentAdminDetails()
+  useEffect(() => {
+    if (isLogged) {
+      fetchCurrentAdminDetails();
     }
-
-  },[])
+  }, []);
 
   const fetchCurrentAdminDetails = async () => {
     try {
-     const res = await Get_Current_Admins_Api();
-     if(res.status === 200){
-       dispatch(setCurrentAdminSlices(res.data.admin));
-     }
+      const res = await Get_Current_Admins_Api();
+      if (res.status === 200) {
+        dispatch(setCurrentAdminSlices(res.data.admin));
+      }
     } catch (error) {
       console.error("Error fetching current admin details:", error);
-      
-    }
-    finally {
+    } finally {
       setLoading(false); // Stop loading once the process completes
     }
-  }
+  };
 
   if (isLogged && loading) {
-    return <div>
-      <PreloaderPage />
-    </div>;
+    return (
+      <div>
+        <PreloaderPage />
+      </div>
+    );
   }
 
   // Redirect unauthenticated users to the login page
   if (!isLogged) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  
 
   // Redirect logged-in users from the login page to the dashboard
   if (pathname === "/login") {

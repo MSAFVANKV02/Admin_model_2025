@@ -122,7 +122,7 @@ function NavigationList() {
     // },
     {
       kind: "page",
-      segment: "/store",
+      segment: "",
       title: "Store Management",
       icon: <Icon icon="mdi:storefront-outline" />,
       isChild: true,

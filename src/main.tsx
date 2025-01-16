@@ -3,7 +3,6 @@ import "./index.css";
 import "./App.css";
 import rootRouter from "./routers/RootRouter.tsx";
 import { RouterProvider } from "react-router-dom";
-import { ModalProvider } from "./providers/context/context.tsx";
 import { pdfjs } from "react-pdf";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
@@ -18,7 +17,7 @@ axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <ModalProvider>
+    {/* <ModalProvider> */}
       <RouterProvider
         router={rootRouter}
         future={{
@@ -36,6 +35,6 @@ createRoot(document.getElementById("root")!).render(
         }}
         gutter={14}
       />
-    </ModalProvider>
+    {/* </ModalProvider> */}
   </Provider>
 );

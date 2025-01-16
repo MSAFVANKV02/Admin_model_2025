@@ -6,11 +6,12 @@ import {
   DELETE_ADMIN_URL,
   GET_ADMIN_URL,
   GET_CURRENT_ADMIN_URL,
+  LOGOUT_ADMIN_URL,
   UPDATE_SUB_ADMIN_URL,
 } from "@/types/urlPath";
 import axios from "axios";
 
-const API = axios.create({
+export const API = axios.create({
   baseURL: `${
     import.meta.env.MODE == "development"
       ? "http://localhost:4000"
@@ -68,3 +69,8 @@ export const Get_Current_Admins_Api = async () =>
 // ---------------- delete sub admins ---------------- ----------------
 export const Delete_Admins_Api = async (id:string) =>
   await API.delete(`${DELETE_ADMIN_URL}/${id}`, { withCredentials: true });
+
+
+// ------------------ logout ----------------------------------------------------
+export const LogoutAdmins_Api = async () =>
+  await API.post(`${LOGOUT_ADMIN_URL}`,{}, { withCredentials: true });

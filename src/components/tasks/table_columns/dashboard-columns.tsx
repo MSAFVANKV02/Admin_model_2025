@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import {  priorities, statuses } from "../data/data"
+import {  priorities, KycStatuses } from "../data/data"
 import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "../task_components/data-table-column-header"
 import { DataTableRowActionsDashboard } from "../table_actions/data-table-action-dashboard"
@@ -57,7 +57,7 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
+      const status = KycStatuses.find(
         (status) => status.value === row.getValue("status")
       )
 

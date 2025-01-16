@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import {  statuses } from "../data/data";
+import {  KycStatuses } from "../data/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
@@ -16,12 +16,14 @@ interface DataTableToolbarProps<TData> {
   enableView?: boolean;
   enableSearch?: boolean;
   DashBoardDataTableTitle?: string;
+  statusName?: string;
 }
 
 export function DataTableToolbarDashboard<TData>({
   table,
   enableStatus,
-  DashBoardDataTableTitle
+  DashBoardDataTableTitle,
+  statusName
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -33,11 +35,11 @@ export function DataTableToolbarDashboard<TData>({
             </h3>
         </div>
       <div className="">
-        {table.getColumn("status") && enableStatus && (
+        { enableStatus && statusName && table.getColumn(`${statusName}`) && (
           <DataTableFacetedFilter
-            column={table.getColumn("status")}
+            column={table.getColumn(`${statusName}`)}
             title="Status"
-            options={statuses}
+            options={KycStatuses}
           />
         )}
 

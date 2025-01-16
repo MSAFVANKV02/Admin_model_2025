@@ -102,7 +102,6 @@ export default function NavbarDrawer() {
 
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -122,21 +121,21 @@ export default function NavbarDrawer() {
   // };
   const handleCollapseToggle = (index: number) => {
     setOpen(true);
-  
+
     setCollapseStates((prev) => {
       // Collapse all other items except the clicked one
       const newCollapseStates = Object.keys(prev).reduce((acc, key) => {
-        acc[parseInt(key)] = parseInt(key) === index ? !prev[parseInt(key)] : false;
+        acc[parseInt(key)] =
+          parseInt(key) === index ? !prev[parseInt(key)] : false;
         return acc;
       }, {} as { [key: number]: boolean });
-  
+
       return {
         ...newCollapseStates,
         [index]: !prev[index], // Toggle the selected collapse
       };
     });
   };
-  
 
   const handleNavigation = (segment: string | undefined) => {
     if (segment) {
@@ -171,18 +170,15 @@ export default function NavbarDrawer() {
           <Logo />
           {open && (
             <>
-             <div className="">
-             <IconButton onClick={handleDrawerClose}>
-              <span>
-                 {theme.direction === "rtl" ? (
-                  <ChevronRightIcon />
-                ) : (
-                  <ChevronLeftIcon className="text-white" />
-                )}
-              </span>
-               
-              </IconButton>
-             </div>
+              <div className="">
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon />
+                  ) : (
+                    <ChevronLeftIcon className="text-white" />
+                  )}
+                </IconButton>
+              </div>
             </>
           )}
         </DrawerHeader>
@@ -304,7 +300,6 @@ export default function NavbarDrawer() {
                       sx={{
                         display: open || isLargeScreen ? "block" : "none",
                         color: item.segment === pathname ? "#fff" : "gray",
-                        
                       }}
                       primaryTypographyProps={{
                         fontSize: "15px", // Adjust font size for non-child items

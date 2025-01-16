@@ -24,32 +24,27 @@ export const labels = [
   },
 ]
 
-export const statuses = [
+export const KycStatuses = [
   {
-    value: "backlog",
-    label: "Backlog",
+    value: "pending",
+    label: "pending",
     icon: HelpCircle,
   },
   {
-    value: "todo",
-    label: "Todo",
+    value: "viewed",
+    label: "viewed",
     icon: Circle,
   },
   {
-    value: "in progress",
-    label: "In Progress",
+    value: "approved",
+    label: "approved",
     icon: Timer,
   },
   {
-    value: "done",
-    label: "Done",
+    value: "rejected",
+    label: "rejected",
     icon: CheckCircle,
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-    icon: CircleOff,
-  },
+  }
 ]
 
 // export const statuses = [

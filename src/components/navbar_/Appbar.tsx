@@ -27,8 +27,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import NotificationBarSheet from "./Notification_Sheet";
 import { Button } from "../ui/button";
 import { makeToast } from "@/utils/toaster";
-import Cookie from "js-cookie";
+
 import { useAppSelector } from "@/redux/hook";
+import { useModal } from "@/providers/context/context";
 
 type Props = {
   open: boolean;
@@ -51,7 +52,7 @@ export default function NavAppBar({
   const { handleFullScreen } = FullViewScreen();
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
   const { currentAdmin } = useAppSelector((state)=>state.admin);
-
+  const {handleLogout} = useModal();
 
   // click
   const { handleClick } = useNavigateClicks();
@@ -199,12 +200,15 @@ export default function NavAppBar({
                   <Button type="button" variant="secondary">
                     Close
                   </Button>
+
+                  
                 </DialogClose>
                 <DialogClose asChild>
                   <Button type="button" variant="default"
                   onClick={()=>{
-                    Cookie.remove("ad_b2b_tkn");
-                    window.location.href = "/login";  // Redirect to login page after logout
+                    // Cookie.remove("ad_b2b_tkn");
+                    // window.location.href = "/login";  // Redirect to login page after logout
+                    handleLogout()
                   }}
                   >
                     Logout

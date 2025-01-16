@@ -6,9 +6,9 @@ import NavbarDrawer, { DrawerHeader } from "./components/navbar_/Navbar_Drawer";
 import { Outlet } from "react-router-dom";
 import ThemProviderMui from "./providers/metrialUi/theme-provider";
 import { useMediaQuery } from "@mui/material";
+import { ModalProvider } from "./providers/context/context";
 
 export default function MiniDrawer() {
-
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
   return (
     <div
@@ -16,22 +16,34 @@ export default function MiniDrawer() {
         "debug-screens": import.meta.env.MODE === "development",
       })}
     >
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        {/* side bar and headers includes ========= */}
-        <NavbarDrawer />
-        {/* side bar and headers includes ========= */}
+      <ModalProvider>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          {/* side bar and headers includes ========= */}
+          <NavbarDrawer />
+          {/* side bar and headers includes ========= */}
 
-        <ThemProviderMui >
-            <Box component="main" sx={{  flexGrow: isLargeScreen ? 1 : 0,width:"100%", p: isLargeScreen ? 2 : 1, bgcolor: "#F7F7F7" }}>
-          <DrawerHeader />
-          <Outlet />
+          <ThemProviderMui>
+            <Box
+              component="main"
+              sx={{
+                flexGrow: isLargeScreen ? 1 : 0,
+                width: "100%",
+                p: isLargeScreen ? 2 : 1,
+                bgcolor: "#F7F7F7",
+              }}
+            >
+              <DrawerHeader />
+              <Outlet />
+            </Box>
+          </ThemProviderMui>
         </Box>
-        </ThemProviderMui>
-      
-      </Box>
+      </ModalProvider>
+
       <div className="h-10 bg-white border-t text-gray-400 text-xs w-full flex justify-end items-center px-3">
-      <span className="select-none text-xs">Copyright 2024 All Rights Are Reserved | © Ayaboo by Haash.Tech</span>
+        <span className="select-none text-xs">
+          Copyright 2024 All Rights Are Reserved | © Ayaboo by Haash.Tech
+        </span>
       </div>
     </div>
   );

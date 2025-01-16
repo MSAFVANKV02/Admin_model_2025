@@ -118,6 +118,7 @@ export default function LoginPage() {
 
               <AyButton
                 loading={loading}
+                disabled={loading}
                 title="LOGIN"
                 type="submit"
                 sx={{

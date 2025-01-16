@@ -1,8 +1,8 @@
-import { IUserTypes } from "@/types/adminUserTypes";
+import { IAdminTypes } from "@/types/adminUserTypes";
 import { ColumnDef } from "@tanstack/react-table";
 import AdminTableAction from "../table_actions/admins/admin-table-action";
 
-export const UserManagementColumn: ColumnDef<IUserTypes>[] = [
+export const UserManagementColumn: ColumnDef<IAdminTypes>[] = [
   {
     accessorKey: "name",
     header: "Name",

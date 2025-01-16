@@ -5,7 +5,7 @@ import { Eye } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import { taskSchema } from "../data/schema";
+
 import { useModal } from "@/providers/context/context";
 import KycDashModal from "@/components/modals/kyc_dash_modal";
 import OfflineDashModal from "@/components/modals/offline_dash_modal";
@@ -29,7 +29,9 @@ export function DataTableRowActionsDashboard<TData>({
   type,
 }: DataTableRowActionsProps<TData>) {
   const { openModal, selectedTask, modalTypeDashboard } = useModal(); // Get the modal context
-  const task = taskSchema.parse(row.original);
+  // const task = taskSchema.parse(row.original);
+  const task = row.original
+
 
   const handleOpenModal = () => {
     if (!task) return; // Ensure task is valid

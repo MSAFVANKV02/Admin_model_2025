@@ -1,6 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categoryReducer from "@/redux/actions/category_Slice"
 import adminReducer from "@/redux/actions/adminSlice"
+import customerReducer from "@/redux/actions/customerSlice"
+
 
 import storage from 'redux-persist/lib/storage';
 import {  persistReducer } from "redux-persist";
@@ -15,7 +17,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   category: categoryReducer, //
-  admin:adminReducer
+  admin:adminReducer,
+  customer: customerReducer, 
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

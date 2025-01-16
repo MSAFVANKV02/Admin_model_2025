@@ -2,8 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import OfflineTab from "./Offline_Tab";
 import { DataTable } from "@/components/tasks/task_components/data-table";
 import { OfflinePaymentColumns } from "@/components/tasks/table_columns/payments/offline-payment-columns";
-import { z } from "zod";
-import { taskSchema } from "@/components/tasks/data/schema";
+
 import { useEffect, useState } from "react";
 import OfflineSetupForm from "./Offline_Setup_Form";
 
@@ -13,7 +12,9 @@ export default function OfflinePaymentPage() {
     | "offline"
     | "offline-setup"
     | null;
-  const [tasks, setTasks] = useState<z.infer<typeof taskSchema>[]>([]);
+  // const [tasks, setTasks] = useState<z.infer<typeof taskSchema>[]>([]);
+  const [tasks, setTasks] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function OfflinePaymentPage() {
       try {
         const response = await fetch("/src/components/tasks/data/tasks.json"); // Replace with the appropriate API route
         const data = await response.json();
-        const validTasks = z.array(taskSchema).parse(data);
+        const validTasks = data
         setTasks(validTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);

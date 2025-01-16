@@ -16,3 +16,12 @@ export const DELETE_ADMIN_URL = `/user_api/admin/deleteSubadmin`;
 // export const ADMIN_VERIFY_OTP = `http://localhost:4001/admin/verifyOtp_AdminLogin`;
 export const ADMIN_RESEND_OTP = `/user_api/admin/resendOtp_AdminLogin`;
 
+
+// ------ logout --------------------
+export const LOGOUT_ADMIN_URL = `/user_api/admin/logoutAdmin`;
+
+
+// ------ customer --------------------
+export const CUSTOMER_DETAILS_URL = `/user_api/admin/getUsersWithkyc`;
+
+

@@ -1,16 +1,16 @@
 import { Get_Admins_Api } from "@/services/auth/route";
-import { IUserTypes } from "@/types/adminUserTypes";
+import { IAdminTypes } from "@/types/adminUserTypes";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
 
 type FormData = {
-    admin:IUserTypes[];
+    admin:IAdminTypes[];
     token: string | null;
     isLoading: boolean;
     isLogged: boolean;
     error: string | null;
-    currentAdmin: IUserTypes | null;
+    currentAdmin: IAdminTypes | null;
 }
 
 // Initial state
@@ -72,6 +72,7 @@ const authSlice = createSlice({
       state.admin = [];
       state.token = null;
       state.isLogged = false;
+      state.currentAdmin = null;
     },
     setUserData: (state, action) => {
       state.admin = action.payload;

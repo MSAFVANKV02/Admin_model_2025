@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Draggable from "react-draggable"; // Import react-draggable
 
 const data = [
@@ -54,7 +54,22 @@ const ReChartPie: React.FC = () => {
   return (
     <main className="lg:w-[40%] w-full z-[10000]">
       <Card>
-        <CardHeader>Active Users</CardHeader>
+        <CardHeader>
+        <CardTitle>All Orders</CardTitle>
+        <CardDescription className="">
+          {
+            COLORS.map((color,index) =>(
+              <span
+              key={`${color}-${index}`}
+                className="inline-flex mx-1 items-center text-xs h-3 w-3 font-medium leading-4 bg-gray-100 text-gray-700"
+                style={{ backgroundColor: color }}
+              >
+                {/* {color} */}
+              </span>
+            ))
+          }
+        </CardDescription>
+        </CardHeader>
         <Draggable>
           <CardContent className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">

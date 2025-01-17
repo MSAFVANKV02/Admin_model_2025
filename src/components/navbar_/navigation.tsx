@@ -39,7 +39,7 @@ function NavigationList() {
       kind: "page",
       segment: "/web-setup",
       title: "Web Setup",
-      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+      icon: <Icon icon="streamline:web-solid" />,
     },
     {
       kind: "page",

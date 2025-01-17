@@ -2,6 +2,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 
 import {
@@ -32,7 +33,9 @@ export default function ReChartBar() {
   return (
     <main className="lg:w-[60%] w-full">
       <Card>
-        <CardHeader>Active Users</CardHeader>
+        <CardHeader>
+        <CardTitle>Total Revenue</CardTitle>
+        </CardHeader>
         <CardContent className="h-[400px] w-full">
           <ResponsiveContainer height={"100%"} width={"100%"}>
             <BarChart data={data} className="border-b">

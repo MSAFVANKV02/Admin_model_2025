@@ -9,7 +9,7 @@ import { IUserProps } from "@/types/adminUserTypes";
 
 export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
   {
-    accessorKey: "numbers",
+    accessorKey: "#",
 
     header: () => <div className="font-bold text-black max-w-32 ">#</div>,
     cell: ({ row }) => {
@@ -18,16 +18,16 @@ export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
   },
 
   {
-    accessorKey: "orderId",
+    accessorKey: "user.createdAt",
     header: () => (
       <div className="font-bold text-black max-w-32 ">Order ID</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.user._id}</div>;
+      return <div className="">{row.original.user?.createdAt}</div>;
     },
   },
   {
-    accessorKey: "orderId",
+    accessorKey: "user._id",
     header: () => (
       <div className="font-bold text-black max-w-32 ">Transaction ID</div>
     ),
@@ -37,7 +37,7 @@ export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
   },
 
   {
-    accessorKey: "name",
+    accessorKey: "user",
     header: () => <div className="font-bold text-black max-w-32 ">Customer name</div>,
     cell: () => {
       return <div>Customer name</div>;
@@ -54,12 +54,12 @@ export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "user.kycStatus",
     header: () => (
       <div className="font-bold text-black max-w-32 ">Status</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.user.kycStatus}</div>;
+      return <div className="">{row.original.user?.kycStatus}</div>;
     },
   },
   {
@@ -70,12 +70,12 @@ export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: "kyc.mobile",
     header: () => (
       <div className="font-bold text-black max-w-32 ">Amount</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original?.user._id}</div>;
+      return <div className="">{row.original?.user?.mobile}</div>;
     },
   },
   {

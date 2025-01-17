@@ -90,7 +90,7 @@ export default function NavbarDrawer() {
 
   const { navigationItems } = NavigationList();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [collapseStates, setCollapseStates] = React.useState<{
     [key: number]: boolean;
   }>({}); // Track collapse state

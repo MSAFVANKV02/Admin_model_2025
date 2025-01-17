@@ -25,12 +25,12 @@ export default function TopSellerDashModal() {
            {/*  */}
            <div className="flex items-center gap-2">
              <h3>Order Id:</h3>
-             <span className="span">{selectedTask.orderId}</span>
+             <span className="span">{selectedTask?.kyc._id}</span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2">
              <p className="text-sm">Date:</p>
-             <span className="span">{selectedTask.date}</span>
+             <span className="span">{selectedTask?.user.createdAt}</span>
            </div>
            {/*  */}
            <div className="flex items-center gap-2 mt-5">

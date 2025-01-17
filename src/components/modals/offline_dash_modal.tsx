@@ -27,27 +27,27 @@ export default function OfflineDashModal() {
             {/* Order Details */}
             <div className="flex items-center gap-2">
               <h3>Order Id:</h3>
-              <span className="span ">{selectedTask?.orderId || "N/A"}</span>
+              <span className="span ">{selectedTask?.user.name || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 mt-2">
               <p className="text-sm">Date:</p>
-              <span className="span">{selectedTask?.date || "N/A"}</span>
+              <span className="span">{selectedTask?.user.createdAt || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 mt-5">
               <p className="text-sm">Transaction ID:</p>
-              <span className="span">{selectedTask?.transactionId || "N/A"}</span>
+              <span className="span">{selectedTask?.user.createdAt || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 mt-5">
               <p className="text-sm">Customer name:</p>
-              <span className="span">{selectedTask?.customerName || "N/A"}</span>
+              <span className="span">{selectedTask?.user.createdAt || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 mt-5">
               <p className="text-sm">Amount:</p>
-              <span className="span">{selectedTask?.amount || "N/A"}</span>
+              <span className="span">{selectedTask?.user.createdAt || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 mt-5">
               <p className="text-sm">Payment method:</p>
-              <span className="span">{selectedTask?.paymentMethod || "N/A"}</span>
+              <span className="span">{selectedTask?.user.createdAt|| "N/A"}</span>
             </div>
             {/* Referral Document */}
             <div className="flex flex-col gap-2 mt-5">

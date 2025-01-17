@@ -3,11 +3,19 @@
 import { ColumnDef } from "@tanstack/react-table"
 
 import {  priorities, KycStatuses } from "../data/data"
-import { Task } from "../data/schema"
+
 import { DataTableColumnHeader } from "../task_components/data-table-column-header"
 import { DataTableRowActionsDashboard } from "../table_actions/data-table-action-dashboard"
+import { IUserProps } from "@/types/adminUserTypes"
 
-export const columns: ColumnDef<Task>[] = [
+export type Order = {
+  orderId: string; // Unique identifier for the order
+  date: string; // Date in a string format (e.g., ISO format or localized string)
+  amount: string; // Amount as a string to match the priorities structure
+  status: string; // Status as a string (matches the KycStatuses values)
+};
+
+export const columns: ColumnDef<IUserProps>[] = [
  
   {
     accessorKey: "orderId",

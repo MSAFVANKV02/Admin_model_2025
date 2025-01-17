@@ -3,6 +3,7 @@ import useNavigateClicks from "@/hooks/useClicks";
 import { logoutState } from "@/redux/actions/adminSlice";
 import { useAppDispatch } from "@/redux/hook";
 import { LogoutAdmins_Api } from "@/services/auth/route";
+import { IUserProps } from "@/types/adminUserTypes";
 import { ICategory } from "@/types/categorytypes";
 import { IProducts } from "@/types/productType";
 import { makeToastError } from "@/utils/toaster";
@@ -18,7 +19,7 @@ import React, {
 // Define the context type
 interface ModalContextType {
   isOpen: boolean;
-  selectedTask: any;
+  selectedTask: IUserProps | null;
   openModal: (task: any, type: IModalTypes) => void;
   openProductModal: (task: any) => void;
   closeModal: () => void;
@@ -49,7 +50,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const { handleClick } = useNavigateClicks();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<null>(null);
+  const [selectedTask, setSelectedTask] = useState<IUserProps |null>(null);
   const [selectedProducts, setSelectedProducts] = useState<IProducts | null>(
     null
   );
@@ -68,7 +69,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   // const [storeEdit]
 
   //  ===== modal open in dashboard =================
-  const openModal = (task: null, type: IModalTypes) => {
+  const openModal = (task: IUserProps, type: IModalTypes) => {
     setSelectedTask(task);
     setIsOpen(true);
     setModalTypeDashboard(type);

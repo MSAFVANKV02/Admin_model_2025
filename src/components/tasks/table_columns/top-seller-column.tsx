@@ -1,8 +1,9 @@
+import { IUserProps } from "@/types/adminUserTypes";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Task } from "../data/schema";
 
-export const TopSellerColumn: ColumnDef<Task>[] = [
+
+export const TopSellerColumn: ColumnDef<IUserProps>[] = [
   {
     accessorKey: "title",
     header: "Seller Name",

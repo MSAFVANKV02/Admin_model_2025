@@ -4,9 +4,9 @@ import DashSec02 from "./Dash_Sec_02";
 
 import { kycColumn } from "@/components/tasks/table_columns/kyc_column";
 import { columns } from "@/components/tasks/table_columns/dashboard-columns";
-import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
-import { TopProductsColumn } from "@/components/tasks/table_columns/top-products-column";
-import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
+// import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
+// import { TopProductsColumn } from "@/components/tasks/table_columns/top-products-column";
+// import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { fetchCustomerDetails } from "@/redux/actions/customerSlice";
 
@@ -14,6 +14,26 @@ import { fetchCustomerDetails } from "@/redux/actions/customerSlice";
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
    const {customer} = useAppSelector((state)=>state.customer);
+  //  const [tasks, setTasks] = useState([]);
+
+  // // const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   async function fetchTasks() {
+  //     try {
+  //       const response = await fetch("/src/components/tasks/data/tasks.json"); // Replace with the appropriate API route
+  //       const data = await response.json();
+  //       const validTasks = data
+  //       setTasks(validTasks);
+  //     } catch (error) {
+  //       console.error("Error fetching tasks:", error);
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   }
+
+  //   fetchTasks();
+  // }, []);
 
    const filteredCustomer = useMemo(() => {
     return customer.filter((item) => item.user.kycsubmitted);
@@ -22,6 +42,9 @@ export default function DashboardPage() {
    useEffect(()=>{
     dispatch(fetchCustomerDetails())
    },[])
+
+
+   
 
 
 
@@ -38,7 +61,7 @@ export default function DashboardPage() {
       columns={columns}
       columnsTwo={kycColumn}
       />
-      <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
+      {/* <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
       data={customer}
       columns={TopProductsColumn}
       columnsTwo={TopStoresColumn}
@@ -48,7 +71,7 @@ export default function DashboardPage() {
       columns={TopSellerColumn}
       columnsTwo={TopSellerColumn}
       data={customer}
-      />
+      /> */}
     </div>
   );
 }

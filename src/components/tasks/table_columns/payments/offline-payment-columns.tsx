@@ -2,11 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableRowActionsDashboard } from "../../table_actions/data-table-action-dashboard";
-import { Task } from "../../data/schema";
+import { IUserProps } from "@/types/adminUserTypes";
+
 
 // import { DataTableColumnHeader } from "../task_components/data-table-column-header";
 
-export const OfflinePaymentColumns: ColumnDef<Task>[] = [
+export const OfflinePaymentColumns: ColumnDef<IUserProps>[] = [
   {
     accessorKey: "numbers",
 
@@ -22,7 +23,7 @@ export const OfflinePaymentColumns: ColumnDef<Task>[] = [
       <div className="font-bold text-black max-w-32 ">Order ID</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.orderId}</div>;
+      return <div className="">{row.original.user._id}</div>;
     },
   },
   {
@@ -49,7 +50,7 @@ export const OfflinePaymentColumns: ColumnDef<Task>[] = [
       <div className="font-bold text-black max-w-32 ">Date</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.date}</div>;
+      return <div className="">{row.original.user?.createdAt}</div>;
     },
   },
   {
@@ -58,7 +59,7 @@ export const OfflinePaymentColumns: ColumnDef<Task>[] = [
       <div className="font-bold text-black max-w-32 ">Status</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.amount}</div>;
+      return <div className="">{row.original.user.kycStatus}</div>;
     },
   },
   {
@@ -74,7 +75,7 @@ export const OfflinePaymentColumns: ColumnDef<Task>[] = [
       <div className="font-bold text-black max-w-32 ">Amount</div>
     ),
     cell: ({ row }) => {
-      return <div className="">{row.original.status}</div>;
+      return <div className="">{row.original?.user._id}</div>;
     },
   },
   {

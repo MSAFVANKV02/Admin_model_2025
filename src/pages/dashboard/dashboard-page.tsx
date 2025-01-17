@@ -15,6 +15,7 @@ import { TopProductsColumn } from "@/components/tasks/table_columns/top-products
 import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
 import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 
+
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
   const { customer } = useAppSelector((state) => state.customer);
@@ -67,17 +68,23 @@ export default function DashboardPage() {
         columns={columns}
         columnsTwo={kycColumn}
       />
-      <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
-      data={customer}
-      columns={TopProductsColumn}
-      columnsTwo={TopStoresColumn}
+      <DashSec02
+        titleOne="Top Products "
+        titleTwo="Top Stores"
+        data={customer}
+        columns={TopProductsColumn}
+        columnsTwo={TopStoresColumn}
       />
 
-      <DashSec02 titleOne="Top Seller" tableTwo={false} 
-      columns={TopSellerColumn}
-      columnsTwo={TopSellerColumn}
-      data={customer}
+      <DashSec02
+        titleOne="Top Seller"
+        tableTwo={false}
+        columns={TopSellerColumn}
+        columnsTwo={TopSellerColumn}
+        data={customer}
       />
+
+     
     </div>
   );
 }

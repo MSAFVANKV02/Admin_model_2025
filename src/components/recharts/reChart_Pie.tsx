@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Draggable from "react-draggable"; // Import react-draggable
@@ -51,9 +51,30 @@ const renderCustomizedLabel = ({
 };
 
 const ReChartPie: React.FC = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [isSticky, setIsSticky] = useState(false);
+  // console.log(position,'position');
+  
+
+  const handleDrag = (_: any, data: any) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+
+  // const handleStop = () => {
+  //   // Add sticky behavior if pie chart is dragged a certain amount
+  //   if (position.y > 100) { // Threshold for sticky behavior
+  //     setIsSticky(true);
+  //   } else {
+  //     setIsSticky(false);
+  //   }
+  // };
+
   return (
-    <main className="lg:w-[40%] w-full z-[10000]">
-      <Card>
+    <main className={`lg:w-[40%] w-full `}>
+      <Card
+      //  className={`${isSticky && "sticky top-0"}`}
+      className="z-[10000]"
+       >
         <CardHeader>
         <CardTitle>All Orders</CardTitle>
         <CardDescription className="">
@@ -70,7 +91,11 @@ const ReChartPie: React.FC = () => {
           }
         </CardDescription>
         </CardHeader>
-        <Draggable>
+        <Draggable
+         position={position} // To make the component stick to its position
+         onDrag={handleDrag}
+        //  onStop={handleStop} 
+        >
           <CardContent className="h-[400px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

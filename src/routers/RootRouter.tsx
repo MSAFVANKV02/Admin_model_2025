@@ -102,8 +102,11 @@ const rootRouter = createBrowserRouter(
           ],
         },
         {
-          path: "/kyc",
+          path: "/user-verification",
           element: <KycPage />,
+          children:[
+            { path: "kyc", element: <KycPage /> },
+          ]
         },
         {
           path: "/web-setup",
@@ -117,7 +120,7 @@ const rootRouter = createBrowserRouter(
           path: "/store",
           element: <StoreManagementLayout />, // Parent layout for Store Management
           children: [
-            { path: "/store", element: <StoreManagementPage /> },
+            { path: "all", element: <StoreManagementPage /> },
             { path: "payout-store", element: <PayoutStorePage /> },
             { path: "postal-code", element: <div>Postal Code Page</div> },
             { path: "earnings", element: <StoreEarningsPage /> },

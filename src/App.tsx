@@ -17,7 +17,7 @@ export default function MiniDrawer() {
       })}
     >
       <ModalProvider>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex",  bgcolor: "#F7F7F7" }}>
           <CssBaseline />
           {/* side bar and headers includes ========= */}
           <NavbarDrawer />
@@ -30,7 +30,9 @@ export default function MiniDrawer() {
                 flexGrow: isLargeScreen ? 1 : 0,
                 width: "100%",
                 p: isLargeScreen ? 2 : 1,
-                bgcolor: "#F7F7F7",
+               
+                 maxWidth:"1800px",mx:"auto"
+                
               }}
             >
               <DrawerHeader />

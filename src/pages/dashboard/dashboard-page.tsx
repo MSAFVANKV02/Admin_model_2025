@@ -9,11 +9,15 @@ import { columns } from "@/components/tasks/table_columns/dashboard-columns";
 // import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { fetchCustomerDetails } from "@/redux/actions/customerSlice";
-
+import ReChartBar from "@/components/recharts/reChart_Bar";
+import ReChartPie from "@/components/recharts/reChart_Pie";
+import { TopProductsColumn } from "@/components/tasks/table_columns/top-products-column";
+import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
+import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
-   const {customer} = useAppSelector((state)=>state.customer);
+  const { customer } = useAppSelector((state) => state.customer);
   //  const [tasks, setTasks] = useState([]);
 
   // // const [loading, setLoading] = useState(true);
@@ -35,18 +39,13 @@ export default function DashboardPage() {
   //   fetchTasks();
   // }, []);
 
-   const filteredCustomer = useMemo(() => {
+  const filteredCustomer = useMemo(() => {
     return customer.filter((item) => item.user.kycsubmitted);
   }, [customer]);
 
-   useEffect(()=>{
-    dispatch(fetchCustomerDetails())
-   },[])
-
-
-   
-
-
+  useEffect(() => {
+    dispatch(fetchCustomerDetails());
+  }, []);
 
   // if (loading) return <div>Loading...</div>;
 
@@ -54,14 +53,21 @@ export default function DashboardPage() {
     <div className=" flex flex-col gap-6">
       <DashSec01 />
 
+      <div className="flex lg:flex-row flex-col gap-3">
+        <ReChartBar />
+        <ReChartPie />
+      </div>
+
       {/* tables starts =====
         ============== */}
-      <DashSec02 titleOne="Offline Payment " titleTwo="KYC verification "
-      data={filteredCustomer}
-      columns={columns}
-      columnsTwo={kycColumn}
+      <DashSec02
+        titleOne="Offline Payment "
+        titleTwo="KYC verification "
+        data={filteredCustomer}
+        columns={columns}
+        columnsTwo={kycColumn}
       />
-      {/* <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
+      <DashSec02 titleOne="Top Products " titleTwo="Top Stores"
       data={customer}
       columns={TopProductsColumn}
       columnsTwo={TopStoresColumn}
@@ -71,7 +77,7 @@ export default function DashboardPage() {
       columns={TopSellerColumn}
       columnsTwo={TopSellerColumn}
       data={customer}
-      /> */}
+      />
     </div>
   );
 }

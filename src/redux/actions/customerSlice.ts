@@ -24,7 +24,7 @@ export const fetchCustomerDetails = createAsyncThunk(
       // console.log(response);
 
       if (response.status == 200 || response.data.success === true) {
-        console.log(response.data,'customer');
+        // console.log(response.data,'customer');
         return response.data
       } else {
         return rejectWithValue("Failed to fetch customer details");

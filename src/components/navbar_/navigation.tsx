@@ -29,7 +29,7 @@ function NavigationList() {
       icon: <Icon icon="streamline:graph-bar-increase-solid" />,
       isChild: true,
       children: [
-        { title: "User Kyc Verification", segment: "/kyc" },
+        { title: "User Kyc Verification", segment: "/user-verification/kyc" },
         { title: "User Credit Verification", segment: "/credit-varify" },
 
       
@@ -122,12 +122,12 @@ function NavigationList() {
     // },
     {
       kind: "page",
-      segment: "",
+      segment: "/store",
       title: "Store Management",
       icon: <Icon icon="mdi:storefront-outline" />,
       isChild: true,
       children: [
-        { title: "Store", segment: "/store" },
+        { title: "Store", segment: "/store/all" },
         { title: "Payout store", segment: "/store/payout-store" },
         { title: "Postal Code", segment: "/store/postal-code" },
         { title: "Store Earnings", segment: "/store/earnings" },

@@ -49,6 +49,7 @@ export default function KycDashModal() {
           proof: selectedTask ? selectedTask.kyc.proof : "",
           kycStatus: selectedTask ? selectedTask.user?.kycStatus:"",
           proofType: selectedTask ? selectedTask.kyc.proofType :"",
+          gstNumber: selectedTask ? selectedTask.kyc?.gstNumber : "",
         }}
         onSubmit={(values) => {
           console.log("Form submitted", values);
@@ -80,9 +81,9 @@ export default function KycDashModal() {
                 </Label>
                 <Field
                   as={Input}
-                  name="businessName"
-                  id="businessName"
-                  value={values.businessName}
+                  name="gstNumber"
+                  id="gstNumber"
+                  value={values.gstNumber}
                   className="md:w-[70%] w-full rounded-lg"
                   placeholder="Enter GST Number"
                 />

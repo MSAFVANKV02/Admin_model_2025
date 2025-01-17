@@ -47,6 +47,7 @@ export interface IAdminTypes {
     pinCode: string;
     state: string;
     country: string;
+    gstNumber: string;
     proof?: string; // Optional
     proofType:
       | "Udyam Aadhaar"

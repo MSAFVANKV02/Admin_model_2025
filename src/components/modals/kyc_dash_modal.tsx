@@ -18,9 +18,14 @@ import { Field, Form, Formik } from "formik";
 import { useModal } from "@/providers/context/context";
 import MyPdf from "../myUi/MyPdf";
 import MyCloseIcon from "../icons/My_CloseIcon";
+import { Update_Customer_Kyc_Api } from "@/services/customer/route";
+import { useAppDispatch } from "@/redux/hook";
+import { fetchCustomerDetails } from "@/redux/actions/customerSlice";
+import { makeToast, makeToastError } from "@/utils/toaster";
 
 export default function KycDashModal() {
-  const { selectedTask , closeModal} = useModal(); // Get the modal context
+  const dispatch = useAppDispatch();
+  const { selectedTask, closeModal } = useModal(); // Get the modal context
 
   // console.log(selectedTask,'selectedTask');
 
@@ -29,9 +34,9 @@ export default function KycDashModal() {
       <TaskModalHeader>
         <h2 className="text-lg font-semibold">KYC Details</h2>
         <MyCloseIcon
-        onClick={()=>{
-          closeModal();
-        }}
+          onClick={() => {
+            closeModal();
+          }}
         />
       </TaskModalHeader>
 
@@ -47,17 +52,52 @@ export default function KycDashModal() {
           state: selectedTask ? selectedTask.kyc.state : "",
           country: selectedTask ? selectedTask.kyc.country : "",
           proof: selectedTask ? selectedTask.kyc.proof : "",
-          kycStatus: selectedTask ? selectedTask.user?.kycStatus:"",
-          proofType: selectedTask ? selectedTask.kyc.proofType :"",
+          kycStatus: selectedTask ? selectedTask.user?.kycStatus : "",
+          proofType: selectedTask ? selectedTask.kyc.proofType : "",
           gstNumber: selectedTask ? selectedTask.kyc?.gstNumber : "",
+          feedback: selectedTask ? selectedTask.kyc?.feedback : "",
         }}
-        onSubmit={(values) => {
-          console.log("Form submitted", values);
+        onSubmit={async (values) => {
+          // console.log("Form submitted", values);
+
+          const formData = new FormData();
+
+          // Append all KYC details to FormData
+          formData.append("businessName", values.businessName);
+          formData.append("emailId", values.emailId);
+          formData.append("buildingName", values.buildingName);
+          formData.append("street", values.street);
+          formData.append("pinCode", values.pinCode);
+          formData.append("state", values.state);
+          formData.append("country", values.country);
+          formData.append("proofType", values.proofType || ""); // Ensure proofType is a string
+          formData.append("action", values.kycStatus);
+          formData.append("feedback", values.feedback || "");
+          if (values.proof) {
+            formData.append("proof", values.proof); // Append the uploaded file
+          }
+          formData.append("gstNumber", values.gstNumber);
+
+          try {
+            const response = await Update_Customer_Kyc_Api(
+              formData,
+              selectedTask?.kyc?._id ?? ""
+            );
+            if (response.status === 200) {
+              dispatch(fetchCustomerDetails());
+              makeToast(`${response.data.message}`)
+            }
+            // console.log(response);
+          } catch (error:any) {
+            console.error(error);
+            if(error.response.data){
+              makeToastError(error.response.data.message);
+            }
+          }
         }}
       >
-        {({ values }) => (
+        {({ values, setFieldValue, isSubmitting }) => (
           <Form className="flex flex-col gap-4">
-           
             <TaskModalContent className="space-y-5">
               {/* Business Name */}
               <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
@@ -210,8 +250,8 @@ export default function KycDashModal() {
                 />
               </div>
 
-                {/* proofType */}
-                <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
+              {/* proofType */}
+              <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
                 <Label className="text-textGray mb-2 block text-sm font-medium">
                   proofType
                 </Label>
@@ -254,33 +294,31 @@ export default function KycDashModal() {
                 <Label className="text-textGray mb-2 block text-sm font-medium">
                   Status
                 </Label>
-                <Field
-                  as={Select}
-                  name="kycStatus"
-                  id="kycStatus"
+                <Select
                   value={values.kycStatus}
-                  className="md:w-[70%] w-full rounded-lg"
-                  placeholder="Select kycStatus"
+                  onValueChange={(value) => setFieldValue("kycStatus", value)}
                 >
                   <SelectTrigger className="md:w-[70%] w-full rounded-lg">
                     <SelectValue placeholder="Select Status" />
                   </SelectTrigger>
-                  <SelectContent className=" z-[10004]">
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
+                  <SelectContent className="z-[10004]">
+                    <SelectItem value="pending" disabled>
+                      Pending
+                    </SelectItem>
+                    <SelectItem
+                      value="approve"
+                      disabled={selectedTask?.user?.kycStatus === "approved"}
+                    >
+                      Approved
+                    </SelectItem>
+                    <SelectItem
+                      value="reject"
+                      disabled={selectedTask?.user?.kycStatus === "rejected"}
+                    >
+                      Rejected
+                    </SelectItem>
                   </SelectContent>
-                </Field>
-                {/* <Select>
-                  <SelectTrigger className="md:w-[70%] w-full rounded-lg">
-                    <SelectValue placeholder="Select Status" />
-                  </SelectTrigger>
-                  <SelectContent className=" z-[10004]">
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                  </SelectContent>
-                </Select> */}
+                </Select>
               </div>
 
               {/* Comment */}
@@ -288,9 +326,13 @@ export default function KycDashModal() {
                 <Label className="text-textGray mb-2 block text-sm font-medium">
                   Comment
                 </Label>
-                <Textarea
+                <Field
+                  as={Textarea}
+                  name="feedback"
+                  id="feedback"
+                  value={values.feedback}
                   placeholder="Enter Comment"
-                  className="md:w-[70%] w-full rounded-lg"
+                  className="md:w-[70%] w-full rounded-lg resize-none"
                 />
               </div>
             </TaskModalContent>
@@ -303,7 +345,11 @@ export default function KycDashModal() {
                 outLineColor="gray"
                 variant="outlined"
               />
-              <AyButton type="submit" title="Submit" />
+              <AyButton
+                type="submit"
+                disabled={isSubmitting}
+                title={`${isSubmitting ? "Updating ..." : "submit"}`}
+              />
             </TaskModalFooter>
           </Form>
         )}

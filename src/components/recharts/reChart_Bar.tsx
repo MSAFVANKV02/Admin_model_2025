@@ -36,7 +36,7 @@ export default function ReChartBar() {
         <CardHeader>
         <CardTitle>Total Revenue</CardTitle>
         </CardHeader>
-        <CardContent className="h-[400px] w-full">
+        <CardContent className="h-[550px] w-full">
           <ResponsiveContainer height={"100%"} width={"100%"}>
             <BarChart data={data} className="border-b">
               <XAxis dataKey="name" />

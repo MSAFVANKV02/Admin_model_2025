@@ -15,7 +15,6 @@ import { TopProductsColumn } from "@/components/tasks/table_columns/top-products
 import { TopStoresColumn } from "@/components/tasks/table_columns/top-stores-column";
 import { TopSellerColumn } from "@/components/tasks/table_columns/top-seller-column";
 
-
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
   const { customer } = useAppSelector((state) => state.customer);
@@ -55,8 +54,8 @@ export default function DashboardPage() {
       <DashSec01 />
 
       <div className="flex lg:flex-row flex-col gap-3">
-        <ReChartBar />
         <ReChartPie />
+        <ReChartBar />
       </div>
 
       {/* tables starts =====
@@ -83,8 +82,6 @@ export default function DashboardPage() {
         columnsTwo={TopSellerColumn}
         data={customer}
       />
-
-     
     </div>
   );
 }

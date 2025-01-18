@@ -60,7 +60,11 @@ function GoogleMapModal({ setFieldValue }: Props) {
         (position) => {
           const { latitude, longitude } = position.coords;
           setMarkerPosition({ lat: latitude, lng: longitude });
-          setFieldValue("google_location", `${latitude}, ${longitude}`);
+          setFieldValue("googleLocation", {
+            latitude: latitude,
+            longitude:longitude,
+          });
+          // setFieldValue("googleLocation", `${latitude}, ${longitude}`);
         },
         (error) => {
           console.error("Error getting location: ", error);
@@ -84,7 +88,7 @@ function GoogleMapModal({ setFieldValue }: Props) {
       const newPos = { lat: latLng.lat(), lng: latLng.lng() };
       // console.log(newPos, 'newPos');
       setMarkerPosition(newPos);
-      //   setFieldValue('google_location', `${newPos.lat}, ${newPos.lng}`);
+      //   setFieldValue('googleLocation', `${newPos.lat}, ${newPos.lng}`);
     }
   };
 
@@ -106,7 +110,7 @@ function GoogleMapModal({ setFieldValue }: Props) {
   //         setFieldValue("state", data.address.state);
   //         setFieldValue("country", data.address.country);
   //         setFieldValue("pincode", data.address.postcode);
-  //         setFieldValue("google_location", {
+  //         setFieldValue("googleLocation", {
   //           lat: markerPosition?.lat,
   //           lng: markerPosition?.lng,
   //         });
@@ -128,8 +132,8 @@ function GoogleMapModal({ setFieldValue }: Props) {
 
   //   // if (markerPosition) {
   //   //   // makeToast("Google Location Added");
-  //   //   // setFieldValue('google_location', `${markerPosition.lat}, ${markerPosition.lng}`);
-  //   //   setFieldValue("google_location", {
+  //   //   // setFieldValue('googleLocation', `${markerPosition.lat}, ${markerPosition.lng}`);
+  //   //   setFieldValue("googleLocation", {
   //   //     lat: markerPosition.lat,
   //   //     lng: markerPosition.lng,
   //   //   });
@@ -155,7 +159,7 @@ function GoogleMapModal({ setFieldValue }: Props) {
       const data = await response.json();
 
       setFieldValue(
-        "store_address",
+        "storeAddress",
         data.display_name ||
           data.address.city ||
           data.address.town ||
@@ -163,10 +167,10 @@ function GoogleMapModal({ setFieldValue }: Props) {
       );
       setFieldValue("state", data.address.state);
       setFieldValue("country", data.address.country);
-      setFieldValue("pincode", data.address.postcode);
-      setFieldValue("google_location", {
-        lat: markerPosition?.lat,
-        lng: markerPosition?.lng,
+      setFieldValue("pinCode", data.address.postcode);
+      setFieldValue("googleLocation", {
+        latitude: markerPosition?.lat,
+        longitude: markerPosition?.lng,
       });
 
       makeToast("Address Fetched By Your Location");

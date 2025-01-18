@@ -152,7 +152,7 @@ export function DataTableStore({ data }: Props) {
            py: "10px",
         }}
         onClick={()=>{
-            navigate(`/store?type=create`);
+            navigate(`/store/all?type=create`);
         }}
         />
       

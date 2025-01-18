@@ -27,7 +27,7 @@ export default function KycDashModal() {
   const dispatch = useAppDispatch();
   const { selectedTask, closeModal } = useModal(); // Get the modal context
 
-  // console.log(selectedTask,'selectedTask');
+  console.log(selectedTask,'selectedTask');
 
   return (
     <TaskModal className="h-[85vh] lg:w-[40vw] sm:w-[70vw] w-full flex flex-col">
@@ -52,10 +52,10 @@ export default function KycDashModal() {
           state: selectedTask ? selectedTask.kyc.state : "",
           country: selectedTask ? selectedTask.kyc.country : "",
           proof: selectedTask ? selectedTask.kyc.proof : "",
-          kycStatus: selectedTask ? selectedTask.user?.kycStatus : "",
+          kycStatus: selectedTask ? selectedTask.kyc?.status || "pending" : "pending",
           proofType: selectedTask ? selectedTask.kyc.proofType : "",
           gstNumber: selectedTask ? selectedTask.kyc?.gstNumber : "",
-          feedback: selectedTask ? selectedTask.kyc?.feedback : "",
+          feedback: selectedTask ? selectedTask.kyc?.kycFeedback : "",
         }}
         onSubmit={async (values) => {
           // console.log("Form submitted", values);
@@ -85,12 +85,12 @@ export default function KycDashModal() {
             );
             if (response.status === 200) {
               dispatch(fetchCustomerDetails());
-              makeToast(`${response.data.message}`)
+              makeToast(`${response.data.message}`);
             }
             // console.log(response);
-          } catch (error:any) {
-            console.error(error);
-            if(error.response.data){
+          } catch (error: any) {
+            // console.error(error);
+            if (error.response.data) {
               makeToastError(error.response.data.message);
             }
           }
@@ -251,7 +251,7 @@ export default function KycDashModal() {
               </div>
 
               {/* proofType */}
-              <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
+              {/* <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
                 <Label className="text-textGray mb-2 block text-sm font-medium">
                   proofType
                 </Label>
@@ -263,7 +263,71 @@ export default function KycDashModal() {
                   className="md:w-[70%] w-full rounded-lg"
                   placeholder="Enter proofType"
                 />
+              </div> */}
+
+              {/* Status */}
+              <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
+                <Label className="text-textGray mb-2 block text-sm font-medium">
+                  proofType
+                </Label>
+                <Select
+                  name="proofType"
+                  value={values.proofType}
+                  onValueChange={(value) => setFieldValue("proofType", value)}
+                >
+                  <SelectTrigger className="md:w-[70%] w-full rounded-lg">
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                  <SelectContent className="z-[10004]">
+                  
+                    <SelectItem
+                      value="Udyam Aadhaar"
+                      disabled={
+                        selectedTask?.kyc?.proofType === "Udyam Aadhaar"
+                      }
+                    >
+                      Udyam Aadhaar
+                    </SelectItem>
+                    <SelectItem
+                      value="Current Account Cheque"
+                      disabled={
+                        selectedTask?.kyc?.proofType ===
+                        "Current Account Cheque"
+                      }
+                    >
+                      Current Account Cheque
+                    </SelectItem>
+                    <SelectItem
+                      value="GST Certificate"
+                      disabled={
+                        selectedTask?.kyc?.proofType === "GST Certificate"
+                      }
+                    >
+                      GST Certificate
+                    </SelectItem>
+                    <SelectItem
+                      value="Shop & Establishment License"
+                      disabled={
+                        selectedTask?.kyc?.proofType ===
+                        "Shop & Establishment License"
+                      }
+                    >
+                      Shop & Establishment License
+                    </SelectItem>
+                    <SelectItem
+                      value="Trade Certificate/License"
+                      disabled={
+                        selectedTask?.kyc?.proofType ===
+                        "Trade Certificate/License"
+                      }
+                    >
+                      Trade Certificate/License
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
+
+              {/* ======= */}
 
               {/* Uploaded Document */}
               <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
@@ -295,6 +359,7 @@ export default function KycDashModal() {
                   Status
                 </Label>
                 <Select
+                name="kycStatus"
                   value={values.kycStatus}
                   onValueChange={(value) => setFieldValue("kycStatus", value)}
                 >
@@ -306,13 +371,13 @@ export default function KycDashModal() {
                       Pending
                     </SelectItem>
                     <SelectItem
-                      value="approve"
+                      value="approved"
                       disabled={selectedTask?.user?.kycStatus === "approved"}
                     >
                       Approved
                     </SelectItem>
                     <SelectItem
-                      value="reject"
+                      value="rejected"
                       disabled={selectedTask?.user?.kycStatus === "rejected"}
                     >
                       Rejected

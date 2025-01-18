@@ -4,50 +4,52 @@ import { FormField } from "@/components/myUi/FormField";
 import { Input } from "@/components/ui/input";
 import useNavigateClicks from "@/hooks/useClicks";
 import { useModal } from "@/providers/context/context";
+import { Create_Store_Api } from "@/services/store/route";
 import { StoreTypes } from "@/types/storeTypes";
+import { makeToast, makeToastError } from "@/utils/toaster";
 import { Form, Formik, Field } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object({
-  store_name: Yup.string().required("Store Name is required"),
-  gst_number: Yup.string()
+  storeName: Yup.string().required("Store Name is required"),
+  gstNumber: Yup.string()
     .matches(/^\d{15}$/, "GST number should be 15 digits")
     .required("GST Number is required"),
-  store_address: Yup.string().required("Store Address is required"),
-  store_capacity_in_cubic: Yup.number()
+  storeAddress: Yup.string().required("Store Address is required"),
+  storeCapacity: Yup.number()
     .positive("Capacity must be positive")
     .required("Store Capacity is required"),
   state: Yup.string().required("State is required"),
   country: Yup.string().required("Country is required"),
-  pincode: Yup.string()
+  pinCode: Yup.string()
     .matches(/^\d{6}$/, "Pincode should be 6 digits")
     .required("Pincode is required"),
-  google_location: Yup.string().required("Google Location is required"),
-  store_manager: Yup.string().required("Store Manager is required"),
-  email_id: Yup.string()
+  googleLocation: Yup.string().required("Google Location is required"),
+  storeManager: Yup.string().required("Store Manager is required"),
+  emailId: Yup.string()
     .email("Invalid email address")
     .required("Email ID is required"),
-  phone_number: Yup.string()
+  phoneNumber: Yup.string()
     .matches(/^\d{10}$/, "Phone number should be 10 digits")
     .required("Phone Number is required"),
-  user_name: Yup.string().required("User Name is required"),
+  userName: Yup.string().required("User Name is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
-  in_house_product: Yup.boolean(),
-  bank_details: Yup.object({
-    account_name: Yup.string().required("Account Name is required"),
-    account_number: Yup.string()
+  inHouseProduct: Yup.boolean(),
+  bankDetails: Yup.object({
+    accountName: Yup.string().required("Account Name is required"),
+    accountNumber: Yup.string()
       .matches(/^\d+$/, "Account Number must be numeric")
       .required("Account Number is required"),
-    ifsc: Yup.string()
+    ifscCode: Yup.string()
       .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
       .required("IFSC code is required"),
-    shift_code: Yup.string().required("Shift Code is required"),
-    upi_id: Yup.string().email("Invalid UPI ID").required("UPI ID is required"),
+    shiftCode: Yup.string().required("Shift Code is required"),
+    upiId: Yup.string().email("Invalid UPI ID").required("UPI ID is required"),
   }),
-  store_capacity_in_cubic_meter: Yup.number()
+  capacity: Yup.number()
     .positive("Capacity must be positive")
     .required("Store Capacity is required"),
 });
@@ -60,30 +62,30 @@ export default function StoreCreateForm() {
   const { setIsOpen } = useModal();
 
   const initialValues: StoreTypes = {
-    store_name: "",
-    gst_number: "",
-    store_address: "",
-    store_capacity_in_cubic: null,
-    state: "",
-    country: "",
-    pincode: "",
-    google_location: { lat: null, lng: null },
-
-    store_manager: "",
-    email_id: "",
-    phone_number: "",
-    user_name: "",
-    password: "",
-    in_house_product: false,
-    bank_details: {
-      account_name: "",
-      account_number: "",
-      ifsc: "",
-      shift_code: "",
-      upi_id: "",
+    storeName: "sdasd",
+    gstNumber: "123456789012345",
+    storeAddress: "asdasd",
+    storeCapacity: null,
+    state: "asdas",
+    country: "asdasd",
+    pinCode: "3123",
+    googleLocation: { latitude: null, longitude: null },
+    storeManager: "sdasd",
+    emailId: "asda@asdas.com",
+    phoneNumber: "213456789",
+    userName: "fsdf",
+    password: "123456",
+    inHouseProduct: false,
+    bankDetails: {
+      accountName: "asdasd",
+      accountNumber: "1234578",
+      ifscCode: "dsfsd4234",
+      shiftCode: "dfsdf",
+      upiId: "sdfs@sda",
     },
-    store_capacity_in_cubic_meter: null,
+    capacity: null,
   };
+  
 
   const handleSetGoogleLocation = () => {
     setIsOpen(true);
@@ -96,7 +98,7 @@ export default function StoreCreateForm() {
         <AyButton
           title="Store"
           onClick={() => {
-            handleClick("/store");
+            handleClick("/store/all");
           }}
           sx={{
              ml: {
@@ -111,46 +113,64 @@ export default function StoreCreateForm() {
       {/* Form starts ==== */}
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values) => console.log(values)}
+        // validationSchema={validationSchema}
+        onSubmit={async(values,{resetForm}) => {
+          console.log(values)
+          try {
+            const response = await Create_Store_Api(values);
+            if(response.status === 201){
+              makeToast("Store created successfully!");
+              // resetForm();
+              handleClick("/store/all");
+            }
+          } catch (error:any) {
+            console.error(error);
+            if(error.response.data){
+              makeToastError(error.response.data.message);
+            }
+            // handle form error
+            
+          }
+        }}
       >
         {({ values, setFieldValue, resetForm }) => (
           <Form className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow">
             {/* Store Details */}
             <FormField
-              id="store_name"
-              name="store_name"
+              id="storeName"
+              name="storeName"
               classnamewrapper="w-full lg:w-full "
               //   title="Store Name"
               placeholder="Enter store name"
-              value={values.store_name || ""}
+              value={values.storeName || ""}
               fieldAs={Input}
             />
             <FormField
-              id="gst_number"
-              name="gst_number"
+              id="gstNumber"
+              name="gstNumber"
               classnamewrapper="w-full lg:w-full"
               //   title="GST Number"
               placeholder="Enter GST number"
-              value={values.gst_number || ""}
+              value={values.gstNumber || ""}
               fieldAs={Input}
             />
             <FormField
-              id="store_address"
-              name="store_address"
+              id="storeAddress"
+              name="storeAddress"
               classnamewrapper="w-full lg:w-full"
               //   title="Store Address"
               placeholder="Enter store address"
-              value={values.store_address || ""}
+              value={values.storeAddress || ""}
               fieldAs={Input}
             />
             <FormField
-              id="store_capacity_in_cubic"
-              name="store_capacity_in_cubic"
+              id="storeCapacity"
+              name="storeCapacity"
               classnamewrapper="w-full lg:w-full"
+              type="number"
               //   title="Store Capacity in Cubic"
               placeholder="Store Capacity in cubic (e.g., 100.5)"
-              value={values.store_capacity_in_cubic || "" || ""}
+              value={values.storeCapacity || "" || ""}
               fieldAs={Input}
             />
 
@@ -174,12 +194,12 @@ export default function StoreCreateForm() {
               fieldAs={Input}
             />
             <FormField
-              id="pincode"
-              name="pincode"
+              id="pinCode"
+              name="pinCode"
               classnamewrapper="w-full lg:w-full"
               //   title="Pincode"
-              placeholder="Enter pincode"
-              value={values.pincode || ""}
+              placeholder="Enter pinCode"
+              value={values.pinCode || ""}
               fieldAs={Input}
             />
 
@@ -205,10 +225,10 @@ export default function StoreCreateForm() {
                 },
               }}
             />
-            {/* {values.google_location} */}
-            {values.google_location && values.google_location.lng    ? (
+            {/* {values.googleLocation} */}
+            {values.googleLocation && values.googleLocation.longitude    ? (
               <span className="text-xs">
-                {`Lat: ${values.google_location.lat}, Lng: ${values.google_location.lng}`}
+                {`Lat: ${values.googleLocation.latitude}, Lng: ${values.googleLocation.longitude}`}
               </span>
             ) : (
               <span className="text-xs">No location set</span>
@@ -221,12 +241,12 @@ export default function StoreCreateForm() {
               setFieldValue={setFieldValue}
             />
             {/* <FormField
-              id="google_location"
-              name="google_location"
+              id="googleLocation"
+              name="googleLocation"
               classnamewrapper="w-full lg:w-full"
               //   title="Google Location"
               placeholder="Set google location"
-              value={values.google_location || ""}
+              value={values.googleLocation || ""}
               fieldAs={Input}
             /> */}
 
@@ -234,27 +254,28 @@ export default function StoreCreateForm() {
 
             <div className=" grid md:grid-cols-3 gap-2 w-full">
               <FormField
-                id="store_manager"
-                name="store_manager"
+                id="storeManager"
+                name="storeManager"
                 classnamewrapper="w-full lg:w-full"
                 placeholder="Select store manager"
-                value={values.store_manager || ""}
+                value={values.storeManager || ""}
                 fieldAs={Input}
               />
               <FormField
-                id="email_id"
-                name="email_id"
+                id="emailId"
+                name="emailId"
+                type="email"
                 classnamewrapper="w-full lg:w-full"
                 placeholder="Enter email"
-                value={values.email_id || ""}
+                value={values.emailId || ""}
                 fieldAs={Input}
               />
               <FormField
-                id="phone_number"
-                name="phone_number"
+                id="phoneNumber"
+                name="phoneNumber"
                 classnamewrapper="w-full lg:w-full"
                 placeholder="Enter phone number"
-                value={values.phone_number || ""}
+                value={values.phoneNumber || ""}
                 fieldAs={Input}
               />
             </div>
@@ -262,13 +283,13 @@ export default function StoreCreateForm() {
             {/* user name password */}
             <div className=" grid sm:grid-cols-2 gap-2 w-full ">
               <FormField
-                id="user_name"
-                name="user_name"
+                id="userName"
+                name="userName"
                 classnamewrapper="w-full lg:w-full "
                 //   title="User Name"
                 fieldClassName="w-full"
                 placeholder="Enter user name"
-                value={values.user_name || ""}
+                value={values.userName || ""}
                 fieldAs={Input}
               />
               <FormField
@@ -285,72 +306,73 @@ export default function StoreCreateForm() {
             </div>
             {/* Checkbox for Boolean Field */}
             <div className="flex items-center gap-2">
-              <label htmlFor="in_house_product">In-House Product</label>
+              <label htmlFor="inHouseProduct">In-House Product</label>
               <Field
                 type="checkbox"
-                id="in_house_product"
-                name="in_house_product"
+                id="inHouseProduct"
+                name="inHouseProduct"
                 classnamewrapper="w-full lg:w-full"
-                checked={values.in_house_product}
+                checked={values.inHouseProduct}
               />
             </div>
 
             {/* Bank Details */}
             <h3 className="font-bold">Bank Details</h3>
             <FormField
-              id="bank_details.account_name"
-              name="bank_details.account_name"
+              id="bankDetails.accountName"
+              name="bankDetails.accountName"
               classnamewrapper="w-full lg:w-full"
               //   title="Account Name"
               placeholder="Enter account name"
-              value={values.bank_details.account_name || ""}
+              value={values.bankDetails.accountName || ""}
               fieldAs={Input}
             />
             <FormField
-              id="bank_details.account_number"
-              name="bank_details.account_number"
+              id="bankDetails.accountNumber"
+              name="bankDetails.accountNumber"
               classnamewrapper="w-full lg:w-full"
               //   title="Account Number"
               placeholder="Enter account number"
-              value={values.bank_details.account_number || ""}
+              value={values.bankDetails.accountNumber || ""}
               fieldAs={Input}
             />
             <FormField
-              id="bank_details.ifsc"
-              name="bank_details.ifsc"
+              id="bankDetails.ifscCode"
+              name="bankDetails.ifscCode"
               classnamewrapper="w-full lg:w-full"
               //   title="IFSC"
               placeholder="Enter IFSC code"
-              value={values.bank_details.ifsc || ""}
+              value={values.bankDetails.ifscCode || ""}
               fieldAs={Input}
             />
             <FormField
-              id="bank_details.shift_code"
-              name="bank_details.shift_code"
+              id="bankDetails.shiftCode"
+              name="bankDetails.shiftCode"
               classnamewrapper="w-full lg:w-full"
               //   title="Shift Code"
               placeholder="Enter shift code"
-              value={values.bank_details.shift_code || ""}
+              value={values.bankDetails.shiftCode || ""}
               fieldAs={Input}
             />
             <FormField
-              id="bank_details.upi_id"
-              name="bank_details.upi_id"
+              id="bankDetails.upiId"
+              name="bankDetails.upiId"
               classnamewrapper="w-full lg:w-full"
               //   title="UPI ID"
               placeholder="Enter UPI ID"
-              value={values.bank_details.upi_id || ""}
+              value={values.bankDetails.upiId || ""}
               fieldAs={Input}
             />
 
             {/* Store Capacity */}
             <FormField
-              id="store_capacity_in_cubic_meter"
-              name="store_capacity_in_cubic_meter"
+              id="capacity"
+              type="number"
+              name="capacity"
               classnamewrapper="w-full lg:w-full"
               //   title="Store Capacity in Cubic Meter"
               placeholder="Enter capacity"
-              value={values.store_capacity_in_cubic_meter || "" || ""}
+              value={values.capacity || "" || ""}
               fieldAs={Input}
             />
 

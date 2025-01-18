@@ -32,6 +32,7 @@ import PayoutStorePage from "@/pages/store/payout-store/payout-store-page";
 import StoreManagementPage from "@/pages/store/store-management-page";
 import AuthProtectionRoute from "@/middlewares/AuthProtectionRoute";
 import StoreEarningsPage from "@/pages/store/store-earnings/store-earnings-page";
+import ProductTransferPage from "@/pages/store/product-transfer/product-transfer-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -122,7 +123,7 @@ const rootRouter = createBrowserRouter(
           children: [
             { path: "all", element: <StoreManagementPage /> },
             { path: "payout-store", element: <PayoutStorePage /> },
-            { path: "postal-code", element: <div>Postal Code Page</div> },
+            { path: "product-transfer", element: <ProductTransferPage/> },
             { path: "earnings", element: <StoreEarningsPage /> },
             { path: "overview", element: <div>Product Overview Page</div> },
             { path: "commission", element: <div>Store Commission Page</div> },

@@ -129,7 +129,7 @@ function NavigationList() {
       children: [
         { title: "Store", segment: "/store/all" },
         { title: "Payout store", segment: "/store/payout-store" },
-        { title: "Postal Code", segment: "/store/postal-code" },
+        { title: "Product Transfer", segment: "/store/product-transfer" },
         { title: "Store Earnings", segment: "/store/earnings" },
         { title: "Product Overview", segment: "/store/overview" },
         { title: "Store Commission", segment: "/store/commission" },

@@ -28,7 +28,7 @@ export function FormField({
   fieldClassName,
   type = "text", // default type is text
   classnamewrapper,
-  readonly
+  readonly,
 }: FormFieldGenalProps) {
   return (
     <div
@@ -43,12 +43,19 @@ export function FormField({
         </Label>
       )}
 
-<div className={cn(`flex flex-col gap-2 w-full lg:w-3/4`, classnamewrapper)}>
+      <div
+        className={cn(`flex flex-col gap-2 w-full lg:w-3/4`, classnamewrapper)}
+      >
         <Field
           id={id}
           name={name}
           placeholder={placeholder}
-          className={cn(`w-full p-6 ${readonly &&"bg-gray-100 border-none outline-none focus:ring-0"}`, fieldClassName)}
+          className={cn(
+            `w-full p-6 ${
+              readonly && "bg-gray-100 border-none outline-none focus:ring-0"
+            }`,
+            fieldClassName
+          )}
           type={type}
           as={fieldAs}
           value={value} // Bind field value to Formik

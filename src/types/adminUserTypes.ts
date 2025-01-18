@@ -55,7 +55,7 @@ export interface IKycProps {
     | "Trade Certificate/License"
     | "Other Shop Documents";
   status: "pending" | "approved" | "rejected";
-  feedback?: string; // Optional
+  kycFeedback?: string; // Optional
   isApproved: boolean;
   userId: string;
   createdAt: Date;

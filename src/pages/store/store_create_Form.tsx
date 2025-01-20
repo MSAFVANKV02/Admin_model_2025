@@ -25,7 +25,11 @@ const validationSchema = Yup.object({
   pinCode: Yup.string()
     .matches(/^\d{6}$/, "Pincode should be 6 digits")
     .required("Pincode is required"),
-  googleLocation: Yup.string().required("Google Location is required"),
+    // googleLocation: Yup.object({
+    //   latitude: Yup.number().required("Latitude is required"),
+    //   longitude: Yup.number().required("Longitude is required"),
+    // }),
+    
   storeManager: Yup.string().required("Store Manager is required"),
   emailId: Yup.string()
     .email("Invalid email address")
@@ -62,30 +66,29 @@ export default function StoreCreateForm() {
   const { setIsOpen } = useModal();
 
   const initialValues: StoreTypes = {
-    storeName: "sdasd",
-    gstNumber: "123456789012345",
-    storeAddress: "asdasd",
+    storeName: "",
+    gstNumber: "",
+    storeAddress: "",
     storeCapacity: null,
-    state: "asdas",
-    country: "asdasd",
-    pinCode: "3123",
+    state: "",
+    country: "",
+    pinCode: "",
     googleLocation: { latitude: null, longitude: null },
-    storeManager: "sdasd",
-    emailId: "asda@asdas.com",
-    phoneNumber: "213456789",
-    userName: "fsdf",
-    password: "123456",
+    storeManager: "",
+    emailId: "",
+    phoneNumber: "",
+    userName: "",
+    password: "",
     inHouseProduct: false,
     bankDetails: {
-      accountName: "asdasd",
-      accountNumber: "1234578",
-      ifscCode: "dsfsd4234",
-      shiftCode: "dfsdf",
-      upiId: "sdfs@sda",
+      accountName: "",
+      accountNumber: "",
+      ifscCode: "",
+      shiftCode: "",
+      upiId: "",
     },
     capacity: null,
   };
-  
 
   const handleSetGoogleLocation = () => {
     setIsOpen(true);
@@ -101,8 +104,8 @@ export default function StoreCreateForm() {
             handleClick("/store/all");
           }}
           sx={{
-             ml: {
-             md:"auto",
+            ml: {
+              md: "auto",
             },
             borderRadius: "100px",
             py: "10px",
@@ -113,29 +116,29 @@ export default function StoreCreateForm() {
       {/* Form starts ==== */}
       <Formik
         initialValues={initialValues}
-        // validationSchema={validationSchema}
-        onSubmit={async(values,{resetForm}) => {
-          console.log(values)
+        validationSchema={validationSchema}
+        onSubmit={async (values, { resetForm }) => {
+          console.log(values);
           try {
             const response = await Create_Store_Api(values);
-            if(response.status === 201){
+            if (response.status === 201) {
               makeToast("Store created successfully!");
-              // resetForm();
-              handleClick("/store/all");
+              resetForm();
+              // handleClick("/store/all");
             }
-          } catch (error:any) {
+          } catch (error: any) {
             console.error(error);
-            if(error.response.data){
+            if (error.response.data) {
               makeToastError(error.response.data.message);
             }
             // handle form error
-            
           }
         }}
       >
-        {({ values, setFieldValue, resetForm }) => (
+        {({ values, setFieldValue, resetForm , isSubmitting}) => (
           <Form className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow">
             {/* Store Details */}
+     
             <FormField
               id="storeName"
               name="storeName"
@@ -205,34 +208,34 @@ export default function StoreCreateForm() {
 
             {/* Google Location */}
             <div className="flex gap-3 items-center">
-            <AyButton
-              title="Set google location"
-              iconSize={23}
-              onClick={() => {
-                handleSetGoogleLocation();
-              }}
-              icon="fluent:my-location-16-regular"
-              sx={{
-                width: "fit-content",
-                px: "15px",
-                bgcolor: "#F8E5FF",
-                border: "1px solid #C9C9C9",
-                borderRadius: "10px",
-                color: "black",
-                cursor: "pointer",
-                "&:hover": {
-                  bg: "blue.600",
-                },
-              }}
-            />
-            {/* {values.googleLocation} */}
-            {values.googleLocation && values.googleLocation.longitude    ? (
-              <span className="text-xs">
-                {`Lat: ${values.googleLocation.latitude}, Lng: ${values.googleLocation.longitude}`}
-              </span>
-            ) : (
-              <span className="text-xs">No location set</span>
-            )}
+              <AyButton
+                title="Set google location"
+                iconSize={23}
+                onClick={() => {
+                  handleSetGoogleLocation();
+                }}
+                icon="fluent:my-location-16-regular"
+                sx={{
+                  width: "fit-content",
+                  px: "15px",
+                  bgcolor: "#F8E5FF",
+                  border: "1px solid #C9C9C9",
+                  borderRadius: "10px",
+                  color: "black",
+                  cursor: "pointer",
+                  "&:hover": {
+                    bg: "blue.600",
+                  },
+                }}
+              />
+              {/* {values.googleLocation} */}
+              {values.googleLocation && values.googleLocation.longitude ? (
+                <span className="text-xs">
+                  {`Lat: ${values.googleLocation.latitude}, Lng: ${values.googleLocation.longitude}`}
+                </span>
+              ) : (
+                <span className="text-xs">No location set</span>
+              )}
             </div>
 
             <GoogleMap
@@ -273,6 +276,7 @@ export default function StoreCreateForm() {
               <FormField
                 id="phoneNumber"
                 name="phoneNumber"
+                type="number"
                 classnamewrapper="w-full lg:w-full"
                 placeholder="Enter phone number"
                 value={values.phoneNumber || ""}
@@ -383,13 +387,16 @@ export default function StoreCreateForm() {
                 sx={{
                   borderRadius: "8px",
                 }}
-                onClick={()=>{
+                onClick={() => {
                   resetForm();
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               />
               <AyButton
-                title="Save"
+                title={`${isSubmitting ? "Loading..." : "Save"}`}
+                loading={isSubmitting}
+                disabled={isSubmitting}
+
                 type="submit"
                 sx={{
                   borderRadius: "8px",

@@ -49,19 +49,19 @@ export default function StoreTableAction({ data }: Props) {
             {/* Store Name */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Store Name :</Label>
-              <span>{selectedData.store_name || "N/A"}</span>
+              <span>{selectedData.storeName || "N/A"}</span>
             </div>
 
             {/* GST Number */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">GST Number :</Label>
-              <span>{selectedData.gst_number || "N/A"}</span>
+              <span>{selectedData.gstNumber || "N/A"}</span>
             </div>
 
             {/* Store Address */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Store Address :</Label>
-              <span>{selectedData.store_address || "N/A"}</span>
+              <span>{selectedData.storeAddress || "N/A"}</span>
             </div>
 
             {/* Store Capacity in Cubic */}
@@ -69,7 +69,7 @@ export default function StoreTableAction({ data }: Props) {
               <Label className="text-sm text-textGray">
                 Store Capacity (in cubic):
               </Label>
-              <span>{selectedData.store_capacity_in_cubic || "N/A"}</span>
+              <span>{selectedData.storeCapacity || "N/A"}</span>
             </div>
 
             {/* State */}
@@ -87,41 +87,42 @@ export default function StoreTableAction({ data }: Props) {
             {/* Pincode */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Pincode :</Label>
-              <span>{selectedData.pincode || "N/A"}</span>
+              <span>{selectedData.pinCode || "N/A"}</span>
             </div>
 
             {/* Google Location */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Google Location :</Label>
               <div className="">
-                lat: <span>{selectedData?.google_location?.lat || "N/A"}</span>
-              lng: <span>{selectedData?.google_location?.lng || "N/A"}</span>
+                lat:{" "}
+                <span>{selectedData?.googleLocation?.latitude || "N/A"}</span>
+                lng:{" "}
+                <span>{selectedData?.googleLocation?.longitude || "N/A"}</span>
               </div>
-              
             </div>
 
             {/* Store Manager */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Store Manager :</Label>
-              <span>{selectedData.store_manager || "N/A"}</span>
+              <span>{selectedData.storeManager || "N/A"}</span>
             </div>
 
             {/* Email ID */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Email ID :</Label>
-              <span>{selectedData.email_id || "N/A"}</span>
+              <span>{selectedData.emailId || "N/A"}</span>
             </div>
 
             {/* Phone Number */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">Phone Number :</Label>
-              <span>{selectedData.phone_number || "N/A"}</span>
+              <span>{selectedData.phoneNumber || "N/A"}</span>
             </div>
 
             {/* User Name */}
             <div className="flex justify-between sm:flex-row flex-col gap-3">
               <Label className="text-sm text-textGray">User Name :</Label>
-              <span>{selectedData.user_name || "N/A"}</span>
+              <span>{selectedData.userName || "N/A"}</span>
             </div>
 
             {/* Password */}
@@ -135,7 +136,7 @@ export default function StoreTableAction({ data }: Props) {
               <Label className="text-sm text-textGray">
                 In-House Product :
               </Label>
-              <span>{selectedData.in_house_product ? "Yes" : "No"}</span>
+              <span>{selectedData.inHouseProduct ? "Yes" : "No"}</span>
             </div>
 
             {/* Bank Details */}
@@ -145,7 +146,7 @@ export default function StoreTableAction({ data }: Props) {
               {/* Account Name */}
               <div className="flex justify-between sm:flex-row flex-col gap-3">
                 <Label className="text-sm text-textGray">Account Name :</Label>
-                <span>{selectedData.bank_details.account_name || "N/A"}</span>
+                <span>{selectedData.bankDetails.accountName || "N/A"}</span>
               </div>
 
               {/* Account Number */}
@@ -153,25 +154,25 @@ export default function StoreTableAction({ data }: Props) {
                 <Label className="text-sm text-textGray">
                   Account Number :
                 </Label>
-                <span>{selectedData.bank_details.account_number || "N/A"}</span>
+                <span>{selectedData.bankDetails.accountNumber || "N/A"}</span>
               </div>
 
               {/* IFSC */}
               <div className="flex justify-between sm:flex-row flex-col gap-3">
                 <Label className="text-sm text-textGray">IFSC :</Label>
-                <span>{selectedData.bank_details.ifsc || "N/A"}</span>
+                <span>{selectedData.bankDetails.ifscCode || "N/A"}</span>
               </div>
 
               {/* Shift Code */}
               <div className="flex justify-between sm:flex-row flex-col gap-3">
                 <Label className="text-sm text-textGray">Shift Code :</Label>
-                <span>{selectedData.bank_details.shift_code || "N/A"}</span>
+                <span>{selectedData.bankDetails.shiftCode || "N/A"}</span>
               </div>
 
               {/* UPI ID */}
               <div className="flex justify-between sm:flex-row flex-col gap-3">
                 <Label className="text-sm text-textGray">UPI ID :</Label>
-                <span>{selectedData.bank_details.upi_id || "N/A"}</span>
+                <span>{selectedData.bankDetails.upiId || "N/A"}</span>
               </div>
             </div>
 
@@ -180,7 +181,7 @@ export default function StoreTableAction({ data }: Props) {
               <Label className="text-sm text-textGray">
                 Store Capacity (in cubic meters) :
               </Label>
-              <span>{selectedData.store_capacity_in_cubic_meter || "N/A"}</span>
+              <span>{selectedData.storeCapacity || "N/A"}</span>
             </div>
           </TaskModalContent>
         </TaskModal>

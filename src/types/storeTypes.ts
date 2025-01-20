@@ -1,4 +1,6 @@
 export type StoreTypes = {
+  registrationType: IRegistrationTypes;
+
   storeName?: string | null;
   gstNumber?: string | null;
   storeAddress?: string | null;
@@ -24,4 +26,16 @@ export type StoreTypes = {
   capacity: number | null;
   status?: "pending" | "paid";
   created_at?: string | number | Date;
+  // =====  Sole Proprietorship Registration  ================
+  AadhaarCard?:File | string | null;
+  PanCard?:File | string | null;
+  LocalBodyLicense?:File | string | null;
+  RoomRentAgreement?:File | string | null;
+  GstFile?:File | string | null;
+
+  // =====  Partnerships Firm Registration  ================
+
 };
+
+
+export type IRegistrationTypes = "Sole Proprietorship"|"Partnerships"|"LLP"|"PVT LTD"

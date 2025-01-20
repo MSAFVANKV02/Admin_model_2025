@@ -30,15 +30,13 @@ import {
 
 import StoreTableAction from "../../table_actions/store/store-table-action";
 import { StoreTypes } from "@/types/storeTypes";
-import AyButton from "@/components/myUi/AyButton";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: StoreTypes[];
 };
 
 export function DataTableStore({ data }: Props) {
-    const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -130,7 +128,9 @@ export function DataTableStore({ data }: Props) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."
-          value={(table.getColumn("store_name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("store_name")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("store_name")?.setFilterValue(event.target.value)
           }
@@ -138,7 +138,7 @@ export function DataTableStore({ data }: Props) {
         />
 
         {/* add new button ==== starts */}
-        <AyButton
+        {/* <AyButton
         title="+  Add New Store"
         sx={{
           ml: {
@@ -154,8 +154,7 @@ export function DataTableStore({ data }: Props) {
         onClick={()=>{
             navigate(`/store/all?type=create`);
         }}
-        />
-      
+        /> */}
       </div>
       <div className="rounded-md border">
         <Table>

@@ -33,6 +33,8 @@ import StoreManagementPage from "@/pages/store/store-management-page";
 import AuthProtectionRoute from "@/middlewares/AuthProtectionRoute";
 import StoreEarningsPage from "@/pages/store/store-earnings/store-earnings-page";
 import ProductTransferPage from "@/pages/store/product-transfer/product-transfer-page";
+import StoreCommissionPage from "@/pages/store/store-commition/store-commission-page";
+import StoreCreationPage from "@/pages/store/store-creation/store-creation-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -122,11 +124,11 @@ const rootRouter = createBrowserRouter(
           element: <StoreManagementLayout />, // Parent layout for Store Management
           children: [
             { path: "all", element: <StoreManagementPage /> },
+            { path: "create", element: <StoreCreationPage /> },
             { path: "payout-store", element: <PayoutStorePage /> },
             { path: "product-transfer", element: <ProductTransferPage/> },
             { path: "earnings", element: <StoreEarningsPage /> },
-            { path: "overview", element: <div>Product Overview Page</div> },
-            { path: "commission", element: <div>Store Commission Page</div> },
+            { path: "commission", element:<StoreCommissionPage /> },
           ],
         },
         {

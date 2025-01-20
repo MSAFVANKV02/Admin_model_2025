@@ -1,10 +1,9 @@
 import { DataTableStore } from "@/components/tasks/task_components/store/data-table-store";
 import { StoreTypes } from "@/types/storeTypes";
-import { useSearchParams } from "react-router-dom";
-import StoreCreateForm from "./store_create_Form";
 
 const storeData: StoreTypes[] = [
   {
+    registrationType: "LLP",
     storeName: "Green Mart",
     gstNumber: "27AABCU9603R1ZV",
     storeAddress: "123 Main Street, Springfield",
@@ -12,7 +11,7 @@ const storeData: StoreTypes[] = [
     state: "Maharashtra",
     country: "India",
     pinCode: "400001",
-    googleLocation: {latitude:21213,longitude:1233.31},
+    googleLocation: { latitude: 21213, longitude: 1233.31 },
     storeManager: "John Doe",
     emailId: "john.doe@greenmart.com",
     phoneNumber: "+91-9876543210",
@@ -29,6 +28,7 @@ const storeData: StoreTypes[] = [
     capacity: 1500,
   },
   {
+    registrationType: "LLP",
     storeName: "Green Mart",
     gstNumber: "27AABCU9603R1ZV",
     storeAddress: "123 Main Street, Springfield",
@@ -36,7 +36,7 @@ const storeData: StoreTypes[] = [
     state: "Maharashtra",
     country: "India",
     pinCode: "400001",
-    googleLocation: {latitude:21213,longitude:1233.31},
+    googleLocation: { latitude: 21213, longitude: 1233.31 },
     storeManager: "John Doe",
     emailId: "john.doe@greenmart.com",
     phoneNumber: "+91-9876543210",
@@ -55,8 +55,8 @@ const storeData: StoreTypes[] = [
 ];
 
 export default function StoreManagementPage() {
-  const [searchParams] = useSearchParams();
-  const urlType = searchParams.get("type");
+  // const [searchParams] = useSearchParams();
+  // const urlType = searchParams.get("type");
   return (
     <div>
       <div className="p-4 select-none">
@@ -64,13 +64,14 @@ export default function StoreManagementPage() {
       </div>
       {/*  */}
       <div className="page-outer">
-        {urlType === "create" ? (
+        <DataTableStore data={storeData} />
+        {/* {urlType === "create" ? (
           <div className="">
             <StoreCreateForm />
           </div>
         ) : (
           <DataTableStore data={storeData} />
-        )}
+        )} */}
       </div>
     </div>
   );

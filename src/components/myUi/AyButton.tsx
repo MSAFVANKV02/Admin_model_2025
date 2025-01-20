@@ -1,5 +1,6 @@
 import { Button, SxProps, Theme } from "@mui/material";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import "@/assets/css/preloader.css";
 
 type Props = {
   onClick?: () => void; // Function to call when the button is clicked
@@ -35,17 +36,19 @@ export default function AyButton({
       sx={{
         ...(variant === "contained"
           ? {
-              bgcolor: "var(--mainColor)", // Default background color
-              color: "#fff", // Default text color for contrast
+              bgcolor: disabled ? "#d3d3d3" : "var(--mainColor)", // Default background color
+              color: disabled ? "#a0a0a0" : "#fff",// Default text color for contrast
               "&:hover": {
-                bgcolor: "var(--primaryVariant)", // Optional hover color
+                bgcolor: disabled ? "#d3d3d3" : "var(--primaryVariant)", // No hover effect when disabled
               },
               textTransform: "capitalize",
             }
           : variant === "outlined"
           ? {
               border: `1px solid ${outLineColor}`, // Border for "outlined"
-              color: `${outLineColor ? "black" : " var(--mainColor)"}`, // Text color for "outlined"
+              color: disabled
+              ? "#a0a0a0"
+              : `${outLineColor ? "black" : " var(--mainColor)"}`,  // Text color for "outlined"
               bgcolor: "transparent", // Transparent background
               "&:hover": {
                 bgcolor: "rgba(0, 123, 255, 0.1)", // Subtle hover background
@@ -53,8 +56,8 @@ export default function AyButton({
             }
           : {
               border: `1px solid ${outLineColor}`, // Border for "outlined"
-              color: `white`, // Text color for "outlined"
-              bgcolor: "black", // Transparent background
+              color: disabled ? "#a0a0a0" : "white",  // Text color for "outlined"
+              bgcolor: disabled ? "#d3d3d3" : "black",  // Transparent background
               "&:hover": {
                 bgcolor: "rgba(34, 32, 32, 0.9)", // Subtle hover background
               },
@@ -64,11 +67,15 @@ export default function AyButton({
         ...sx, // Allow overriding styles via `sx` prop
       }}
     >
-      {loading ? (
+      {!disabled && loading ? (
         <div className="flex items-center">
-          <span className="loader mr-2"></span>{" "}
+          <span className="loader mr-2 text-white font-semibold space-x-1 ">
+            Processing
+            <span className="ms-1">.</span>
+            <span>.</span>
+            <span>.</span>
+          </span>
           {/* Replace with your spinner */}
-          Processing...
         </div>
       ) : (
         <>

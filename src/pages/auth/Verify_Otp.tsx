@@ -54,6 +54,14 @@ export default function VerifyOtp() {
     },
   });
 
+  const otp = form.watch("otp");
+
+  useEffect(() => {
+    if (otp.length === 6) {
+      form.handleSubmit(onSubmit)();  // Trigger form submission manually
+    }
+  }, [otp, form]);
+
   const onSubmit = async (form: FormData) => {
     // console.log(form.otp);
     // console.log(mobile);
@@ -72,7 +80,7 @@ export default function VerifyOtp() {
         localStorage.removeItem("otp-finished");
       }
     } catch (error: any) {
-      console.error(error);
+      // console.error(error);
       if (error.response?.data) {
         makeToastError(error.response?.data.message);
       }

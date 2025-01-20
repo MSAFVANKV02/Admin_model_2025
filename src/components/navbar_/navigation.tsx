@@ -128,10 +128,10 @@ function NavigationList() {
       isChild: true,
       children: [
         { title: "Store", segment: "/store/all" },
+        { title: "Store Creation", segment: "/store/create" },
         { title: "Payout store", segment: "/store/payout-store" },
         { title: "Product Transfer", segment: "/store/product-transfer" },
         { title: "Store Earnings", segment: "/store/earnings" },
-        { title: "Product Overview", segment: "/store/overview" },
         { title: "Store Commission", segment: "/store/commission" },
       ],
     },

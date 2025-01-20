@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StoreTypes } from "@/types/storeTypes";
+import { IRegistrationTypes, StoreTypes } from "@/types/storeTypes";
 import { useState } from "react";
 import LLPForm from "./Registartion_Forms/LLP_Form";
 import PvtLtdForm from "./Registartion_Forms/Pvt_Ltd_Form";
@@ -25,9 +25,11 @@ import { useModal } from "@/providers/context/context";
 import GoogleMap from "@/components/google/GoogleMap";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { getValidationSchema } from "./Store_Validation_Schema";
 
 export default function StoreCreationPage() {
-  const [selectedRegistration, setSelectedRegistration] = useState<string>("");
+  const [selectedRegistration, setSelectedRegistration] =
+    useState<IRegistrationTypes>("Sole Proprietorship");
 
   const [googleAddress, setGoogleAddress] = useState<string>("");
   // const location = useLocation();
@@ -38,33 +40,27 @@ export default function StoreCreationPage() {
     setIsOpen(true);
   };
 
-  const registrationTypes = [
-    {
-      value: "Sole Proprietorship",
-      name: "Sole Proprietorship Registration",
-    },
-    {
-      value: "Partnership",
-      name: "Partnerships Firm Registration",
-    },
+  const registrationTypes: { value: IRegistrationTypes; name: string }[] = [
+    { value: "Sole Proprietorship", name: "Sole Proprietorship Registration" },
+    { value: "Partnerships", name: "Partnerships Firm Registration" },
     {
       value: "LLP",
       name: "Limited Liability Partnership (LLP) Company Registration",
     },
-    {
-      value: "PVT LTD",
-      name: "Private Limited Company Registration",
-    },
+    { value: "PVT LTD", name: "Private Limited Company Registration" },
   ];
 
   //   ======== initialValues =================================
   const initialValues: StoreTypes = {
     registrationType: "Sole Proprietorship",
-    AadhaarCard:null,
+    AadhaarCard: null,
     PanCard: null,
     LocalBodyLicense: null,
     RoomRentAgreement: null,
     GstFile: null,
+    partnershipAgreement: null,
+    companyPanCard: null,
+    companyIncorporationCertificate:null,
     storeName: "",
     gstNumber: "",
     storeAddress: "",
@@ -89,18 +85,30 @@ export default function StoreCreationPage() {
     capacity: null,
   };
 
-  const renderForms = (values:StoreTypes, setFieldValue:any) => {
+  const renderForms = (values: StoreTypes, setFieldValue: any) => {
     switch (selectedRegistration) {
       case "Sole Proprietorship":
-        return <SoleProprietorshipForm values={values} setFieldValue={setFieldValue} />;
-      case "Partnership":
-        return <PartnershipForm />;
+        return (
+          <SoleProprietorshipForm
+            values={values}
+            setFieldValue={setFieldValue}
+          />
+        );
+      case "Partnerships":
+        return (
+          <PartnershipForm values={values} setFieldValue={setFieldValue} />
+        );
       case "LLP":
-        return <LLPForm />;
+        return <LLPForm values={values} setFieldValue={setFieldValue} />;
       case "PVT LTD":
-        return <PvtLtdForm />;
+        return <PvtLtdForm values={values} setFieldValue={setFieldValue} />;
       default:
-        return <SoleProprietorshipForm values={values} setFieldValue={setFieldValue}/>;
+        return (
+          <SoleProprietorshipForm
+            values={values}
+            setFieldValue={setFieldValue}
+          />
+        );
     }
   };
 
@@ -108,6 +116,7 @@ export default function StoreCreationPage() {
     <PagesLayout className="">
       <Formik
         initialValues={initialValues}
+        validationSchema={getValidationSchema(selectedRegistration)}
         onSubmit={async (values, { resetForm }) => {
           console.log(values);
           try {
@@ -128,38 +137,40 @@ export default function StoreCreationPage() {
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (
           <Form>
-            <PageLayoutHeader>
-              <h1 className="text-lg font-bold text-textGray select-none">
-                Store Creation
-              </h1>
+            <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50">
+              <div className="flex justify-between w-full px-16 items-center">
+                <h1 className="sm:text-lg text-sm font-bold text-textGray select-none">
+                  Store Creation
+                </h1>
 
-              <Select
-                onValueChange={(value) => {
-                  setSelectedRegistration(value);
-                  setFieldValue("registrationType", value);
-                  // console.log(value);
-                }}
-                value={values.registrationType}
-                name="registrationType"
-              >
-                <SelectTrigger className="min-w-[180px] max-w-[400px]">
-                  <SelectValue placeholder="Select Registration Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {registrationTypes.map((type) => (
-                    <SelectItem
-                      key={type.value}
-                      value={type.value}
-                      disabled={values.registrationType === type.value}
-                    >
-                      {type.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                <Select
+                  onValueChange={(value) => {
+                    setSelectedRegistration(value as IRegistrationTypes);
+                    setFieldValue("registrationType", value);
+                    // console.log(value);
+                  }}
+                  value={values.registrationType}
+                  name="registrationType"
+                >
+                  <SelectTrigger className="min-w-[180px] max-w-[400px]">
+                    <SelectValue placeholder="Select Registration Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {registrationTypes.map((type) => (
+                      <SelectItem
+                        key={type.value}
+                        value={type.value}
+                        disabled={values.registrationType === type.value}
+                      >
+                        {type.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </PageLayoutHeader>
             {/* ======================== */}
-            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow">
+            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow md:mt-14 mt-16">
               {/* 1. store name */}
               <FormField
                 id="storeName"
@@ -238,8 +249,6 @@ export default function StoreCreationPage() {
                 fieldAs={Input}
               />
 
-              {renderForms(values, setFieldValue)}
-
               {/* 8. Google Location */}
               <div className="flex gap-3 items-center justify-between">
                 <Label>
@@ -281,6 +290,13 @@ export default function StoreCreationPage() {
                 googleAddress={googleAddress}
                 setFieldValue={setFieldValue}
               />
+
+              {/* Upload documents ========= */}
+              <div className="">
+                <span className="text-sm font-bold">Upload Documents :</span>
+              </div>
+
+              {renderForms(values, setFieldValue)}
 
               {/* User & Store Manager Details */}
               <div className="">

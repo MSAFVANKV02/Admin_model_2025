@@ -32,8 +32,14 @@ export type StoreTypes = {
   LocalBodyLicense?:File | string | null;
   RoomRentAgreement?:File | string | null;
   GstFile?:File | string | null;
+ 
 
   // =====  Partnerships Firm Registration  ================
+  partnershipAgreement?:File | string | null;
+   companyPanCard?:File | string | null;
+
+  //  pv ltd license================================
+  companyIncorporationCertificate?:File | string | null;
 
 };
 

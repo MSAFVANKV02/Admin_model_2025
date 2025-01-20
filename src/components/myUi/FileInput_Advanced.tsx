@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import MyPdf from "./MyPdf";
+import { ErrorMessage } from "formik";
 
 type Props = {
   name: string;
@@ -38,14 +39,14 @@ export default function FileInputAdvanced({
     (isFile && value.type === "application/pdf") || // File is a PDF
     (isUrl && value.endsWith(".pdf"));
   return (
-    <div className={cn(`flex justify-between w-full`, className)}>
+    <div className={cn(`flex lg:flex-row flex-col gap-1 justify-between w-full`, className)}>
       {title && (
         <Label htmlFor={name} className="text-sm  text-textGray">
           {title}
         </Label>
       )}
 
-      <div className={`flex flex-col gap-3 ${title ? "lg:w-3/4" : "w-full"} `}>
+      <div className={`flex flex-col gap-2 ${title ? "lg:w-3/4" : "w-full"} `}>
         <Label
           htmlFor={name}
           className={cn(
@@ -101,6 +102,7 @@ export default function FileInputAdvanced({
             </div>
           )}
         </div>
+        <ErrorMessage  name={name} component={'span'} className="text-red-500 text-xs"/>
       </div>
     </div>
   );

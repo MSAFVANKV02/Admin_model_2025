@@ -46,31 +46,31 @@ export const mainValidationSchema = Yup.object({
 
 //   ============
 export const soleProprietorshipValidationSchema = Yup.object({
-  AadhaarCard: Yup.mixed()
+  aadhaarCard: Yup.mixed()
     .test(
       "required",
       "Aadhaar Card is required",
       (value) => value instanceof File
     )
     .required("Aadhaar Card is required"),
-  PanCard: Yup.mixed()
+  panCard: Yup.mixed()
     .test("required", "PAN Card is required", (value) => value instanceof File)
     .required("PAN Card is required"),
-  LocalBodyLicense: Yup.mixed()
+  localBodyLicense: Yup.mixed()
     .test(
       "required",
       "Local Body License is required",
       (value) => value instanceof File
     )
     .required("Local Body License is required"),
-  RoomRentAgreement: Yup.mixed()
+  roomRentAgreement: Yup.mixed()
     .test(
       "required",
       "Room Rent Agreement is required",
       (value) => value instanceof File
     )
     .required("Room Rent Agreement is required"),
-  GstFile: Yup.mixed()
+  gstCertificate: Yup.mixed()
     .test("required", "GST File is required", (value) => value instanceof File)
     .required("GST File is required"),
 });
@@ -84,28 +84,96 @@ export const PartnerShipFirm = Yup.object({
       (value) => value instanceof File
     )
     .required("Partnership Agreement is required"),
-    companyPanCard: Yup.mixed()
+  companyPanCard: Yup.mixed()
     .test(
       "required",
       "Company Pan Card is required",
       (value) => value instanceof File
     )
     .required("Company Pan Card is required"),
+  gstCertificate: Yup.mixed()
+    .test("required", "GST File is required", (value) => value instanceof File)
+    .required("GST File is required"),
+  roomRentAgreement: Yup.mixed()
+    .test(
+      "required",
+      "Room Rent Agreement is required",
+      (value) => value instanceof File
+    )
+    .required("Room Rent Agreement is required"),
+  localBodyLicense: Yup.mixed()
+    .test(
+      "required",
+      "Local Body License is required",
+      (value) => value instanceof File
+    )
+    .required("Local Body License is required"),
 });
 
+// ===== llp license
+export const LlpAndPvtRegisterValidation = Yup.object({
+  companyIncorporationCertificate: Yup.mixed()
+    .test(
+      "required",
+      "Certificate of Incorporation is required",
+      (value) => value instanceof File
+    )
+    .required("Certificate of Incorporation is required"),
+  partnershipAgreement: Yup.mixed()
+    .test(
+      "required",
+      "Partnership Agreement is required",
+      (value) => value instanceof File
+    )
+    .required("Partnership Agreement is required"),
+  panCard: Yup.mixed()
+    .test("required", "Pan Card is required", (value) => value instanceof File)
+    .required("Pan Card is required"),
+  gstCertificate: Yup.mixed()
+    .test("required", "GST File is required", (value) => value instanceof File)
+    .required("GST File is required"),
+  roomRentAgreement: Yup.mixed()
+    .test(
+      "required",
+      "Room Rent Agreement is required",
+      (value) => value instanceof File
+    )
+    .required("Room Rent Agreement is required"),
+  localBodyLicense: Yup.mixed()
+    .test(
+      "required",
+      "Local Body License is required",
+      (value) => value instanceof File
+    )
+    .required("Local Body License is required"),
+
+  llpNumber: Yup.number()
+    .nullable()
+    .when("registrationType", {
+      is: "LLP", // Applies validation only if editId is falsy
+      then: (schema) => schema.required("LLP Number is required"),
+      otherwise: (schema) => schema.nullable(), // Password is optional when editing
+    }),
+
+  cinNumber: Yup.number()
+    .nullable()
+    .when("registrationType", {
+      is: "PVT LTD", // Applies validation only if editId is falsy
+      then: (schema) => schema.required("CIN Number is required"),
+      otherwise: (schema) => schema.nullable(), // Password is optional when editing
+    }),
+});
+
+// llp and cin number
+
 export const getValidationSchema = (registrationType: IRegistrationTypes) => {
-  // if (registrationType === "Sole Proprietorship") {
-  //   return mainValidationSchema.concat(soleProprietorshipValidationSchema);
-  // }
   switch (registrationType) {
     case "Partnerships":
-      return mainValidationSchema
-        .concat(soleProprietorshipValidationSchema)
-        .concat(PartnerShipFirm);
+      return mainValidationSchema.concat(PartnerShipFirm);
     case "LLP":
-      return mainValidationSchema;
+      return mainValidationSchema.concat(LlpAndPvtRegisterValidation);
     case "PVT LTD":
-      return mainValidationSchema;
+      return mainValidationSchema.concat(LlpAndPvtRegisterValidation);
     case "Sole Proprietorship":
       return mainValidationSchema.concat(soleProprietorshipValidationSchema);
     default:

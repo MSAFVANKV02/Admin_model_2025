@@ -30,6 +30,8 @@ export default function ProductTransferModel() {
           }}
           onSubmit={(values, actions) => {
             // Handle form submission
+            console.log(values);
+            
             actions.resetForm();
             setIsOpen(false);
           }}

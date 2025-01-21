@@ -4,11 +4,11 @@ import { StoreTypes } from "@/types/storeTypes";
 import { useState } from "react";
 
 type FileInputFields = {
-  AadhaarCard: File | string;
-  PanCard: File | string;
-  LocalBodyLicense: File | string;
-  RoomRentAgreement: File | string;
-  GstFile: File | string;
+  aadhaarCard: File | string;
+  panCard: File | string;
+  localBodyLicense: File | string;
+  roomRentAgreement: File | string;
+  gstCertificate: File | string;
   companyIncorporationCertificate: File | string;
 };
 
@@ -17,18 +17,15 @@ type Props = {
   setFieldValue: (field: string, value: any) => void;
 };
 
-export default function PvtLtdForm({
-  values,
-  setFieldValue,
-}: Props) {
+export default function PvtLtdForm({ values, setFieldValue }: Props) {
   const [fileNames, setFileNames] = useState<
     Record<keyof FileInputFields, string | null>
   >({
-    AadhaarCard: null,
-    PanCard: null,
-    LocalBodyLicense: null,
-    RoomRentAgreement: null,
-    GstFile: null,
+    aadhaarCard: null,
+    panCard: null,
+    localBodyLicense: null,
+    roomRentAgreement: null,
+    gstCertificate: null,
     companyIncorporationCertificate: null,
   });
   const fileFields: {
@@ -36,14 +33,17 @@ export default function PvtLtdForm({
     label: string;
     fileType: string;
   }[] = [
-    { id: "AadhaarCard", fileType: "file", label: "Aadhaar Card" },
-    { id: "PanCard", fileType: "file", label: "PAN Card" },
-    { id: "LocalBodyLicense", fileType: "file", label: "Local Body License" },
-    { id: "RoomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
-    { id: "GstFile", fileType: "file", label: "GST File" },
-    { id: "companyIncorporationCertificate", fileType: "file", label: "Certificate of Incorporation" },
+    {
+      id: "companyIncorporationCertificate",
+      fileType: "file",
+      label: "Certificate of Incorporation",
+    },
+    { id: "panCard", fileType: "file", label: "PAN Card" },
+    { id: "gstCertificate", fileType: "file", label: "GST Certificate" },
+    { id: "localBodyLicense", fileType: "file", label: "Local Body License" },
+    { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
   ];
-  // console.log(values.AadhaarCard?.name ?? "");
+  // console.log(values.aadhaarCard?.name ?? "");
 
   return (
     <div>

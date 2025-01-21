@@ -4,9 +4,9 @@ import { StoreTypes } from "@/types/storeTypes";
 import { useState } from "react";
 
 type FileInputFields = {
-  LocalBodyLicense: File | string;
-  RoomRentAgreement: File | string;
-  GstFile: File | string;
+  localBodyLicense: File | string;
+  roomRentAgreement: File | string;
+  gstCertificate: File | string;
   partnershipAgreement: File | string;
   companyPanCard: File | string;
 };
@@ -20,9 +20,9 @@ export default function PartnershipForm({ values, setFieldValue }: Props) {
   const [fileNames, setFileNames] = useState<
     Record<keyof FileInputFields, string | null>
   >({
-    LocalBodyLicense: null,
-    RoomRentAgreement: null,
-    GstFile: null,
+    localBodyLicense: null,
+    roomRentAgreement: null,
+    gstCertificate: null,
     partnershipAgreement: null,
     companyPanCard: null,
   });
@@ -31,17 +31,18 @@ export default function PartnershipForm({ values, setFieldValue }: Props) {
     label: string;
     fileType: string;
   }[] = [
-    { id: "LocalBodyLicense", fileType: "file", label: "Local Body License" },
-    { id: "RoomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
-    { id: "GstFile", fileType: "file", label: "GST File" },
     {
       id: "partnershipAgreement",
       fileType: "file",
       label: "Partnership Agreement",
     },
     { id: "companyPanCard", fileType: "file", label: "Company PAN Card" },
+   
+    { id: "gstCertificate", fileType: "file", label: "GST Certificate" },
+    { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
+    { id: "localBodyLicense", fileType: "file", label: "Local Body License" },
   ];
-  // console.log(values.AadhaarCard?.name ?? "");
+  // console.log(values.aadhaarCard?.name ?? "");
 
   return (
     <div>

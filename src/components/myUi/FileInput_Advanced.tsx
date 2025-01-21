@@ -39,7 +39,7 @@ export default function FileInputAdvanced({
     (isFile && value.type === "application/pdf") || // File is a PDF
     (isUrl && value.endsWith(".pdf"));
   return (
-    <div className={cn(`flex lg:flex-row flex-col gap-1 justify-between w-full`, className)}>
+    <div className={cn(`flex lg:flex-row flex-col lg:items-center gap-1 justify-between w-full`, className)}>
       {title && (
         <Label htmlFor={name} className="text-sm  text-textGray">
           {title}

@@ -89,7 +89,7 @@ export function DataTableStoreEarnings({ data }: Props) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.original.store_name}</div>
+        <div className="lowercase">{row.original.storeName}</div>
       ),
     },
     {

@@ -27,11 +27,11 @@ export type StoreTypes = {
   status?: "pending" | "paid";
   created_at?: string | number | Date;
   // =====  Sole Proprietorship Registration  ================
-  AadhaarCard?:File | string | null;
-  PanCard?:File | string | null;
-  LocalBodyLicense?:File | string | null;
-  RoomRentAgreement?:File | string | null;
-  GstFile?:File | string | null;
+  aadhaarCard?:File | string | null;
+  panCard?:File | string | null;
+  localBodyLicense?:File | string | null;
+  roomRentAgreement?:File | string | null;
+  gstCertificate?:File | string | null;
  
 
   // =====  Partnerships Firm Registration  ================
@@ -40,6 +40,11 @@ export type StoreTypes = {
 
   //  pv ltd license================================
   companyIncorporationCertificate?:File | string | null;
+  cinNumber?: string | null;
+
+  // ----- llp ltd license================================
+  llpNumber?: string | null;
+
 
 };
 

@@ -26,6 +26,12 @@ import GoogleMap from "@/components/google/GoogleMap";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { getValidationSchema } from "./Store_Validation_Schema";
+import {
+  bankDetailsFields,
+  initialValues,
+  registrationTypes,
+  userDetailsFields,
+} from "./store_input_filds";
 
 export default function StoreCreationPage() {
   const [selectedRegistration, setSelectedRegistration] =
@@ -40,50 +46,31 @@ export default function StoreCreationPage() {
     setIsOpen(true);
   };
 
-  const registrationTypes: { value: IRegistrationTypes; name: string }[] = [
-    { value: "Sole Proprietorship", name: "Sole Proprietorship Registration" },
-    { value: "Partnerships", name: "Partnerships Firm Registration" },
+  // field inputs =================================================
+  const inputFields: {
+    id: keyof StoreTypes;
+    label: string;
+    fileType: string;
+  }[] = [
+    { id: "storeName", label: "Store Name", fileType: "text" },
+    // Add conditionally visible fields:
+    ...(selectedRegistration === "LLP"
+      ? ([{ id: "llpNumber", label: "LLP Number", fileType: "text" }] as const)
+      : []),
+    ...(selectedRegistration === "PVT LTD"
+      ? ([{ id: "cinNumber", label: "CIN Number", fileType: "text" }] as const)
+      : []),
+    { id: "gstNumber", label: "GST Number", fileType: "text" },
+    { id: "storeAddress", label: "Store Address", fileType: "text" },
     {
-      value: "LLP",
-      name: "Limited Liability Partnership (LLP) Company Registration",
+      id: "storeCapacity",
+      label: "Store Capacity in Cubic",
+      fileType: "number",
     },
-    { value: "PVT LTD", name: "Private Limited Company Registration" },
+    { id: "state", label: "State", fileType: "text" },
+    { id: "country", label: "Country", fileType: "text" },
+    { id: "pinCode", label: "Pincode", fileType: "text" },
   ];
-
-  //   ======== initialValues =================================
-  const initialValues: StoreTypes = {
-    registrationType: "Sole Proprietorship",
-    AadhaarCard: null,
-    PanCard: null,
-    LocalBodyLicense: null,
-    RoomRentAgreement: null,
-    GstFile: null,
-    partnershipAgreement: null,
-    companyPanCard: null,
-    companyIncorporationCertificate:null,
-    storeName: "",
-    gstNumber: "",
-    storeAddress: "",
-    storeCapacity: null,
-    state: "",
-    country: "",
-    pinCode: "",
-    googleLocation: { latitude: null, longitude: null },
-    storeManager: "",
-    emailId: "",
-    phoneNumber: "",
-    userName: "",
-    password: "",
-    inHouseProduct: false,
-    bankDetails: {
-      accountName: "",
-      accountNumber: "",
-      ifscCode: "",
-      shiftCode: "",
-      upiId: "",
-    },
-    capacity: null,
-  };
 
   const renderForms = (values: StoreTypes, setFieldValue: any) => {
     switch (selectedRegistration) {
@@ -137,12 +124,25 @@ export default function StoreCreationPage() {
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (
           <Form>
-            <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50">
+            {/* <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50"> */}
+            <PageLayoutHeader className="f">
               <div className="flex justify-between w-full px-16 items-center">
                 <h1 className="sm:text-lg text-sm font-bold text-textGray select-none">
                   Store Creation
                 </h1>
-
+              </div>
+            </PageLayoutHeader>
+            {/* ======================== */}
+            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow-2xl md:mt-14 mt-16">
+              {/* store creation type ======== */}
+              {/* store registration type */}
+              <div className="flex justify-between items-center lg:flex-row flex-col">
+                <Label
+                  htmlFor="registrationType"
+                  className="text-sm text-textGray"
+                >
+                  Registration Types
+                </Label>
                 <Select
                   onValueChange={(value) => {
                     setSelectedRegistration(value as IRegistrationTypes);
@@ -152,7 +152,7 @@ export default function StoreCreationPage() {
                   value={values.registrationType}
                   name="registrationType"
                 >
-                  <SelectTrigger className="min-w-[180px] max-w-[400px]">
+                  <SelectTrigger className="lg:w-3/4">
                     <SelectValue placeholder="Select Registration Type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -168,86 +168,21 @@ export default function StoreCreationPage() {
                   </SelectContent>
                 </Select>
               </div>
-            </PageLayoutHeader>
-            {/* ======================== */}
-            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow md:mt-14 mt-16">
-              {/* 1. store name */}
-              <FormField
-                id="storeName"
-                name="storeName"
-                title="Store Name"
-                classnamewrapper=" "
-                //   title="Store Name"
-                placeholder="Enter store name"
-                value={values.storeName || ""}
-                fieldAs={Input}
-              />
 
-              {/* -- 2. gst number ---- */}
-              <FormField
-                id="gstNumber"
-                name="gstNumber"
-                classnamewrapper=""
-                title="GST Number"
-                placeholder="Enter GST number"
-                value={values.gstNumber || ""}
-                fieldAs={Input}
-              />
-              {/* ----- 3. store Address ---- */}
-              <FormField
-                id="storeAddress"
-                name="storeAddress"
-                classnamewrapper=""
-                title="Store Address"
-                placeholder="Enter store address"
-                value={values.storeAddress || ""}
-                fieldAs={Input}
-              />
-              {/*  4. store Capacity ---- */}
-              <FormField
-                id="storeCapacity"
-                name="storeCapacity"
-                classnamewrapper=""
-                type="number"
-                title="Store Capacity in Cubic"
-                placeholder="Store Capacity in cubic (e.g., 100.5)"
-                value={values.storeCapacity || "" || ""}
-                fieldAs={Input}
-              />
-
-              {/*=========== #Location ============ */}
-              {/* 5. state ------- */}
-              <FormField
-                id="state"
-                name="state"
-                classnamewrapper=""
-                title="State"
-                placeholder="Enter state"
-                value={values.state || ""}
-                fieldAs={Input}
-              />
-
-              {/* 6. country ----- */}
-              <FormField
-                id="country"
-                name="country"
-                classnamewrapper=""
-                title="Country"
-                placeholder="Enter country"
-                value={values.country || ""}
-                fieldAs={Input}
-              />
-
-              {/*  7. PicCode ---- */}
-              <FormField
-                id="pinCode"
-                name="pinCode"
-                classnamewrapper=""
-                title="Pincode"
-                placeholder="Enter pinCode"
-                value={values.pinCode || ""}
-                fieldAs={Input}
-              />
+              {/* ===========  mapping of main details ======== */}
+              {inputFields.map((field) => (
+                <FormField
+                  key={field.id}
+                  id={field.id}
+                  name={field.id}
+                  title={field.label}
+                  classnamewrapper=""
+                  placeholder={`Enter ${field.label.toLowerCase()}`}
+                  type={field.fileType}
+                  value={`${values[field.id]}` || ""}
+                  fieldAs={Input}
+                />
+              ))}
 
               {/* 8. Google Location */}
               <div className="flex gap-3 items-center justify-between">
@@ -290,79 +225,43 @@ export default function StoreCreationPage() {
                 googleAddress={googleAddress}
                 setFieldValue={setFieldValue}
               />
-
               {/* Upload documents ========= */}
               <div className="">
                 <span className="text-sm font-bold">Upload Documents :</span>
               </div>
-
               {renderForms(values, setFieldValue)}
 
-              {/* User & Store Manager Details */}
+              {/* User & Store Manager Details =================== */}
               <div className="">
                 <span className="text-sm font-bold">User Details :</span>
               </div>
-
-              <div className=" grid md:grid-cols-3 gap-2 w-full">
-                {/* 9. store manager */}
-                <FormField
-                  id="storeManager"
-                  name="storeManager"
-                  classnamewrapper="w-full lg:w-full"
-                  placeholder="Select store manager"
-                  value={values.storeManager || ""}
-                  fieldAs={Input}
-                />
-
-                {/* 10. email ---- */}
-                <FormField
-                  id="emailId"
-                  name="emailId"
-                  type="email"
-                  classnamewrapper="w-full lg:w-full"
-                  placeholder="Enter email"
-                  value={values.emailId || ""}
-                  fieldAs={Input}
-                />
-
-                {/* 11. mobile ---- */}
-                <FormField
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="number"
-                  classnamewrapper="w-full lg:w-full"
-                  placeholder="Enter phone number"
-                  value={values.phoneNumber || ""}
-                  fieldAs={Input}
-                />
+              <div className="grid md:grid-cols-3 gap-2 w-full">
+                {userDetailsFields.slice(0, 3).map((field) => (
+                  <FormField
+                    key={field.id}
+                    id={field.id}
+                    name={field.name}
+                    type={field.fileType || "text"}
+                    classnamewrapper="w-full lg:w-full"
+                    placeholder={field.placeholder}
+                    value={`${values[field.name]}` || ""}
+                    fieldAs={Input}
+                  />
+                ))}
               </div>
-
-              {/* manager email phone name password  */}
-              <div className=" grid sm:grid-cols-2 gap-2 w-full ">
-                {/* 12. user name */}
-                <FormField
-                  id="userName"
-                  name="userName"
-                  classnamewrapper="w-full lg:w-full"
-                  //   title="User Name"
-                  fieldClassName="w-full"
-                  placeholder="Enter user name"
-                  value={values.userName || ""}
-                  fieldAs={Input}
-                />
-
-                {/* 13. password ---- */}
-                <FormField
-                  id="password"
-                  name="password"
-                  fieldClassName="w-full"
-                  classnamewrapper="w-full lg:w-full"
-                  //   title="Password"
-                  placeholder="Enter password"
-                  type="password"
-                  value={values.password || ""}
-                  fieldAs={Input}
-                />
+              <div className="grid sm:grid-cols-2 gap-2 w-full">
+                {userDetailsFields.slice(3).map((field) => (
+                  <FormField
+                    key={field.id}
+                    id={field.id}
+                    name={field.name}
+                    type={field.fileType || "text"}
+                    classnamewrapper="w-full lg:w-full"
+                    placeholder={field.placeholder}
+                    value={`${values[field.name]}` || ""}
+                    fieldAs={Input}
+                  />
+                ))}
               </div>
 
               {/* 14 . In-House Product ----- */}
@@ -378,58 +277,29 @@ export default function StoreCreationPage() {
                   checked={values.inHouseProduct}
                 />
               </div>
-
               {/* Bank Details starts here
                -----------------------------*/}
-              <div className="">
-                <span className="text-sm font-bold">Bank Details :</span>
+              <div>
+                <div className="">
+                  <span className="text-sm font-bold">Bank Details :</span>
+                </div>
+                <div className="grid md:grid-cols-1 gap-2 w-full">
+                  {bankDetailsFields.map((field) => (
+                    <FormField
+                      key={field.id}
+                      title={`${field.name}`}
+                      id={`bankDetails.${field.id}`}
+                      name={`bankDetails.${field.name}`}
+                      type={field.fileType || "text"}
+                      classnamewrapper=""
+                      placeholder={field.placeholder}
+                      value={values.bankDetails[field.name] || ""}
+                      fieldAs={Input}
+                    />
+                  ))}
+                </div>
               </div>
-              {/* 15. account name ---- */}
-              <FormField
-                id="bankDetails.accountName"
-                name="bankDetails.accountName"
-                classnamewrapper=""
-                title="Account Name"
-                placeholder="Enter account name"
-                value={values.bankDetails.accountName || ""}
-                fieldAs={Input}
-              />
-
-              {/* 15. account number ---- */}
-              <FormField
-                id="bankDetails.accountNumber"
-                name="bankDetails.accountNumber"
-                classnamewrapper=""
-                title="Account Number"
-                placeholder="Enter account number"
-                value={values.bankDetails.accountNumber || ""}
-                fieldAs={Input}
-              />
-
-              {/* 16. isfce */}
-              <FormField
-                id="bankDetails.ifscCode"
-                name="bankDetails.ifscCode"
-                classnamewrapper=""
-                title="IFSC"
-                placeholder="Enter IFSC code"
-                value={values.bankDetails.ifscCode || ""}
-                fieldAs={Input}
-              />
-
-              {/* 17. shift code */}
-              <FormField
-                id="bankDetails.shiftCode"
-                name="bankDetails.shiftCode"
-                classnamewrapper=""
-                title="Shift Code"
-                placeholder="Enter shift code"
-                value={values.bankDetails.shiftCode || ""}
-                fieldAs={Input}
-              />
-
-              {/* 18. upi id */}
-              <FormField
+              {/* <FormField
                 id="bankDetails.upiId"
                 name="bankDetails.upiId"
                 classnamewrapper=""
@@ -437,8 +307,7 @@ export default function StoreCreationPage() {
                 placeholder="Enter UPI ID"
                 value={values.bankDetails.upiId || ""}
                 fieldAs={Input}
-              />
-
+              /> */}
               {/* Submit Buttons */}
               <div className="flex justify-end space-x-2">
                 <AyButton

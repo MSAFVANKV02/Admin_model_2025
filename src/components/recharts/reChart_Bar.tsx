@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 
 import {
   ResponsiveContainer,
@@ -30,11 +31,13 @@ const data = [
 ];
 
 export default function ReChartBar() {
+  const { t } = useTranslation();
+
   return (
     <main className="lg:w-[60%] w-full">
       <Card>
         <CardHeader>
-        <CardTitle>Total Revenue</CardTitle>
+        <CardTitle>{t("Total Revenue")}</CardTitle>
         </CardHeader>
         <CardContent className="h-[550px] w-full">
           <ResponsiveContainer height={"100%"} width={"100%"}>

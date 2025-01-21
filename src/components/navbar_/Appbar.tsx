@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { MenuIcon } from "lucide-react";
-import {  Fullscreen, PublicOutlined } from "@mui/icons-material";
+import { Fullscreen, PublicOutlined } from "@mui/icons-material";
 import {
   Dialog,
   DialogClose,
@@ -20,6 +20,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import FullViewScreen from "@/hooks/FullViewScreen";
 import useNavigateClicks from "@/hooks/useClicks";
@@ -30,6 +37,7 @@ import { makeToast } from "@/utils/toaster";
 
 import { useAppSelector } from "@/redux/hook";
 import { useModal } from "@/providers/context/context";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   open: boolean;
@@ -43,6 +51,13 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
+const languages = [
+  { label: "English", value: "en" },
+  { label: "Hindi", value: "hi" },
+  { label: "Arabic", value: "ar" },
+  { label: "Malayalam", value: "ml" },
+];
+
 export default function NavAppBar({
   open,
   drawerWidth,
@@ -51,26 +66,31 @@ export default function NavAppBar({
   // handle full screen mode ====
   const { handleFullScreen } = FullViewScreen();
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
-  const { currentAdmin } = useAppSelector((state)=>state.admin);
-  const {handleLogout} = useModal();
+  const { currentAdmin } = useAppSelector((state) => state.admin);
+  const { handleLogout } = useModal();
+  const { i18n, t } = useTranslation();
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   // click
   const { handleClick } = useNavigateClicks();
 
-    // Clear cache function
-    const handleClearCache = () => {
-      if (window.caches) {
-        caches.keys().then((keyList) => {
-          return Promise.all(keyList.map((key) => caches.delete(key)));
-        });
-      }
-      localStorage.clear();
-      sessionStorage.clear();
-      makeToast("Cache cleared successfully!"); // Show success toast
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500); 
-    };
+  // Clear cache function
+  const handleClearCache = () => {
+    if (window.caches) {
+      caches.keys().then((keyList) => {
+        return Promise.all(keyList.map((key) => caches.delete(key)));
+      });
+    }
+    localStorage.clear();
+    sessionStorage.clear();
+    makeToast("Cache cleared successfully!"); // Show success toast
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -112,17 +132,21 @@ export default function NavAppBar({
       >
         <Toolbar>
           <div className="">
-           <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ marginRight: 5, marginLeft:isLargeScreen ?5:0, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>    
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                marginLeft: isLargeScreen ? 5 : 0,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
           </div>
-       
+
           <Typography variant="h6" noWrap component="div">
             {/* <img src={MyLogo} alt="My Logo" style={{ height: '40px', marginRight: '10px' }} /> */}
           </Typography>
@@ -136,22 +160,34 @@ export default function NavAppBar({
             ========================== */}
           <Tooltip title="Full Screen">
             <div className="">
-                   <IconButton onClick={handleFullScreen}>
-              <Fullscreen />
-            </IconButton>
+              <IconButton onClick={handleFullScreen}>
+                <Fullscreen />
+              </IconButton>
             </div>
-       
           </Tooltip>
+
+          <Select value={i18n.language} onValueChange={changeLanguage}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t("Language")} />
+            </SelectTrigger>
+            <SelectContent>
+              {languages.map((language) => (
+                <SelectItem key={language.value} value={language.value}>
+                  {language.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           {/* Home btn ======
             ========================== */}
 
           <Tooltip title="home">
-          <div className="">
-          <IconButton onClick={() => handleClick("/dashboard")}>
-              <PublicOutlined />
-            </IconButton>
-          </div>
+            <div className="">
+              <IconButton onClick={() => handleClick("/dashboard")}>
+                <PublicOutlined />
+              </IconButton>
+            </div>
           </Tooltip>
 
           {/* Notification btn ======
@@ -159,16 +195,20 @@ export default function NavAppBar({
 
           <NotificationBarSheet />
 
-           {/* Clear Cache Button */}
-           <Tooltip title="Clear Cache">
-           <div className="">
-           <IconButton onClick={handleClearCache}>
-              <img src="/icons/clear-catche.svg" alt="clear cache" width={23} height={23} />
-              {/* <CleaningServicesIcon /> */}
-            </IconButton>
-           </div>
+          {/* Clear Cache Button */}
+          <Tooltip title="Clear Cache">
+            <div className="">
+              <IconButton onClick={handleClearCache}>
+                <img
+                  src="/icons/clear-catche.svg"
+                  alt="clear cache"
+                  width={23}
+                  height={23}
+                />
+                {/* <CleaningServicesIcon /> */}
+              </IconButton>
+            </div>
           </Tooltip>
-
 
           {/* User Details avatar and more settings =====
         ================================================ */}
@@ -179,12 +219,17 @@ export default function NavAppBar({
                   <span className="text-sm font-medium text-gray-700">
                     {currentAdmin?.role}
                   </span>
-                  <span className=" text-gray-400">  {currentAdmin?.name || currentAdmin?.email.split("@")[0]}</span>
+                  <span className=" text-gray-400">
+                    {" "}
+                    {currentAdmin?.name || currentAdmin?.email.split("@")[0]}
+                  </span>
                 </div>
                 {/* ====== */}
                 <Avatar className="w-7 h-7">
                   <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>{currentAdmin?.name || 'Admin'}</AvatarFallback>
+                  <AvatarFallback>
+                    {currentAdmin?.name || "Admin"}
+                  </AvatarFallback>
                 </Avatar>
               </div>
             </DialogTrigger>
@@ -200,16 +245,16 @@ export default function NavAppBar({
                   <Button type="button" variant="secondary">
                     Close
                   </Button>
-
-                  
                 </DialogClose>
                 <DialogClose asChild>
-                  <Button type="button" variant="default"
-                  onClick={()=>{
-                    // Cookie.remove("ad_b2b_tkn");
-                    // window.location.href = "/login";  // Redirect to login page after logout
-                    handleLogout()
-                  }}
+                  <Button
+                    type="button"
+                    variant="default"
+                    onClick={() => {
+                      // Cookie.remove("ad_b2b_tkn");
+                      // window.location.href = "/login";  // Redirect to login page after logout
+                      handleLogout();
+                    }}
                   >
                     Logout
                   </Button>

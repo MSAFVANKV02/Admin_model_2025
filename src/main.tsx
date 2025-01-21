@@ -8,6 +8,8 @@ import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import axios from "axios";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n.ts";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -16,8 +18,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
-    {/* <ModalProvider> */}
+  <I18nextProvider i18n={i18n}>
+    <Provider store={store}>
+      {/* <ModalProvider> */}
       <RouterProvider
         router={rootRouter}
         future={{
@@ -35,6 +38,7 @@ createRoot(document.getElementById("root")!).render(
         }}
         gutter={14}
       />
-    {/* </ModalProvider> */}
-  </Provider>
+      {/* </ModalProvider> */}
+    </Provider>
+  </I18nextProvider>
 );

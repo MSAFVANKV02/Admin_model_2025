@@ -128,6 +128,7 @@
 // export default ReChartPie;
 // =================================================================  
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 interface DataEntry {
@@ -146,11 +147,13 @@ interface CustomizedLabelProps {
 }
 
 const ReChartPie: React.FC = () => {
+  const { t } = useTranslation();
+
   const data: DataEntry[] = [
     { name: "Pending", value: 20, color: "#FFC107" },
     { name: "Shipped", value: 50, color: "#03A9F4" },
     { name: "Delivered", value: 30, color: "#4CAF50" },
-    { name: "Cancellations", value: 10, color: "#FF6F61" },
+    { name: "Cancelled", value: 10, color: "#FF6F61" },
   ];
 
   const renderCustomizedLabel = ({
@@ -181,7 +184,7 @@ const ReChartPie: React.FC = () => {
 
   return (
     <div className="w-full lg:w-[40%]  mx-auto p-6 bg-card rounded-lg shadow-sm">
-      <h2 className="text-heading font-heading text-center mb-6">Order Status Distribution</h2>
+      <h2 className="text-heading font-heading text-center mb-6">{t("Order Status Distribution")}</h2>
       <div className="w-full h-[400px]" role="img" aria-label="Pie chart showing order status distribution">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -212,7 +215,7 @@ const ReChartPie: React.FC = () => {
               height={36}
               iconType="circle"
               formatter={(value) => (
-                <span className="text-foreground text-sm">{value}</span>
+                <span className="text-foreground text-sm">{t(value)}</span>
               )}
             />
           </PieChart>
@@ -225,7 +228,7 @@ const ReChartPie: React.FC = () => {
             className="p-4 bg-secondary rounded-lg text-center"
             role="presentation"
           >
-            <p className="text-accent-foreground text-sm mb-1">{item.name}</p>
+            <p className="text-accent-foreground text-sm mb-1">{t(item.name)}</p>
             <p className="text-foreground font-heading text-lg">{item.value}</p>
           </div>
         ))}

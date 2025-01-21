@@ -1,6 +1,7 @@
 import Card from "@/components/cards/Card";
 import OrderStatusCard from "@/components/cards/OrderStatusCard";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -16,6 +17,10 @@ export type StatusCardProps = {
 };
 
 export default function HomeSec01() {
+  const { t, i18n } = useTranslation();
+
+  const locale = i18n.language; 
+
   const CardData = [
     // {
     //   id: 1,
@@ -62,7 +67,7 @@ export default function HomeSec01() {
     {
       id: 8,
       label: "Total Category",
-      amount: 0,
+      amount: 4,
       icon: "fluent:apps-20-regular",
       bgcolor: "#DFBBFF",
     },
@@ -119,6 +124,16 @@ export default function HomeSec01() {
     },
   ];
 
+  const formatNumber = (value:number) => {
+    const formatter = new Intl.NumberFormat(locale === "ar" || locale === "ar-EG" ? "ar-EG" : locale, {
+      style: 'decimal',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+    return formatter.format(value);
+  };
+  
+
   return (
     <div className="flex justify-between gap-6 lg:flex-row flex-col w-full">
       <section className="grid md:grid-cols-2  grid-cols-1 lg:w-[40%] w-full sm:gap-6 gap-3">
@@ -127,9 +142,9 @@ export default function HomeSec01() {
           <Card
             key={i}
             id={d.id}
-            amount={d.amount}
+            amount={formatNumber(d.amount)}
             icon={d.icon}
-            label={d.label}
+            label={t(d.label)}
             className={i === 0 ? "col-span-" : ""}
             bgcolor={d.bgcolor}
           />
@@ -151,7 +166,7 @@ export default function HomeSec01() {
                 id={d.id}
                 count={d.count}
                 icon={d.icon}
-                label={d.label}
+                label={t(d.label)}
                 bgcolor={d.bgcolor}
                 iColor={d.iColor}
               />

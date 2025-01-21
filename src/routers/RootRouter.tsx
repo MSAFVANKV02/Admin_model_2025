@@ -10,6 +10,7 @@ import {
   SalesLayout,
   StoreManagementLayout,
   SettingsLayout,
+  SellerManagementLayout,
 } from "@/layouts/Sidbar_Layout";
 import ProductAddPage from "@/pages/products/add-new/product-add-page";
 import AllProductsPage from "@/pages/products/all/All-Products-page";
@@ -35,6 +36,8 @@ import StoreEarningsPage from "@/pages/store/store-earnings/store-earnings-page"
 import ProductTransferPage from "@/pages/store/product-transfer/product-transfer-page";
 import StoreCommissionPage from "@/pages/store/store-commition/store-commission-page";
 import StoreCreationPage from "@/pages/store/store-creation/store-creation-page";
+import SellerCreationPage from "@/pages/seller/seller-creation/seller-creation-page";
+import SellerManagementPage from "@/pages/seller/seller-management-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -125,6 +128,18 @@ const rootRouter = createBrowserRouter(
           children: [
             { path: "all", element: <StoreManagementPage /> },
             { path: "create", element: <StoreCreationPage /> },
+            { path: "payout-store", element: <PayoutStorePage /> },
+            { path: "product-transfer", element: <ProductTransferPage/> },
+            { path: "earnings", element: <StoreEarningsPage /> },
+            { path: "commission", element:<StoreCommissionPage /> },
+          ],
+        },
+        {
+          path: "/seller",
+          element: <SellerManagementLayout />, // Parent layout for Store Management
+          children: [
+            { path: "all", element: <SellerManagementPage /> },
+            { path: "create", element: <SellerCreationPage /> },
             { path: "payout-store", element: <PayoutStorePage /> },
             { path: "product-transfer", element: <ProductTransferPage/> },
             { path: "earnings", element: <StoreEarningsPage /> },

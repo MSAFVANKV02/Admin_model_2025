@@ -142,6 +142,8 @@ function NavigationList() {
       icon: <Icon icon="mdi:account-tie" />,
       isChild: true,
       children: [
+        { title: "Create Seller", segment: "/seller/create" },
+        { title: "Seller", segment: "/seller/all" },
         { title: "Seller Stock Requests", segment: "/seller/stock-requests" },
         { title: "Request to Stock", segment: "/seller/request-stock" },
         { title: "Conversations", segment: "/seller/conversations" },

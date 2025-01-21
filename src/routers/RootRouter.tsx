@@ -39,6 +39,7 @@ import StoreCreationPage from "@/pages/store/store-creation/store-creation-page"
 import SellerCreationPage from "@/pages/seller/seller-creation/seller-creation-page";
 import SellerManagementPage from "@/pages/seller/seller-management-page";
 import PayoutSellerPage from "@/pages/seller/seller-payout/payout-seller-page";
+import PaymentSetupSettings from "@/pages/settings/payment-setups/payment-setups-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -155,6 +156,10 @@ const rootRouter = createBrowserRouter(
             {
               path: "admin-management",
               element: <UserManagementPage />,
+            },
+            {
+              path: "payment-setup",
+              element: <PaymentSetupSettings/> ,
             },
             {
               path: "user-strict",

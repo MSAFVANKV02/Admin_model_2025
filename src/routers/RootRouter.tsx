@@ -38,6 +38,7 @@ import StoreCommissionPage from "@/pages/store/store-commition/store-commission-
 import StoreCreationPage from "@/pages/store/store-creation/store-creation-page";
 import SellerCreationPage from "@/pages/seller/seller-creation/seller-creation-page";
 import SellerManagementPage from "@/pages/seller/seller-management-page";
+import PayoutSellerPage from "@/pages/seller/seller-payout/payout-seller-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -140,7 +141,7 @@ const rootRouter = createBrowserRouter(
           children: [
             { path: "all", element: <SellerManagementPage /> },
             { path: "create", element: <SellerCreationPage /> },
-            { path: "payout-store", element: <PayoutStorePage /> },
+            { path: "payout-seller", element: <PayoutSellerPage /> },
             { path: "product-transfer", element: <ProductTransferPage/> },
             { path: "earnings", element: <StoreEarningsPage /> },
             { path: "commission", element:<StoreCommissionPage /> },

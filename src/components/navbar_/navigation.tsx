@@ -144,7 +144,7 @@ function NavigationList() {
       children: [
         { title: "Create Seller", segment: "/seller/create" },
         { title: "Seller", segment: "/seller/all" },
-        { title: "Seller Stock Requests", segment: "/seller/stock-requests" },
+        { title: "Seller Payout", segment: "/seller/payout-seller" },
         { title: "Request to Stock", segment: "/seller/request-stock" },
         { title: "Conversations", segment: "/seller/conversations" },
         { title: "Returns to Seller", segment: "/seller/returns" },

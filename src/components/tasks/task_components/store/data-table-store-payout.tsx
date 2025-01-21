@@ -81,7 +81,7 @@ export function DataTableStorePayout({ data }: Props) {
       },
     },
     {
-      accessorKey: "store_name",
+      accessorKey: "storeName",
       header: ({ column }) => {
         return (
           <Button
@@ -146,17 +146,17 @@ export function DataTableStorePayout({ data }: Props) {
         <Input
           placeholder="Filter emails..."
           value={
-            (table.getColumn("store_name")?.getFilterValue() as string) ?? ""
+            (table.getColumn("storeName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("store_name")?.setFilterValue(event.target.value)
+            table.getColumn("storeName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
 
         {/* add new button ==== starts */}
         <AyButton
-          title="+ Create store payment"
+          title="+ Create seller payment"
           sx={{
             ml: {
              md:"auto",
@@ -169,7 +169,7 @@ export function DataTableStorePayout({ data }: Props) {
             py: "10px",
           }}
           onClick={() => {
-            navigate(`/store/payout-store?type=create`);
+            navigate(`/seller/payout-seller?type=create`);
           }}
         />
       </div>

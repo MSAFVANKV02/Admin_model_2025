@@ -61,12 +61,12 @@ const ProductTransferTable = () => {
       <table className="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr className="">
-            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-2 text-left">Variant</th>
-            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-2 text-left">Size</th>
-            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-2 text-center">
+            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-4 text-left">Variant</th>
+            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-4 text-left">Size</th>
+            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-4 text-center">
               Available Stock
             </th>
-            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-2 text-center">
+            <th className="border border-gray-300 text-xs text-textGray select-none px-4 py-4 text-center">
               Transfer Quantity
             </th>
           </tr>
@@ -79,7 +79,7 @@ const ProductTransferTable = () => {
                   {stockIndex === 0 && (
                     <td
                       rowSpan={variant.stock.length}
-                      className="border border-gray-300 px-4 py-2 text-center"
+                      className="border border-gray-300 px-4 py-1 text-center"
                     >
                       <div className="flex items-center gap-2">
                         <img
@@ -91,16 +91,16 @@ const ProductTransferTable = () => {
                       </div>
                     </td>
                   )}
-                  <td className="border border-gray-300 text-xs px-4 py-2 text-center">
+                  <td className="border border-gray-300 text-xs px-4 py-1 text-center">
                     {stock.size}
                   </td>
-                  <td className="border border-gray-300 text-xs px-4 py-2 text-center">
+                  <td className="border border-gray-300 text-xs px-4 py-1 text-center">
                     {stock.available}
                   </td>
-                  <td className="border border-gray-300 text-xs px-4 py-2 text-center">
-                    <div className="flex items-center justify-center gap-2">
+                  <td className="border border-gray-300 text-xs px-4 py-1 text-center ">
+                    <div className="flex justify-between items-center gap-2 border w-1/2 float-end p-1 rounded-md border-textSoft">
                       <button
-                        className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        className="px-2 py-1 border rounded disabled:opacity-50"
                         disabled={stock.transfer <= 0}
                         onClick={() =>
                           handleTransferChange(variantIndex, stockIndex, -1)
@@ -110,7 +110,7 @@ const ProductTransferTable = () => {
                       </button>
                       <span>{stock.transfer}</span>
                       <button
-                        className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+                        className="px-2 py-1 border text-textMain rounded disabled:opacity-50"
                         disabled={stock.transfer >= stock.available}
                         onClick={() =>
                           handleTransferChange(variantIndex, stockIndex, 1)

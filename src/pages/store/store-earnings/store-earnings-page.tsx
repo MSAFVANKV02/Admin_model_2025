@@ -1,6 +1,6 @@
 import { DataTableStoreEarnings } from "@/components/tasks/task_components/store/data-table-store-earnings"
 import { StoreTypes } from "@/types/storeTypes";
-import StoreEarningRent from "./payout-store-rent";
+import StoreEarningRent from "./store-earnings-rent";
 
 
 

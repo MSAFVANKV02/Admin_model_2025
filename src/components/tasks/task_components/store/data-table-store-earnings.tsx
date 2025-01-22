@@ -123,6 +123,8 @@ export function DataTableStoreEarnings({ data }: Props) {
 
   return (
     <div className="w-full">
+      <span className="text-sm font-bold capitalize p-2">Sale Earning</span>
+
       <div className="flex md:flex-row flex-col gap-3 md:items-center py-4">
         <Input
           placeholder="Filter emails..."

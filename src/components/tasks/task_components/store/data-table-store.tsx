@@ -30,13 +30,15 @@ import {
 
 import StoreTableAction from "../../table_actions/store/store-table-action";
 import { StoreTypes } from "@/types/storeTypes";
+import AyButton from "@/components/myUi/AyButton";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: StoreTypes[];
 };
 
 export function DataTableStore({ data }: Props) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -138,23 +140,23 @@ export function DataTableStore({ data }: Props) {
         />
 
         {/* add new button ==== starts */}
-        {/* <AyButton
-        title="+  Add New Store"
-        sx={{
-          ml: {
-            md:"auto",
-           },
-           borderRadius: "100px",
-           width: {
-             md:"fit-content"
-           },
-           px: "14px",
-           py: "10px",
-        }}
-        onClick={()=>{
+        <AyButton
+          title="+  Add New Store"
+          sx={{
+            ml: {
+              md: "auto",
+            },
+            borderRadius: "100px",
+            width: {
+              md: "fit-content",
+            },
+            px: "14px",
+            py: "10px",
+          }}
+          onClick={() => {
             navigate(`/store/all?type=create`);
-        }}
-        /> */}
+          }}
+        />
       </div>
       <div className="rounded-md border">
         <Table>

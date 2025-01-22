@@ -1,5 +1,7 @@
 import { DataTableStore } from "@/components/tasks/task_components/store/data-table-store";
 import { StoreTypes } from "@/types/storeTypes";
+import { useSearchParams } from "react-router-dom";
+import StoreCreationPage from "./store-creation/store-creation-page";
 
 const storeData: StoreTypes[] = [
   {
@@ -55,8 +57,8 @@ const storeData: StoreTypes[] = [
 ];
 
 export default function StoreManagementPage() {
-  // const [searchParams] = useSearchParams();
-  // const urlType = searchParams.get("type");
+  const [searchParams] = useSearchParams();
+  const urlType = searchParams.get("type");
   return (
     <div>
       <div className="p-4 select-none">
@@ -64,14 +66,14 @@ export default function StoreManagementPage() {
       </div>
       {/*  */}
       <div className="page-outer">
-        <DataTableStore data={storeData} />
-        {/* {urlType === "create" ? (
+        {/* <DataTableStore data={storeData} /> */}
+        {urlType === "create" ? (
           <div className="">
-            <StoreCreateForm />
+            <StoreCreationPage />
           </div>
         ) : (
           <DataTableStore data={storeData} />
-        )} */}
+        )}
       </div>
     </div>
   );

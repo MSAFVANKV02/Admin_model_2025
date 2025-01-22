@@ -22,43 +22,8 @@ function NavigationList() {
     //   title: "Kyc verification",
     //   icon: <Icon icon="iconamoon:shield-yes-fill" />,
     // },
-    {
-      kind: "page",
-      segment: "/user-verification",
-      title: "User Verification",
-      icon: <Icon icon="streamline:graph-bar-increase-solid" />,
-      isChild: true,
-      children: [
-        { title: "User Kyc Verification", segment: "/user-verification/kyc" },
-        { title: "User Credit Verification", segment: "/credit-varify" },
-
-      
-      ],
-    },
-    {
-      kind: "page",
-      segment: "/web-setup",
-      title: "Web Setup",
-      icon: <Icon icon="streamline:web-solid" />,
-    },
-    {
-      kind: "page",
-      segment: "/offline-payment",
-      title: "Offline Payment",
-      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
-    },
-    // {
-    //   kind: "page",
-    //   segment: "/customers/refund",
-    //   title: "Customer Refund",
-    //   icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
-    // },
-    {
-      kind: "page",
-      segment: "/customers",
-      title: "Customers",
-      icon: <Icon icon="mdi:account-group" />,
-    },
+  
+   
     {
       kind: "page",
       segment: "/products",
@@ -108,6 +73,19 @@ function NavigationList() {
         { title: "User Searches", segment: "/reports/searches" },
       ],
     },
+    {
+      kind: "page",
+      segment: "/user-verification",
+      title: "User Verification",
+      icon: <Icon icon="iconamoon:shield-yes-fill" />,
+      isChild: true,
+      children: [
+        { title: "User Kyc Verification", segment: "/user-verification/kyc" },
+        { title: "User Credit Verification", segment: "/credit-varify" },
+
+      
+      ],
+    },
    
     // {
     //   kind: "page",
@@ -128,7 +106,7 @@ function NavigationList() {
       isChild: true,
       children: [
         { title: "Store", segment: "/store/all" },
-        { title: "Store Creation", segment: "/store/create" },
+        // { title: "Store Creation", segment: "/store/create" },
         { title: "Payout store", segment: "/store/payout-store" },
         { title: "Product Transfer", segment: "/store/product-transfer" },
         { title: "Store Earnings", segment: "/store/earnings" },
@@ -149,6 +127,31 @@ function NavigationList() {
         { title: "Conversations", segment: "/seller/conversations" },
         { title: "Returns to Seller", segment: "/seller/returns" },
       ],
+    },
+  
+    {
+      kind: "page",
+      segment: "/offline-payment",
+      title: "Offline Payment",
+      icon: <Icon icon="fluent:phone-link-setup-24-filled" />,
+    },
+    // {
+    //   kind: "page",
+    //   segment: "/customers/refund",
+    //   title: "Customer Refund",
+    //   icon: <Icon icon="heroicons:receipt-refund-20-solid" />,
+    // },
+    {
+      kind: "page",
+      segment: "/customers",
+      title: "Customers",
+      icon: <Icon icon="mdi:account-group" />,
+    },
+    {
+      kind: "page",
+      segment: "/web-setup",
+      title: "Web Setup",
+      icon: <Icon icon="streamline:web-solid" />,
     },
     {
       kind: "page",

@@ -19,6 +19,7 @@ import {
 export default function StoreEarningRent() {
   return (
     <div className="">
+      <span className="text-sm font-bold capitalize p-2">Rent earning</span>
       <div className="w-full flex justify-end">
         <Select>
           <SelectTrigger className="w-[180px]">

@@ -32,8 +32,11 @@ import {
   registrationTypes,
   userDetailsFields,
 } from "./store_input_filds";
+import useNavigateClicks from "@/hooks/useClicks";
 
 export default function StoreCreationPage() {
+  const { handleClick } = useNavigateClicks();
+
   const [selectedRegistration, setSelectedRegistration] =
     useState<IRegistrationTypes>("Sole Proprietorship");
 
@@ -126,10 +129,24 @@ export default function StoreCreationPage() {
           <Form>
             {/* <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50"> */}
             <PageLayoutHeader className="f">
-              <div className="flex justify-between w-full px-16 items-center">
+              <div className="flex justify-between w-full  items-center">
                 <h1 className="sm:text-lg text-sm font-bold text-textGray select-none">
                   Store Creation
                 </h1>
+
+                <AyButton
+                  title="Store"
+                  onClick={() => {
+                    handleClick("/store/all");
+                  }}
+                  sx={{
+                    ml: {
+                      md: "auto",
+                    },
+                    borderRadius: "100px",
+                    py: "10px",
+                  }}
+                />
               </div>
             </PageLayoutHeader>
             {/* ======================== */}

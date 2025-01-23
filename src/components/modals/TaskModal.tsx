@@ -9,17 +9,27 @@ Modal.setAppElement("#root");
 type ModalComponent = {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 };
 
-export default function TaskModal({ children,className }: ModalComponent) {
+export default function TaskModal({ children,className, onClick }: ModalComponent) {
   const { isOpen, closeModal } = useModal();
 
+
+  const handleCloseModal = () =>{
+    if(!onClick){
+      closeModal();
+    } else if(isOpen){
+      onClick();
+    }
+   
+  }
   // if (!selectedTask) return null; // If there's no selected task, don't render the modal
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={closeModal}
+      onRequestClose={handleCloseModal}
       shouldCloseOnOverlayClick={true}
       overlayClassName="fixed inset-0 bg-black/20 backdrop-filter  flex items-center justify-center z-[10000] "
       className={cn(`bg-white  md:rounded-lg rounded-none  min-w-xl md:w-[30vw] w-full p-4 h-[80vh]  outline-none  overflow-y-auto relative z-[10001]`,className)}

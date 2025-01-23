@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
 
 type Props = {
-    value: string;
+    value: string ;
     className?: string;
     isPdfShown?: boolean;
     selectedData?: string; 

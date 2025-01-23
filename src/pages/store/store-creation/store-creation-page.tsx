@@ -239,7 +239,7 @@ export default function StoreCreationPage() {
                 {/* {getErrors(errors)} */}
 
                 <AyButton
-                  title="Store"
+                  title="Got to Store"
                   onClick={() => {
                     handleClick("/store/all");
                   }}

@@ -1,64 +1,29 @@
 import { DataTableStore } from "@/components/tasks/task_components/store/data-table-store";
-import usePageTitle from "@/hooks/usePageTitle";
-import { StoreTypes } from "@/types/storeTypes";
 
-const sellerData: StoreTypes[] = [
-  {
-    registrationType: "LLP",
-    name: "Green Mart",
-    gstNumber: "27AABCU9603R1ZV",
-    Address: "123 Main Street, Springfield",
-    storeCapacity: 1500,
-    state: "Maharashtra",
-    country: "India",
-    pinCode: "400001",
-    googleLocation: { latitude: 21213, longitude: 1233.31 },
-    manager: "John Doe",
-    emailId: "john.doe@greenmart.com",
-    phoneNumber: "+91-9876543210",
-    userName: "john_doe",
-    password: "password123",
-    inHouseProduct: true,
-    bankDetails: {
-      accountName: "Green Mart Pvt. Ltd.",
-      accountNumber: "123456789012",
-      ifscCode: "HDFC0000123",
-      shiftCode: "HDFCINBBXXX",
-      upiId: "greenmart@hdfc",
-    },
-    capacity: 1500,
-  },
-  {
-    registrationType: "LLP",
-    name: "Green Mart",
-    gstNumber: "27AABCU9603R1ZV",
-    Address: "123 Main Street, Springfield",
-    storeCapacity: 1500,
-    state: "Maharashtra",
-    country: "India",
-    pinCode: "400001",
-    googleLocation: { latitude: 21213, longitude: 1233.31 },
-    manager: "John Doe",
-    emailId: "john.doe@greenmart.com",
-    phoneNumber: "+91-9876543210",
-    userName: "john_doe",
-    password: "password123",
-    inHouseProduct: true,
-    bankDetails: {
-      accountName: "Green Mart Pvt. Ltd.",
-      accountNumber: "123456789012",
-      ifscCode: "HDFC0000123",
-      shiftCode: "HDFCINBBXXX",
-      upiId: "greenmart@hdfc",
-    },
-    capacity: 1500,
-  },
-];
+import { useSearchParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
+import { useEffect } from "react";
+import SellerCreationPage from "./seller-creation/seller-creation-page";
+
+
 
 export default function SellerManagementPage() {
-    usePageTitle("Ayaboo | Seller Management")
-  // const [searchParams] = useSearchParams();
-  // const urlType = searchParams.get("type");
+  const dispatch = useAppDispatch();
+  const {isLogged} = useAppSelector((state)=> state.admin);
+  const {storeSeller} = useAppSelector((state)=> state.storeSeller);
+
+// console.log(storeSeller,'storeSeller');
+
+
+  const [searchParams] = useSearchParams();
+  const urlType = searchParams.get("type");
+
+  useEffect(() => {
+    if (!isLogged) {
+      dispatch(fetchSellerOrStoreDetails("seller"));
+    }
+  }, [ isLogged, dispatch]);
   return (
     <div>
       <div className="p-4 select-none">
@@ -66,14 +31,14 @@ export default function SellerManagementPage() {
       </div>
       {/*  */}
       <div className="page-outer">
-        <DataTableStore data={sellerData} />
-        {/* {urlType === "create" ? (
+        {/* <DataTableStore data={storeData} /> */}
+        {urlType === "create" ? (
           <div className="">
-            <StoreCreateForm />
+            <SellerCreationPage />
           </div>
         ) : (
-          <DataTableStore data={sellerData} />
-        )} */}
+          <DataTableStore data={storeSeller} url="/seller/all?type=create" title="+ Add New Seller" />
+        )}
       </div>
     </div>
   );

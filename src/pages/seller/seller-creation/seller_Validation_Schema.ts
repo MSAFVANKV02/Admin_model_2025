@@ -3,9 +3,9 @@ import * as Yup from "yup";
 
 export const mainValidationSchema = Yup.object({
   name: Yup.string().required("Store Name is required"),
-  gstNumber: Yup.string()
-    .matches(/^\d{15}$/, "GST number should be 15 digits")
-    .required("GST Number is required"),
+  // gstNumber: Yup.string()
+  //   .matches(/^\d{15}$/, "GST number should be 15 digits")
+  //   .required("GST Number is required"),
   Address: Yup.string().required("Store Address is required"),
   storeCapacity: Yup.number()
     .positive("Capacity must be positive")
@@ -36,7 +36,7 @@ export const mainValidationSchema = Yup.object({
     ifscCode: Yup.string()
       .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
       .required("IFSC code is required"),
-    shiftCode: Yup.string().required("Shift Code is required"),
+
     upiId: Yup.string().email("Invalid UPI ID").required("UPI ID is required"),
   }),
   capacity: Yup.number()

@@ -35,9 +35,11 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: StoreTypes[];
+  url?: string;
+  title: string;
 };
 
-export function DataTableStore({ data }: Props) {
+export function DataTableStore({ data, url, title }: Props) {
   const navigate = useNavigate();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -131,17 +133,17 @@ export function DataTableStore({ data }: Props) {
         <Input
           placeholder="Filter emails..."
           value={
-            (table.getColumn("store_name")?.getFilterValue() as string) ?? ""
+            (table.getColumn("name")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("store_name")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
 
         {/* add new button ==== starts */}
         <AyButton
-          title="+  Add New Store"
+          title={title}
           sx={{
             ml: {
               md: "auto",
@@ -154,7 +156,7 @@ export function DataTableStore({ data }: Props) {
             py: "10px",
           }}
           onClick={() => {
-            navigate(`/store/all?type=create`);
+            navigate(`${url}`);
           }}
         />
       </div>

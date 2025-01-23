@@ -190,7 +190,7 @@ export const LlpAndPvtRegisterValidation = Yup.object({
         schema
           .matches(
             /^[A-Z]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{3}$/,
-            "CIN Number must be a 21-character alphanumeric code (e.g., L17110MH1973PLC019786)"
+            "CIN Number must be a 21-character alphanumeric code (e.g: A12345AB6789XYZ123)"
           )
           .required("CIN Number is required"),
       otherwise: (schema) => schema.nullable(), // Optional for other types

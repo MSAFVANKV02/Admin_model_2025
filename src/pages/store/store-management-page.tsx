@@ -37,7 +37,7 @@ export default function StoreManagementPage() {
             <StoreCreationPage />
           </div>
         ) : (
-          <DataTableStore data={storeSeller} />
+          <DataTableStore data={storeSeller} url="/store/all?type=create" title="+ Add New Store"  />
         )}
       </div>
     </div>

@@ -2,7 +2,7 @@ import PagesLayout, {
   PageLayoutHeader,
   PagesLayoutContent,
 } from "@/layouts/Pages_Layout";
-import { Field, Form, Formik } from "formik";
+import {  Form, Formik } from "formik";
 import {
   Select,
   SelectContent,
@@ -32,8 +32,14 @@ import {
   registrationTypes,
   userDetailsFields,
 } from "./seller_input_filds";
+import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
+import { useAppDispatch } from "@/redux/hook";
+import useNavigateClicks from "@/hooks/useClicks";
 
 export default function SellerCreationPage() {
+  const dispatch = useAppDispatch();
+  const { handleClick } = useNavigateClicks();
+
   const [selectedRegistration, setSelectedRegistration] =
     useState<IRegistrationTypes>("Sole Proprietorship");
 
@@ -106,30 +112,132 @@ export default function SellerCreationPage() {
         validationSchema={getValidationSchema(selectedRegistration)}
         onSubmit={async (values, { resetForm }) => {
           console.log(values);
+
+          const formData = new FormData();
+
+          const role = "Seller";
+
+          // Safely append all fields to FormData
+          formData.append("name", values.name || "");
+          formData.append("role", role || "");
+
+          formData.append("registrationType", values.registrationType || "");
+          formData.append("gstNumber", values.gstNumber || "");
+          formData.append("Address", values.Address || "");
+          formData.append(
+            "storeCapacity",
+            values.storeCapacity?.toString() || ""
+          );
+          formData.append("state", values.state || "");
+          formData.append("country", values.country || "");
+          formData.append("pinCode", values.pinCode || "");
+
+          // Append Google Location if available
+          // Append Google Location if available
+          // Append Google Location if available
+          if (
+            values.googleLocation?.latitude &&
+            values.googleLocation?.longitude
+          ) {
+            formData.append(
+              "googleLocation[latitude]",
+              values.googleLocation.latitude.toString()
+            );
+            formData.append(
+              "googleLocation[longitude]",
+              values.googleLocation.longitude.toString()
+            );
+          }
+
+          // if (values.googleLocation?.latitude && values.googleLocation?.longitude) {
+          //   formData.append(
+          //     "googleLocation",
+          //     JSON.stringify(values.googleLocation)
+          //   );
+          // }
+
+          // Append manager and user details
+          formData.append("manager", values.manager || "");
+          formData.append("emailId", values.emailId || "");
+          formData.append("phoneNumber", values.phoneNumber || "");
+          formData.append("userName", values.userName || "");
+          formData.append("password", values.password || "");
+        
+
+          // Append bank details
+          Object.entries(values.bankDetails).forEach(([key, value]) => {
+            formData.append(`bankDetails[${key}]`, value || "");
+          });
+
+          // Append file fields
+          const fileFields: (keyof StoreTypes)[] = [
+            "aadhaarCard",
+            "panCard",
+            "localBodyLicense",
+            "roomRentAgreement",
+            "gstCertificate",
+            "partnershipAgreement",
+            "companyPanCard",
+            "companyIncorporationCertificate",
+          ];
+
+          fileFields.forEach((field) => {
+            if (values[field as keyof StoreTypes]) {
+              formData.append(
+                field,
+                values[field as keyof StoreTypes] as string
+              );
+            }
+          });
+
+          // Append registration-specific fields
+          if (values.llpNumber) {
+            formData.append("llpNumber", values.llpNumber);
+          }
+          if (values.cinNumber) {
+            formData.append("cinNumber", values.cinNumber);
+          }
+
           try {
-            const response = await Create_Store_Api(values);
+            const response = await Create_Store_Api(formData);
             if (response.status === 201) {
               makeToast("Store created successfully!");
               resetForm();
-              // handleClick("/store/all");
+
             }
           } catch (error: any) {
             console.error(error);
-            if (error.response.data) {
+            if (error.response?.data) {
               makeToastError(error.response.data.message);
+            } 
+          } finally{
+            window.location.reload();
+              dispatch(fetchSellerOrStoreDetails("store"));
             }
-            // handle form error
-          }
         }}
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (
           <Form>
             {/* <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50"> */}
             <PageLayoutHeader className="f">
-              <div className="flex justify-between w-full px-16 items-center">
+              <div className="flex justify-between w-full items-center">
                 <h1 className="sm:text-lg text-sm font-bold text-textGray select-none">
                   Seller Creation
                 </h1>
+
+                <AyButton
+                  title="Got to Seller"
+                  onClick={() => {
+                    handleClick("/seller/all");
+                  }}
+                  sx={{
+                    ml: {
+                      md: "auto",
+                    },
+                    borderRadius: "100px",
+                    py: "10px",
+                  }}
+                />
               </div>
             </PageLayoutHeader>
             {/* ======================== */}
@@ -264,19 +372,7 @@ export default function SellerCreationPage() {
                 ))}
               </div>
 
-              {/* 14 . In-House Product ----- */}
-              <div className="flex items-center gap-2">
-                <label htmlFor="inHouseProduct" className="text-xs">
-                  In-House Product
-                </label>
-                <Field
-                  type="checkbox"
-                  id="inHouseProduct"
-                  name="inHouseProduct"
-                  classnamewrapper=""
-                  checked={values.inHouseProduct}
-                />
-              </div>
+            
               {/* Bank Details starts here
                -----------------------------*/}
               <div>

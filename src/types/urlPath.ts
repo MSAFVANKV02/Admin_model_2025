@@ -29,6 +29,8 @@ export const UPDATE_CUSTOMER_KYC_URL = `/user_api/admin/approveOrreject_Kyc`;
 // ==============****************====================
 
 export const CREATE_STORE_URL = `/user_api/admin/addStore`
+export const GET_STORE_URL = `/user_api/admin/getStore`
+
 
 
 

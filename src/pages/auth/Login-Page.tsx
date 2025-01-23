@@ -1,6 +1,6 @@
 import AyButton from "@/components/myUi/AyButton";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Cookie from "js-cookie";
 import { isAuthOtp } from "@/middlewares/IsAuthenticated";
@@ -12,6 +12,7 @@ import Draggable from "react-draggable"; // Import react-draggable
 
 export default function LoginPage() {
   const verifyOtp = isAuthOtp();
+  const nodeRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,10 +59,9 @@ export default function LoginPage() {
       }}
     >
       {/* Draggable wrapper around the form */}
-      <Draggable
-      cancel="input, button, .no-drag"
-      >
+      <Draggable nodeRef={nodeRef} cancel="input, button, .no-drag">
         <div
+         ref={nodeRef}
           className={`relative w-[320px] cursor-pointer bg-white/40 backdrop-filter overflow-hidden shadow-[#5f08b1]/50 shadow-2xl backdrop-blur-lg rounded-xl mx-1 sm:h-[400px] h-[380px] p-5 flex flex-col ${
             verifyOtp ? "" : "justify-between"
           }`}

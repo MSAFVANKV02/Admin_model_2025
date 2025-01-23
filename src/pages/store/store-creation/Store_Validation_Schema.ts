@@ -4,8 +4,12 @@ import * as Yup from "yup";
 export const mainValidationSchema = Yup.object({
   name: Yup.string().required("Store Name is required"),
   gstNumber: Yup.string()
-    .matches(/^\d{15}$/, "GST number should be 15 digits")
+    .matches(
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$/,
+      "Invalid GST number format (eg:08ABCDE9999F1Z8)"
+    )
     .required("GST Number is required"),
+
   Address: Yup.string().required("Store Address is required"),
   storeCapacity: Yup.number()
     .positive("Store Capacity must be positive")
@@ -30,11 +34,20 @@ export const mainValidationSchema = Yup.object({
   inHouseProduct: Yup.boolean(),
   bankDetails: Yup.object({
     accountName: Yup.string().required("Account Name is required"),
+    // accountNumber: Yup.string()
+    //   .matches(/^\d+$/, "Account Number must be numeric")
+    //   .required("Account Number is required"),
     accountNumber: Yup.string()
-      .matches(/^\d+$/, "Account Number must be numeric")
+      .matches(/^\d{12}$/, "Bank Account Number must be 12 digits")
+      // .matches(/^\d{12}$/, "Private Sector Bank Account Number must be 12 digits")
+      // .matches(/^\d{14}$/, "Private Sector Bank Account Number must be 14 digits")
       .required("Account Number is required"),
+
     ifscCode: Yup.string()
-      .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/, "Invalid IFSC code format")
+      .matches(
+        /^[A-Z]{4}0[A-Z0-9]{6}$/,
+        "Invalid IFSC code format (eg: ABCD0012345)"
+      )
       .required("IFSC code is required"),
     shiftCode: Yup.string().required("Shift Code is required"),
     upiId: Yup.string().email("Invalid UPI ID").required("UPI ID is required"),
@@ -119,13 +132,7 @@ export const LlpAndPvtRegisterValidation = Yup.object({
       (value) => value instanceof File
     )
     .required("Certificate of Incorporation is required"),
-  partnershipAgreement: Yup.mixed()
-    .test(
-      "required",
-      "Partnership Agreement is required",
-      (value) => value instanceof File
-    )
-    .required("Partnership Agreement is required"),
+
   panCard: Yup.mixed()
     .test("required", "Pan Card is required", (value) => value instanceof File)
     .required("Pan Card is required"),
@@ -147,20 +154,46 @@ export const LlpAndPvtRegisterValidation = Yup.object({
     )
     .required("Local Body License is required"),
 
-  llpNumber: Yup.number()
+  // llpNumber: Yup.number()
+  //   .nullable()
+  //   .when("registrationType", {
+  //     is: "LLP", // Applies validation only if editId is falsy
+  //     then: (schema) => schema.required("LLP Number is required"),
+  //     otherwise: (schema) => schema.nullable(), // Password is optional when editing
+  //   }),
+  llpNumber: Yup.string()
     .nullable()
     .when("registrationType", {
-      is: "LLP", // Applies validation only if editId is falsy
-      then: (schema) => schema.required("LLP Number is required"),
-      otherwise: (schema) => schema.nullable(), // Password is optional when editing
+      is: "LLP", // Applies validation only if registrationType is "PVT LTD"
+      then: (schema) =>
+        schema
+          .matches(
+            /^[A-Z]{5}[0-9]{5}[A-Z]{1}$/,
+            "LLP Number must be a 7-character alphanumeric code (eg: ABCDE12345F)"
+          )
+          .required("CIN Number is required"),
+      otherwise: (schema) => schema.nullable(), // Optional for other types
     }),
 
-  cinNumber: Yup.number()
+  // cinNumber: Yup.number()
+  //   .nullable()
+  //   .when("registrationType", {
+  //     is: "PVT LTD", // Applies validation only if editId is falsy
+  //     then: (schema) => schema.required("CIN Number is required"),
+  //     otherwise: (schema) => schema.nullable(), // Password is optional when editing
+  //   }),
+  cinNumber: Yup.string()
     .nullable()
     .when("registrationType", {
-      is: "PVT LTD", // Applies validation only if editId is falsy
-      then: (schema) => schema.required("CIN Number is required"),
-      otherwise: (schema) => schema.nullable(), // Password is optional when editing
+      is: "PVT LTD", // Applies validation only if registrationType is "PVT LTD"
+      then: (schema) =>
+        schema
+          .matches(
+            /^[A-Z]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{3}$/,
+            "CIN Number must be a 21-character alphanumeric code (e.g., L17110MH1973PLC019786)"
+          )
+          .required("CIN Number is required"),
+      otherwise: (schema) => schema.nullable(), // Optional for other types
     }),
 });
 

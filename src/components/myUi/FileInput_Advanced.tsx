@@ -33,7 +33,7 @@ export default function FileInputAdvanced({
   img,
   title,
   value,
-  isPdfShown = true,
+  isPdfShown = false,
 }: Props) {
   const isFile = value instanceof File;
   const isUrl = typeof value === "string" && value.startsWith("http");
@@ -94,12 +94,12 @@ export default function FileInputAdvanced({
           )}
 
           {/* Render PDF Preview */}
-          {isPdf && isPdfShown && (
-            <div className="w-16 h-16 rounded-md shadow-md border overflow-hidden select-none">
+          {isPdf &&  (
+            <div className={`${isPdfShown ? "w-16 h-16 rounded-md shadow-md border " :""} overflow-hidden select-none`}>
               {isFile ? (
-                <MyPdf value={URL.createObjectURL(value as File)} />
+                <MyPdf value={URL.createObjectURL(value as File)} isPdfShown={isPdfShown} selectedData={selectedData} />
               ) : (
-                <MyPdf value={value} /> // Pass the URL directly
+                <MyPdf value={value} isPdfShown={isPdfShown} selectedData={selectedData} /> // Pass the URL directly
               )}
             </div>
           )}

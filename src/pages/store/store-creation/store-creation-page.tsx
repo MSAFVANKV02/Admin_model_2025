@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { IRegistrationTypes, StoreTypes } from "@/types/storeTypes";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import LLPForm from "./Registartion_Forms/LLP_Form";
 import PvtLtdForm from "./Registartion_Forms/Pvt_Ltd_Form";
 import SoleProprietorshipForm from "./Registartion_Forms/Sole_Proprietorship_Form";
@@ -33,9 +33,12 @@ import {
   userDetailsFields,
 } from "./store_input_filds";
 import useNavigateClicks from "@/hooks/useClicks";
+import { useAppDispatch } from "@/redux/hook";
+import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
 
 export default function StoreCreationPage() {
   const { handleClick } = useNavigateClicks();
+  const dispatch = useAppDispatch();
 
   const [selectedRegistration, setSelectedRegistration] =
     useState<IRegistrationTypes>("Sole Proprietorship");
@@ -45,9 +48,9 @@ export default function StoreCreationPage() {
 
   const { setIsOpen } = useModal();
 
-  const handleSetGoogleLocation = () => {
+  const handleSetGoogleLocation = useCallback(() => {
     setIsOpen(true);
-  };
+  }, [setIsOpen]);
 
   // field inputs =================================================
   const inputFields: {
@@ -75,36 +78,39 @@ export default function StoreCreationPage() {
     { id: "pinCode", label: "Pincode", fileType: "text" },
   ];
 
-  const renderForms = (values: StoreTypes, setFieldValue: any) => {
-    switch (selectedRegistration) {
-      case "Sole Proprietorship":
-        return (
-          <SoleProprietorshipForm
-            values={values}
-            setFieldValue={setFieldValue}
-          />
-        );
-      case "Partnerships":
-        return (
-          <PartnershipForm values={values} setFieldValue={setFieldValue} />
-        );
-      case "LLP":
-        return <LLPForm values={values} setFieldValue={setFieldValue} />;
-      case "PVT LTD":
-        return <PvtLtdForm values={values} setFieldValue={setFieldValue} />;
-      default:
-        return (
-          <SoleProprietorshipForm
-            values={values}
-            setFieldValue={setFieldValue}
-          />
-        );
-    }
-  };
+  const renderForms = useCallback(
+    (values: StoreTypes, setFieldValue: any) => {
+      switch (selectedRegistration) {
+        case "Sole Proprietorship":
+          return (
+            <SoleProprietorshipForm
+              values={values}
+              setFieldValue={setFieldValue}
+            />
+          );
+        case "Partnerships":
+          return (
+            <PartnershipForm values={values} setFieldValue={setFieldValue} />
+          );
+        case "LLP":
+          return <LLPForm values={values} setFieldValue={setFieldValue} />;
+        case "PVT LTD":
+          return <PvtLtdForm values={values} setFieldValue={setFieldValue} />;
+        default:
+          return (
+            <SoleProprietorshipForm
+              values={values}
+              setFieldValue={setFieldValue}
+            />
+          );
+      }
+    },
+    [selectedRegistration]
+  );
 
   // const getErrors = (error:any) => {
   //   console.log(error);
-    
+
   // }
 
   return (
@@ -208,13 +214,17 @@ export default function StoreCreationPage() {
             if (response.status === 201) {
               makeToast("Store created successfully!");
               resetForm();
+
             }
           } catch (error: any) {
             console.error(error);
             if (error.response?.data) {
               makeToastError(error.response.data.message);
+            } 
+          } finally{
+            window.location.reload();
+              dispatch(fetchSellerOrStoreDetails("store"));
             }
-          }
         }}
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (

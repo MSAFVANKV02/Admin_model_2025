@@ -1,64 +1,29 @@
 import { DataTableStore } from "@/components/tasks/task_components/store/data-table-store";
-import { StoreTypes } from "@/types/storeTypes";
+
 import { useSearchParams } from "react-router-dom";
 import StoreCreationPage from "./store-creation/store-creation-page";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
+import { useEffect } from "react";
 
-const storeData: StoreTypes[] = [
-  {
-    registrationType: "LLP",
-    name: "Green Mart",
-    gstNumber: "27AABCU9603R1ZV",
-    Address: "123 Main Street, Springfield",
-    storeCapacity: 1500,
-    state: "Maharashtra",
-    country: "India",
-    pinCode: "400001",
-    googleLocation: { latitude: 21213, longitude: 1233.31 },
-    manager: "John Doe",
-    emailId: "john.doe@greenmart.com",
-    phoneNumber: "+91-9876543210",
-    userName: "john_doe",
-    password: "password123",
-    inHouseProduct: true,
-    bankDetails: {
-      accountName: "Green Mart Pvt. Ltd.",
-      accountNumber: "123456789012",
-      ifscCode: "HDFC0000123",
-      shiftCode: "HDFCINBBXXX",
-      upiId: "greenmart@hdfc",
-    },
-    capacity: 1500,
-  },
-  {
-    registrationType: "LLP",
-    name: "Green Mart",
-    gstNumber: "27AABCU9603R1ZV",
-    Address: "123 Main Street, Springfield",
-    storeCapacity: 1500,
-    state: "Maharashtra",
-    country: "India",
-    pinCode: "400001",
-    googleLocation: { latitude: 21213, longitude: 1233.31 },
-    manager: "John Doe",
-    emailId: "john.doe@greenmart.com",
-    phoneNumber: "+91-9876543210",
-    userName: "john_doe",
-    password: "password123",
-    inHouseProduct: true,
-    bankDetails: {
-      accountName: "Green Mart Pvt. Ltd.",
-      accountNumber: "123456789012",
-      ifscCode: "HDFC0000123",
-      shiftCode: "HDFCINBBXXX",
-      upiId: "greenmart@hdfc",
-    },
-    capacity: 1500,
-  },
-];
+
 
 export default function StoreManagementPage() {
+  const dispatch = useAppDispatch();
+  const {isLogged} = useAppSelector((state)=> state.admin);
+  const {storeSeller} = useAppSelector((state)=> state.storeSeller);
+
+// console.log(storeSeller,'storeSeller');
+
+
   const [searchParams] = useSearchParams();
   const urlType = searchParams.get("type");
+
+  useEffect(() => {
+    if (!isLogged) {
+      dispatch(fetchSellerOrStoreDetails("store"));
+    }
+  }, [ isLogged, dispatch]);
   return (
     <div>
       <div className="p-4 select-none">
@@ -72,7 +37,7 @@ export default function StoreManagementPage() {
             <StoreCreationPage />
           </div>
         ) : (
-          <DataTableStore data={storeData} />
+          <DataTableStore data={storeSeller} />
         )}
       </div>
     </div>

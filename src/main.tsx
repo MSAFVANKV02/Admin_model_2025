@@ -12,6 +12,10 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n.ts";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+// pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// pdfjs.GlobalWorkerOptions.workerSrc = '/public/build/pdf.worker.min.mjs';
 
 // axios.defaults.baseURL = "http://localhost:4000";
 // axios.defaults.baseURL = "https://gateway.ayaboo.com";

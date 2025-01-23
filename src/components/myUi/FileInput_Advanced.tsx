@@ -18,6 +18,7 @@ type Props = {
   img?: string;
   title?: string;
   value?: File | string | null;
+  isPdfShown?: boolean;
 };
 
 export default function FileInputAdvanced({
@@ -32,6 +33,7 @@ export default function FileInputAdvanced({
   img,
   title,
   value,
+  isPdfShown = true,
 }: Props) {
   const isFile = value instanceof File;
   const isUrl = typeof value === "string" && value.startsWith("http");
@@ -92,7 +94,7 @@ export default function FileInputAdvanced({
           )}
 
           {/* Render PDF Preview */}
-          {isPdf && (
+          {isPdf && isPdfShown && (
             <div className="w-16 h-16 rounded-md shadow-md border overflow-hidden select-none">
               {isFile ? (
                 <MyPdf value={URL.createObjectURL(value as File)} />

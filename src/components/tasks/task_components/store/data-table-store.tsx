@@ -84,7 +84,7 @@ export function DataTableStore({ data }: Props) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.original.storeName}</div>
+        <div className="lowercase">{row.original.name}</div>
       ),
     },
     {

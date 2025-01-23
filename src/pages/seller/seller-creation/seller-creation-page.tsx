@@ -52,7 +52,7 @@ export default function SellerCreationPage() {
     label: string;
     fileType: string;
   }[] = [
-    { id: "storeName", label: "Store Name", fileType: "text" },
+    { id: "name", label: "Store Name", fileType: "text" },
     // Add conditionally visible fields:
     ...(selectedRegistration === "LLP"
       ? ([{ id: "llpNumber", label: "LLP Number", fileType: "text" }] as const)
@@ -61,7 +61,7 @@ export default function SellerCreationPage() {
       ? ([{ id: "cinNumber", label: "CIN Number", fileType: "text" }] as const)
       : []),
     { id: "gstNumber", label: "GST Number", fileType: "text" },
-    { id: "storeAddress", label: "Store Address", fileType: "text" },
+    { id: "Address", label: "Store Address", fileType: "text" },
     {
       id: "storeCapacity",
       label: "Store Capacity in Cubic",

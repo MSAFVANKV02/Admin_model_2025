@@ -81,7 +81,7 @@ export function DataTableStorePayout({ data }: Props) {
       },
     },
     {
-      accessorKey: "storeName",
+      accessorKey: "name",
       header: ({ column }) => {
         return (
           <Button
@@ -94,7 +94,7 @@ export function DataTableStorePayout({ data }: Props) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.original.storeName}</div>
+        <div className="lowercase">{row.original.name}</div>
       ),
     },
     {
@@ -146,10 +146,10 @@ export function DataTableStorePayout({ data }: Props) {
         <Input
           placeholder="Filter emails..."
           value={
-            (table.getColumn("storeName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("name")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("storeName")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

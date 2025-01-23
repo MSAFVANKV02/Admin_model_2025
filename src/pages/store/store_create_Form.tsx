@@ -12,11 +12,11 @@
 // import * as Yup from "yup";
 
 // const validationSchema = Yup.object({
-//   storeName: Yup.string().required("Store Name is required"),
+//   name: Yup.string().required("Store Name is required"),
 //   gstNumber: Yup.string()
 //     .matches(/^\d{15}$/, "GST number should be 15 digits")
 //     .required("GST Number is required"),
-//   storeAddress: Yup.string().required("Store Address is required"),
+//   Address: Yup.string().required("Store Address is required"),
 //   storeCapacity: Yup.number()
 //     .positive("Capacity must be positive")
 //     .required("Store Capacity is required"),
@@ -30,7 +30,7 @@
 //     //   longitude: Yup.number().required("Longitude is required"),
 //     // }),
     
-//   storeManager: Yup.string().required("Store Manager is required"),
+//   manager: Yup.string().required("Store Manager is required"),
 //   emailId: Yup.string()
 //     .email("Invalid email address")
 //     .required("Email ID is required"),
@@ -66,15 +66,15 @@
 //   const { setIsOpen } = useModal();
 
 //   const initialValues: StoreTypes = {
-//     storeName: "",
+//     name: "",
 //     gstNumber: "",
-//     storeAddress: "",
+//     Address: "",
 //     storeCapacity: null,
 //     state: "",
 //     country: "",
 //     pinCode: "",
 //     googleLocation: { latitude: null, longitude: null },
-//     storeManager: "",
+//     manager: "",
 //     emailId: "",
 //     phoneNumber: "",
 //     userName: "",
@@ -140,12 +140,12 @@
 //             {/* Store Details */}
      
 //             <FormField
-//               id="storeName"
-//               name="storeName"
+//               id="name"
+//               name="name"
 //               classnamewrapper="w-full lg:w-full "
 //               //   title="Store Name"
 //               placeholder="Enter store name"
-//               value={values.storeName || ""}
+//               value={values.name || ""}
 //               fieldAs={Input}
 //             />
 //             <FormField
@@ -158,12 +158,12 @@
 //               fieldAs={Input}
 //             />
 //             <FormField
-//               id="storeAddress"
-//               name="storeAddress"
+//               id="Address"
+//               name="Address"
 //               classnamewrapper="w-full lg:w-full"
 //               //   title="Store Address"
 //               placeholder="Enter store address"
-//               value={values.storeAddress || ""}
+//               value={values.Address || ""}
 //               fieldAs={Input}
 //             />
 //             <FormField
@@ -257,11 +257,11 @@
 
 //             <div className=" grid md:grid-cols-3 gap-2 w-full">
 //               <FormField
-//                 id="storeManager"
-//                 name="storeManager"
+//                 id="manager"
+//                 name="manager"
 //                 classnamewrapper="w-full lg:w-full"
 //                 placeholder="Select store manager"
-//                 value={values.storeManager || ""}
+//                 value={values.manager || ""}
 //                 fieldAs={Input}
 //               />
 //               <FormField

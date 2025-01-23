@@ -55,7 +55,7 @@ export default function StoreCreationPage() {
     label: string;
     fileType: string;
   }[] = [
-    { id: "storeName", label: "Store Name", fileType: "text" },
+    { id: "name", label: "Store Name", fileType: "text" },
     // Add conditionally visible fields:
     ...(selectedRegistration === "LLP"
       ? ([{ id: "llpNumber", label: "LLP Number", fileType: "text" }] as const)
@@ -64,7 +64,7 @@ export default function StoreCreationPage() {
       ? ([{ id: "cinNumber", label: "CIN Number", fileType: "text" }] as const)
       : []),
     { id: "gstNumber", label: "GST Number", fileType: "text" },
-    { id: "storeAddress", label: "Store Address", fileType: "text" },
+    { id: "Address", label: "Store Address", fileType: "text" },
     {
       id: "storeCapacity",
       label: "Store Capacity in Cubic",
@@ -102,6 +102,11 @@ export default function StoreCreationPage() {
     }
   };
 
+  // const getErrors = (error:any) => {
+  //   console.log(error);
+    
+  // }
+
   return (
     <PagesLayout className="">
       <Formik
@@ -109,19 +114,106 @@ export default function StoreCreationPage() {
         validationSchema={getValidationSchema(selectedRegistration)}
         onSubmit={async (values, { resetForm }) => {
           console.log(values);
+
+          const formData = new FormData();
+
+          // const role = "store";
+
+          // Safely append all fields to FormData
+          formData.append("name", values.name || "");
+          // formData.append("role", role || "");
+
+          formData.append("registrationType", values.registrationType || "");
+          formData.append("gstNumber", values.gstNumber || "");
+          formData.append("Address", values.Address || "");
+          formData.append(
+            "storeCapacity",
+            values.storeCapacity?.toString() || ""
+          );
+          formData.append("state", values.state || "");
+          formData.append("country", values.country || "");
+          formData.append("pinCode", values.pinCode || "");
+
+          // Append Google Location if available
+          // Append Google Location if available
+          // Append Google Location if available
+          if (
+            values.googleLocation?.latitude &&
+            values.googleLocation?.longitude
+          ) {
+            formData.append(
+              "googleLocation[latitude]",
+              values.googleLocation.latitude.toString()
+            );
+            formData.append(
+              "googleLocation[longitude]",
+              values.googleLocation.longitude.toString()
+            );
+          }
+
+          // if (values.googleLocation?.latitude && values.googleLocation?.longitude) {
+          //   formData.append(
+          //     "googleLocation",
+          //     JSON.stringify(values.googleLocation)
+          //   );
+          // }
+
+          // Append manager and user details
+          formData.append("manager", values.manager || "");
+          formData.append("emailId", values.emailId || "");
+          formData.append("phoneNumber", values.phoneNumber || "");
+          formData.append("userName", values.userName || "");
+          formData.append("password", values.password || "");
+          formData.append(
+            "inHouseProduct",
+            values.inHouseProduct ? "true" : "false"
+          );
+
+          // Append bank details
+          Object.entries(values.bankDetails).forEach(([key, value]) => {
+            formData.append(`bankDetails[${key}]`, value || "");
+          });
+
+          // Append file fields
+          const fileFields: (keyof StoreTypes)[] = [
+            "aadhaarCard",
+            "panCard",
+            "localBodyLicense",
+            "roomRentAgreement",
+            "gstCertificate",
+            "partnershipAgreement",
+            "companyPanCard",
+            "companyIncorporationCertificate",
+          ];
+
+          fileFields.forEach((field) => {
+            if (values[field as keyof StoreTypes]) {
+              formData.append(
+                field,
+                values[field as keyof StoreTypes] as string
+              );
+            }
+          });
+
+          // Append registration-specific fields
+          if (values.llpNumber) {
+            formData.append("llpNumber", values.llpNumber);
+          }
+          if (values.cinNumber) {
+            formData.append("cinNumber", values.cinNumber);
+          }
+
           try {
-            const response = await Create_Store_Api(values);
+            const response = await Create_Store_Api(formData);
             if (response.status === 201) {
               makeToast("Store created successfully!");
               resetForm();
-              // handleClick("/store/all");
             }
           } catch (error: any) {
             console.error(error);
-            if (error.response.data) {
+            if (error.response?.data) {
               makeToastError(error.response.data.message);
             }
-            // handle form error
           }
         }}
       >
@@ -133,6 +225,8 @@ export default function StoreCreationPage() {
                 <h1 className="sm:text-lg text-sm font-bold text-textGray select-none">
                   Store Creation
                 </h1>
+
+                {/* {getErrors(errors)} */}
 
                 <AyButton
                   title="Store"

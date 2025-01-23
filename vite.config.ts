@@ -23,6 +23,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           mui: ['@mui/material', '@mui/icons-material'],
+          pdfjs: ['pdfjs-dist/build/pdf.worker.min.js'],
         },
       },
     },

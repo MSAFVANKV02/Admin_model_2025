@@ -2,11 +2,11 @@ import { IRegistrationTypes } from "@/types/storeTypes";
 import * as Yup from "yup";
 
 export const mainValidationSchema = Yup.object({
-  storeName: Yup.string().required("Store Name is required"),
+  name: Yup.string().required("Store Name is required"),
   gstNumber: Yup.string()
     .matches(/^\d{15}$/, "GST number should be 15 digits")
     .required("GST Number is required"),
-  storeAddress: Yup.string().required("Store Address is required"),
+  Address: Yup.string().required("Store Address is required"),
   storeCapacity: Yup.number()
     .positive("Capacity must be positive")
     .required("Store Capacity is required"),
@@ -16,7 +16,7 @@ export const mainValidationSchema = Yup.object({
     .matches(/^\d{6}$/, "Pincode should be 6 digits")
     .required("Pincode is required"),
 
-  storeManager: Yup.string().required("Store Manager is required"),
+  manager: Yup.string().required("Store Manager is required"),
   emailId: Yup.string()
     .email("Invalid email address")
     .required("Email ID is required"),

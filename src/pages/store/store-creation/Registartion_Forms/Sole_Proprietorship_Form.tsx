@@ -51,6 +51,7 @@ export default function SoleProprietorshipForm({
           className="flex items-center justify-between lg:flex-row flex-col mb-4"
         >
           <FileInputAdvanced
+          isPdfShown={false}
             title={field.label}
             value={values[field.id]}
             accept=".pdf"

@@ -159,7 +159,7 @@ function GoogleMapModal({ setFieldValue }: Props) {
       const data = await response.json();
 
       setFieldValue(
-        "storeAddress",
+        "Address",
         data.display_name ||
           data.address.city ||
           data.address.town ||

@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
-import Draggable from "react-draggable";
 import MyCloseIcon from "../icons/My_CloseIcon";
 import { Separator } from "../ui/separator";
 import { ShinyButton } from "../ui/shiny-button";
@@ -17,7 +16,20 @@ const MessageArea = styled(List)(() => ({
   // backgroundColor: "#f5f5f5"
 }));
 
-const MessageBubble = styled(Box)<{ isBot: boolean }>(({ isBot }) => ({
+// const MessageBubble = styled(Box)<{ isBot: boolean }>(({ isBot }) => ({
+//   backgroundColor: isBot ? "#f5f5f5" : "#5f08b1",
+//   color: isBot ? "#000" : "#fff",
+//   padding: "10px 15px",
+//   borderRadius: isBot ? "15px 15px 15px 0" : "15px 15px 0 15px",
+//   maxWidth: "80%",
+//   marginLeft: isBot ? 0 : "auto",
+//   marginRight: isBot ? "auto" : 0,
+//   marginBottom: 10,
+//   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+// }));
+const MessageBubble = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isBot', // This prevents isBot from being passed to the DOM
+})<{ isBot: boolean }>(({ isBot }) => ({
   backgroundColor: isBot ? "#f5f5f5" : "#5f08b1",
   color: isBot ? "#000" : "#fff",
   padding: "10px 15px",
@@ -28,6 +40,8 @@ const MessageBubble = styled(Box)<{ isBot: boolean }>(({ isBot }) => ({
   marginBottom: 10,
   boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
 }));
+
+
 
 export default function HelperIcon() {
   const [openHelper, setOpenHelper] = useState(false);
@@ -74,7 +88,7 @@ export default function HelperIcon() {
   // if (!openHelper) return null;
   return (
     <div className="relative">
-      <Draggable>
+    
         <div
           className={`${
             !openHelper ? "w-16 h-16" : "w-0 h-0"
@@ -86,7 +100,7 @@ export default function HelperIcon() {
         >
           <Icon icon="mdi:customer-service" color="white" fontSize={40} />
         </div>
-      </Draggable>
+  
       <div
         className={`${
           openHelper ? "w-[350px] h-[500px] p-3 shadow-lg" : "w-0 h-0"

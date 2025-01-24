@@ -120,7 +120,7 @@ function NavigationList() {
       icon: <Icon icon="mdi:account-tie" />,
       isChild: true,
       children: [
-        { title: "Create Seller", segment: "/seller/create" },
+        // { title: "Create Seller", segment: "/seller/create" },
         { title: "Seller", segment: "/seller/all" },
         { title: "Seller Payout", segment: "/seller/payout-seller" },
         { title: "Request to Stock", segment: "/seller/request-stock" },
@@ -161,7 +161,9 @@ function NavigationList() {
       isChild: true,
       children: [{ title: "Shipping", segment: "/settings/shipping" },
         { title: "Admin Roles", segment: "/settings/admin-management" },
-        { title: "Payment Setup", segment: "/settings/payment-setup" }
+        { title: "Payment Setup", segment: "/settings/payment-setup" },
+        { title: "Conversations", segment: "/settings/conversations" },
+
       ],
     },
   ];

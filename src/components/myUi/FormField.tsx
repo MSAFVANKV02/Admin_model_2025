@@ -49,6 +49,7 @@ export function FormField({
         <Field
           id={id}
           name={name}
+           min="0"
           placeholder={placeholder}
           className={cn(
             `w-full p-6 ${

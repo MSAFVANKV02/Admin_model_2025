@@ -210,6 +210,8 @@ type Props = {
 export default function StoreTableAction({ data }: Props) {
   const { setIsOpen } = useModal();
   const [selectedData, setSelectedData] = useState<StoreTypes | null>(null);
+  console.log(selectedData);
+  
 
   const handleViewClick = () => {
     setSelectedData(data); // Set the selected row's data
@@ -239,12 +241,18 @@ export default function StoreTableAction({ data }: Props) {
     // render?: (data: any) => string;
     render?: (data: any) => ReactNode;
   }[] = [
+    {label:"Account Type", key:"role" },
     {
       label: "Register Type",
       key: "registrationType",
       render: (data: IRegistrationTypes) => getRegistrationTypeName(data),
     },
-    { label: "Store Name", key: "name" },
+    ...(selectedData?.role === "Seller"
+      ? ([{ label: "Seller Name", key: "name"}] as const)
+      : []),
+      ...(selectedData?.role === "Store"
+        ? ([{ label: "Store Name", key: "name"}] as const)
+        : []),
     { label: "GST Number", key: "gstNumber" },
     { label: "Store Address", key: "Address" },
     { label: "Store Capacity (in cubic)", key: "storeCapacity" },
@@ -325,7 +333,11 @@ export default function StoreTableAction({ data }: Props) {
           }}
         >
           <TaskModalHeader>
-            <h5 className="font-bold capitalize">Store Details</h5>
+            <h5 className="font-bold capitalize">
+              {
+                selectedData?.role === "Seller" ? (" Seller Details"): (" Store Details")
+              }
+             </h5>
             <div className="">
               <MyCloseIcon onClick={handleCloseModal} isTooltip={false} />
             </div>
@@ -336,7 +348,7 @@ export default function StoreTableAction({ data }: Props) {
             {fields.map((field, index) => (
               <div
                 key={index}
-                className="flex justify-between sm:flex-row flex-col gap-3"
+                className="flex justify-between lg:flex-row flex-col gap-3"
               >
                 <Label className="text-sm text-textGray">{field.label} :</Label>
                 <span className="w-3/4 text-end text-sm">
@@ -355,7 +367,7 @@ export default function StoreTableAction({ data }: Props) {
               {bankFields.map((field, index) => (
                 <div
                   key={index}
-                  className="flex justify-between sm:flex-row flex-col gap-3"
+                  className="flex justify-between lg:flex-row flex-col gap-3"
                 >
                   <Label className="text-sm text-textGray">
                     {field.label} :
@@ -403,7 +415,7 @@ export default function StoreTableAction({ data }: Props) {
                 .map((field, index) => (
                   <div
                     key={index}
-                    className="flex justify-between items-center border-b pb-3 w-full sm:flex-row flex-col gap-3"
+                    className="flex justify-between items-center border-b pb-3 w-full lg:flex-row flex-col gap-3"
                   >
                     <Label className="text-sm text-textGray">
                       {field.label} :

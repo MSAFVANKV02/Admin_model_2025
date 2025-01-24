@@ -5,7 +5,7 @@ import { useState } from "react";
 
 type FileInputFields = {
   localBodyLicense: File | string;
-  roomRentAgreement: File | string;
+  // roomRentAgreement: File | string;
   gstCertificate: File | string;
   partnershipAgreement: File | string;
   companyPanCard: File | string;
@@ -21,7 +21,7 @@ export default function PartnershipForm({ values, setFieldValue }: Props) {
     Record<keyof FileInputFields, string | null>
   >({
     localBodyLicense: null,
-    roomRentAgreement: null,
+    // roomRentAgreement: null,
     gstCertificate: null,
     partnershipAgreement: null,
     companyPanCard: null,
@@ -39,7 +39,7 @@ export default function PartnershipForm({ values, setFieldValue }: Props) {
     { id: "companyPanCard", fileType: "file", label: "Company PAN Card" },
    
     { id: "gstCertificate", fileType: "file", label: "GST Certificate" },
-    { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
+    // { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
     { id: "localBodyLicense", fileType: "file", label: "Local Body License" },
   ];
   // console.log(values.aadhaarCard?.name ?? "");

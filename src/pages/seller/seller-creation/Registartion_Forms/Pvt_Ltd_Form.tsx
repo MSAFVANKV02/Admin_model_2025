@@ -7,7 +7,7 @@ type FileInputFields = {
   aadhaarCard: File | string;
   panCard: File | string;
   localBodyLicense: File | string;
-  roomRentAgreement: File | string;
+  // roomRentAgreement: File | string;
   gstCertificate: File | string;
   companyIncorporationCertificate: File | string;
 };
@@ -24,7 +24,7 @@ export default function PvtLtdForm({ values, setFieldValue }: Props) {
     aadhaarCard: null,
     panCard: null,
     localBodyLicense: null,
-    roomRentAgreement: null,
+    // roomRentAgreement: null,
     gstCertificate: null,
     companyIncorporationCertificate: null,
   });
@@ -41,7 +41,7 @@ export default function PvtLtdForm({ values, setFieldValue }: Props) {
     { id: "panCard", fileType: "file", label: "PAN Card" },
     { id: "gstCertificate", fileType: "file", label: "GST Certificate" },
     { id: "localBodyLicense", fileType: "file", label: "Local Body License" },
-    { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
+    // { id: "roomRentAgreement", fileType: "file", label: "Room Rent Agreement" },
   ];
   // console.log(values.aadhaarCard?.name ?? "");
 

@@ -1,6 +1,6 @@
 export type StoreTypes = {
   registrationType: IRegistrationTypes;
-
+  role?:"Seller"|"Store"
   name?: string | null;
   gstNumber?: string | null;
   Address?: string | null;

@@ -63,16 +63,16 @@ export const soleProprietorshipValidationSchema = Yup.object({
       (value) => value instanceof File
     )
     .required("Local Body License is required"),
-  roomRentAgreement: Yup.mixed()
-    .test(
-      "required",
-      "Room Rent Agreement is required",
-      (value) => value instanceof File
-    )
-    .required("Room Rent Agreement is required"),
-  gstCertificate: Yup.mixed()
-    .test("required", "GST File is required", (value) => value instanceof File)
-    .required("GST File is required"),
+  // roomRentAgreement: Yup.mixed()
+  //   .test(
+  //     "required",
+  //     "Room Rent Agreement is required",
+  //     (value) => value instanceof File
+  //   )
+  //   .required("Room Rent Agreement is required"),
+  // gstCertificate: Yup.mixed()
+  //   .test("required", "GST File is required", (value) => value instanceof File)
+  //   .required("GST File is required"),
 });
 
 // ========

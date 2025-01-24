@@ -36,10 +36,10 @@ import StoreEarningsPage from "@/pages/store/store-earnings/store-earnings-page"
 import ProductTransferPage from "@/pages/store/product-transfer/product-transfer-page";
 import StoreCommissionPage from "@/pages/store/store-commition/store-commission-page";
 import StoreCreationPage from "@/pages/store/store-creation/store-creation-page";
-import SellerCreationPage from "@/pages/seller/seller-creation/seller-creation-page";
 import SellerManagementPage from "@/pages/seller/seller-management-page";
 import PayoutSellerPage from "@/pages/seller/seller-payout/payout-seller-page";
 import PaymentSetupSettings from "@/pages/settings/payment-setups/payment-setups-page";
+import ConversationPage from "@/pages/store/conversations/conversation-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -141,7 +141,7 @@ const rootRouter = createBrowserRouter(
           element: <SellerManagementLayout />, // Parent layout for Store Management
           children: [
             { path: "all", element: <SellerManagementPage /> },
-            { path: "create", element: <SellerCreationPage /> },
+            // { path: "create", element: <SellerCreationPage /> },
             { path: "payout-seller", element: <PayoutSellerPage /> },
             { path: "product-transfer", element: <ProductTransferPage/> },
             { path: "earnings", element: <StoreEarningsPage /> },
@@ -160,6 +160,10 @@ const rootRouter = createBrowserRouter(
             {
               path: "payment-setup",
               element: <PaymentSetupSettings/> ,
+            },
+            {
+              path: "conversations",
+              element: <ConversationPage />,
             },
             {
               path: "user-strict",

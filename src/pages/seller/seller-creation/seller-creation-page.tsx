@@ -174,7 +174,7 @@ export default function SellerCreationPage() {
             "aadhaarCard",
             "panCard",
             "localBodyLicense",
-            "roomRentAgreement",
+            // "roomRentAgreement",
             "gstCertificate",
             "partnershipAgreement",
             "companyPanCard",
@@ -241,7 +241,7 @@ export default function SellerCreationPage() {
               </div>
             </PageLayoutHeader>
             {/* ======================== */}
-            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow-2xl md:mt-14 mt-16">
+            <PagesLayoutContent className="space-y-4 max-w-screen-md mx-auto md:p-5 p-2 md:border shadow-2xl mt-5">
               {/* store creation type ======== */}
               {/* store registration type */}
               <div className="flex justify-between items-center lg:flex-row flex-col">

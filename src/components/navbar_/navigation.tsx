@@ -162,6 +162,7 @@ function NavigationList() {
       children: [{ title: "Shipping", segment: "/settings/shipping" },
         { title: "Admin Roles", segment: "/settings/admin-management" },
         { title: "Payment Setup", segment: "/settings/payment-setup" },
+        { title: "Media", segment: "/settings/media" },
         { title: "Conversations", segment: "/settings/conversations" },
 
       ],

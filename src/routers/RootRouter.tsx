@@ -40,6 +40,7 @@ import SellerManagementPage from "@/pages/seller/seller-management-page";
 import PayoutSellerPage from "@/pages/seller/seller-payout/payout-seller-page";
 import PaymentSetupSettings from "@/pages/settings/payment-setups/payment-setups-page";
 import ConversationPage from "@/pages/store/conversations/conversation-page";
+import UploadMediaPage from "@/pages/settings/media/upload-media-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -112,9 +113,7 @@ const rootRouter = createBrowserRouter(
         {
           path: "/user-verification",
           element: <KycPage />,
-          children:[
-            { path: "kyc", element: <KycPage /> },
-          ]
+          children: [{ path: "kyc", element: <KycPage /> }],
         },
         {
           path: "/web-setup",
@@ -131,9 +130,9 @@ const rootRouter = createBrowserRouter(
             { path: "all", element: <StoreManagementPage /> },
             { path: "create", element: <StoreCreationPage /> },
             { path: "payout-store", element: <PayoutStorePage /> },
-            { path: "product-transfer", element: <ProductTransferPage/> },
+            { path: "product-transfer", element: <ProductTransferPage /> },
             { path: "earnings", element: <StoreEarningsPage /> },
-            { path: "commission", element:<StoreCommissionPage /> },
+            { path: "commission", element: <StoreCommissionPage /> },
           ],
         },
         {
@@ -143,9 +142,9 @@ const rootRouter = createBrowserRouter(
             { path: "all", element: <SellerManagementPage /> },
             // { path: "create", element: <SellerCreationPage /> },
             { path: "payout-seller", element: <PayoutSellerPage /> },
-            { path: "product-transfer", element: <ProductTransferPage/> },
+            { path: "product-transfer", element: <ProductTransferPage /> },
             { path: "earnings", element: <StoreEarningsPage /> },
-            { path: "commission", element:<StoreCommissionPage /> },
+            { path: "commission", element: <StoreCommissionPage /> },
           ],
         },
         {
@@ -159,12 +158,13 @@ const rootRouter = createBrowserRouter(
             },
             {
               path: "payment-setup",
-              element: <PaymentSetupSettings/> ,
+              element: <PaymentSetupSettings />,
             },
             {
               path: "conversations",
               element: <ConversationPage />,
             },
+            { path: "media", element: <UploadMediaPage /> },
             {
               path: "user-strict",
               element: <ErrorPage />,

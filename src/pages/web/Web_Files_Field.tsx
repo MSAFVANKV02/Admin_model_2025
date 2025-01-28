@@ -9,7 +9,7 @@ type Props = {
   fieldName: string;
   images: { imageUrl:  string; imageLink: string }[];
   setFieldValue: (field: string, value: any) => void;
-  handleNewImageUpload: (src: string[], fieldName: string) => void;
+//   handleNewImageUpload: (src: string[], fieldName: string) => void;
   handleLinkChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -22,7 +22,7 @@ type Props = {
   fieldName,
   images,
   setFieldValue,
-  handleNewImageUpload,
+//   handleNewImageUpload,
   handleLinkChange,
   haveImageLink,
 }: Props) {
@@ -39,10 +39,10 @@ type Props = {
         mediaType="image"
         multiple
         fieldName={fieldName}
-        handleFileUpload={(src) => {
-            // console.log(`Uploading images for fieldName: ${fieldName}`);
-          handleNewImageUpload(src, fieldName);
-        }}
+        // handleFileUpload={(src) => {
+        //     // console.log(`Uploading images for fieldName: ${fieldName}`);
+        //   handleNewImageUpload(src, fieldName);
+        // }}
       />
       <div className="flex flex-col gap-2">
         {images.map((imageObj, index) => (

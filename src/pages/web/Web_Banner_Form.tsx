@@ -38,34 +38,34 @@ export default function WebBannerForm() {
     login_page: [],
   };
 
-  const handleNewImageUpload = (
-    src: string[],
-    fieldName: keyof FormData,
-    values: FormData,
-    setFieldValue: (field: keyof FormData, value: any) => void
-  ) => {
-    console.log(fieldName, "fieldName , handleNewImageUpload");
+  // const handleNewImageUpload = (
+  //   src: string[],
+  //   fieldName: keyof FormData,
+  //   values: FormData,
+  //   setFieldValue: (field: keyof FormData, value: any) => void
+  // ) => {
+  //   console.log(fieldName, "fieldName , handleNewImageUpload");
 
-    if (src) {
-      const selectedFiles = Array.from(src);
-      if (
-        fieldName === "home_banner" &&
-        selectedFiles.length + values[fieldName].length > 2
-      ) {
-        makeToastError(
-          "You can only select up to 2 images for the home banner"
-        );
-      } else if (selectedFiles.length + values[fieldName].length > 4) {
-        makeToastError("You can only select up to 4 images for sliders");
-      } else {
-        const newImages = selectedFiles.map((file) => ({
-          imageUrl: file,
-          imageLink: "https://ayaboo.com/", // Default link
-        }));
-        setFieldValue(fieldName, values[fieldName].concat(newImages));
-      }
-    }
-  };
+  //   if (src) {
+  //     const selectedFiles = Array.from(src);
+  //     if (
+  //       fieldName === "home_banner" &&
+  //       selectedFiles.length + values[fieldName].length > 2
+  //     ) {
+  //       makeToastError(
+  //         "You can only select up to 2 images for the home banner"
+  //       );
+  //     } else if (selectedFiles.length + values[fieldName].length > 4) {
+  //       makeToastError("You can only select up to 4 images for sliders");
+  //     } else {
+  //       const newImages = selectedFiles.map((file) => ({
+  //         imageUrl: file,
+  //         imageLink: "https://ayaboo.com/", // Default link
+  //       }));
+  //       setFieldValue(fieldName, values[fieldName].concat(newImages));
+  //     }
+  //   }
+  // };
 
   const handleImageLinkChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -193,14 +193,14 @@ export default function WebBannerForm() {
                     images={values[field.name]}
                     label={field.label}
                     fieldName={field.name} // Use field.name here
-                    handleNewImageUpload={(src, fieldName) => {
-                      handleNewImageUpload(
-                        src,
-                        fieldName as keyof FormData,
-                        values,
-                        setFieldValue
-                      );
-                    }}
+                    // handleNewImageUpload={(src, fieldName) => {
+                    //   handleNewImageUpload(
+                    //     src,
+                    //     fieldName as keyof FormData,
+                    //     values,
+                    //     setFieldValue
+                    //   );
+                    // }}
                     handleLinkChange={(e, index) =>
                       handleImageLinkChange(
                         e,

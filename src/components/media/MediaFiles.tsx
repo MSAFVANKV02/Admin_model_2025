@@ -11,10 +11,10 @@ type Props = {
   selectedData?: any;
   setFieldValues?: (name: string , value:any) => void;
   multiple?: boolean; 
-  handleFileUpload: (
-    event: string[],
-    fieldName: string
-  ) => void;
+  // handleFileUpload: (
+  //   event: string[],
+  //   fieldName: string
+  // ) => void;
   mediaType?: "pdf" | "image" | "";
 };
 

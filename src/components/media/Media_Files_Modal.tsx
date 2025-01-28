@@ -5,41 +5,44 @@ import TaskModal, {
   TaskModalHeader,
 } from "../modals/TaskModal";
 import AyButton from "../myUi/AyButton";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useModal } from "@/providers/context/context";
 
 type Props = {
   setFieldValues?: (name: string, value: any) => void;
-  name?: string;
+  fieldName?: string;
   multiple?: boolean;
   handleFileUpload: (event: string[], fieldName: string) => void;
-  mediaType?: "pdf" | "image" | "";
+  mediaType?: "pdf" | "image" ;
 };
 
-export default function MediaFilesModal({
-  name,
+function MediaFilesModal({
+  fieldName,
   multiple,
   handleFileUpload,
   mediaType,
 }: Props) {
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
-  const {setIsOpen} = useModal();
-
+  const { setIsOpen } = useModal();
 
   const handleFileSelection = (src: string[]) => {
-    // If 'multiple' is true, handle multiple file selections
     if (multiple) {
       const newSelectedFiles = src;
-      setSelectedFiles(newSelectedFiles); // Set the new selected files
-      // handleFileUpload(newSelectedFiles, name || "default"); // Pass the updated array of selected files
+      setSelectedFiles(newSelectedFiles);
     } else {
-      const [selectedFile] = src; // Only select the first file for single file selection
-      setSelectedFiles([selectedFile]); // Reset selected files to only this one
-      // handleFileUpload([selectedFile], name || "default"); // Always pass an array to handleFileUpload
+      const [selectedFile] = src;
+      setSelectedFiles([selectedFile]);
     }
   };
 
-  // console.log(selectedFiles, "selectedFiles");
+  const handleSelectFiles = () => {
+    if (fieldName) {
+      handleFileUpload(selectedFiles, fieldName);
+      setIsOpen(false);
+    }
+  };
+
+  // console.log(fieldName, "fieldName in nowhere");
 
   return (
     <TaskModal className="md:w-[70%] md:h-[90%]">
@@ -55,16 +58,10 @@ export default function MediaFilesModal({
         />
       </TaskModalContent>
       <TaskModalFooter>
-        <AyButton
-          title="Select"
-          onClick={() => {
-            if (selectedFiles && name) {
-              handleFileUpload(selectedFiles, name);
-              setIsOpen(false); 
-            }
-          }}
-        />
+        <AyButton title="Select" type="button" onClick={handleSelectFiles} />
       </TaskModalFooter>
     </TaskModal>
   );
 }
+
+export default memo(MediaFilesModal) 

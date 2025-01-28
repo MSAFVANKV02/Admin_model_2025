@@ -1,37 +1,46 @@
 import MyDeleteIcon from "@/components/icons/My_DeleteIcon";
 import MediaFiles from "@/components/media/MediaFiles";
 import { Input } from "@/components/ui/input";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
   label: string;
   fieldName: string;
-  images: { imageUrl: File | string; imageLink: string }[];
+  images: { imageUrl:  string; imageLink: string }[];
   setFieldValue: (field: string, value: any) => void;
   handleNewImageUpload: (src: string[], fieldName: string) => void;
   handleLinkChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => void;
+  haveImageLink?: boolean;
 };
 
-export default function WebFilesField({
+ function WebFilesField({
   label,
   fieldName,
   images,
   setFieldValue,
   handleNewImageUpload,
-  handleLinkChange
+  handleLinkChange,
+  haveImageLink,
 }: Props) {
+
+    // debug got login_page dont ask to debug agiaan
+    // console.log( JSON.stringify(fieldName),'fieldName in webFiles');
+   
+      
   return (
-    <div>
+    <div className="flex  flex-col justify-between gap-4">
       <MediaFiles
         img="typcn:camera"
         title={label}
         mediaType="image"
         multiple
-        name={fieldName}
-        handleFileUpload={(src, fieldName) => {
+        fieldName={fieldName}
+        handleFileUpload={(src) => {
+            // console.log(`Uploading images for fieldName: ${fieldName}`);
           handleNewImageUpload(src, fieldName);
         }}
       />
@@ -50,9 +59,7 @@ export default function WebFilesField({
               >
                 <img
                   src={
-                    typeof imageObj.imageUrl === "string"
-                      ? imageObj.imageUrl
-                      : URL.createObjectURL(imageObj.imageUrl)
+                    imageObj.imageUrl
                   }
                   alt={`Slider ${index + 1}`}
                   className="w-full h-full object-cover border rounded-lg"
@@ -70,15 +77,19 @@ export default function WebFilesField({
                 />
               </div>
             </div>
-            <Input
-              placeholder="Enter image link"
-              value={imageObj.imageLink}
-              onChange={(e) => handleLinkChange(e, index)}
-              className="flex-1"
-            />
+            {haveImageLink  && (
+              <Input
+                placeholder="Enter image link"
+                value={imageObj.imageLink}
+                onChange={(e) => handleLinkChange(e, index)}
+                className="flex-1"
+              />
+            )}
           </div>
         ))}
       </div>
     </div>
   );
 }
+
+export default memo(WebFilesField)

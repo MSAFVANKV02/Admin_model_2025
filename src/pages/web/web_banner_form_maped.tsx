@@ -6,8 +6,6 @@ import { makeToast, makeToastError } from "@/utils/toaster";
 import AyButton from "@/components/myUi/AyButton";
 import WebFilesField from "./Web_Files_Field";
 
-import MediaFilesModal from "@/components/media/Media_Files_Modal";
-
 type FormData = {
   home_slider_1: { imageUrl: string; imageLink: string }[];
   home_slider_2: { imageUrl: string; imageLink: string }[];
@@ -19,16 +17,6 @@ type FormData = {
 
 export default function WebBannerForm() {
   const [loading, setLoading] = useState(false);
-  const [selectedFieldName, setSelectedFieldName] = useState<{
-    id: keyof FormData;
-    name: keyof FormData;
-    fileType?: string;
-    label: string;
-    haveImageLink: boolean;
-    multiple?: boolean;
-    mediaType?: "pdf" | "image";
-  } | null>(null);
-
   const initialValues: FormData = {
     home_slider_1: [],
     home_slider_2: [],
@@ -44,8 +32,8 @@ export default function WebBannerForm() {
     values: FormData,
     setFieldValue: (field: keyof FormData, value: any) => void
   ) => {
-    console.log(fieldName, "fieldName , handleNewImageUpload");
-
+    console.log(src, "src");
+  
     if (src) {
       const selectedFiles = Array.from(src);
       if (
@@ -66,6 +54,7 @@ export default function WebBannerForm() {
       }
     }
   };
+  
 
   const handleImageLinkChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -85,72 +74,54 @@ export default function WebBannerForm() {
     setFieldValue(fieldName, updatedImages);
   };
 
-  const handleCloseModal = () => {
-    setSelectedFieldName(null); // Close modal
-  };
-
   const userDetailsFields: {
     id: keyof FormData;
     name: keyof FormData;
     fileType?: string;
     label: string;
-    haveImageLink: boolean;
-    multiple?: boolean;
-    mediaType?: "pdf" | "image";
+    imageLink: boolean;
   }[] = [
     {
       id: "home_banner",
       name: "home_banner",
       fileType: "text",
       label: "Home Banner",
-      haveImageLink: true,
-      multiple: true,
-      mediaType: "image",
+      imageLink: true,
     },
     {
       id: "home_slider_1",
       name: "home_slider_1",
       fileType: "text",
       label: "Home Slider 1",
-      haveImageLink: true,
-      multiple: true,
-      mediaType: "image",
+      imageLink: true,
     },
     {
       id: "home_slider_2",
       name: "home_slider_2",
       fileType: "text",
       label: "Home Slider 2",
-      haveImageLink: true,
-      multiple: true,
-      mediaType: "image",
+      imageLink: true,
     },
     {
       id: "home_slider_3",
       name: "home_slider_3",
       fileType: "text",
       label: "Home Slider 3",
-      haveImageLink: true,
-      multiple: true,
-      mediaType: "image",
+      imageLink: true,
     },
     {
       id: "kyc_slider",
       name: "kyc_slider",
       fileType: "text",
       label: "Kyc Slider",
-      haveImageLink: false,
-      multiple: false,
-      mediaType: "image",
+      imageLink: false,
     },
     {
       id: "login_page",
       name: "login_page",
       fileType: "text",
       label: "Login Page",
-      haveImageLink: false,
-      multiple: false,
-      mediaType: "image",
+      imageLink: false,
     },
   ];
 
@@ -178,60 +149,60 @@ export default function WebBannerForm() {
         {({ values, setFieldValue }) => (
           <Form className="">
             <div className="lg:max-w-2xl  space-y-4 shadow-sm p-4 border rounded-md">
+            <WebFilesField
+              setFieldValue={setFieldValue}
+              haveImageLink={true}
+              images={values.home_banner}
+              label="src"
+
+              fieldName="home_banner"
+              handleNewImageUpload={(src, fieldName)=>{
+                handleNewImageUpload(
+                  src,
+                  fieldName as keyof FormData,
+                  values,
+                  setFieldValue
+                );
+              }}
+              handleLinkChange={(e, index) =>
+                handleImageLinkChange(
+                  e,
+                  index,
+                  "home_banner",
+                  values,
+                  setFieldValue
+                )
+              }
+              />
               {userDetailsFields.map((field) => (
-                <div
-                  key={field.id}
-                  className=""
-                  onClick={() => {
-                    // console.log(field.name, "field.name}");
-                    setSelectedFieldName(field); // Update selected field name
+                <WebFilesField
+                  key={field.name}
+                  setFieldValue={setFieldValue}
+                  haveImageLink={field.imageLink}
+                  images={values[field.name]} // Pass the images correctly
+                  label={field.label} // Use the label defined in the array
+                  fieldName={field.name} // Pass the field name as a string (not values[field.name])
+                  handleNewImageUpload={(src, fieldName) => {
+                    handleNewImageUpload(
+                      src,
+                      fieldName as keyof FormData,
+                      values,
+                      setFieldValue
+                    );
                   }}
-                >
-                  <WebFilesField
-                    setFieldValue={setFieldValue}
-                    haveImageLink={field.haveImageLink}
-                    images={values[field.name]}
-                    label={field.label}
-                    fieldName={field.name} // Use field.name here
-                    handleNewImageUpload={(src, fieldName) => {
-                      handleNewImageUpload(
-                        src,
-                        fieldName as keyof FormData,
-                        values,
-                        setFieldValue
-                      );
-                    }}
-                    handleLinkChange={(e, index) =>
+                  handleLinkChange={
+                    (e, index) =>
                       handleImageLinkChange(
                         e,
                         index,
                         field.name,
                         values,
                         setFieldValue
-                      )
-                    }
-                  />
-
-                  {/* Show modal only for the selected field */}
-                </div>
+                      ) // Pass field.name here as well
+                  }
+                />
               ))}
             </div>
-
-            {selectedFieldName && (
-              <MediaFilesModal
-                handleFileUpload={(src) => {
-                  const updatedFiles = src.map((file) => ({
-                    imageUrl: file,
-                    imageLink: "https://ayaboo.com/",
-                  }));
-                  setFieldValue(selectedFieldName.name, updatedFiles);
-                  handleCloseModal(); // Close modal after selection
-                }}
-                fieldName={selectedFieldName.name}
-                multiple={selectedFieldName.multiple}
-                mediaType={selectedFieldName.mediaType}
-              />
-            )}
 
             <div className="flex justify-end mt-10">
               <AyButton title="Save" type="submit" loading={loading} />

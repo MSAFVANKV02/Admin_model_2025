@@ -1,12 +1,11 @@
 import { cn } from "@/lib/utils";
 import { useModal } from "@/providers/context/context";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import MediaFilesModal from "./Media_Files_Modal";
 
 type Props = {
   className?: string;
   title?: string;
-  name?: string;
+  fieldName?: string;
   classnamewrapper?: string; // Additional class for the field
   img?: string;
   selectedData?: any;
@@ -23,10 +22,7 @@ export default function MediaFiles({
   className,
   img,
   selectedData,
-  name,
-  multiple = false,
-  handleFileUpload,
-  mediaType,
+
   title
 }: Props) {
     const {setIsOpen} = useModal();
@@ -34,7 +30,7 @@ export default function MediaFiles({
     // console.log(setFieldValues,'setFieldValues');
     
   return (
-    <div className="flex lg:items-center gap-3 lg:flex-row flex-col ">
+    <div className="flex lg:items-center justify-between gap-3 lg:flex-row flex-col ">
       {
         title && (
           <div className="text-textGray font-bold text-xs mt-2">
@@ -44,7 +40,7 @@ export default function MediaFiles({
       }
         <div
       className={cn(
-        `w-full border h-12 rounded-md flex items-center cursor-pointer overflow-hidden`,
+        `w-3/4 border h-12 rounded-md flex items-center cursor-pointer overflow-hidden`,
         className
       )}
       onClick={() => setIsOpen(true)}
@@ -60,12 +56,17 @@ export default function MediaFiles({
       </div>
     </div>
 
-    <MediaFilesModal
+{/* {
+  fieldName && (
+      <MediaFilesModal
         handleFileUpload={handleFileUpload}
-        name={name}
+        fieldName={fieldName}
         multiple={multiple} 
         mediaType={mediaType}
       />
+  )
+} */}
+  
     </div>
 
   );

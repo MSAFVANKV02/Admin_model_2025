@@ -11,21 +11,37 @@ type Props = {
   img?: string;
   selectedData?: any;
   setFieldValues?: (name: string , value:any) => void;
+  multiple?: boolean; 
+  handleFileUpload: (
+    event: string[],
+    fieldName: string
+  ) => void;
+  mediaType?: "pdf" | "image" | "";
 };
 
 export default function MediaFiles({
   className,
-  setFieldValues,
   img,
   selectedData,
-  name
+  name,
+  multiple = false,
+  handleFileUpload,
+  mediaType,
+  title
 }: Props) {
     const {setIsOpen} = useModal();
 
-    console.log(setFieldValues,'setFieldValues');
+    // console.log(setFieldValues,'setFieldValues');
     
   return (
-    <>
+    <div className="flex lg:items-center gap-3 lg:flex-row flex-col ">
+      {
+        title && (
+          <div className="text-textGray font-bold text-xs mt-2">
+            {title}
+          </div>
+        )
+      }
         <div
       className={cn(
         `w-full border h-12 rounded-md flex items-center cursor-pointer overflow-hidden`,
@@ -45,10 +61,12 @@ export default function MediaFiles({
     </div>
 
     <MediaFilesModal
-        setFieldValues={setFieldValues}
+        handleFileUpload={handleFileUpload}
         name={name}
+        multiple={multiple} 
+        mediaType={mediaType}
       />
-    </>
+    </div>
 
   );
 }

@@ -2,13 +2,23 @@ import PagesLayout, { PageLayoutHeader, PagesLayoutContent } from "@/layouts/Pag
 import { Form, Formik } from "formik";
 import UploadFilesForm from "./upload/upload_files_form";
 import AyButton from "@/components/myUi/AyButton";
+import useNavigateClicks from "@/hooks/useClicks";
+import MediaFiles from "@/components/media/MediaFiles";
 
 
 export default function UploadMediaPage() {
+    const {handleClick} = useNavigateClicks();
   return (
     <PagesLayout>
         <PageLayoutHeader>
             <h1>Upload Media</h1>
+
+            <AyButton
+            title="All Media"
+            onClick={()=>{
+                handleClick("uploads")
+            }}
+            />
         </PageLayoutHeader>
         <PagesLayoutContent>
             {/* Add your page content here */}
@@ -40,6 +50,9 @@ export default function UploadMediaPage() {
             ))}
             
         </Formik>
+
+
+        <MediaFiles />
         </PagesLayoutContent>
     </PagesLayout>
   )

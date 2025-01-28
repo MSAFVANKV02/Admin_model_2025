@@ -41,6 +41,7 @@ import PayoutSellerPage from "@/pages/seller/seller-payout/payout-seller-page";
 import PaymentSetupSettings from "@/pages/settings/payment-setups/payment-setups-page";
 import ConversationPage from "@/pages/store/conversations/conversation-page";
 import UploadMediaPage from "@/pages/settings/media/upload-media-page";
+import AllUploadedFiles from "@/pages/settings/media/retrive/all_uploaded_files";
 
 const rootRouter = createBrowserRouter(
   [
@@ -165,6 +166,8 @@ const rootRouter = createBrowserRouter(
               element: <ConversationPage />,
             },
             { path: "media", element: <UploadMediaPage /> },
+            { path: "media/uploads", element: <AllUploadedFiles /> },
+
             {
               path: "user-strict",
               element: <ErrorPage />,

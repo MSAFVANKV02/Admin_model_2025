@@ -56,7 +56,7 @@ export default function UploadFilesForm({ files, setFieldValue }: Props) {
 
       {/* File Preview */}
       {files.length > 0 && (
-        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 max-h-[500px] overflow-y-auto">
           <h4 className="text-xl text-gray-800 mb-2">Selected Files:</h4>
           <ul className='grid grid-cols-4 gap-3'>
             {files.map((file, index) => (

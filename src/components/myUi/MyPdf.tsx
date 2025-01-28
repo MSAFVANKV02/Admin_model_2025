@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import PdfFile from "./PdfFile";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 
 type Props = {
     value: string ;
@@ -12,7 +13,7 @@ type Props = {
     
 };
 
-export default function MyPdf({
+function MyPdf({
     value,
     className,
     isPdfShown = false,
@@ -48,3 +49,5 @@ export default function MyPdf({
    </div>
   );
 }
+
+export default memo(MyPdf)

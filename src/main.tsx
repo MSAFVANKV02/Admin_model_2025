@@ -35,7 +35,7 @@ createRoot(document.getElementById("root")!).render(
         position="top-center"
         reverseOrder={true}
         toastOptions={{
-          duration: 5000,
+          duration: 4000,
         }}
         containerStyle={{
           zIndex: "100009",

@@ -38,67 +38,54 @@ export default function WebBannerForm() {
     login_page: [],
   };
 
-  // const handleNewImageUpload = (
-  //   src: string[],
-  //   fieldName: keyof FormData,
-  //   values: FormData,
-  //   setFieldValue: (field: keyof FormData, value: any) => void
-  // ) => {
-  //   console.log(fieldName, "fieldName , handleNewImageUpload");
+  const formatFieldName = (fieldName: string) => {
+    return fieldName
+      .split("_") // Split by underscores
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(" "); // Join words with a space
+  };
 
-  //   if (src) {
-  //     const selectedFiles = Array.from(src);
-  //     if (
-  //       fieldName === "home_banner" &&
-  //       selectedFiles.length + values[fieldName].length > 2
-  //     ) {
-  //       makeToastError(
-  //         "You can only select up to 2 images for the home banner"
-  //       );
-  //     } else if (selectedFiles.length + values[fieldName].length > 4) {
-  //       makeToastError("You can only select up to 4 images for sliders");
-  //     } else {
-  //       const newImages = selectedFiles.map((file) => ({
-  //         imageUrl: file,
-  //         imageLink: "https://ayaboo.com/", // Default link
-  //       }));
-  //       setFieldValue(fieldName, values[fieldName].concat(newImages));
-  //     }
-  //   }
-  // };
   const handleNewImageUpload = (
     src: string[],
     fieldName: keyof FormData,
     values: FormData,
     setFieldValue: (field: keyof FormData, value: any) => void
   ) => {
-    const files = src;
-    if (files) {
-      const selectedFiles = Array.from(files);
-      if (
-        fieldName === "home_banner" &&
-        selectedFiles.length + values[fieldName].length > 2
-      ) {
-        makeToastError(
-          "You can only select up to 2 images for the home banner"
-        );
+    const selectedFiles = Array.from(src);
+  
+    // Restrict login_page to only 1 image
+    if (fieldName === "login_page" && selectedFiles.length > 1) {
+      makeToastError("You can only select 1 image for the login page.");
+      return;
+    }
+  
+    // Replace previous image if login_page is selected
+    if (fieldName === "login_page") {
+      setFieldValue(fieldName, [
+        {
+          imageUrl: selectedFiles[0],
+          imageLink: "https://ayaboo.com/",
+        },
+      ]);
+    } else {
+      // Existing logic for other fields
+      if (fieldName === "home_banner" && selectedFiles.length + values[fieldName].length > 2) {
+        makeToastError("You can only select up to 2 images for the home banner");
       } else if (selectedFiles.length + values[fieldName].length > 4) {
         makeToastError("You can only select up to 4 images for sliders");
-      } else if (fieldName === "kyc_slider") {
-        setFieldValue(fieldName, [...values.kyc_slider, ...selectedFiles]); // Allow multiple files for kyc_slider
-      } else if (fieldName === "login_page") {
-        setFieldValue(fieldName, [...values.login_page, ...selectedFiles]); // Allow multiple files for kyc_slider
       } else {
         const newImages = selectedFiles.map((file) => ({
           imageUrl: file,
           imageLink: "https://ayaboo.com/",
         }));
-        makeToast(`Image Selected: ${fieldName}`)
         setFieldValue(fieldName, values[fieldName].concat(newImages));
-        handleCloseModal();
       }
     }
+  
+    makeToast(`Image Selected For: ${formatFieldName(fieldName)}`);
+    handleCloseModal();
   };
+  
 
   const handleImageLinkChange = (
     e: React.ChangeEvent<HTMLInputElement>,

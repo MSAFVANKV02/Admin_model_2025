@@ -1,3 +1,5 @@
+export const LOCAL_URL = `http://localhost:4000`
+
 export const ADMIN_SEND_OTP = `/user_api/admin/sendOtp_AdminLogin`;
 export const ADMIN_VERIFY_OTP = `/user_api/admin/verifyOtp_AdminLogin`;
 

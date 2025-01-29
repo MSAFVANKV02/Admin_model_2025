@@ -3,7 +3,7 @@ import { DataTableStore } from "@/components/tasks/task_components/store/data-ta
 import { useSearchParams } from "react-router-dom";
 import StoreCreationPage from "./store-creation/store-creation-page";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
+import { fetchSellerOrStoreDetails, resetStoreData } from "@/redux/actions/storeSellerSlice";
 import { useEffect } from "react";
 
 
@@ -20,10 +20,10 @@ export default function StoreManagementPage() {
   const urlType = searchParams.get("type");
 
   useEffect(() => {
-    if (!isLogged) {
-      dispatch(fetchSellerOrStoreDetails("store"));
-    }
-  }, [ isLogged, dispatch]);
+    dispatch(resetStoreData()); // Clear previous data
+    dispatch(fetchSellerOrStoreDetails("store"));
+  }, [isLogged, dispatch]);
+  
   return (
     <div>
       <div className="p-4 select-none">

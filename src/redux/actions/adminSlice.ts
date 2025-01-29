@@ -80,6 +80,8 @@ const authSlice = createSlice({
     },
     setCurrentAdminSlices: (state, action) =>{
       state.currentAdmin = action.payload;
+      state.isLogged = true;
+
     }
   },
   extraReducers: (builder) => {

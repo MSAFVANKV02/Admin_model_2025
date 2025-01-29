@@ -7,6 +7,7 @@ import TaskModal, {
 import AyButton from "../myUi/AyButton";
 import { memo, useState } from "react";
 import { useModal } from "@/providers/context/context";
+import MyCloseIcon from "../icons/My_CloseIcon";
 
 type Props = {
   setFieldValues?: (name: string, value: any) => void;
@@ -46,8 +47,13 @@ function MediaFilesModal({
 
   return (
     <TaskModal className="md:w-[70%] md:h-[90%]">
-      <TaskModalHeader>
-        <h1 className="text-textGray font-bold">Select Files</h1>
+      <TaskModalHeader className="justify-end bg-gray-50 rounded-md">
+        {/* <h1 className="text-textGray font-bold">Select Files</h1> */}
+        <MyCloseIcon 
+        onClick={()=>{
+          setIsOpen(false);
+        }}
+        />
       </TaskModalHeader>
 
       <TaskModalContent className="max-h-[90%] scrollbar-none overflow-y-scroll">

@@ -117,9 +117,18 @@ export default function AllUploadedFiles({
         {/* Calendar for date filtering */}
         <Popover>
           <PopoverTrigger>
-            <AyButton title="Filter With Date" />
+            <AyButton
+              icon="fluent-color:calendar-clock-20"
+              iconSize={23}
+              variant="outlined"
+              outLineColor="gray"
+              title="Filter With Date"
+              sx={{
+                width:"fit-content",
+              }}
+            />
           </PopoverTrigger>
-          <PopoverContent className="ml-36">
+          <PopoverContent className="ml-36 z-[10005]">
             <Calendar
               mode="single"
               selected={date}

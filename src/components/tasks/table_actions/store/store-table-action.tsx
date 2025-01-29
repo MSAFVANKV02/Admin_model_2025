@@ -192,14 +192,17 @@
 // =================================================================
 import MyCloseIcon from "@/components/icons/My_CloseIcon";
 import MyEyeIcon from "@/components/icons/My_EyeIcon";
+import MyIcon from "@/components/icons/My_Icon";
 import TaskModal, {
   TaskModalContent,
   TaskModalHeader,
 } from "@/components/modals/TaskModal";
 import MyPdf from "@/components/myUi/MyPdf";
 import { Label } from "@/components/ui/label";
+import ApproveStoreSeller from "@/hooks/approve-store-seller-route";
 import { registrationTypes } from "@/pages/store/store-creation/store_input_filds";
 import { useModal } from "@/providers/context/context";
+import { useAppSelector } from "@/redux/hook";
 import { IRegistrationTypes, StoreTypes } from "@/types/storeTypes";
 import { ReactNode, useState } from "react";
 
@@ -209,9 +212,13 @@ type Props = {
 
 export default function StoreTableAction({ data }: Props) {
   const { setIsOpen } = useModal();
-  const [selectedData, setSelectedData] = useState<StoreTypes | null>(null);
-  console.log(selectedData);
-  
+  const [selectedData, setSelectedData] = useState<StoreTypes | any>(null);
+  const isLoading = useAppSelector((state) => state.loading.loadingState);
+  console.log("Loading State:", isLoading);
+
+  // const [loading, setL]
+  const { switchAdminApprovalRoute } = ApproveStoreSeller();
+  // console.log(selectedData);
 
   const handleViewClick = () => {
     setSelectedData(data); // Set the selected row's data
@@ -241,18 +248,18 @@ export default function StoreTableAction({ data }: Props) {
     // render?: (data: any) => string;
     render?: (data: any) => ReactNode;
   }[] = [
-    {label:"Account Type", key:"role" },
+    { label: "Account Type", key: "role" },
     {
       label: "Register Type",
       key: "registrationType",
       render: (data: IRegistrationTypes) => getRegistrationTypeName(data),
     },
     ...(selectedData?.role === "Seller"
-      ? ([{ label: "Seller Name", key: "name"}] as const)
+      ? ([{ label: "Seller Name", key: "name" }] as const)
       : []),
-      ...(selectedData?.role === "Store"
-        ? ([{ label: "Store Name", key: "name"}] as const)
-        : []),
+    ...(selectedData?.role === "Store"
+      ? ([{ label: "Store Name", key: "name" }] as const)
+      : []),
     { label: "GST Number", key: "gstNumber" },
     { label: "Store Address", key: "Address" },
     { label: "Store Capacity (in cubic)", key: "storeCapacity" },
@@ -317,10 +324,43 @@ export default function StoreTableAction({ data }: Props) {
       { label: "UPI ID", key: "upiId" },
     ];
 
+  // if (!selectedData) return
+
   return (
     <div>
       <div className="flex items-center">
         <MyEyeIcon onClick={handleViewClick} />
+
+        {data?.adminStatus === "approved" ? (
+          <MyIcon
+          tooltipTitle={data?.adminStatus}
+            icon={`${
+              isLoading
+                ? "line-md:loading-twotone-loop"
+                : "flat-color-icons:approval"
+            }`}
+            onClick={() => {
+              setSelectedData(data);
+
+              switchAdminApprovalRoute(data?.role, "rejected", data?._id);
+            }}
+          />
+        ) : (
+          <MyIcon
+          tooltipTitle={data?.adminStatus}
+          color={`${data?.adminStatus === "rejected" ? "red":""}`}
+            icon={`${
+              isLoading ? "line-md:loading-twotone-loop" : "wpf:approval"
+            }`}
+            
+            onClick={() => {
+              setSelectedData(data);
+              switchAdminApprovalRoute(data?.role, "approved", data?._id);
+            }}
+          />
+        )}
+
+        {/* flat-color-icons:approval */}
         {/* <MyEditIcon onClick={() => {}} /> */}
       </div>
 
@@ -334,10 +374,10 @@ export default function StoreTableAction({ data }: Props) {
         >
           <TaskModalHeader>
             <h5 className="font-bold capitalize">
-              {
-                selectedData?.role === "Seller" ? (" Seller Details"): (" Store Details")
-              }
-             </h5>
+              {selectedData?.role === "Seller"
+                ? " Seller Details"
+                : " Store Details"}
+            </h5>
             <div className="">
               <MyCloseIcon onClick={handleCloseModal} isTooltip={false} />
             </div>

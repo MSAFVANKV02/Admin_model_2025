@@ -2,7 +2,7 @@ import { DataTableStore } from "@/components/tasks/task_components/store/data-ta
 
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
+import { fetchSellerOrStoreDetails, resetStoreData } from "@/redux/actions/storeSellerSlice";
 import { useEffect } from "react";
 import SellerCreationPage from "./seller-creation/seller-creation-page";
 
@@ -13,17 +13,17 @@ export default function SellerManagementPage() {
   const {isLogged} = useAppSelector((state)=> state.admin);
   const {storeSeller} = useAppSelector((state)=> state.storeSeller);
 
-// console.log(storeSeller,'storeSeller');
+console.log(isLogged,'isLogged');
 
 
   const [searchParams] = useSearchParams();
   const urlType = searchParams.get("type");
 
   useEffect(() => {
-    if (!isLogged) {
-      dispatch(fetchSellerOrStoreDetails("seller"));
-    }
-  }, [ isLogged, dispatch]);
+    dispatch(resetStoreData()); // Clear previous data
+    dispatch(fetchSellerOrStoreDetails("seller"));
+  }, [isLogged, dispatch]);
+  
   return (
     <div>
       <div className="p-4 select-none">

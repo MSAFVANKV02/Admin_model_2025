@@ -66,6 +66,39 @@ export default function WebBannerForm() {
   //     }
   //   }
   // };
+  const handleNewImageUpload = (
+    src: string[],
+    fieldName: keyof FormData,
+    values: FormData,
+    setFieldValue: (field: keyof FormData, value: any) => void
+  ) => {
+    const files = src;
+    if (files) {
+      const selectedFiles = Array.from(files);
+      if (
+        fieldName === "home_banner" &&
+        selectedFiles.length + values[fieldName].length > 2
+      ) {
+        makeToastError(
+          "You can only select up to 2 images for the home banner"
+        );
+      } else if (selectedFiles.length + values[fieldName].length > 4) {
+        makeToastError("You can only select up to 4 images for sliders");
+      } else if (fieldName === "kyc_slider") {
+        setFieldValue(fieldName, [...values.kyc_slider, ...selectedFiles]); // Allow multiple files for kyc_slider
+      } else if (fieldName === "login_page") {
+        setFieldValue(fieldName, [...values.login_page, ...selectedFiles]); // Allow multiple files for kyc_slider
+      } else {
+        const newImages = selectedFiles.map((file) => ({
+          imageUrl: file,
+          imageLink: "https://ayaboo.com/",
+        }));
+        makeToast(`Image Selected: ${fieldName}`)
+        setFieldValue(fieldName, values[fieldName].concat(newImages));
+        handleCloseModal();
+      }
+    }
+  };
 
   const handleImageLinkChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -220,12 +253,18 @@ export default function WebBannerForm() {
             {selectedFieldName && (
               <MediaFilesModal
                 handleFileUpload={(src) => {
-                  const updatedFiles = src.map((file) => ({
-                    imageUrl: file,
-                    imageLink: "https://ayaboo.com/",
-                  }));
-                  setFieldValue(selectedFieldName.name, updatedFiles);
-                  handleCloseModal(); // Close modal after selection
+                  handleNewImageUpload(
+                    src,
+                    selectedFieldName.name,
+                    values,
+                    setFieldValue
+                  )
+                  // const updatedFiles = src.map((file) => ({
+                  //   imageUrl: file,
+                  //   imageLink: "https://ayaboo.com/",
+                  // }));
+                  // setFieldValue(selectedFieldName.name, updatedFiles);
+                  // handleCloseModal(); // Close modal after selection
                 }}
                 fieldName={selectedFieldName.name}
                 multiple={selectedFieldName.multiple}

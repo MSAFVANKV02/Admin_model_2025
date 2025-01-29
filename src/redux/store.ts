@@ -3,6 +3,7 @@ import categoryReducer from "@/redux/actions/category_Slice"
 import adminReducer from "@/redux/actions/adminSlice"
 import customerReducer from "@/redux/actions/customerSlice"
 import storeSellerReducer from "@/redux/actions/storeSellerSlice"
+import loadingReducer from "@/redux/actions/loadingSlice"
 
 
 
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   category: categoryReducer, //
   admin:adminReducer,
   customer: customerReducer, 
-  storeSeller: storeSellerReducer
+  storeSeller: storeSellerReducer,
+  loading: loadingReducer, //
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

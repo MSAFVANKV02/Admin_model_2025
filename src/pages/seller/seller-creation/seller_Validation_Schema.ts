@@ -39,9 +39,7 @@ export const mainValidationSchema = Yup.object({
 
     upiId: Yup.string().email("Invalid UPI ID").required("UPI ID is required"),
   }),
-  capacity: Yup.number()
-    .positive("Capacity must be positive")
-    .required("Store Capacity is required"),
+
 });
 
 //   ============

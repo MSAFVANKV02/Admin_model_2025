@@ -46,6 +46,9 @@ const storeSellerSlice = createSlice({
     setStoreData: (state, action) => {
       state.storeSeller = action.payload;
     },
+    resetStoreData: (state) => {
+      state.storeSeller = []; // Reset the data
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -74,7 +77,7 @@ const storeSellerSlice = createSlice({
   },
 });
 
-export const {  setStoreData } = storeSellerSlice.actions;
+export const {  setStoreData , resetStoreData} = storeSellerSlice.actions;
 
 export default storeSellerSlice.reducer;
 

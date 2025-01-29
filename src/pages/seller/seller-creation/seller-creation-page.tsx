@@ -105,6 +105,12 @@ export default function SellerCreationPage() {
     }
   };
 
+
+  // const getError = (error) => {
+  //   console.log(error);
+    
+  // }
+
   return (
     <PagesLayout className="">
       <Formik
@@ -211,13 +217,14 @@ export default function SellerCreationPage() {
               makeToastError(error.response.data.message);
             } 
           } finally{
-            window.location.reload();
+            // window.location.reload();
               dispatch(fetchSellerOrStoreDetails("store"));
             }
         }}
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (
           <Form>
+            {/* {getError(errors)} */}
             {/* <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50"> */}
             <PageLayoutHeader className="f">
               <div className="flex justify-between w-full items-center">

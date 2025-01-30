@@ -221,8 +221,8 @@ export default function StoreCreationPage() {
             if (error.response?.data) {
               makeToastError(error.response.data.message);
             } 
-          } finally{
-            window.location.reload();
+          } finally{  
+            // window.location.reload();
               dispatch(fetchSellerOrStoreDetails("store"));
             }
         }}

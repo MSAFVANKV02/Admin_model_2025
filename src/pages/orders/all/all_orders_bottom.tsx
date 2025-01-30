@@ -1,9 +1,8 @@
 
-type Props = {}
 
-export default function AllOrdersBottom({}: Props) {
+export default function AllOrdersBottom() {
   return (
-    <div className="lg:w-3/4 w-full">
+    <div className="lg:w-3/4 w-[99%] overflow-x-auto">
         <table className="w-full border-collapse">
               <thead className=" text-textGray select-none">
                 <tr className="text-left text-sm">

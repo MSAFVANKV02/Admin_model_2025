@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/redux/hook";
+import { ALLOWED_DOMAIN } from "@/types/urlPath";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useCallback } from "react";
 
@@ -173,6 +174,9 @@ function NavigationList() {
   // ====== filters =====
 
   const filteredNavigation = useCallback(() => {
+    if (window.location.origin.includes(ALLOWED_DOMAIN)) {
+      return NAVIGATION; // Show everything in dev tunnel
+    }
     if (!currentAdmin) return [];
 
     // Show all navigation items if the currentAdmin is an "admin"

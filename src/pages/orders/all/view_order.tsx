@@ -13,20 +13,20 @@ export default function ViewOrder({ params }: Props) {
   });
 
   return (
-    <div>
+    <div className="px-3 py-5">
       {filterOrderByOrderId.map((order, index) => (
         <div className="space-y-10" key={`${order.orderCode}-${index}`}>
           {/* ==============================
                    ==============================
                    ================================== */}
           {/* order status change options ==== */}
-          <div className="flex justify-end gap-6">
+          <div className="flex md:justify-end gap-6">
             <OrderStatusSelectionSection />
           </div>
 
           <Separator />
 
-          <div className="grid lg:grid-cols-4 grid-cols-2 lg:gap-0 gap-4">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 lg:gap-0 gap-4">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-4 text-xs text-textGray">
                 <b>Order ID:</b>

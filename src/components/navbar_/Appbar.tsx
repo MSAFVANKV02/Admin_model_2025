@@ -20,13 +20,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 
 import FullViewScreen from "@/hooks/FullViewScreen";
 import useNavigateClicks from "@/hooks/useClicks";
@@ -37,7 +37,7 @@ import { makeToast } from "@/utils/toaster";
 
 import { useAppSelector } from "@/redux/hook";
 import { useModal } from "@/providers/context/context";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 type Props = {
   open: boolean;
@@ -51,12 +51,12 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "Hindi", value: "hi" },
-  { label: "Arabic", value: "ar" },
-  { label: "Malayalam", value: "ml" },
-];
+// const languages = [
+//   { label: "English", value: "en" },
+//   { label: "Hindi", value: "hi" },
+//   { label: "Arabic", value: "ar" },
+//   { label: "Malayalam", value: "ml" },
+// ];
 
 export default function NavAppBar({
   open,
@@ -68,11 +68,11 @@ export default function NavAppBar({
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
   const { currentAdmin } = useAppSelector((state) => state.admin);
   const { handleLogout } = useModal();
-  const { i18n, t } = useTranslation();
+  // const { i18n, t } = useTranslation();
 
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
+  // const changeLanguage = (lang: string) => {
+  //   i18n.changeLanguage(lang);
+  // };
 
   // click
   const { handleClick } = useNavigateClicks();
@@ -166,7 +166,10 @@ export default function NavAppBar({
             </div>
           </Tooltip>
 
-          <Select value={i18n.language} onValueChange={changeLanguage}>
+
+          {/* language selections */}
+
+          {/* <Select value={i18n.language} onValueChange={changeLanguage}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder={t("Language")} />
             </SelectTrigger>
@@ -177,7 +180,7 @@ export default function NavAppBar({
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </Select> */}
 
           {/* Home btn ======
             ========================== */}

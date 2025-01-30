@@ -11,7 +11,7 @@ import { Form, Formik } from "formik";
 
 export default function OrderStatusSelectionSection() {
   return (
-    <div className="">
+    <div className="w-full">
       <Formik
         initialValues={{
           deliveryPartner: "",
@@ -29,8 +29,8 @@ export default function OrderStatusSelectionSection() {
         }}
       >
         {({ values, setFieldValue }) => (
-          <Form className="flex gap-6">
-            <div className="flex flex-col gap-3">
+          <Form className="flex md:flex-row flex-col gap-6 items-center ">
+            <div className="flex flex-col gap-3 ">
               <Label className="text-xs text-textGray font-bold">
                 Assign delivery partner
               </Label>
@@ -40,7 +40,7 @@ export default function OrderStatusSelectionSection() {
                   setFieldValue("deliveryPartner", value);
                 }}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="sm:w-[180px] w-[300px]">
                   <SelectValue placeholder="Delivery Partner" />
                 </SelectTrigger>
                 <SelectContent className="text-xs">
@@ -50,7 +50,7 @@ export default function OrderStatusSelectionSection() {
             </div>
 
             {/* Payment Status */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 ">
               <Label className="text-xs text-textGray font-bold">
                 Payment Status
               </Label>
@@ -60,7 +60,7 @@ export default function OrderStatusSelectionSection() {
                   setFieldValue("paymentStatus", value);
                 }}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="sm:w-[180px] w-[300px]">
                   <SelectValue placeholder="Payment Status" />
                 </SelectTrigger>
                 <SelectContent className="text-xs">
@@ -71,7 +71,7 @@ export default function OrderStatusSelectionSection() {
             </div>
 
             {/* Delivery Status */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 ">
               <Label className="text-xs text-textGray font-bold">
                 Delivery Status
               </Label>
@@ -81,7 +81,7 @@ export default function OrderStatusSelectionSection() {
                   setFieldValue("deliveryStatus", value);
                 }}
               >
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="sm:w-[180px] w-[300px]">
                   <SelectValue placeholder="Order Status" />
                 </SelectTrigger>
                 <SelectContent className="text-xs">

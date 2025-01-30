@@ -1,4 +1,5 @@
 export const LOCAL_URL = `http://localhost:4000`
+export const ALLOWED_DOMAIN = "https://6qg6jmv3-5175.inc1.devtunnels.ms";
 
 export const ADMIN_SEND_OTP = `/user_api/admin/sendOtp_AdminLogin`;
 export const ADMIN_VERIFY_OTP = `/user_api/admin/verifyOtp_AdminLogin`;

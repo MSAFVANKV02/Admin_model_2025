@@ -2,7 +2,7 @@ import PagesLayout, {
   PageLayoutHeader,
   PagesLayoutContent,
 } from "@/layouts/Pages_Layout";
-import { Form, Formik } from "formik";
+import { ErrorMessage, Form, Formik } from "formik";
 import UploadFilesForm from "./upload/upload_files_form";
 import AyButton from "@/components/myUi/AyButton";
 import useNavigateClicks from "@/hooks/useClicks";
@@ -15,6 +15,38 @@ import {
 } from "@/components/ui/select";
 import axios from "axios";
 import { LOCAL_URL } from "@/types/urlPath";
+import { makeToastError } from "@/utils/toaster";
+import { Label } from "@/components/ui/label";
+import * as Yup from "yup";
+
+// const fileValidationSchema = Yup.object().shape({
+//   files: Yup.array()
+//     .min(1, "Please select at least one file.") // Ensure at least one file is selected
+//     .test("fileSize", "Each file must be smaller than 5MB", (files: any) => {
+//       if (!files || files.length === 0) return false; // Ensure at least one file is present
+//       return files.every((file: File) => file.size <= 5 * 1024 * 1024); // Check file size
+//     }),
+// });
+const fileValidationSchema = Yup.object().shape({
+  files: Yup.array()
+    .min(1, "Please select at least one file.") // Ensure at least one file is selected
+    .test("fileSize", "Each file must be smaller than 5MB", (files: any) => {
+      if (!files || files.length === 0) return false; // Ensure at least one file is present
+      return files.every((file: File) => file.size <= 5 * 1024 * 1024); // Check individual file size
+    })
+    .test(
+      "totalSize",
+      "Please upload less than 20MB at a time.",
+      (files: any) => {
+        if (!files || files.length === 0) return false;
+        const totalSize = files.reduce(
+          (acc: number, file: File) => acc + file.size,
+          0
+        );
+        return totalSize <= 20 * 1024 * 1024; // Ensure total size ≤ 20MB
+      }
+    ),
+});
 
 export default function UploadMediaPage() {
   const { handleClick } = useNavigateClicks();
@@ -34,13 +66,14 @@ export default function UploadMediaPage() {
         {/* Add your page content here */}
         {/* Upload media page content goes here. */}
         <Formik
+          validationSchema={fileValidationSchema}
           initialValues={{
             files: [],
             category: "all",
           }}
           onSubmit={async (values) => {
             if (values.files.length === 0) {
-              alert("Please select at least one file.");
+              makeToastError("Please select at least one file.");
               return;
             }
 
@@ -52,15 +85,15 @@ export default function UploadMediaPage() {
 
             const response = await axios.post(
               `${LOCAL_URL}/user_api/admin/createMedia`,
-               formData ,
-               {
+              formData,
+              {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true,
               }
             );
 
             try {
-              console.log("Upload response:",response);
+              console.log("Upload response:", response);
               alert("Files uploaded successfully!");
             } catch (error) {
               console.error("Upload failed", error);
@@ -70,27 +103,37 @@ export default function UploadMediaPage() {
         >
           {({ values, setFieldValue }) => (
             <Form className="space-y-6">
-              <Select
-                onValueChange={(value) => {
-                  setFieldValue("category", value);
-                }}
-                value={values.category}
-              >
-                <SelectTrigger className="min-w-[150px] w-fit">
-                  <SelectValue placeholder="Type Of the Media" />
-                </SelectTrigger>
-                <SelectContent className="capitalize">
-                  <SelectItem value="all">all</SelectItem>
-                  <SelectItem value="products">Products</SelectItem>
-                  <SelectItem value="category">category</SelectItem>
-                  <SelectItem value="brand">brand</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex gap-10 md:items-center">
+                <Label>Select File Category :</Label>
 
-              <UploadFilesForm
-                files={values.files}
-                setFieldValue={setFieldValue}
-              />
+                <Select
+                  onValueChange={(value) => {
+                    setFieldValue("category", value);
+                  }}
+                  value={values.category}
+                >
+                  <SelectTrigger className="min-w-[180px] w-fit">
+                    <SelectValue placeholder="Type Of the Media" />
+                  </SelectTrigger>
+                  <SelectContent className="capitalize">
+                    <SelectItem value="all">all</SelectItem>
+                    <SelectItem value="products">Products</SelectItem>
+                    <SelectItem value="category">category</SelectItem>
+                    <SelectItem value="brand">brand</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col">
+                <UploadFilesForm
+                  files={values.files}
+                  setFieldValue={setFieldValue}
+                />
+                <ErrorMessage
+                  name="files"
+                  component="span"
+                  className="text-red-500 mx-auto my-5"
+                />
+              </div>
 
               <div className="flex w-full justify-center">
                 <AyButton type="submit" title="Submit" />

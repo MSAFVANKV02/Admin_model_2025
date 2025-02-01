@@ -7,6 +7,7 @@ import AyButton from "@/components/myUi/AyButton";
 import WebFilesField from "./Web_Files_Field";
 
 import MediaFilesModal from "@/components/media/Media_Files_Modal";
+import { IFileDataMedia } from "../settings/media/retrive/all_uploaded_files";
 
 type FormData = {
   home_slider_1: { imageUrl: string; imageLink: string }[];
@@ -46,7 +47,7 @@ export default function WebBannerForm() {
   };
 
   const handleNewImageUpload = (
-    src: string[],
+    src: IFileDataMedia[],
     fieldName: keyof FormData,
     values: FormData,
     setFieldValue: (field: keyof FormData, value: any) => void
@@ -75,7 +76,7 @@ export default function WebBannerForm() {
         makeToastError("You can only select up to 4 images for sliders");
       } else {
         const newImages = selectedFiles.map((file) => ({
-          imageUrl: file,
+          imageUrl: file.imageurl,
           imageLink: "https://ayaboo.com/",
         }));
         setFieldValue(fieldName, values[fieldName].concat(newImages));

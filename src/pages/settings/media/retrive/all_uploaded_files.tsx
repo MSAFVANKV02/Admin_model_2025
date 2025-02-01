@@ -16,9 +16,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { fetchMediaDetails } from "@/redux/actions/mediaSlice";
 import File_Size_Formatter from "@/components/myUi/File_Size_Formatter";
 import PreloaderPage from "@/preloader-page";
+import MyDeleteIcon from "@/components/icons/My_DeleteIcon";
+import { makeToast, makeToastError } from "@/utils/toaster";
+import { Delete_Media_Api } from "@/services/media/route";
 
 export interface IFileDataMedia {
-  _id: number;
+  _id: string;
   name: string;
   format: string;
   imageurl: string;
@@ -32,8 +35,8 @@ type Props = {
   onClick?: (selectedFiles: IFileDataMedia[], imageurl: string[]) => void;
   multiple?: boolean;
   mediaType?: "pdf" | "image" | "videos" | "xl" | "";
-  selectedFiles: IFileDataMedia[]; // New prop
-  setSelectedFiles: (files: IFileDataMedia[]) => void; // New prop
+  selectedFiles?: IFileDataMedia[]; // New prop
+  setSelectedFiles?: (files: IFileDataMedia[]) => void; // New prop
 };
 
 export default function AllUploadedFiles({
@@ -41,13 +44,18 @@ export default function AllUploadedFiles({
   multiple,
   mediaType = "",
   selectedFiles = [],
-  setSelectedFiles
+  setSelectedFiles,
 }: Props) {
   const { handleClick } = useNavigateClicks();
   const { media: files, isLoading } = useAppSelector((state) => state.media);
   const dispatch = useAppDispatch();
   const [date, setDate] = useState<Date | undefined>();
-  const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
+  const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(
+    null
+  );
+  const [loadingFiles, setLoadingFiles] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   // const [selectedFiles, setSelectedFiles] = useState<IFileDataMedia[]>([]);
 
@@ -83,36 +91,59 @@ export default function AllUploadedFiles({
     ),
   };
 
+  const handleFileClick = (file: IFileDataMedia, event: React.MouseEvent) => {
+    const fileIndex = filteredFiles.findIndex((f) => f._id === file._id);
+    let updatedFiles = [...selectedFiles];
 
-const handleFileClick = (file: IFileDataMedia, event: React.MouseEvent) => {
-  const fileIndex = filteredFiles.findIndex((f) => f._id === file._id);
-  let updatedFiles = [...selectedFiles];
+    if (multiple) {
+      if (event.shiftKey && lastSelectedIndex !== null) {
+        // Multi-select files between last selected and current
+        const start = Math.min(lastSelectedIndex, fileIndex);
+        const end = Math.max(lastSelectedIndex, fileIndex);
+        const filesToSelect = filteredFiles.slice(start, end + 1);
 
-  if (multiple) {
-    if (event.shiftKey && lastSelectedIndex !== null) {
-      // Multi-select files between last selected and current
-      const start = Math.min(lastSelectedIndex, fileIndex);
-      const end = Math.max(lastSelectedIndex, fileIndex);
-      const filesToSelect = filteredFiles.slice(start, end + 1);
-
-      updatedFiles = Array.from(new Set([...selectedFiles, ...filesToSelect])); // Avoid duplicates
-    } else {
-      // Normal toggle selection
-      if (selectedFiles.some((selected) => selected._id === file._id)) {
-        updatedFiles = selectedFiles.filter((selected) => selected._id !== file._id);
+        updatedFiles = Array.from(
+          new Set([...selectedFiles, ...filesToSelect])
+        ); // Avoid duplicates
       } else {
-        updatedFiles.push(file);
+        // Normal toggle selection
+        if (selectedFiles.some((selected) => selected._id === file._id)) {
+          updatedFiles = selectedFiles.filter(
+            (selected) => selected._id !== file._id
+          );
+        } else {
+          updatedFiles.push(file);
+        }
       }
+    } else {
+      updatedFiles = selectedFiles[0]?._id === file._id ? [] : [file];
     }
-  } else {
-    updatedFiles = selectedFiles[0]?._id === file._id ? [] : [file];
-  }
 
-  setSelectedFiles(updatedFiles);
-  setLastSelectedIndex(fileIndex); // Store last clicked index
-  onClick?.(updatedFiles, updatedFiles.map((file) => file.imageurl));
-};
+    setSelectedFiles?.(updatedFiles);
+    setLastSelectedIndex(fileIndex); // Store last clicked index
+    onClick?.(
+      updatedFiles,
+      updatedFiles.map((file) => file.imageurl)
+    );
+  };
 
+  const handleDeleteFileFromServer = async (id: string) => {
+    try {
+      // Set the loading state to true for the specific file
+      setLoadingFiles((prevState) => ({ ...prevState, [id]: true }));
+
+      const response = await Delete_Media_Api(id);
+      if (response.status === 200) {
+        dispatch(fetchMediaDetails());
+        makeToast(response.data.message);
+      }
+    } catch (error: any) {
+      makeToastError(error.message || "Failed to delete files");
+    } finally {
+      // Set the loading state to false for the specific file after the operation
+      setLoadingFiles((prevState) => ({ ...prevState, [id]: false }));
+    }
+  };
 
   // ======= working fine old function for select files =====
 
@@ -215,7 +246,7 @@ const handleFileClick = (file: IFileDataMedia, event: React.MouseEvent) => {
                       {files.map((file) => (
                         <li
                           key={file._id}
-                          className={`aspect-square shadow-2xl hover:scale-105 duration-200 transition-transform relative flex-col max-w-[200px] flex justify-center items-center border cursor-pointer ${
+                          className={`aspect-square shadow-2xl group hover:scale-105 duration-200  transition-transform relative flex-col max-w-[200px] flex justify-center items-center border cursor-pointer ${
                             selectedFiles.find((f) => f._id === file._id)
                               ? "border-blue-500"
                               : ""
@@ -231,8 +262,23 @@ const handleFileClick = (file: IFileDataMedia, event: React.MouseEvent) => {
                               handleFileClick(file, event);
                             }
                           }}
-                          
                         >
+                          <div
+                            className={`absolute top-0 right-0 ${
+                              loadingFiles[file._id] ||
+                              selectedFiles.some((f) => f._id === file._id)
+                                ? "block"
+                                : "group-hover:block hidden"
+                            }`}
+                          >
+                            <MyDeleteIcon
+                              loading={loadingFiles[file._id] || false}
+                              onClick={() =>
+                                handleDeleteFileFromServer(file._id)
+                              }
+                            />
+                          </div>
+
                           {/* {JSON.stringify(file)} */}
                           {/* {file.imageurl} sdas */}
                           {type === "image" ? (

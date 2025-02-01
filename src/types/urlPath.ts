@@ -40,5 +40,6 @@ export const APPROVE_STORE_URL = `/user_api/store/updateStoreStatusbyAdmin`
 export const APPROVE_SELLER_URL = `/user_api/seller/updateSellerStatusbyAdmin`
 
 
-
+export const CREATE_MEDIA_URL = `/product_api/media/addMedia`;
+export const GET_MEDIA_URL = `/product_api/media/getAllMedia`
 

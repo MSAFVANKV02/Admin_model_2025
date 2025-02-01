@@ -4,7 +4,7 @@ import adminReducer from "@/redux/actions/adminSlice"
 import customerReducer from "@/redux/actions/customerSlice"
 import storeSellerReducer from "@/redux/actions/storeSellerSlice"
 import loadingReducer from "@/redux/actions/loadingSlice"
-
+import mediaReducer from "@/redux/actions/mediaSlice"
 
 
 import storage from 'redux-persist/lib/storage';
@@ -24,6 +24,8 @@ const rootReducer = combineReducers({
   customer: customerReducer, 
   storeSeller: storeSellerReducer,
   loading: loadingReducer, //
+  media: mediaReducer
+
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

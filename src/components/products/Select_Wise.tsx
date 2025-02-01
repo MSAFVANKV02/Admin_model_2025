@@ -126,12 +126,12 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
   return (
     <div>
       {values.selectWise === "size" ? (
-        <div className="flex justify-between items-center w-full relative">
+        <div className="flex justify-between md:flex-row flex-col md:items-center gap-2 w-full relative">
           <Label htmlFor="size" className="text-textGray">
             Select size
           </Label>
-          <div className=" w-3/4">
-            <div className="flex gap-3 items-center">
+          <div className=" md:w-3/4">
+            <div className="flex gap-3 md:flex-row flex-col md:items-center">
             <MultiSelect
               fieldName="sizes"
               selectedValue={selectedSizes}
@@ -144,7 +144,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             <AyButton
               title="Add New Size"
               sx={{
-                border: "1px dotted #5F08B1",
+                border: "1px dotted #EC922B",
                 bgcolor: "#F3F3F3",
                 color: "#737373",
                 py: "0.6rem",
@@ -230,7 +230,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
               title="Add New Bundle"
               outLineColor=""
               sx={{
-                border: "1px dotted #5F08B1",
+                border: "1px dotted #EC922B",
                 bgcolor: "#F3F3F3",
                 color: "#737373",
                 py: "0.6rem",

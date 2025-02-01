@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/popover";
 import useNavigateClicks from "@/hooks/useClicks";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import File_Size_Formatter from "@/components/myUi/File_Size_Formatter";
 import { fetchMediaDetails } from "@/redux/actions/mediaSlice";
+import File_Size_Formatter from "@/components/myUi/File_Size_Formatter";
+import PreloaderPage from "@/preloader-page";
 
 export interface IFileDataMedia {
   _id: number;
@@ -31,22 +32,28 @@ type Props = {
   onClick?: (selectedFiles: IFileDataMedia[], imageurl: string[]) => void;
   multiple?: boolean;
   mediaType?: "pdf" | "image" | "videos" | "xl" | "";
+  selectedFiles: IFileDataMedia[]; // New prop
+  setSelectedFiles: (files: IFileDataMedia[]) => void; // New prop
 };
 
 export default function AllUploadedFiles({
   onClick,
   multiple,
   mediaType = "",
+  selectedFiles = [],
+  setSelectedFiles
 }: Props) {
   const { handleClick } = useNavigateClicks();
-  const { media: files } = useAppSelector((state) => state.media);
+  const { media: files, isLoading } = useAppSelector((state) => state.media);
   const dispatch = useAppDispatch();
   const [date, setDate] = useState<Date | undefined>();
-  const [selectedFiles, setSelectedFiles] = useState<IFileDataMedia[]>([]);
+  const [lastSelectedIndex, setLastSelectedIndex] = useState<number | null>(null);
+
+  // const [selectedFiles, setSelectedFiles] = useState<IFileDataMedia[]>([]);
 
   useEffect(() => {
     dispatch(fetchMediaDetails());
-  }, []);
+  }, [dispatch]);
 
   // console.log(date);
 
@@ -76,32 +83,74 @@ export default function AllUploadedFiles({
     ),
   };
 
-  const handleFileClick = (file: IFileDataMedia) => {
-    let updatedFiles;
-    if (multiple) {
-      if (
-        selectedFiles.some((selected) => selected.imageurl === file.imageurl)
-      ) {
-        updatedFiles = selectedFiles.filter(
-          (selected) => selected.imageurl !== file.imageurl
-        );
-      } else {
-        updatedFiles = [...selectedFiles, file];
-      }
+
+const handleFileClick = (file: IFileDataMedia, event: React.MouseEvent) => {
+  const fileIndex = filteredFiles.findIndex((f) => f._id === file._id);
+  let updatedFiles = [...selectedFiles];
+
+  if (multiple) {
+    if (event.shiftKey && lastSelectedIndex !== null) {
+      // Multi-select files between last selected and current
+      const start = Math.min(lastSelectedIndex, fileIndex);
+      const end = Math.max(lastSelectedIndex, fileIndex);
+      const filesToSelect = filteredFiles.slice(start, end + 1);
+
+      updatedFiles = Array.from(new Set([...selectedFiles, ...filesToSelect])); // Avoid duplicates
     } else {
-      updatedFiles = selectedFiles[0]?.imageurl === file.imageurl ? [] : [file];
+      // Normal toggle selection
+      if (selectedFiles.some((selected) => selected._id === file._id)) {
+        updatedFiles = selectedFiles.filter((selected) => selected._id !== file._id);
+      } else {
+        updatedFiles.push(file);
+      }
     }
-    setSelectedFiles(updatedFiles);
-    onClick?.(
-      updatedFiles,
-      updatedFiles.map((file) => file.imageurl)
-    );
-  };
+  } else {
+    updatedFiles = selectedFiles[0]?._id === file._id ? [] : [file];
+  }
+
+  setSelectedFiles(updatedFiles);
+  setLastSelectedIndex(fileIndex); // Store last clicked index
+  onClick?.(updatedFiles, updatedFiles.map((file) => file.imageurl));
+};
+
+
+  // ======= working fine old function for select files =====
+
+  // const handleFileClick = (file: IFileDataMedia) => {
+  //   let updatedFiles;
+  //   if (multiple) {
+  //     if (
+  //       selectedFiles.some((selected) => selected.imageurl === file.imageurl)
+  //     ) {
+  //       updatedFiles = selectedFiles.filter(
+  //         (selected) => selected.imageurl !== file.imageurl
+  //       );
+  //     } else {
+  //       updatedFiles = [...selectedFiles, file];
+  //     }
+  //   } else {
+  //     updatedFiles = selectedFiles[0]?.imageurl === file.imageurl ? [] : [file];
+  //   }
+  //   setSelectedFiles(updatedFiles);
+  //   onClick?.(
+  //     updatedFiles,
+  //     updatedFiles.map((file) => file.imageurl)
+  //   );
+  // };
+
+  if (isLoading) return <PreloaderPage />;
 
   return (
     <PagesLayout className="h-fit">
       <PageLayoutHeader>
-        <h1>All Uploaded Files</h1>
+        {selectedFiles && selectedFiles.length > 0 ? (
+          <div>
+            <h1 className="text-xs">{selectedFiles.length} selected</h1>
+          </div>
+        ) : (
+          <h1>All Uploaded Files</h1>
+        )}
+
         <AyButton
           title="Upload Media"
           onClick={() => handleClick("/settings/media")}
@@ -109,21 +158,45 @@ export default function AllUploadedFiles({
       </PageLayoutHeader>
 
       <PagesLayoutContent className="space-y-10">
-        <Popover>
-          <PopoverTrigger>
-            <AyButton
-              icon="fluent-color:calendar-clock-20"
-              iconSize={23}
-              variant="outlined"
-              outLineColor="gray"
-              title="Filter With Date"
-              sx={{ width: "fit-content" }}
-            />
-          </PopoverTrigger>
-          <PopoverContent className="ml-36 z-[10006]">
-            <Calendar mode="single" selected={date} onSelect={setDate} className="z-[10006]" />
-          </PopoverContent>
-        </Popover>
+        <div className="flex items-center gap-5 flex-wrap">
+          <Popover>
+            <PopoverTrigger>
+              <AyButton
+                icon="fluent-color:calendar-clock-20"
+                iconSize={23}
+                variant="outlined"
+                outLineColor="gray"
+                title={`${date ? "Filter With Date" : "Filter With Date"}`}
+                sx={{ width: "fit-content" }}
+              />
+            </PopoverTrigger>
+            <PopoverContent className="ml-36 z-[10006]">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="z-[10006]"
+              />
+            </PopoverContent>
+          </Popover>
+          {/* reset button calendar ======= */}
+          {date && (
+            <div className="">
+              <AyButton
+                title="Reset"
+                variant="outlined"
+                sx={{
+                  width: "fit-content",
+                }}
+                onClick={() => {
+                  if (date) {
+                    setDate(undefined);
+                  }
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {filteredFiles.length === 0 ? (
           <p className="text-center text-gray-500 font-semibold ">
@@ -142,17 +215,23 @@ export default function AllUploadedFiles({
                       {files.map((file) => (
                         <li
                           key={file._id}
-                          className={`aspect-square relative flex-col max-w-[200px] flex justify-center items-center border cursor-pointer ${
+                          className={`aspect-square shadow-2xl hover:scale-105 duration-200 transition-transform relative flex-col max-w-[200px] flex justify-center items-center border cursor-pointer ${
                             selectedFiles.find((f) => f._id === file._id)
                               ? "border-blue-500"
                               : ""
                           }`}
                           // className="border cursor-pointer p-5 rounded-xl shadow-lg"
-                          onClick={() => {
+                          // onClick={() => {
+                          //   if (onClick) {
+                          //     handleFileClick(file);
+                          //   }
+                          // }}
+                          onClick={(event) => {
                             if (onClick) {
-                              handleFileClick(file);
+                              handleFileClick(file, event);
                             }
                           }}
+                          
                         >
                           {/* {JSON.stringify(file)} */}
                           {/* {file.imageurl} sdas */}

@@ -69,7 +69,7 @@ export default function PriceStockSectionPage({
           fieldAs={Input}
         />
         {/* ===== discount type ===== */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between md:flex-row flex-col gap-2 md:items-center">
           <Label className="text-sm text-textGray">Discount Type</Label>
           <Select
             onValueChange={(value) => {
@@ -157,9 +157,9 @@ export default function PriceStockSectionPage({
 
         {/* select store ====
         ==================== */}
-        <div className="flex items-center lg:flex-row flex-col justify-between">
+        <div className="flex md:items-center gap-2 lg:flex-row flex-col justify-between">
           <Label className="text-textGray">Store</Label>
-          <div className="lg:w-3/4">
+          <div className="lg:w-3/4 w-full">
             <StoreSelection values={values} setFieldValue={setFieldValue} />
             <ErrorMessage
               name="store"

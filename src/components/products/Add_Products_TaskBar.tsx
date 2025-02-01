@@ -47,7 +47,7 @@ export default function AdminProductTaskbar() {
         {TaskbarItems.map((item, index) => (
           <li
             key={item.id}
-            className={`${
+            className={`w-full ${
               selectedPage === item.path
                 ? "backdrop-blur-lg  bg-bgGraySoft hover:bg-none text-textMain border-t border-l border border-textHardSoft font-bold"
                 : "hover:bg-black/5 border-b border-t border-l border"

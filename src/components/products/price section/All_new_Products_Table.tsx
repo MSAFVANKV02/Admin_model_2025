@@ -47,13 +47,13 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       <div className="flex items-center gap-2">
                         {variation.image && typeof variation.image === "string" ? (
                           <img
-                            src={""}
+                          src={variation.image??""}
                             alt="Variant"
                             className="w-7 h-7 object-cover rounded-sm"
                           />
                         ):(
                           <img
-                          src={URL.createObjectURL(variation.image)??""}
+                          src={variation.image??""}
                           alt="Variant"
                           className="w-7 h-7 object-cover rounded-sm"
                         />

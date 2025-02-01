@@ -53,7 +53,6 @@ export default function FilesMediaSectionPage({
   const [selectedColor, setSelectedColor] = useState<boolean>(false);
 
   // console.log(values);
-  
 
   const handleFileChange = async (
     event: IFileDataMedia[],
@@ -328,17 +327,17 @@ export function FormFieldGenal({
   const { openMediaDrawer } = useModal();
 
   return (
-    <div className={cn("flex lg:items-center lg:flex-row flex-col justify-between lg:gap-10", className)}>
+    <div
+      className={cn(
+        "flex lg:items-center lg:flex-row flex-col justify-between lg:gap-10",
+        className
+      )}
+    >
       <Label htmlFor={name} className="text-sm text-textGray">
         {title}
       </Label>
-      <div
-        className="flex flex-col gap-1 lg:w-[70%] rel"
-       
-      >
-        <div className="flex items-center gap-3"
-         onClick={openMediaDrawer}
-        >
+      <div className="flex flex-col gap-1 lg:w-[70%] rel">
+        <div className="flex items-center gap-3" onClick={openMediaDrawer}>
           <Label
             htmlFor={id}
             className="border relative overflow-hidden items-center gap-4 rounded-md lg:w-[300px] w-full cursor-pointer flex"
@@ -402,9 +401,9 @@ export function FormFieldGenal({
         ) : (
           <SelectedImages
             value={values}
-            name="gallery_image"
-            title="selected Gallery Images"
-            alt="gallery images"
+            name={name}
+            title={title}
+            alt={title}
             setFieldValue={setFieldValue}
           />
         )}
@@ -441,11 +440,7 @@ export function SelectedImages({
             {value?.map((image: any, index: number) => (
               <div className="" key={index}>
                 <div className="w-[50px] bg-gray-100 rounded-md relative mt-3">
-                  <img
-                    src={image}
-                    alt={alt}
-                    className="object-cover "
-                  />
+                  <img src={image} alt={alt} className="object-cover " />
                   <Tooltip title={`img-${index + 1}`} placement="top-end">
                     <button
                       type="button"

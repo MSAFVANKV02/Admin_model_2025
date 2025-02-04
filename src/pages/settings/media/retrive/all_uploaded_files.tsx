@@ -179,7 +179,7 @@ export default function AllUploadedFiles({
             <h1 className="text-xs">{selectedFiles.length} selected</h1>
           </div>
         ) : (
-          <h1>All Uploaded Files</h1>
+          <h1>All Uploaded Files &lsqb; </h1>
         )}
 
         <AyButton

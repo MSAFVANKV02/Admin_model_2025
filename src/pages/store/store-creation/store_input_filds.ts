@@ -57,7 +57,7 @@ export  const registrationTypes: { value: IRegistrationTypes; name: string }[] =
 
 // 2. user details =================================================================
 // ===============================================================
-export   const userDetailsFields: {
+export  const userDetailsFields: {
     id: keyof StoreTypes;
     name: keyof StoreTypes;
     label?: string;

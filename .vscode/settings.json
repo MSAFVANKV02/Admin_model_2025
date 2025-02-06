@@ -2,9 +2,12 @@
     "cSpell.words": [
         "Aadhaar",
         "Acception",
+        "cgst",
         "classnamewrapper",
         "ecommerce",
-        "pincode"
+        "igst",
+        "pincode",
+        "sgst"
     ],
     "tailwindCSS.classAttributes": ["class", "className", "fieldClassName","classnamewrapper"]
 }

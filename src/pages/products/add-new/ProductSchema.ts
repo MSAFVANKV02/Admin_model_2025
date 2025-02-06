@@ -35,14 +35,17 @@ export const GeneralSchema = Yup.object({
 
   // ========= tax details starts==========================
   tax_details: Yup.object({
-    taxSlab: Yup.array()
-    .of(
-      Yup.object().shape({
-        _id: Yup.string().required("ID is required"),
-        name: Yup.string().required("Name is required"),
-      })
-    )
-    .min(1, "At least one tax slab must be selected"),
+    // taxSlab: Yup.array()
+    // .of(
+    //   Yup.object().shape({
+    //     _id: Yup.string().required("ID is required"),
+    //     name: Yup.string().required("Name is required"),
+    //   })
+    // )
+    // .min(1, "At least one tax slab must be selected"),
+    hsn_sac_number:Yup.number()
+    .positive("hsn/sac number must be a positive number")
+    .required("sn/sac number is required"),
     isCess: Yup.boolean().default(false),
     //   cess: Yup.array().when("isCess", (isCess, schema) => {
     //     return isCess ? schema.required("Cess is required") : schema.optional();

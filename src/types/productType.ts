@@ -1,12 +1,12 @@
 export type IProducts = {
   _id?: number;
-  product_owner?: "seller"|"admin"|"store";
+  product_owner?: "seller" | "admin" | "store";
   product_name: string;
   mrp: number;
   product_sku: string;
   barcode?: string;
   brand?: string;
-  keywords?: string;
+  keywords?: string[];
   minimum_quantity: number;
   product_weight?: number;
   product_dimensions: IProductDimensions;
@@ -16,10 +16,10 @@ export type IProducts = {
   description?: string;
   //   ===== tax  details ============
   tax_details: ITaxDetails;
-//   taxSlab?: SelectOption[];
-//   isCess: boolean;
+  //   taxSlab?: SelectOption[];
+  //   isCess: boolean;
   //   cess?: SelectOption[];
-//   cess?: number;
+  //   cess?: number;
 
   //   ===== tax  details ============
 
@@ -29,8 +29,8 @@ export type IProducts = {
   is_best_selling?: boolean;
 
   //   files section
-  gallery_image?: File[] | string[] ;
-  thumbnails: File[] | string[] ;
+  gallery_image?: File[] | string[];
+  thumbnails: File[] | string[];
   variations: {
     image: string;
     colorCode: string;
@@ -69,13 +69,34 @@ export type IProducts = {
   reject_reason?: string;
 };
 // ====== type ends =================
+
 export type ITaxDetails = {
-  taxSlab?: SelectOption[];
+  // taxSlab?: SelectOption[];
+  hsn_sac_number: number;
+  non_gst_goods: 'yes'|'no'
+  calculation_types: "on_item_rate" | 'on_value';
+  igst: number;
+  central_tax: number;
+  state_tax: number;
+  // =====
+  on_items_rate_details: ITaxOnItemsRateDetails[];
   isCess: boolean;
   //   cess?: SelectOption[];
   cess?: number;
 };
 
+// ==== tax on items details =================
+export type ITaxOnItemsRateDetails = {
+  greaterThan: number
+  upto: number;
+  igst: number;
+  cgst: number;
+  sgst: number;
+  cess: number;
+}
+
+
+// === product dimension details =================================
 export type IProductDimensions = {
   product_height: number;
   product_length: number;

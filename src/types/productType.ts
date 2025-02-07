@@ -79,7 +79,7 @@ export type ITaxDetails = {
   central_tax: number;
   state_tax: number;
   // =====
-  on_items_rate_details: ITaxOnItemsRateDetails;
+  on_items_rate_details: ITaxOnItemsRateDetails[];
   isCess: boolean;
   //   cess?: SelectOption[];
   cess?: number;
@@ -87,18 +87,18 @@ export type ITaxDetails = {
 
 // ==== tax on items details =================
 export type ITaxOnItemsRateDetails = {
-  greaterThan: number
-  upto: number;
-  igst: number;
-  cgst: number;
-  sgst: number;
-  cess: number;
+  greaterThan: number | null
+  upto: number | null;
+  igst: number | null;
+  cgst: number | null;
+  sgst: number | null;
+  cess: number | null;
 }
 
 
 // === product dimension details =================================
 export type IProductDimensions = {
-  product_height: number;
+  product_height: number | null;
   product_length: number;
   product_width: number;
 };

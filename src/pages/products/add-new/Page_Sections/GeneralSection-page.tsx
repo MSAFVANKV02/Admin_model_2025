@@ -51,12 +51,14 @@ type Props = {
 export default function GeneralSectionPage({
   values,
   setFieldValue,
+  errors
 }: // errors,
+
 Props) {
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
-  // console.log(errors, "errors");
-  // console.log(values, "values");
+  console.log(errors, "errors");
+  console.log(values, "values");
 
   const productFields: {
     id: keyof GeneralFormValues;
@@ -165,6 +167,7 @@ Props) {
             {field.render ? (
               field.render({ values, setFieldValue })
             ) : (
+              
               <FormFieldGenal
                 value={values[field.id] as string}
                 title={field.title ?? ""}
@@ -172,6 +175,7 @@ Props) {
                 name={field.name}
                 type={field.type ?? "text"}
                 placeholder={field.placeholder}
+                setFieldValue={setFieldValue}
                 fieldAs={Input}
               />
             )}
@@ -258,6 +262,7 @@ Props) {
           className={cn(``)}
           fieldClassName="w-[200px]"
           type="number"
+          setFieldValue={setFieldValue}
           fieldAs={Input}
           extraTitle={
             <Link
@@ -382,6 +387,7 @@ type FormFieldGenalProps = {
   reverseFlex?: boolean;
   titleSize?: "sm"|"lg"|"xs"|"xl";
   onChange?: (value: any) => void;
+  showError?: boolean;
 };
 
 export function FormFieldGenal({
@@ -484,7 +490,15 @@ export function FormFieldGenal({
                 as={fieldAs}
                 value={value}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                  const newValue = e.target.value;
+                  if (setFieldValue) {
+                    setFieldValue(name, newValue);
+                  }
+                  if (onChange) {
+                    onChange(e);
+                  }
+                }}
                 onInput={(e: any) => {
                   if (
                     maxNumber !== undefined &&

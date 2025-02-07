@@ -11,7 +11,7 @@ export const GeneralSchema = Yup.object({
   product_sku: Yup.string().min(1, "SKU is required").required("SKU is required"),
   barcode: Yup.string().optional(),
   brand: Yup.string().required("Brand is required"),
-  keywords: Yup.string().optional(),
+  // keywords: Yup.string().optional(),
   minimum_quantity: Yup.number()
     .min(1, "Minimum Qty must be at least 1")
     .required("Minimum Qty is required"),
@@ -35,36 +35,65 @@ export const GeneralSchema = Yup.object({
 
   // ========= tax details starts==========================
   tax_details: Yup.object({
-    // taxSlab: Yup.array()
-    // .of(
-    //   Yup.object().shape({
-    //     _id: Yup.string().required("ID is required"),
-    //     name: Yup.string().required("Name is required"),
-    //   })
-    // )
-    // .min(1, "At least one tax slab must be selected"),
+
     hsn_sac_number:Yup.number()
     .positive("hsn/sac number must be a positive number")
     .required("sn/sac number is required"),
+
+    non_gst_goods: Yup.string()
+    .oneOf(["yes", "no"], "Must be either 'yes' or 'no'")
+    .required("Non-GST goods field is required"),
+
+    calculation_types: Yup.string()
+    .oneOf(["on_item_rate", "on_value"], "Invalid calculation type")
+    .when("non_gst_goods", {
+      is: "no",
+      then: (schema) => schema.required("Calculation Type is required when Non-GST Goods is 'No'"),
+      otherwise: (schema) => schema.optional(),
+    }),
+
+    igst: Yup.number()
+    .nullable()
+    .when(["calculation_types", "non_gst_goods"], ([calculation_types, non_gst_goods], schema) => {
+      return calculation_types === "on_value" && non_gst_goods === "no"
+        ? schema.required("IGST is required ")
+        : schema.optional();
+    }),
+  
+
+
+    on_items_rate_details: Yup.array()
+    .when("calculation_types", {
+      is: "on_item_rate",
+      then: (schema) =>
+        schema
+          .of(
+            Yup.object({
+              greaterThan: Yup.number()
+                .nullable()
+                .required("Greater Than value is required"),
+              upto: Yup.number()
+                .nullable()
+                .required("Upto value is required"),
+              igst: Yup.number()
+                .nullable()
+                .required("IGST is required"),
+              cgst: Yup.number()
+                .nullable()
+                .required("CGST is required"),
+              sgst: Yup.number()
+                .nullable()
+                .required("SGST is required"),
+            })
+          )
+          .min(1, "At least one item rate detail must be provided when calculation type is 'on_item_rate'")
+          .required("Item rate details are required when calculation type is 'on_item_rate'"),
+      otherwise: (schema) => schema.notRequired().nullable(),
+    }),
+  
+
     isCess: Yup.boolean().default(false),
-    //   cess: Yup.array().when("isCess", (isCess, schema) => {
-    //     return isCess ? schema.required("Cess is required") : schema.optional();
-    //   }),
-    // cess: Yup.array()
-    //   .of(
-    //     Yup.object().shape({
-    //       _id: Yup.string().required("Cess ID is required"),
-    //       name: Yup.string().required("Cess name is required"),
-    //     })
-    //   )
-    //   .when("isCess", {
-    //     is: true,
-    //     then: (schema) =>
-    //       schema
-    //         .min(1, "At least one Cess must be selected")
-    //         .required("Cess is required"),
-    //     otherwise: (schema) => schema.optional(),
-    //   }),
+    
     cess: Yup.number()
   .when("isCess", {
     is: true,

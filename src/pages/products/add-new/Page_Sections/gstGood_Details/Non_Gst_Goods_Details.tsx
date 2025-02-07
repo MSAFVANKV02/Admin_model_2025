@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { FormFieldGenal, GeneralFormValues } from "../GeneralSection-page";
 import { Input } from "@/components/ui/input";
 import GstOnItemsRate from "./Gst_On_Items_Rate";
+import { useEffect } from "react";
 
 type Props = {
   values: GeneralFormValues;
@@ -9,6 +10,21 @@ type Props = {
 };
 
 const NonGstGoodsDetails = ({ values, setFieldValue }: Props) => {
+
+  useEffect(() => {
+    if (values.tax_details.calculation_types === "on_value") {
+      setFieldValue("tax_details.on_items_rate_details", [
+        {
+          greaterThan: null,
+          upto: null,
+          igst: null,
+          cgst: null,
+          sgst: null,
+          cess: null,
+        },
+      ]);
+    }
+  }, [values.tax_details.calculation_types, setFieldValue]);
   return (
     <div className="space-y-3">
       <FormFieldGenal
@@ -30,11 +46,12 @@ const NonGstGoodsDetails = ({ values, setFieldValue }: Props) => {
       />
       {values.tax_details.calculation_types === "on_value" ? (
         <FormFieldGenal
-          title="HSN/SAC"
+          title="IGST"
           maxNumber={100}
           id="tax_details.igst"
           name="tax_details.igst"
-          placeholder="HSN/SAC"
+          setFieldValue={setFieldValue}
+          placeholder="IGST"
           className={cn(``)}
           fieldClassName="w-[200px]"
             havePercentage

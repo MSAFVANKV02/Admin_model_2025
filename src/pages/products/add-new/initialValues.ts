@@ -17,12 +17,21 @@ export const InitialValues = {
     // taxSlab: [],
     hsn_sac_number: undefined,
     non_gst_goods:"no",
-    calculation_types:"",
+    calculation_types:"on_value",
     igst: undefined,
     central_tax: undefined,
     state_tax: undefined,
     // =====
-    on_items_rate_details:[],
+    on_items_rate_details: [
+      {
+        greaterThan: undefined,
+        upto: undefined,
+        igst: undefined,
+        cgst: undefined,
+        sgst: undefined,
+        cess: undefined,
+      },
+    ], 
     isCess: false,
     cess: undefined,
   },

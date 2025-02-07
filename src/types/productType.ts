@@ -79,7 +79,7 @@ export type ITaxDetails = {
   central_tax: number;
   state_tax: number;
   // =====
-  on_items_rate_details: ITaxOnItemsRateDetails[];
+  on_items_rate_details: ITaxOnItemsRateDetails;
   isCess: boolean;
   //   cess?: SelectOption[];
   cess?: number;

@@ -164,7 +164,7 @@ const InitialValues: IProducts = {
     product_sku: '',
     barcode: '',
     brand: '',
-    keywords: '',
+    keywords: [],
     minimum_quantity: 0,
     product_weight: 0,
     product_owner:'admin',

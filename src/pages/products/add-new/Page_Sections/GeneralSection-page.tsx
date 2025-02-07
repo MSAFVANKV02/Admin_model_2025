@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import NonGstGoodsDetails from "./gstGood_Details/Non_Gst_Goods_Details";
 
 // Define the type for form values
 export interface GeneralFormValues {
@@ -270,8 +271,9 @@ Props) {
           value={`${values.tax_details.hsn_sac_number}`} // Bind field value to Formik
         />
         {/* ==== #non_gst_goods ===== */}
-         <FormFieldGenal
-          title="HSN/SAC"
+        <FormFieldGenal
+          title="Is non-GST Goods"
+          defaultValue="no"
           select
           id="tax_details.non_gst_goods"
           name="tax_details.non_gst_goods"
@@ -279,18 +281,25 @@ Props) {
           className={cn(``)}
           fieldClassName=""
           fieldAs={Input}
-         setFieldValue={setFieldValue}
+          setFieldValue={setFieldValue}
           value={`${values.tax_details.non_gst_goods}`} // Bind field value to Formik
         />
 
+        {/* ====  #Gst Goods Details ====== */}
+        {values.tax_details.non_gst_goods === "no" && (
+          <NonGstGoodsDetails values={values} setFieldValue={setFieldValue} />
+        )}
+
         {/* #Cess ========== */}
-        <div className="flex justify-between md:flex-row flex-col gap-3 w-full mb-10">
-          <Label htmlFor="tax_details.cess" className="text-textGray">
-            CESS
-          </Label>
-          <div className="md:w-3/4 flex ">
+
+        <FormFieldGenal
+          title="CESS"
+          reverseFlex={true}
+          maxNumber={100}
+          havePercentage
+          extraTitle={
             <MySwitch
-              id="tax_details.cess"
+              id="tax_details.isCess"
               isOn={values.tax_details.isCess}
               handleToggle={() => {
                 setFieldValue("tax_details.isCess", !values.tax_details.isCess);
@@ -298,27 +307,16 @@ Props) {
                   setFieldValue("values.tax_details.cess", []);
               }}
             />
-            <div className="w-full">
-              <Field
-                id="tax_details.cess"
-                name="tax_details.cess"
-                placeholder="Cess"
-                className={cn(` p-6 ml-3`)}
-                type="number"
-                as={Input}
-                disabled={!values.tax_details.isCess}
-                value={`${values.tax_details.cess}`} // Bind field value to Formik
-              />
-
-              <ErrorMessage
-                name="tax_details.cess"
-                component="span"
-                className="text-red-500 text-xs"
-              />
-            </div>
-          </div>
-        </div>
-
+          }
+          id="tax_details.cess"
+          name="tax_details.cess"
+          placeholder="Cess"
+          className={cn(``)}
+          type="number"
+          fieldAs={Input}
+          disabled={!values.tax_details.isCess}
+          value={`${values.tax_details.cess}`} // Bind field value to Formik
+        />
         {/* #status toggle ========= */}
         <b>Status</b>
         <div className="flex justify-between">
@@ -376,6 +374,14 @@ type FormFieldGenalProps = {
   extraTitle?: React.ReactNode;
   select?: boolean;
   setFieldValue?: (name: string, value: any) => void;
+  selectValue?: { name: string; value: ITaxDetails["calculation_types"] }[];
+  defaultValue?: string;
+  maxNumber?: number;
+  havePercentage?: boolean;
+  disabled?: boolean;
+  reverseFlex?: boolean;
+  titleSize?: "sm"|"lg"|"xs"|"xl";
+  onChange?: (value: any) => void;
 };
 
 export function FormFieldGenal({
@@ -390,8 +396,33 @@ export function FormFieldGenal({
   type = "text",
   extraTitle,
   select,
-  setFieldValue
+  setFieldValue,
+  selectValue,
+  defaultValue,
+  maxNumber,
+  havePercentage,
+  disabled,
+  reverseFlex,
+  titleSize,
+  onChange,
 }: FormFieldGenalProps) {
+
+
+  const titleSizeAdd = (size?: string) => {
+    switch (size) {
+      case "sm":
+        return "text-sm";
+      case "lg":
+        return "text-lg";
+      case "xs":
+        return "text-xs";
+      case "xl":
+        return "text-xl";
+      default:
+        return "text-sm";
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -399,39 +430,79 @@ export function FormFieldGenal({
         className
       )}
     >
-      <Label htmlFor={name} className="text-textGray">
-        {title}
-      </Label>
+      {title && (
+        <Label htmlFor={name} className={`text-textGray ${titleSizeAdd(titleSize)}`}>
+          {title}
+        </Label>
+      )}
+
       <div className="flex flex-col md:w-3/4 gap-2">
-        <div className="flex items-center lg:flex-row flex-col gap-3">
+        <div
+          className={cn(
+            "flex items-center gap-3",
+            reverseFlex ? "flex-row-reverse" : "flex-col lg:flex-row"
+          )}
+        >
           {select ? (
             <Select
-            defaultValue="no"
-            onValueChange={(value)=>{
-             if (setFieldValue) setFieldValue(name, value);
-            }}
+              defaultValue={defaultValue}
+              onValueChange={(value) => {
+                if (setFieldValue) setFieldValue(name, value);
+              }}
             >
-              <SelectTrigger  className={cn(` p-6 text-textGray`, fieldClassName)}>
+              <SelectTrigger
+                className={cn(` p-6 text-textGray`, fieldClassName)}
+              >
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="yes">Yes</SelectItem>
+                {selectValue?.map(({ name, value }) => (
+                  <SelectItem key={value} value={value}>
+                    {name}
+                  </SelectItem>
+                )) || [
+                  <SelectItem key="no" value="no">
+                    No
+                  </SelectItem>,
+                  <SelectItem key="yes" value="yes">
+                    Yes
+                  </SelectItem>,
+                ]}
+                {/* <SelectItem value="no">No</SelectItem>
+                <SelectItem value="yes">Yes</SelectItem> */}
               </SelectContent>
             </Select>
           ) : (
-            <Field
-              id={id}
-              name={name}
-              placeholder={placeholder}
-              className={cn(` p-6`, fieldClassName)}
-              type={type}
-              as={fieldAs}
-              value={value} // Bind field value to Formik
-            />
+            <div className={cn(`no-spinner w-full relative`, fieldClassName)}>
+              <Field
+                id={id}
+                max={maxNumber}
+                name={name}
+                placeholder={placeholder}
+                className={cn(`no-spinner p-6`, fieldClassName)}
+                type={type}
+                as={fieldAs}
+                value={value}
+                disabled={disabled}
+                onChange={onChange}
+                onInput={(e: any) => {
+                  if (
+                    maxNumber !== undefined &&
+                    Number(e.currentTarget.value) > maxNumber
+                  ) {
+                    e.currentTarget.value = maxNumber.toString(); // Reset input to maxNumber
+                  }
+                }}
+              />
+              {type === "number" && havePercentage && (
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  %
+                </span>
+              )}
+            </div>
           )}
 
-          {extraTitle && <span>{extraTitle}</span>}
+          {extraTitle && <div>{extraTitle}</div>}
         </div>
         <ErrorMessage
           name={name}

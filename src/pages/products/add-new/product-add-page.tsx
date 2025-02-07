@@ -132,7 +132,7 @@ export default function ProductAddPage() {
     <ProductLayout>
       <Formik
         initialValues={InitialValues}
-        validationSchema={getValidationSchema(currentStep)}
+        // validationSchema={getValidationSchema(currentStep)}
         enableReinitialize={true}
         onSubmit={(values) => {
           console.log("submit", values);

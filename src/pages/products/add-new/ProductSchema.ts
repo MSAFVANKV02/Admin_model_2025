@@ -72,9 +72,9 @@ export const GeneralSchema = Yup.object({
               greaterThan: Yup.number()
                 .nullable()
                 .required("Greater Than value is required"),
-              upto: Yup.number()
-                .nullable()
-                .required("Upto value is required"),
+              // upto: Yup.number()
+              //   .nullable()
+              //   .required("Upto value is required"),
               igst: Yup.number()
                 .nullable()
                 .required("IGST is required"),

@@ -51,14 +51,14 @@ type Props = {
 export default function GeneralSectionPage({
   values,
   setFieldValue,
-  errors
+  // errors
 }: // errors,
 
 Props) {
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
-  console.log(errors, "errors");
-  console.log(values, "values");
+  // console.log(errors, "errors");
+  // console.log(values, "values");
 
   const productFields: {
     id: keyof GeneralFormValues;

@@ -10,7 +10,7 @@ import { Form, Formik } from "formik";
 import AyButton from "@/components/myUi/AyButton";
 import { useEffect, useState } from "react";
 import ProductTableModalData from "../../products/All_Products_Modal/Product_Table_Modal";
-
+// s
 type Props = {
   product: IProducts;
 };

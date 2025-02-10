@@ -18,6 +18,7 @@ type Props = {
   IColor?: string; // Icon color for disabled state
   name: string;
   mediaType?: IMediaDataType;
+  multiple?: boolean;
   handleFileChange?: (event: IFileDataMedia[], fieldName: string) => void;
 };
 
@@ -32,6 +33,7 @@ const OpenMediaDrawer = ({
   name,
   mediaType,
   handleFileChange,
+  multiple
 }: Props) => {
   const { openMediaDrawer, openDrawerFieldName, setDrawerFieldName } =
     useModal();
@@ -79,6 +81,7 @@ const OpenMediaDrawer = ({
       </div>{" "}
       {name === openDrawerFieldName && (
         <Media_Files_Modal
+        multiple={multiple}
           fieldName={name}
           mediaType={mediaType}
           handleFileUpload={(event, fieldName) => {

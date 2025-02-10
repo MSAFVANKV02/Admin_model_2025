@@ -6,8 +6,8 @@ import { makeToast, makeToastError } from "@/utils/toaster";
 import AyButton from "@/components/myUi/AyButton";
 import WebFilesField from "./Web_Files_Field";
 
-import MediaFilesModal from "@/components/media/Media_Files_Modal";
 import { IFileDataMedia } from "../settings/media/retrive/all_uploaded_files";
+import OpenMediaDrawer from "@/components/myUi/OpenMediaDrawer";
 
 type FormData = {
   home_slider_1: { imageUrl: string; imageLink: string }[];
@@ -20,15 +20,15 @@ type FormData = {
 
 export default function WebBannerForm() {
   const [loading, setLoading] = useState(false);
-  const [selectedFieldName, setSelectedFieldName] = useState<{
-    id: keyof FormData;
-    name: keyof FormData;
-    fileType?: string;
-    label: string;
-    haveImageLink: boolean;
-    multiple?: boolean;
-    mediaType?: "pdf" | "image";
-  } | null>(null);
+  // const [selectedFieldName, setSelectedFieldName] = useState<{
+  //   id: keyof FormData;
+  //   name: keyof FormData;
+  //   fileType?: string;
+  //   label: string;
+  //   haveImageLink: boolean;
+  //   multiple?: boolean;
+  //   mediaType?: "pdf" | "image";
+  // } | null>(null);
 
   const initialValues: FormData = {
     home_slider_1: [],
@@ -42,7 +42,7 @@ export default function WebBannerForm() {
   const formatFieldName = (fieldName: string) => {
     return fieldName
       .split("_") // Split by underscores
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
       .join(" "); // Join words with a space
   };
 
@@ -53,13 +53,13 @@ export default function WebBannerForm() {
     setFieldValue: (field: keyof FormData, value: any) => void
   ) => {
     const selectedFiles = Array.from(src);
-  
+
     // Restrict login_page to only 1 image
     if (fieldName === "login_page" && selectedFiles.length > 1) {
       makeToastError("You can only select 1 image for the login page.");
       return;
     }
-  
+
     // Replace previous image if login_page is selected
     if (fieldName === "login_page") {
       setFieldValue(fieldName, [
@@ -70,8 +70,13 @@ export default function WebBannerForm() {
       ]);
     } else {
       // Existing logic for other fields
-      if (fieldName === "home_banner" && selectedFiles.length + values[fieldName].length > 2) {
-        makeToastError("You can only select up to 2 images for the home banner");
+      if (
+        fieldName === "home_banner" &&
+        selectedFiles.length + values[fieldName].length > 2
+      ) {
+        makeToastError(
+          "You can only select up to 2 images for the home banner"
+        );
       } else if (selectedFiles.length + values[fieldName].length > 4) {
         makeToastError("You can only select up to 4 images for sliders");
       } else {
@@ -82,11 +87,10 @@ export default function WebBannerForm() {
         setFieldValue(fieldName, values[fieldName].concat(newImages));
       }
     }
-  
+
     makeToast(`Image Selected For: ${formatFieldName(fieldName)}`);
-    handleCloseModal();
+    // handleCloseModal();
   };
-  
 
   const handleImageLinkChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -106,9 +110,9 @@ export default function WebBannerForm() {
     setFieldValue(fieldName, updatedImages);
   };
 
-  const handleCloseModal = () => {
-    setSelectedFieldName(null); // Close modal
-  };
+  // const handleCloseModal = () => {
+  //   setSelectedFieldName(null); // Close modal
+  // };
 
   const userDetailsFields: {
     id: keyof FormData;
@@ -205,23 +209,35 @@ export default function WebBannerForm() {
                   className=""
                   onClick={() => {
                     // console.log(field.name, "field.name}");
-                    setSelectedFieldName(field); // Update selected field name
+                    // setSelectedFieldName(field);
                   }}
                 >
+                  <OpenMediaDrawer
+                  multiple={field.multiple}
+                    title={field.label}
+                    className="gap-1 overflow-hidden"
+                    name={field.name}
+                    mediaType={field.mediaType}
+                    handleFileChange={(event) => {
+                      // console.log(fieldName,'fieldNamefieldName');
+
+                      const files = event;
+                      if (!files) return;
+
+                      handleNewImageUpload(
+                        event,
+                        field.name,
+                        values,
+                        setFieldValue
+                      );
+                    }}
+                  />
                   <WebFilesField
                     setFieldValue={setFieldValue}
                     haveImageLink={field.haveImageLink}
                     images={values[field.name]}
                     label={field.label}
                     fieldName={field.name} // Use field.name here
-                    // handleNewImageUpload={(src, fieldName) => {
-                    //   handleNewImageUpload(
-                    //     src,
-                    //     fieldName as keyof FormData,
-                    //     values,
-                    //     setFieldValue
-                    //   );
-                    // }}
                     handleLinkChange={(e, index) =>
                       handleImageLinkChange(
                         e,
@@ -238,7 +254,7 @@ export default function WebBannerForm() {
               ))}
             </div>
 
-            {selectedFieldName && (
+            {/* {selectedFieldName && (
               <MediaFilesModal
                 handleFileUpload={(src) => {
                   handleNewImageUpload(
@@ -246,19 +262,14 @@ export default function WebBannerForm() {
                     selectedFieldName.name,
                     values,
                     setFieldValue
-                  )
-                  // const updatedFiles = src.map((file) => ({
-                  //   imageUrl: file,
-                  //   imageLink: "https://ayaboo.com/",
-                  // }));
-                  // setFieldValue(selectedFieldName.name, updatedFiles);
-                  // handleCloseModal(); // Close modal after selection
+                  );
+           
                 }}
                 fieldName={selectedFieldName.name}
                 multiple={selectedFieldName.multiple}
                 mediaType={selectedFieldName.mediaType}
               />
-            )}
+            )} */}
 
             <div className="flex justify-end mt-10">
               <AyButton title="Save" type="submit" loading={loading} />

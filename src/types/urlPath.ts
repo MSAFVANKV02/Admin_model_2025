@@ -48,3 +48,12 @@ export const DELETE_MEDIA_URL = `/product_api/media/deleteMediaById`
 export const DELETE_MULTIPLE_MEDIA_URL = `/product_api/media/deleteMultipleMedia`
 
 
+// ============ CREATE CATEGORY FOR PRODUCTS =========================
+// ==============****************====================
+
+export const CREATE_CATEGORY_URL = `/product_api/category/createCategory`
+export const GET_CATEGORY_URL = `/product_api/category/getCategories`;
+export const TOGGLE_CATEGORY_URL = `/product_api/category/toggle-status`;
+
+
+

@@ -1,5 +1,6 @@
+import { get_Category_Api } from "@/services/category/route";
 import { ICategory } from "@/types/categorytypes";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Initial state
 interface CategoryState {
@@ -7,6 +8,31 @@ interface CategoryState {
   loading: boolean;
   error: string | null;
 }
+
+export const getCategories = createAsyncThunk(
+  "category/getCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await get_Category_Api()
+      const categoriesData = response.data.categories;
+      // console.log(categoriesData,'listcategories==== category slice');
+      
+
+      const parentMap = new Map(
+        categoriesData.map((category: any) => [category._id, category.name])
+      );
+
+      const categoriesWithParentName = categoriesData.map((category: any) => ({
+        ...category,
+        parent: parentMap.get(category.parentId) || "PARENT",
+      }));
+
+      return categoriesWithParentName;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
 
 const initialState: CategoryState = {
   categories: [],
@@ -31,6 +57,21 @@ const categorySlice = createSlice({
       state.categories = action.payload; // This is useful for setting initial data
     },
   },
+  extraReducers:(builder) => {
+    builder
+    .addCase(getCategories.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getCategories.fulfilled, (state, action) => {
+      state.categories = action.payload;
+      state.loading = false;
+    })
+    .addCase(getCategories.rejected, (state, action) => {
+      state.error = action.payload as string;
+      state.loading = false;
+    })
+  }
 });
 
 export const { addCategory, removeCategory, setCategories } = categorySlice.actions;

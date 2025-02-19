@@ -5,46 +5,55 @@ import {
 } from "@/components/tasks/table_columns/category-table-columns";
 import { DataTable } from "@/components/tasks/task_components/data-table";
 import { useModal } from "@/providers/context/context";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { useAppSelector } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 
 import MyPageTab from "@/components/myUi/MyTab";
 import CategoryAddModal from "./category_Add_Modal";
+import {  getCategories } from "@/redux/actions/category_Slice";
 
-// const Category = [
-//   {
-//     _id: "1",
-//     parent_category: "1234253675",
-//     category_name: "Electronics",
-//     coverImage: "img/products/Group 710.jpg",
-//     icon: "img/products/image 61.png",
-//     featured: true,
-//     published: true,
-//   },
-//   {
-//     _id: "2",
-//     parent_category: null,
-//     category_name: "Clothing",
-//     coverImage: "img/products/Group 710.jpg",
-//     icon: "img/products/image 61.png",
-//     featured: false,
-//     published: true,
-//   },
-// ];
 
 export default function CategoryPage() {
   const categories = useAppSelector((state) => state.category.categories);
   const [isMain, setIsMain] = useState(true);
   const { setIsOpen, setSelectedCategory } = useModal();
+  const dispatch = useAppDispatch();
 
   const filterMainCat = useMemo(
-    () => categories.filter((category) => category.parent_category === null),
+    () => categories.filter((category) => category.parentId === null),
     [categories]
   );
   // const filterSubCat = categories.filter(
   //   (category) => category.parent_category !== null
   // );
+
+
+
+  // const { data: categories1 } = useQueryData(['category-details'], getAllCategories);
+  // console.log(categories1);
+  
+  // // Ensure categories1 is properly typed before destructuring
+  // const {  data: categoryData = [] } = (categories1 ?? {}) as {
+  //   status?: number;
+  //   data?: ICategory[];
+  // };
+
+  // console.log(categoryData,'categoryData');
+  
+  
+  
+  
+  useEffect(() => {
+    // if (categoryData.length > 0) {
+    //   dispatch(setCategories(categoryData));
+    // }
+    dispatch(getCategories())
+  }, []);
+  
+
+
+
 
   return (
     <div>
@@ -67,7 +76,7 @@ export default function CategoryPage() {
                     enableSearch
                     columns={CategoryColumnMain}
                     data={filterMainCat}
-                    searchWith="category_name"
+                    searchWith="name"
                     // statuses={statuses}
 
                     enableStatus={false}
@@ -89,7 +98,7 @@ export default function CategoryPage() {
                     enableSearch
                     columns={CategoryColumnAll}
                     data={categories}
-                    searchWith="category_name"
+                    searchWith="name"
                     // statuses={statuses}
 
                     enableStatus={false}

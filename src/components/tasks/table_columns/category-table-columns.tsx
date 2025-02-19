@@ -4,6 +4,7 @@ import { MySwitch } from "@/components/myUi/mySwitch";
 import { ColumnDef } from "@tanstack/react-table";
 import { ICategory } from "@/types/categorytypes";
 import CategoryAddModal from "../table_actions/category_Actions";
+import { CategoryToggle } from "@/actions/category/categoryAction";
 
 // import { DataTableColumnHeader } from "../task_components/data-table-column-header";
 
@@ -26,14 +27,14 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
   },
 
   {
-    accessorKey: "category_name",
+    accessorKey: "name",
     // header: "Variants",
     // header: ({ column }) => (
     //   <DataTableColumnHeader column={column} title="Category Name" />
     // ),
     header: () => <div className="font-bold text-black max-w-32 ">Main Category</div>,
     cell: ({ row }) => {
-      const catName = row.original.category_name;
+      const catName = row.original.name;
       return (
         <div>
          {catName}
@@ -47,17 +48,17 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     header: () => <div className="font-bold text-black">Cover Img</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.coverImage||""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.coverImage||""} alt={row.original.name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },
   {
-    accessorKey: "icon",
+    accessorKey: "iconImage",
     // header: "Discount",
     header: () => <div className="font-bold text-black">Icon</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.icon||""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.iconImage||""} alt={row.original.name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },
@@ -75,12 +76,16 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Featured</div>,
     cell: ({ row }) => {
+
+      const {toggleCategories} = CategoryToggle();
+       
       return (
       <MySwitch
         isOn={row.original.featured}
         id={`is_Category_featured`}
         handleToggle={() => {
           console.log("toggled");
+          toggleCategories("featured",row.original._id??"")
           //  row.original.featured =!row.original.featured;
         }}
       />
@@ -91,16 +96,20 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     accessorKey: "published",
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Publish</div>,
-    cell: ({ row }) => (
-      <MySwitch
+    cell: ({ row }) => {
+      const {toggleCategories} = CategoryToggle();
+      return(
+           <MySwitch
         isOn={row.original.published}
         id={`is_Category_published`}
         handleToggle={() => {
           console.log("toggled");
-           row.original.published =!row.original.published;
+          toggleCategories("published",row.original._id??"")
         }}
       />
-    ),
+      )
+   
+    },
   },
  
   {
@@ -141,10 +150,10 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
   },
 
   {
-    accessorKey: "category_name",
+    accessorKey: "name",
     header: () => <div className="font-bold text-black max-w-32 ">All Categories</div>,
     cell: ({ row }) => {
-      const catName = row.original.category_name;
+      const catName = row.original.name;
       return (
         <div>
          {catName}
@@ -153,10 +162,10 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
     },
   },
   {
-    accessorKey: "parent_category",
+    accessorKey: "parentId",
     header: () => <div className="font-bold text-black max-w-32 ">Parent Category</div>,
     cell: ({ row }) => {
-      const catName = row.original.parent_category;
+      const catName = row.original.parent;
       return (
         <div>
          {catName}
@@ -166,12 +175,12 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
   },
 
   {
-    accessorKey: "icon",
+    accessorKey: "iconImage",
     // header: "Discount",
     header: () => <div className="font-bold text-black">Icon</div>,
     cell: ({ row }) => {
       return <div className="">
-        <img src={row.original.icon || ""} alt={row.original.category_name} className="w-[80px] h-[80px] object-cover rounded-md" />
+        <img src={row.original.iconImage || ""} alt={row.original.name} className="w-[80px] h-[80px] object-cover rounded-md" />
       </div>;
     },
   },

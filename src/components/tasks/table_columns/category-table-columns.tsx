@@ -74,25 +74,27 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
     accessorKey: "featured",
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Featured</div>,
-    cell: ({ row }) => (
+    cell: ({ row }) => {
+      return (
       <MySwitch
         isOn={row.original.featured}
-        id="featured"
+        id={`is_Category_featured`}
         handleToggle={() => {
           console.log("toggled");
-           row.original.featured =!row.original.featured;
+          //  row.original.featured =!row.original.featured;
         }}
       />
-    ),
+    )
+    },
   },
   {
     accessorKey: "published",
     // header: "Today's Deal",
-    header: () => <div className="font-bold text-black">Featured</div>,
+    header: () => <div className="font-bold text-black">Publish</div>,
     cell: ({ row }) => (
       <MySwitch
         isOn={row.original.published}
-        id=".published"
+        id={`is_Category_published`}
         handleToggle={() => {
           console.log("toggled");
            row.original.published =!row.original.published;
@@ -209,7 +211,7 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
   {
     accessorKey: "published",
     // header: "Today's Deal",
-    header: () => <div className="font-bold text-black">Featured</div>,
+    header: () => <div className="font-bold text-black">Publish</div>,
     cell: ({ row }) => (
       <MySwitch
         isOn={row.original.published}

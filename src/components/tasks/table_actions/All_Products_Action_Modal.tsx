@@ -1,7 +1,14 @@
-
-import TaskModal, { TaskModalContent, TaskModalFooter } from "@/components/modals/TaskModal";
+import TaskModal, {
+  TaskModalContent,
+  TaskModalFooter,
+} from "@/components/modals/TaskModal";
 import { useModal } from "@/providers/context/context";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
 import { IProducts } from "@/types/productType";
 import useDownloadXl from "@/hooks/DownloadStockReport";
@@ -16,79 +23,78 @@ type Props = {
 };
 
 const InitialValues: IProducts = {
-  product_name: '',
-    mrp: 0,
-    product_sku: '',
-    barcode: '',
-    brand: '',
-    keywords: [],
-    minimum_quantity: 0,
-    product_weight: 0,
-    product_owner:'admin',
-    // height: 0,
-    // length: 0,
-    // width:0,
-    product_dimensions: {
-      product_height: 0,
-      product_length: 0,
-      product_width: 0,
-    },
-    // dimensions: '',
-    tax_details:{
-      // taxSlab: [],
-      hsn_sac_number: 0,
-      non_gst_goods:"no",
-      calculation_types:"on_value",
-      igst: 0,
-      central_tax: 0,
-      state_tax: 0,
-      // =====
-      on_items_rate_details: [
-        {
-          greaterThan: 0,
-          upto: 0,
-          igst: 0,
-          cgst: 0,
-          sgst: 0,
-          cess: 0,
-        },
-      ], 
-      isCess: false,
-      cess: undefined,
-    },
-// isCess: false,
-//     cess: [],
-//     taxSlab: [],
-    is_published:false,
-    status: "hold",
-    is_todays_deal: false,
-    is_featured_product:false,
-    description: '',
-    
-    // ===== File upload section =================
-    gallery_image: [],
-    thumbnails:[],
-    // productImages: [],
-    sizeImages: [],
-    // ===== price stock section =================
+  product_name: "",
+  mrp: 0,
+  product_sku: "",
+  barcode: "",
+  brand: "",
+  keywords: [],
+  minimum_quantity: 0,
+  product_weight: 0,
+  product_owner: "admin",
+  // height: 0,
+  // length: 0,
+  // width:0,
+  product_dimensions: {
+    product_height: 0,
+    product_length: 0,
+    product_width: 0,
+  },
+  // dimensions: '',
+  tax_details: {
+    // taxSlab: [],
+    hsn_sac_number: 0,
+    non_gst_goods: "no",
+    calculation_types: "on_value",
+    igst: 0,
+    central_tax: 0,
+    state_tax: 0,
+    // =====
+    on_items_rate_details: [
+      {
+        greaterThan: 0,
+        upto: 0,
+        igst: 0,
+        cgst: 0,
+        sgst: 0,
+        cess: 0,
+      },
+    ],
+    isCess: false,
+    cess: undefined,
+  },
+  // isCess: false,
+  //     cess: [],
+  //     taxSlab: [],
+  is_published: false,
+  status: "hold",
+  is_todays_deal: false,
+  is_featured_product: false,
+  description: "",
 
-    base_price:0,
-    sample_price:0,
-    discount:0,
-    discount_type:"percentage",
-    price_per_pieces:[],
-    selectWise:"size",
-    store:"",
-    variations:[],
+  // ===== File upload section =================
+  gallery_image: [],
+  thumbnails: [],
+  // productImages: [],
+  sizeImages: [],
+  // ===== price stock section =================
 
+  base_price: 0,
+  sample_price: 0,
+  discount: 0,
+  discount_type: "percentage",
+  price_per_pieces: [],
+  selectWise: "size",
+  store: "",
+  variations: [],
 
-    // ===== shipping section =================
-    cod:false,
-    freeShipping:false,
+  // ===== shipping section =================
+  cod: false,
+  freeShipping: false,
 };
 
 export default function AllProductsActionModal({ product }: Props) {
-  const { openProductModal, selectedProducts } = useModal();
+  const { openProductModal, selectedProducts, closeModal } = useModal();
   const { downloadStockReport } = useDownloadXl();
 
   const [initialValues, setInitialValues] = useState<IProducts>(InitialValues);
@@ -105,7 +111,10 @@ export default function AllProductsActionModal({ product }: Props) {
   return (
     <div className="flex">
       <IconButton>
-        <Icon icon="fluent:open-20-regular" onClick={() => openProductModal(product)} />
+        <Icon
+          icon="fluent:open-20-regular"
+          onClick={() => openProductModal(product)}
+        />
       </IconButton>
 
       <DropdownMenu>
@@ -124,7 +133,7 @@ export default function AllProductsActionModal({ product }: Props) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <TaskModal className="w-[60vw]">
+      <TaskModal className="min-w-[60vw] w-fit">
         <Formik
           enableReinitialize
           initialValues={initialValues}
@@ -135,10 +144,20 @@ export default function AllProductsActionModal({ product }: Props) {
           {({ values, setFieldValue }) => (
             <Form className="flex flex-col justify-between h-full">
               <TaskModalContent>
-                <ProductTableModalData values={values} setFieldValue={setFieldValue} />
+                <ProductTableModalData
+                  values={values}
+                  setFieldValue={setFieldValue}
+                />
               </TaskModalContent>
               <TaskModalFooter>
                 <AyButton title="Save" type="submit" />
+                <AyButton title="Close" type="button" variant="cancel" 
+                onClick={()=>{
+                  openProductModal(null);
+                  closeModal();
+                  // setInitialValues(InitialValues);
+                }}
+                />
               </TaskModalFooter>
             </Form>
           )}

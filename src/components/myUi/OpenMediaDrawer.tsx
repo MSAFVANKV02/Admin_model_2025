@@ -7,11 +7,15 @@ import Media_Files_Modal from "../media/Media_Files_Modal";
 import { IMediaDataType } from "@/types/types";
 import { ErrorMessage } from "formik";
 import { IFileDataMedia } from "@/pages/settings/media/retrive/all_uploaded_files";
+import MyDeleteIcon from "../icons/My_DeleteIcon";
 
 type Props = {
   className?: string;
   className2?: string;
   onClick?: () => void;
+  onDelete?: () => void;
+  subTitle?: string
+  values?: any;
   title: string;
   icon?: string;
   fontSize?: number;
@@ -33,7 +37,10 @@ const OpenMediaDrawer = ({
   name,
   mediaType,
   handleFileChange,
-  multiple
+  multiple,
+  values,
+  onDelete,
+  subTitle="Upload"
 }: Props) => {
   const { openMediaDrawer, openDrawerFieldName, setDrawerFieldName } =
     useModal();
@@ -47,41 +54,66 @@ const OpenMediaDrawer = ({
             {title}
           </Label>
         )}
-
-        <div
-          className={cn(
-            `w-full border flex h-12 rounded-md cursor-pointer items-center s text-xs`,
-            className2
-          )}
-          onClick={() => {
-            if (onClick) {
-              onClick();
-              openMediaDrawer();
-            } else {
-              setDrawerFieldName(name);
-              openMediaDrawer();
-            }
-          }}
-        >
-          <div className="border-r h-full px-5 flex items-center bg-gray-100">
-            {icon ? (
-              <Icon icon={icon} fontSize={fontSize} color={IColor} />
-            ) : (
-              "Browse"
+        <div className={cn(`w-full flex flex-col gap-2`, className2)}>
+          <div
+            className={cn(
+              `w-full border flex h-12 rounded-md cursor-pointer items-center s text-xs`
             )}
+            onClick={() => {
+              if (onClick) {
+                onClick();
+                openMediaDrawer();
+              } else {
+                setDrawerFieldName(name);
+                openMediaDrawer();
+              }
+            }}
+          >
+            <div className="border-r h-full px-5 flex items-center bg-gray-100">
+              {icon ? (
+                <Icon icon={icon} fontSize={fontSize} color={IColor} />
+              ) : (
+                "Browse"
+              )}
+            </div>
+            <div className="px-5 font-semibold">{subTitle}</div>
           </div>
-          <div className="px-5 font-semibold">Upload</div>
-        </div>
 
-        <ErrorMessage
-          component="span"
-          name={name}
-          className="text-red-500 text-xs"
-        />
+          <ErrorMessage
+            component="span"
+            name={name}
+            className="text-red-500 text-xs"
+          />
+
+          { mediaType === "image" && values[name] && (
+            <div className="relative w-16 h-16 overflow-hidden">
+              <img
+                src={values[name]}
+                alt="cover image"
+                className="rounded-sm object-cover w-full h-full"
+              />
+
+              {/* Improved Delete Button */}
+              <div
+                className="absolute top-0 right-0 "
+               
+              >
+                <MyDeleteIcon 
+                 onClick={() => {
+                  if (onDelete) {
+                    onDelete();
+                  }
+                }}
+                />
+                Delete
+              </div>
+            </div>
+          )}
+        </div>
       </div>{" "}
       {name === openDrawerFieldName && (
         <Media_Files_Modal
-        multiple={multiple}
+          multiple={multiple}
           fieldName={name}
           mediaType={mediaType}
           handleFileUpload={(event, fieldName) => {

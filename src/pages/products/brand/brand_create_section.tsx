@@ -192,7 +192,7 @@ export default function BrandCreateSection() {
             {/*#6 ====  Brand own by other people, pls upload Non objective later ====== 
                 ===================================*/}
             <OpenMediaDrawer
-              title="  Trade mark certificate"
+              title="Brand own by other people, pls upload Non objective later"
               className="gap-1 overflow-hidden"
               name={"brand_noc"}
               mediaType="pdf"
@@ -203,9 +203,9 @@ export default function BrandCreateSection() {
                 setFieldValue(fieldName, srcArray[0]);
               }}
             />
-            <div className="mt-3">
+            {/* <div className="mt-3">
               {values.brand_noc &&(<MyPdf value={values.brand_noc as string} isPdfShown />)}
-            </div>
+            </div> */}
 
             {/* submit button */}
             <div className="flex justify-end  h-full">

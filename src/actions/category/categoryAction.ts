@@ -1,6 +1,6 @@
 import { getCategories } from "@/redux/actions/category_Slice";
 import { useAppDispatch } from "@/redux/hook";
-import { get_Category_Api, toggle_Category_Api } from "@/services/category/route";
+import { get_Category_Api, hard_Delete_All_Category_Api, soft_Delete_Category_Api, toggle_Category_Api } from "@/services/category/route";
 
 
 export const getAllCategories = async () => {
@@ -10,10 +10,12 @@ export const getAllCategories = async () => {
         // return { status: 200, data: response.data.file };
         return {
             status: response.status,
-            data: response.data.categories,
+            data: response.data.category,
             message: response.data.message,
           };
       }
+      // console.log(response);
+      
     } catch (error) {
       return { status: 403, data: [], error: error };
     }
@@ -37,7 +39,7 @@ export const CategoryToggle = () => {
             // return { status: 200, data: response.data.file };
             return {
                 status: response.status,
-                data: response.data.categories,
+                data: response.data.category,
                 message: response.data.message,
               };
           }
@@ -52,6 +54,71 @@ export const CategoryToggle = () => {
         toggleCategories
     }
 }
+
+
+
+// 3. soft delete categories
+export const DeleteCategory = () => {
+  const dispatch = useAppDispatch();
+
+
+  const softDeleteCategoryFn = async (id:string) => {
+  
+      try {
+       
+        const response = await soft_Delete_Category_Api(id);
+     
+        
+        if (response.status === 200) {
+          dispatch(getCategories())
+          // getAllCategories()
+          // return { status: 200, data: response.data.file };
+          return {
+              status: response.status,
+              data: response.data.category,
+              message: response.data.message,
+            };
+        }
+      } catch (error) {
+          console.log(error,'error toggle');
+          
+        return { status: 403, data: [], error: error };
+      }
+    };
+
+
+    // 4. hard delete all categories
+
+    const hardDeleteAllCategoryFn = async () => {
+  
+      try {
+       
+        const response = await hard_Delete_All_Category_Api();
+     
+        
+        if (response.status === 200) {
+          dispatch(getCategories())
+          // getAllCategories()
+          // return { status: 200, data: response.data.file };
+          return {
+              status: response.status,
+              data: response.data.categories,
+              message: response.data.message,
+            };
+        }
+      } catch (error) {
+          console.log(error,'error toggle');
+          
+        return { status: 403, data: [], error: error };
+      }
+    };
+
+  return {
+      softDeleteCategoryFn,
+      hardDeleteAllCategoryFn
+  }
+}
+
 
 
   

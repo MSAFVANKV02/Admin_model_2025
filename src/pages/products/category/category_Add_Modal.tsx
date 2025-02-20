@@ -111,9 +111,14 @@ const CategoryAddModal = ({ isMain }: Props) => {
                 makeToastError("Failed to create category.");
               }
 
-            } catch (error) {
+            } catch (error:any) {
+              if(error.response.data){
+               return makeToastError(error.response.data.message);
+              }else{
+                makeToastError("Failed to create category.");
+              }
               console.error("Error creating category:", error);
-              makeToastError("Failed to create category.");
+              // makeToastError("Failed to create category.");
             }
 
            

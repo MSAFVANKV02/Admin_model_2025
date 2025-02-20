@@ -14,7 +14,7 @@ export const getCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await get_Category_Api()
-      const categoriesData = response.data.categories;
+      const categoriesData = response.data.category;
       // console.log(categoriesData,'listcategories==== category slice');
       
 

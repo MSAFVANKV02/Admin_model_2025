@@ -82,7 +82,7 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
       return (
       <MySwitch
         isOn={row.original.featured}
-        id={`is_Category_featured`}
+        id={`is_Category_featured-${row.original._id}`}
         handleToggle={() => {
           console.log("toggled");
           toggleCategories("featured",row.original._id??"")
@@ -101,7 +101,7 @@ export const CategoryColumnMain: ColumnDef<ICategory>[] = [
       return(
            <MySwitch
         isOn={row.original.published}
-        id={`is_Category_published`}
+        id={`is_Category_published-${row.original._id}`}
         handleToggle={() => {
           console.log("toggled");
           toggleCategories("published",row.original._id??"")
@@ -206,31 +206,41 @@ export const CategoryColumnAll: ColumnDef<ICategory>[] = [
     accessorKey: "featured",
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Featured</div>,
-    cell: ({ row }) => (
+    cell: ({ row }) => {
+
+      const {toggleCategories} = CategoryToggle();
+       
+      return (
       <MySwitch
         isOn={row.original.featured}
-        id="featured"
+        id={`is_Category_featured-${row.original._id}`}
         handleToggle={() => {
           console.log("toggled");
-           row.original.featured =!row.original.featured;
+          toggleCategories("featured",row.original._id??"")
+          //  row.original.featured =!row.original.featured;
         }}
       />
-    ),
+    )
+    },
   },
   {
     accessorKey: "published",
     // header: "Today's Deal",
     header: () => <div className="font-bold text-black">Publish</div>,
-    cell: ({ row }) => (
-      <MySwitch
+    cell: ({ row }) => {
+      const {toggleCategories} = CategoryToggle();
+      return(
+           <MySwitch
         isOn={row.original.published}
-        id=".published"
+        id={`is_Category_published-${row.original._id}`}
         handleToggle={() => {
           console.log("toggled");
-           row.original.published =!row.original.published;
+          toggleCategories("published",row.original._id??"")
         }}
       />
-    ),
+      )
+   
+    },
   },
  
   {

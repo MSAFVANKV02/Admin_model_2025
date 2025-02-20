@@ -24,7 +24,7 @@ export const getCategories = createAsyncThunk(
 
       const categoriesWithParentName = categoriesData.map((category: any) => ({
         ...category,
-        parent: parentMap.get(category.parentId) || "PARENT",
+        parent: parentMap.get(category.parentId) || "No Parent",
       }));
 
       return categoriesWithParentName;

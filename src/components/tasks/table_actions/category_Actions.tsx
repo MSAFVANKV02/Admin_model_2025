@@ -14,7 +14,7 @@ type Props = {
 export default function CategoryAddModal({ product }: Props) {
   const [open, setOpen] = useState(false);
   const { openCategoryModal } = useModal();
-  const { softDeleteCategoryFn } = DeleteCategory();
+  const { softDeleteCategoryFn, hardDeleteSingleCategoryFn } = DeleteCategory();
   return (
     <div className="flex gap-3">
       <MyEditIcon
@@ -48,7 +48,15 @@ export default function CategoryAddModal({ product }: Props) {
           }
           }}
           />
-          <AyButton title="Delete Permanently" variant="delete" />
+          <AyButton title="Delete Permanently" variant="delete"
+             onClick={async()=>{
+              const response = await hardDeleteSingleCategoryFn(product._id ?? "");
+              if (response?.status === 200) {
+               setOpen(false);  // Close modal after success
+             }
+             }}
+          
+          />
         </div>
         }
       >

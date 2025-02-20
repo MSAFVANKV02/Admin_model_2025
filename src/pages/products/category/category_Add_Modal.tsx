@@ -6,7 +6,7 @@ import TaskModal, {
 
 import { v4 as uuidv4 } from "uuid";
 
-import {  getCategories } from "@/redux/actions/category_Slice";
+import { getCategories } from "@/redux/actions/category_Slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ErrorMessage, Form, Formik } from "formik";
 import { Input } from "@/components/ui/input";
@@ -23,7 +23,10 @@ import { SelectOption } from "@/types/productType";
 import OpenMediaDrawer from "@/components/myUi/OpenMediaDrawer";
 import AyButton from "@/components/myUi/AyButton";
 import { FormField } from "@/components/myUi/FormField";
-import { create_Category_Api } from "@/services/category/route";
+import {
+  create_Category_Api,
+  update_Category_Api,
+} from "@/services/category/route";
 import { makeToast, makeToastError } from "@/utils/toaster";
 
 type Props = {
@@ -46,33 +49,31 @@ const CategoryAddModal = ({ isMain }: Props) => {
   const categoryOptions = useMemo(
     () => [
       { _id: "none", name: "No Parent" },
-      ...categories.map((cat) => ({
-        _id: cat?._id ?? "", // Ensure _id is always a string
-        name: cat.name,
-      })),
+      ...categories
+        // .filter((cat) => cat.name !== cat.name)
+        .map((cat) => ({
+          _id: cat?._id ?? "", // Ensure _id is always a string
+          name: cat.name,
+        })),
     ],
     [categories]
   );
 
   // const getErrorMessage = (errors)=>{
   //   console.log(errors);
-    
+
   // }
-  
 
   return (
     <div>
       <TaskModal className="w-[45vw] p-8">
+        {/* <div className="">{JSON.stringify(selectedCategory)}</div> */}
         <Formik
           enableReinitialize
           validationSchema={isMain ? categorySchemaMain : categorySchemaAll}
           initialValues={{
-            name: selectedCategory
-              ? selectedCategory.name
-              : "",
-            parentId: selectedCategory
-              ? selectedCategory.parentId
-              : null,
+            name: selectedCategory ? selectedCategory.name : "",
+            parentId: selectedCategory ? selectedCategory.parentId : null,
             coverImage: selectedCategory ? selectedCategory.coverImage : null,
             iconImage: selectedCategory ? selectedCategory.iconImage : null,
             featured: false,
@@ -89,40 +90,46 @@ const CategoryAddModal = ({ isMain }: Props) => {
             // };
 
             try {
-              const {data, status} = await create_Category_Api({
-                coverImage: values.coverImage,
-                iconImage: values.iconImage,
-                name: values.name,
-                parentId: values.parentId,
-              });
+              const route = selectedCategory
+                ? update_Category_Api(
+                    {
+                      coverImage: values.coverImage,
+                      iconImage: values.iconImage,
+                      name: values.name,
+                      parentId: values.parentId,
+                    },
+                    selectedCategory?._id ?? ""
+                  )
+                : create_Category_Api({
+                    coverImage: values.coverImage,
+                    iconImage: values.iconImage,
+                    name: values.name,
+                    parentId: values.parentId,
+                  });
 
-              console.log(data,'data add cat');
-              
+              const { data, status } = await route;
 
+              // console.log(data,'data add cat');
 
-              if (status === 201) {
+              if (status === 201 || status === 200) {
                 makeToast(`${data.message}`);
                 // dispatch(addCategory(values));
-                dispatch(getCategories())
+                dispatch(getCategories());
                 resetForm();
                 setIsOpen(false);
                 setSelectedParent(null);
               } else {
                 makeToastError("Failed to create category.");
               }
-
-            } catch (error:any) {
-              if(error.response.data){
-               return makeToastError(error.response.data.message);
-              }else{
+            } catch (error: any) {
+              if (error.response.data) {
+                return makeToastError(error.response.data.message);
+              } else {
                 makeToastError("Failed to create category.");
               }
               console.error("Error creating category:", error);
               // makeToastError("Failed to create category.");
             }
-
-           
-          
           }}
         >
           {({ values, setFieldValue }) => (
@@ -132,7 +139,7 @@ const CategoryAddModal = ({ isMain }: Props) => {
               </TaskModalHeader>
               <TaskModalContent className="space-y-7 ">
                 {/* {getErrorMessage(errors)} */}
-              
+
                 <div className="flex justify-between w-full">
                   <FormField
                     id="name"
@@ -182,6 +189,11 @@ const CategoryAddModal = ({ isMain }: Props) => {
                               _id: selectedParent._id,
                               name: selectedParent.name,
                             }
+                          : selectedCategory
+                          ? {
+                              _id: selectedCategory?.parentId ?? "",
+                              name: selectedCategory?.parent,
+                            }
                           : null
                       }
                       placeholder="Select Parent Category"
@@ -195,7 +207,7 @@ const CategoryAddModal = ({ isMain }: Props) => {
                       isMulti={false} // Single selection
                       onChange={(selected: SelectOption | null) => {
                         setSelectedParent(selected); // Update state with the selected option
-                        console.log(selected);
+                        // console.log(selected);
 
                         setFieldValue(
                           "parentId",
@@ -253,7 +265,10 @@ const CategoryAddModal = ({ isMain }: Props) => {
                 />
               </TaskModalContent>
               <TaskModalFooter>
-                <AyButton title="Save" type="submit" />
+                <AyButton
+                  title={selectedCategory ? "Edit" : "Save"}
+                  type="submit"
+                />
               </TaskModalFooter>
             </Form>
           )}

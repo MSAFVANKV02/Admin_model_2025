@@ -7,10 +7,11 @@ export interface IBrand {
   certificateOwnerName: string;
   nonObjectiveDocument: string;
   isDeleted: boolean;
-  status:"pending"|"rejected"|"approved";
+  status:IBrandGetStatus;
+  createdBy:string;
   createdAt: string;
   updatedAt: string;
 }
 
 
-export type IBrandGetStatus = "approved"|"rejected"|""
+export type IBrandGetStatus = "approved"|"rejected"|"pending"|""

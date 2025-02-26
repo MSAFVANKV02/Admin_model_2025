@@ -1,4 +1,3 @@
-
 import MyEditIcon from "../icons/My_EditIcon";
 import MyDeleteIcon from "../icons/My_DeleteIcon";
 import { IBrand } from "@/types/brandtypes";
@@ -6,19 +5,49 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import AyButton from "../myUi/AyButton";
 import Modal from "../modals/main";
 import { DeleteBrands } from "@/actions/brand/brandActionAPi";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { setSelectedBrand } from "@/redux/actions/brandsSlice";
 import { dispatch } from "@/redux/hook";
+import { makeToast, makeToastError } from "@/utils/toaster";
+import My_Icon from "../icons/My_Icon";
+import MyEyeIcon from "../icons/My_EyeIcon";
+import { useModal } from "@/providers/context/context";
+import BrandDetailsModal from "./Brand_Details_Modal";
 
 type Props = {
   brands: IBrand[];
 };
 
 export default function BrandApprovedTable({ brands }: Props) {
-
   const [openModalId, setOpenModalId] = useState<string | null>(null);
   // const {selectedBrand} = useAppSelector((state)=> state.brand)
   const { hardDeleteSingleBrandFn, softDeleteBrandFn } = DeleteBrands();
+  const [errorImg,setErrorImg] = useState(false);
+  const { setIsOpen } = useModal();
+
+
+  const handleDownload = async (
+    e: MouseEvent<SVGSVGElement>,
+    imageUrl: string
+  ) => {
+    e.preventDefault();
+    const res = await fetch(imageUrl);
+    if (!res.ok) {
+      makeToastError("image download failed");
+      return;
+    }
+
+    const blob = await res.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = imageUrl;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    makeToast("image downloaded successfully");
+  };
 
   return (
     <div className="overflow-x-auto rounded-lg border mt-5 h-[68vh] overflow-y-auto ">
@@ -27,7 +56,10 @@ export default function BrandApprovedTable({ brands }: Props) {
           <tr>
             <th className="py-2 px-4">#</th>
             <th className="py-2 px-4">Brand</th>
+            <th className="py-2 px-4">Created By</th>
+            <th className="py-2 px-4">Status</th>
             <th className="py-2 px-4">Logo</th>
+
             <th className="py-2 px-4 text-right">Actions</th>
           </tr>
         </thead>
@@ -36,7 +68,7 @@ export default function BrandApprovedTable({ brands }: Props) {
             // Show a single row indicating no brands
             <tr className="text-center w-full">
               <td
-                colSpan={4}
+                colSpan={6}
                 className="py-10 border-b px-4 text-gray-500 text-sm"
               >
                 No brands available
@@ -52,20 +84,24 @@ export default function BrandApprovedTable({ brands }: Props) {
               >
                 <td className="py-3 px-4">{index + 1}</td>
                 <td className="py-3 px-4">{brand.name}</td>
+                <td className="py-3 px-4">{brand.createdBy}</td>
+                <td className="py-3 px-4">{brand.status}</td>
+
                 <td className="py-3 px-4 ">
-                  {/* <img
-                  src={brand.logo}
-                  alt={`${brand.name} Logo`}
-                  className="w-20 h-20 object-contain"
-                /> */}
-                  {brand.logo ? (
+            
+                  {brand.logo && !errorImg ? (
                     <img
                       src={brand.logo}
                       alt={`${brand.name} Logo`}
                       className="w-14 rounded-md"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement; // Type casting
-                        target.src = "/img/logo/Logo_black.svg";
+                      draggable={false}
+
+                      // onError={(e) => {
+                      //   const target = e.target as HTMLImageElement; // Type casting
+                      //   target.src = "/img/logo/Logo_black.svg";
+                      // }}
+                      onError={()=>{
+                        setErrorImg(true);
                       }}
                     />
                   ) : (
@@ -77,10 +113,26 @@ export default function BrandApprovedTable({ brands }: Props) {
                     </div>
                   )}
                 </td>
+
+                {/* actions ===== starts ======
+                ============================ */}
                 <td className="py-3 flex justify-end px-3">
+                <MyEyeIcon
+                    onClick={() => {
+                      dispatch(setSelectedBrand({ brand, mode: "view" }));
+                      setIsOpen(true);
+                      // Open brand details modal
+                    }}
+                  />
+                  <My_Icon
+                    icon="hugeicons:image-download-02"
+                    tooltipTitle="download Logo"
+                    onClick={(e) => {
+                      handleDownload(e, brand.logo);
+                    }}
+                  />
                   <MyEditIcon
                     onClick={() => {
-                      
                       dispatch(setSelectedBrand({ brand, mode: "edit" }));
                     }}
                   />
@@ -143,6 +195,9 @@ export default function BrandApprovedTable({ brands }: Props) {
           )}
         </tbody>
       </table>
+
+      {/* modal */}
+      <BrandDetailsModal/>
 
       {/* <TaskModal>
         <TaskModalHeader>

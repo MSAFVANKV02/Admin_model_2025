@@ -11,11 +11,11 @@ interface CategoryState {
 
 export const getCategories = createAsyncThunk(
   "category/getCategories",
-  async (_, { rejectWithValue }) => {
+  async (admin:"admin"|"", { rejectWithValue }) => {
     try {
-      const response = await get_Category_Api()
-      const categoriesData = response.data.category;
-      console.log(categoriesData,'listcategories==== category slice');
+      const response = await get_Category_Api(admin)
+      const categoriesData = response.data.categories;
+      // console.log(categoriesData,'listcategories==== category slice');
       
 
       const parentMap = new Map(
@@ -40,7 +40,7 @@ export const getCategoriesWithSub = createAsyncThunk(
     try {
       const response = await get_Category_With_Sub_Api()
       const categoriesData = response.data.categories;
-      console.log(categoriesData,'listcategories==== category slice');
+      // console.log(categoriesData,'listcategories==== category slice');
       
 
       const parentMap = new Map(

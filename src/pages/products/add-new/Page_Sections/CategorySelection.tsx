@@ -17,7 +17,7 @@ type Props = {
 const CategorySelection = ({ setFieldValue, values }: Props) => {
   const categories = useAppSelector((state) => state.category.categories);
   //   console.log(JSON.stringify(categories));
-  // console.log(values);
+  // console.log(categories);
 
   const dispatch = useAppDispatch();
 
@@ -146,7 +146,11 @@ const CategorySelection = ({ setFieldValue, values }: Props) => {
   return (
     <div>
       {/* <h2 className="font-bold mb-2">Product Category</h2> */}
-      {renderCategories(categories.filter((cat) => !cat.parentId))}
+      {/* {renderCategories(categories.filter((cat) => !cat.parentId))} */}
+      {categories.some((cat) => !cat.parentId)
+        ? renderCategories(categories.filter((cat) => !cat.parentId))
+        : renderCategories(categories)}
+
       <ErrorMessage
         name={"categoryId"}
         component="span"

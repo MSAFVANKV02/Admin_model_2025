@@ -48,7 +48,7 @@ export default function CategoryPage() {
     // if (categoryData.length > 0) {
     //   dispatch(setCategories(categoryData));
     // }
-    dispatch(getCategories())
+    dispatch(getCategories("admin"))
   }, []);
   
 

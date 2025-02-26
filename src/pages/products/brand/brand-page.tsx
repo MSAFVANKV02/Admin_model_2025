@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getAllBrands } from "@/redux/actions/brandsSlice";
 import { IBrand } from "@/types/brandtypes";
 import useSearchFn from "@/hooks/useSeach-Fn";
+import { useSearchParams } from "react-router-dom";
 
 
 
@@ -14,10 +15,14 @@ export default function BrandPage() {
   const dispatch = useAppDispatch();
   const {brands} = useAppSelector((state)=> state.brand);
   const { filteredData: filteredBrands, handleSearch } = useSearchFn<IBrand>(brands);
+  const [searchParams] = useSearchParams();
+
+
+  const type = searchParams.get("type")
 
   useEffect(() => {
     dispatch(getAllBrands(""));
-  }, [dispatch]);
+  }, [dispatch, type]);
   // const [filteredBrands, setFilteredBrands] = useState<IBrand[]>(brands)
 
   // useEffect(() => {

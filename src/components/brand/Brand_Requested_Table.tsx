@@ -10,6 +10,7 @@ import { IBrand } from "@/types/brandtypes";
 import { useAppDispatch } from "@/redux/hook";
 import { setSelectedBrand } from "@/redux/actions/brandsSlice";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useState } from "react";
 
 type Props = {
   brands: IBrand[];
@@ -17,6 +18,7 @@ type Props = {
 
 export default function BrandRequestedTable({ brands }: Props) {
   const dispatch = useAppDispatch();
+  const [errorImg,setErrorImg] = useState(false);
 
   const { setIsOpen } = useModal();
 
@@ -27,7 +29,7 @@ export default function BrandRequestedTable({ brands }: Props) {
           <tr>
             <th className="py-2 px-4">#</th>
             <th className="py-2 px-4">Brand</th>
-            <th className="py-2 px-4">Seller Name</th>
+            <th className="py-2 px-4">Created By</th>
             <th className="py-2 px-4">Brand owner name</th>
             <th className="py-2 px-4">Logo</th>
             <th className="py-2 px-4 text-right"></th>
@@ -38,7 +40,7 @@ export default function BrandRequestedTable({ brands }: Props) {
             // Show a single row indicating no brands
             <tr className="text-center">
               <td
-                colSpan={4}
+                colSpan={6}
                 className="py-10 border-b px-4 text-gray-500 text-sm"
               >
                 No brands available
@@ -54,18 +56,23 @@ export default function BrandRequestedTable({ brands }: Props) {
               >
                 <td className="py-3 px-4">{index + 1}</td>
                 <td className="py-3 px-4">{brand.name}</td>
+                <td className="py-3 px-4">{brand.createdBy}</td>
                 <td className="py-3 px-4">{brand.certificateOwnerName}</td>
-                <td className="py-3 px-4">{brand.name}</td>
+                {/* <td className="py-3 px-4">{brand.name}</td> */}
 
                 <td className="py-3 px-4 ">
-                  {brand.logo ? (
+                  {brand.logo && !errorImg ? (
                     <img
                       src={brand.logo}
                       alt={`${brand.name} Logo`}
                       className="w-14 rounded-md"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement; // Type casting
-                        target.src = "/img/logo/Logo_black.svg";
+                      draggable={false}
+                      // onError={(e) => {
+                      //   const target = e.target as HTMLImageElement; // Type casting
+                      //   target.src = "/img/logo/Logo_black.svg";
+                      // }}
+                      onError={()=>{
+                        setErrorImg(true);
                       }}
                     />
                   ) : (

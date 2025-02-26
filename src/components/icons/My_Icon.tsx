@@ -3,7 +3,7 @@ import { IconButton, Toolbar, Tooltip, TooltipProps } from "@mui/material";
 import { memo } from "react";
 
 type Props = {
-  onClick: () => void;
+  onClick: (e:any) => void;
   icon?: string;
   color?: string;
   fontSize?: number;

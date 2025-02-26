@@ -10,7 +10,7 @@ import {
 
 export const getAllCategories = async () => {
   try {
-    const response = await get_Category_Api();
+    const response = await get_Category_Api("admin");
     if (response.status === 200) {
       // return { status: 200, data: response.data.file };
       return {
@@ -38,7 +38,7 @@ export const CategoryToggle = () => {
       const response = await toggle_Category_Api(field, id);
 
       if (response.status === 200) {
-        dispatch(getCategories());
+        dispatch(getCategories("admin"));
         // getAllCategories()
         // return { status: 200, data: response.data.file };
         return {
@@ -68,7 +68,7 @@ export const DeleteCategory = () => {
       const response = await soft_Delete_Category_Api(id);
 
       if (response.status === 200) {
-        dispatch(getCategories());
+        dispatch(getCategories("admin"));
 
         return {
           status: response.status,
@@ -90,7 +90,7 @@ export const DeleteCategory = () => {
       const response = await hard_Delete_All_Category_Api();
 
       if (response.status === 200) {
-        dispatch(getCategories());
+        dispatch(getCategories("admin"));
         // getAllCategories()
         // return { status: 200, data: response.data.file };
         return {
@@ -113,7 +113,7 @@ export const DeleteCategory = () => {
       const response = await hard_Delete_Single_Category_Api(id);
 
       if (response.status === 200) {
-        dispatch(getCategories());
+        dispatch(getCategories("admin"));
         // getAllCategories()
         // return { status: 200, data: response.data.file };
         return {

@@ -86,9 +86,61 @@ export function DataTableStore({ data, url, title }: Props) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.original.name}</div>
+        <div className="capitalize">{row.original.name}</div>
       ),
     },
+    {
+      accessorKey: "manager",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+           Store Manager 
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="">{row.original.manager}</div>
+      ),
+    },
+    {
+      accessorKey: "emailId",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email ID
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="">{row.original.emailId}</div>
+      ),
+    },
+    {
+      accessorKey: "phoneNumber",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Phone
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="">{row.original.phoneNumber}</div>
+      ),
+    },
+ 
     {
       id: "actions",
       enableHiding: false,
@@ -129,9 +181,9 @@ export function DataTableStore({ data, url, title }: Props) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 justify-between">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter store..."
           value={
             (table.getColumn("name")?.getFilterValue() as string) ?? ""
           }

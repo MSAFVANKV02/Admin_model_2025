@@ -79,8 +79,8 @@ const InitialValues: IProducts = {
   sizeImages: [],
   // ===== price stock section =================
 
-  base_price: 0,
-  sample_price: 0,
+  basePrice: 0,
+  samplePrice: 0,
   discount: 0,
   discount_type: "percentage",
   price_per_pieces: [],

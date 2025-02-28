@@ -48,14 +48,15 @@ export default function ShippingSectionPage({
     thumbnails: "files-media",
     variations: "files-media",
     sizeImages: "files-media",
-    base_price: "price-stock",
-    sample_price: "price-stock",
+    basePrice: "price-stock",
+    samplePrice: "price-stock",
     discount: "price-stock",
     discount_type: "price-stock",
     pricePerPieces: "price-stock",
     selectWise: "price-stock",
     store: "price-stock",
     shipping: "shipping",
+    categoryId:"general"
   } as const;
 
   // Filter errors to get unresolved errors

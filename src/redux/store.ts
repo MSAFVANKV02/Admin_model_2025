@@ -5,7 +5,9 @@ import customerReducer from "@/redux/actions/customerSlice"
 import storeSellerReducer from "@/redux/actions/storeSellerSlice"
 import loadingReducer from "@/redux/actions/loadingSlice"
 import mediaReducer from "@/redux/actions/mediaSlice"
-import brandReducer from "@/redux/actions/brandsSlice"
+import brandReducer from "@/redux/actions/brandsSlice";
+import productsReducer from "@/redux/actions/product_Slice"
+
 
 
 
@@ -27,7 +29,8 @@ const rootReducer = combineReducers({
   storeSeller: storeSellerReducer,
   loading: loadingReducer, //
   media: mediaReducer,
-  brand: brandReducer
+  brand: brandReducer,
+  products: productsReducer
 
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

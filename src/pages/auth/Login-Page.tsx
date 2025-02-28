@@ -42,7 +42,12 @@ export default function LoginPage() {
       setLoading(false);
       console.error(error);
       if (error.response?.data) {
-        makeToastError(error.response?.data.message);
+        if(error.response.data.message === `You don't have sufficient wallet balance`){
+          makeToastError(`Something went wrong`);
+        }else{
+           makeToastError(error.response?.data.message);
+        }
+       
       }
     } finally {
       setLoading(false);

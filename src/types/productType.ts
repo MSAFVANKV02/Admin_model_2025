@@ -1,16 +1,20 @@
+import { IBrand } from "./brandtypes";
+import { ICategory } from "./categorytypes";
+import { StoreTypes } from "./storeTypes";
+
 export type IProducts = {
-  _id?: number;
+  _id?: string;
   product_owner?: "seller" | "admin" | "store";
   product_name: string;
   mrp: number;
   product_sku: string;
   barcode?: string;
-  brand?: string;
+  brand?: IBrand;
   keywords?: string[];
   minimum_quantity: number;
   product_weight?: number;
   product_dimensions: IProductDimensions;
-  categoryId?: string;
+  categoryId?: ICategory;
   special_features?: string;
   care_guide?: string;
   description?: string;
@@ -41,13 +45,13 @@ export type IProducts = {
   sizeImages: File[] | string[];
 
   // === price stock ===
-  base_price: number;
-  sample_price: number;
+  basePrice: number;
+  samplePrice: number;
   discount: number;
   discount_type: "flat" | "percentage";
   price_per_pieces: IPricePerPieces[];
   selectWise: "size" | "bundle";
-  store: string;
+  store?: StoreTypes;
 
   // ===== shipping section =================
   cod: boolean;
@@ -73,8 +77,8 @@ export type IProducts = {
 export type ITaxDetails = {
   // taxSlab?: SelectOption[];
   hsn_sac_number: number;
-  non_gst_goods: 'yes'|'no'
-  calculation_types: "on_item_rate" | 'on_value';
+  non_gst_goods: "yes" | "no";
+  calculation_types: "on_item_rate" | "on_value";
   igst: number;
   central_tax: number;
   state_tax: number;
@@ -87,14 +91,13 @@ export type ITaxDetails = {
 
 // ==== tax on items details =================
 export type ITaxOnItemsRateDetails = {
-  greaterThan: number | null
+  greaterThan: number | null;
   upto: number | null;
   igst: number | null;
   cgst: number | null;
   sgst: number | null;
   cess: number | null;
-}
-
+};
 
 // === product dimension details =================================
 export type IProductDimensions = {
@@ -114,7 +117,7 @@ export type IVariants = {
   _id?: string;
   size: string;
   // bundleSizes?:[{ size: string, quantity: number}];
-  bundle_quantity?: number;
+  bundleQuantity?: number;
   stock: number;
   discount: number;
   selling_price: number;

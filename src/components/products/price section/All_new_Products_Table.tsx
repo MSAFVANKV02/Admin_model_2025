@@ -115,10 +115,10 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                         type="number"
                         min="0"
                         className="w-full border rounded px-2 text-center py-2"
-                        value={variant.bundle_quantity || 0}
+                        value={variant.bundleQuantity || 0}
                         onChange={(e) =>
                           setFieldValue(
-                            `variations[${vIndex}].details[${index}].bundle_quantity`,
+                            `variations[${vIndex}].details[${index}].bundleQuantity`,
                             parseFloat(e.target.value) || 0
                           )
                         }

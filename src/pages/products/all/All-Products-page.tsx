@@ -1,56 +1,89 @@
 
-import SellerRequestTable from "./products_tables/Seller_Request_Table";
-import { useEffect, useState } from "react";
-import { ProductTableColumns } from "@/components/tasks/table_columns/products-table-columns";
-import { DataTable } from "@/components/tasks/task_components/data-table";
-import { CircleOff, ShieldCheck } from "lucide-react";
-import MyPageTab from "@/components/myUi/MyTab";
+// import { CircleOff, ShieldCheck } from "lucide-react";
+import { getAllProductsInAdmin } from "@/actions/products/productActions";
+import { useQueryData } from "@/hooks/useQueryData";
+import { IProducts } from "@/types/productType";
+import PreloaderPage from "@/preloader-page";
+import { useEffect } from "react";
+import { dispatch, useAppSelector } from "@/redux/hook";
+import { addProductRedux } from "@/redux/actions/product_Slice";
+import { InventoryTable } from "./inventory/Inventory-Table";
 
-const statuses = [
-  {
-    value: "active",
-    label: "Active",
-    icon: ShieldCheck,
-  },
-  {
-    value: "hold",
-    label: "Hold",
-    icon: CircleOff,
-  },
-];
+// const statuses = [
+//   {
+//     value: "active",
+//     label: "Active",
+//     icon: ShieldCheck,
+//   },
+//   {
+//     value: "hold",
+//     label: "Hold",
+//     icon: CircleOff,
+//   },
+// ];
 
 export default function AllProductsPage() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: fetchedProducts, isFetching, refetch } = useQueryData(
+    ["all-products"],
+    () =>
+      getAllProductsInAdmin([
+        {
+          key: "",
+          value: "",
+        },
+      ]) // Wrap in an arrow function
+  );
+  const { products } = useAppSelector((state) => state.products);
 
-  //   console.log(products);
+  const { data: product = [] } = (fetchedProducts ?? {}) as {
+    status?: number;
+    data?: IProducts[];
+  };
 
   useEffect(() => {
-    async function fetchTasks() {
-      try {
-        const response = await fetch(
-          "/src/components/tasks/data/productData.json"
-        ); // Replace with the appropriate API route
-        const data = await response.json();
-        // const validTasks = z.array(taskSchema).parse(data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      } finally {
-        setLoading(false);
-      }
+    if (product.length > 0) {
+      dispatch(addProductRedux(product));
     }
+  }, [product]);
+  
 
-    fetchTasks();
-  }, []);
+  // console.log(products, "products2");
 
-  if (loading) return <div>Loading...</div>;
+  // useEffect(() => {
+  //   async function fetchTasks() {
+  //     try {
+  //       const response = await fetch(
+  //         "/src/components/tasks/data/productData.json"
+  //       ); // Replace with the appropriate API route
+  //       const data = await response.json();
+  //       // const validTasks = z.array(taskSchema).parse(data);
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error("Error fetching tasks:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   fetchTasks();
+  // }, []);
+
+  // if (loading) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-white rounded-md p-3">
-     
-       
-        <MyPageTab
+      {isFetching ? (
+        <div>
+          <PreloaderPage />
+        </div>
+      ) : (
+        <InventoryTable 
+        refetch={refetch}
+        products={products}
+        
+        />
+      )}
+         {/* <MyPageTab
           // setTypeUrl={setSelectedTab}
           tabs={[
             {
@@ -102,9 +135,8 @@ export default function AllProductsPage() {
               ),
             },
           ]}
-        />
-
-      
+        /> */}
+    
     </div>
   );
 }

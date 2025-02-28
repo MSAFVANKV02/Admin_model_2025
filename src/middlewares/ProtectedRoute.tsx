@@ -84,18 +84,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const location = useLocation(); // Access the current location
   const { pathname } = location;
 
-  
-
-  // const loginUser = {
-  //   _id: "2",
-  //   name: "Jane Doe",
-  //   email: "jane@gmail.com",
-  //   password: "12345",
-  //   role: "admin",
-  //   pages: ["/products/add-new", "/products/all"], // Example pages user has access to
-  // };
-
-  // console.log(currentAdmin,'currentAdmin');
 
   useEffect(() => {
     if (isLogged) {

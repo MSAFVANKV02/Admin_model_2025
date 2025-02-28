@@ -89,8 +89,8 @@
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
-    "base_price": 500,
-    "sample_price": 450,
+    "basePrice": 500,
+    "samplePrice": 450,
     "discount": 15,
     "discount_type": "percentage",
     "price_per_pieces": [
@@ -166,8 +166,8 @@
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71",
       "https://images.unsplash.com/photo-1614286635394-b5195ef87f71"
     ],
-    "base_price": 1000,
-    "sample_price": 900,
+    "basePrice": 1000,
+    "samplePrice": 900,
     "discount": 10,
     "discount_type": "flat",
     "price_per_pieces": [

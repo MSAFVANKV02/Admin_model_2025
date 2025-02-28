@@ -30,7 +30,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
       return (
         <div className="flex items-start gap-4">
           <img
-            src={`${product?.gallery_image || ""}`}
+            src={`${product?.thumbnails || ""}`}
             alt={product.product_name}
             width={50}
             height={50}
@@ -39,7 +39,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
           <div className="flex flex-col gap-1">
             <div className="font-semibold">{product.product_name}</div>
             <div className="text-xs text-gray-500">
-              <b>Brand:</b> {product.brand || "N/A"}
+              <b>Brand:</b> {product.brand?.name || "N/A"}
             </div>
             <div className="text-xs text-gray-500">
               <b>product_weight:</b> {product.product_weight} gm
@@ -129,7 +129,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     // header: "Selling Price",
     header: () => <div className="font-bold text-black">Selling Price</div>,
     cell: ({ row }) => {
-      return <span className="gap-2 w-8 h-8 mb-3 flex items-center">${row.original.base_price}</span>;
+      return <span className="gap-2 w-8 h-8 mb-3 flex items-center">${row.original.basePrice}</span>;
     },
   },
   {
@@ -154,10 +154,10 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
     },
   },
   {
-    accessorKey: "sample_price",
+    accessorKey: "samplePrice",
     // header: "Sample Price",
     header: () => <div className="font-bold text-black">Sample Price</div>,
-    cell: ({ row }) => <span>${row.original.sample_price}</span>,
+    cell: ({ row }) => <span>${row.original.samplePrice}</span>,
   },
   {
     accessorKey: "priceMRP",

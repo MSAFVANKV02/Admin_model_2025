@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
-import { StoreSelection } from "@/components/products/price section/Store_Selection";
 import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
 import PricePerPiecesComponent from "@/components/products/Price_Per_Pieces_Component";
 
@@ -28,8 +27,8 @@ export default function PriceStockSectionPage({
   setFieldValue,
   errors,
 }: Props) {
-  // console.log(errors, "error");
-  // console.log(values, "values");
+  console.log(errors, "error");
+  console.log(values, "values");
 
 
   return (
@@ -38,23 +37,23 @@ export default function PriceStockSectionPage({
         className="lg:w-1/2 flex
      flex-col gap-4"
       >
-        {/* ===== base_price ===== */}
+        {/* ===== basePrice ===== */}
         <FormFieldGenal
-          value={values.base_price}
+          value={values.basePrice}
           title="Base Price"
           type="number"
-          id="base_price"
-          name="base_price"
+          id="basePrice"
+          name="basePrice"
           placeholder="Enter Price"
           fieldAs={Input}
         />
-        {/* ===== sample_price ===== */}
+        {/* ===== samplePrice ===== */}
         <FormFieldGenal
-          value={values.sample_price}
+          value={values.samplePrice}
           title="Sample Price"
           type="number"
-          id="sample_price"
-          name="sample_price"
+          id="samplePrice"
+          name="samplePrice"
           placeholder="Enter Sample Price"
           fieldAs={Input}
         />
@@ -157,7 +156,7 @@ export default function PriceStockSectionPage({
 
         {/* select store ====
         ==================== */}
-        <div className="flex md:items-center gap-2 lg:flex-row flex-col justify-between">
+        {/* <div className="flex md:items-center gap-2 lg:flex-row flex-col justify-between">
           <Label className="text-textGray">Store</Label>
           <div className="lg:w-3/4 w-full">
             <StoreSelection values={values} setFieldValue={setFieldValue} />
@@ -167,7 +166,7 @@ export default function PriceStockSectionPage({
               className="text-red-500 text-xs"
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* ======= All Selected Details In Table ======== */}

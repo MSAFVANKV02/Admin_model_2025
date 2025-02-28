@@ -16,6 +16,9 @@ import { getValidationSchema } from "./ProductSchema";
 
 import AddProductsNavbar from "@/components/products/Add_Products_TaskBar";
 import AyButton from "@/components/myUi/AyButton";
+import { add_Product_Api } from "@/services/products/route";
+import { IProdAddRoot } from "@/types/add_Prod_Types";
+import { makeToast, makeToastError } from "@/utils/toaster";
 
 const pageToStep: any = {
   general: 1,
@@ -133,12 +136,68 @@ export default function ProductAddPage() {
         initialValues={InitialValues}
         validationSchema={getValidationSchema(currentStep)}
         enableReinitialize={true}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
           console.log("submit", values);
           if (currentStep !== 4) {
             return handleNextStep();
           }
+          try {
+            const productData: IProdAddRoot = {
+              product_name: values.product_name ?? "",
+              mrp: values.mrp ?? 0,
+              product_sku: values.product_sku ?? "",
+              barcode: values.barcode ?? "",
+              brand: values.brand ?? "",
+              categoryId: values.categoryId ?? "",
+              keywords: values.keywords ?? [],
+              minimum_quantity: values.minimum_quantity ?? 0,
+              product_weight: values.product_weight ?? 0,
+              product_dimensions: {
+                product_height: values.product_dimensions?.product_height ?? 0,
+                product_length: values.product_dimensions?.product_length ?? 0,
+                product_width: values.product_dimensions?.product_width ?? 0,
+              },
+              tax_details: values.tax_details ?? {
+                hsn_sac_number:  0,
+                non_gst_goods: "",
+                calculation_types: "",
+                on_items_rate_details: [],
+                isCess: false,
+              },
+              is_featured_product: values.is_featured_product,
+              is_todays_deal: values.is_todays_deal,
+              description: values.description ?? "",
+              gallery_image: values.gallery_image ?? [],
+              thumbnails: values.thumbnails ?? [],
+              sizeImages: values.sizeImages ?? [],
+              basePrice: values.basePrice ?? 0,
+              samplePrice: values.samplePrice ?? 0,
+              discount: values.discount ?? 0,
+              discount_type: values.discount_type ?? "",
+              price_per_pieces: values.price_per_pieces ?? [],
+              selectWise: values.selectWise ?? "",
+              variations: values.variations ?? [],
+              cod: values.cod ?? false,
+              freeShipping: values.freeShipping ?? false,
+              status: values.status ?? "pending",
+            };
+        
+            const response = await add_Product_Api(productData);
+            console.log(response,'response product add');
+            
+
+            if(response){
+              makeToast(response.data.message??"Product Added Successfully");
+            }
+
+          } catch (error:any) {
+            console.error("Product submission error:", error);
+            if(error.response.data){
+              makeToastError(error.response.data.message);
+            }
+          }
         }}
+        
       >
         {({ values, setFieldValue, errors }) => (
           <Form>

@@ -195,7 +195,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
                     return {
                       ...existingDetail,
                       size: item.size,
-                      bundle_quantity: item.quantity,
+                      bundleQuantity: item.quantity,
                       stock: existingDetail?.stock ?? 0,
                       discount: existingDetail?.discount ?? 0,
                       selling_price: existingDetail?.selling_price ?? 0,

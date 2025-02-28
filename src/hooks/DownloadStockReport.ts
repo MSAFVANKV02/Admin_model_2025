@@ -12,7 +12,7 @@ const useDownloadXl = () => {
       Variations: product.variations
         .map((variant) => `${variant.colorName}: ${variant.details.map((detail) => `${detail.size}(${detail.stock})`).join(", ")}`)
         .join(" | "),
-      "Base Price": product.base_price,
+      "Base Price": product.basePrice,
       "Discount (%)": product.discount,
       "Price (MRP)": product.mrp,
       "is_published?": product.is_published ? "Yes" : "No",

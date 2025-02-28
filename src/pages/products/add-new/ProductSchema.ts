@@ -148,13 +148,13 @@ export const FilesSchema = Yup.object({
 
 export const PriceStockSchema = Yup.object({
   // Base Price
-  base_price: Yup.number()
+  basePrice: Yup.number()
     .nullable()
     .min(0, "Base Price must be a positive number")
     .required("Base Price is required"),
 
   // Sample Price
-  sample_price: Yup.number()
+  samplePrice: Yup.number()
     .nullable()
     .min(0, "Sample Price must be a positive number")
     .required("Sample Price is required"),
@@ -175,7 +175,7 @@ export const PriceStockSchema = Yup.object({
     .required("Discount Type is required"),
 
   // Price per Pieces
-  pricePerPieces: Yup.array()
+  price_per_pieces: Yup.array()
     .min(1, "At least one price per piece is required")
     .required("Price per Pieces is required"),
 
@@ -185,7 +185,7 @@ export const PriceStockSchema = Yup.object({
     .required("Select Wise is required"),
 
   // Store Selection
-  store: Yup.string().required("Store selection is required"),
+  // store: Yup.string().required("Store selection is required"),
 
   // Variations (details array validation)
   variations: Yup.array()

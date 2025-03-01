@@ -1,1 +1,0 @@
-react data table https://github.com/ag-grid/ag-grid-demos/tree/main/inventory/react

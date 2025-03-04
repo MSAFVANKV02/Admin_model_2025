@@ -136,7 +136,7 @@ export default function ProductAddPage() {
         initialValues={InitialValues}
         validationSchema={getValidationSchema(currentStep)}
         enableReinitialize={true}
-        onSubmit={async (values,{resetForm}) => {
+        onSubmit={async (values, { resetForm }) => {
           console.log("submit", values);
           if (currentStep !== 4) {
             return handleNextStep();
@@ -158,7 +158,7 @@ export default function ProductAddPage() {
                 product_width: values.product_dimensions?.product_width ?? 0,
               },
               tax_details: values.tax_details ?? {
-                hsn_sac_number:  0,
+                hsn_sac_number: 0,
                 non_gst_goods: "",
                 calculation_types: "",
                 on_items_rate_details: [],
@@ -181,25 +181,21 @@ export default function ProductAddPage() {
               freeShipping: values.freeShipping ?? false,
               status: values.status ?? "pending",
             };
-        
+
             const response = await add_Product_Api(productData);
-            console.log(response,'response product add');
-            
+            // console.log(response, "response product add");
 
-            if(response.status == 200){
-              makeToast(response.data.message??"Product Added Successfully");
+            if (response.status === 200 || response.status === 201) {
+              makeToast(response.data.message ?? "Product Added Successfully");
               resetForm();
-
             }
-
-          } catch (error:any) {
-            console.error("Product submission error:", error);
-            if(error.response.data){
+          } catch (error: any) {
+            // console.error("Product submission error:", error);
+            if (error.response.data) {
               makeToastError(error.response.data.message);
             }
           }
         }}
-        
       >
         {({ values, setFieldValue, errors }) => (
           <Form>

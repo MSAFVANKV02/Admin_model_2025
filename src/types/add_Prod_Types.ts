@@ -71,7 +71,7 @@ export interface IProdAddRoot {
     bundleQuantity: number
     stock: number
     discount: number
-    sellingPrice: number
+    selling_price: number
     skuId: string
   }
   

@@ -25,7 +25,7 @@ import {
   ValidationModule,
 } from "ag-grid-enterprise";
 
-import { GridChartsModule } from "ag-grid-enterprise";
+// import { GridChartsModule } from "ag-grid-enterprise";
 import { IntegratedChartsModule } from "ag-grid-enterprise";
 import { AgChartsEnterpriseModule } from "ag-charts-enterprise";
 
@@ -36,7 +36,7 @@ ModuleRegistry.registerModules([
   SetFilterModule,
   MultiFilterModule,
   MasterDetailModule,
-  GridChartsModule, // Add this for chart support
+  // GridChartsModule, // Add this for chart support
   ClientSideRowModelModule,
   AllCommunityModule,
   ClientSideRowModelModule,
@@ -91,8 +91,6 @@ import { toggleProductButton } from "@/redux/actions/product_Slice";
 import { Input } from "@/components/ui/input";
 import ExcelInventory from "./cell-renderers/excel-inventory";
 
-
-
 interface Props {
   gridTheme?: string;
   isDarkMode?: boolean;
@@ -130,7 +128,6 @@ export const InventoryTable: FunctionComponent<Props> = ({
   useEffect(() => {
     setRowData(products);
   }, [products]);
-
 
   //======  row data goes here ======= * /
   /*   =============================== */
@@ -217,7 +214,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
     // { field: "sold", headerClass: "header-calendar" },
     {
       field: "is_featured_product",
-      headerName:"Featured",
+      headerName: "Featured",
       //   width: 135,
       // width:240,
       headerClass: "header-is_featured_product",
@@ -232,6 +229,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
                   toggleProductButton({
                     fieldName: "is_featured_product",
                     productId: data._id ?? "",
+                    storeId: [],
                   })
                 );
                 refetch();
@@ -246,12 +244,12 @@ export const InventoryTable: FunctionComponent<Props> = ({
     {
       field: "is_published",
       // width: 135,
-      headerName:"Published",
+      headerName: "Published",
       maxWidth: 200,
       headerClass: "header-is_published",
       cellRenderer: ({ value, data }: { value: boolean; data: IProducts }) => {
         // console.log(data,'data publish');
-        
+
         return (
           <div className=" flex">
             <MySwitch
@@ -262,6 +260,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
                   toggleProductButton({
                     fieldName: "is_published",
                     productId: data._id ?? "",
+                    storeId: [],
                   })
                 );
                 refetch();
@@ -283,7 +282,12 @@ export const InventoryTable: FunctionComponent<Props> = ({
     //   valueFormatter: ({ value }: ValueFormatterParams) => `£${value}`,
     //   width: 150,
     // },
-    { field: "actions", cellRenderer: ActionsCellRenderer, minWidth: 90 },
+    {
+      field: "actions",
+      cellRenderer:  ActionsCellRenderer,
+      minWidth: 90,
+    }
+    
   ]);
 
   //   const defaultColDef = useMemo<ColDef>(
@@ -416,13 +420,16 @@ export const InventoryTable: FunctionComponent<Props> = ({
   );
 
   return (
-    <div className={styles.wrapper}>
+    <div className={` ${styles.wrapper}`}>
       <div className={styles.container}>
-        <div className={styles.exampleHeader}>
-          <div className={`border rounded-md p-2 gap-3 flex  flex-row`}>
+        <div className={`${styles.exampleHeader} sm:flex-row flex-col gap-3`}>
+          {/* status buttons starts === */}
+          <div
+            className={`border rounded-md sm:p-2 p-1 gap-2 flex flex-wrap flex-row`}
+          >
             {Object.entries(statuses).map(([key, displayValue]) => (
               <button
-                className={`text-xs p-2 capitalize rounded-md min-w-20 ${
+                className={`text-xs sm:p-2 p-3 capitalize rounded-md sm:w-20 w-full border ${
                   activeTab === key ? "bg-bg text-white " : ""
                 }`}
                 onClick={() => handleTabClick(key)}
@@ -432,6 +439,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
               </button>
             ))}
           </div>
+          {/* search starts ---- */}
           <div className={styles.inputWrapper}>
             <svg
               className={styles.searchIcon}
@@ -458,26 +466,31 @@ export const InventoryTable: FunctionComponent<Props> = ({
           </div>
         </div>
         {/* <button onClick={exportToExcel}>Export to Excel</button> */}
-        <div className={`${themeClass} ${styles.grid} `}>
-          <AgGridReact
-            theme="legacy"
-            ref={gridRef}
-            columnDefs={colDefs}
-            rowData={rowData}
-            defaultColDef={defaultColDef}
-            rowHeight={80}
-            autoSizeStrategy={autoSizeStrategy}
-            pagination
-            enableCharts={true}
-            cellSelection={true}
-            paginationPageSize={10}
-            paginationPageSizeSelector={paginationPageSizeSelector}
-            masterDetail
-            detailCellRendererParams={detailCellRendererParams}
-            quickFilterText={quickFilterText}
-            detailRowAutoHeight
-            getContextMenuItems={getContextMenuItems}
-          />
+        <div className="sm:w-auto w-full overflow-x-auto">
+          <div
+            className={`${themeClass} min-w-[900px] md:min-w-auto ${styles.grid} `}
+          >
+            <AgGridReact
+              theme="legacy"
+              ref={gridRef}
+              columnDefs={colDefs}
+              rowData={rowData}
+              defaultColDef={defaultColDef}
+              rowHeight={80}
+              autoSizeStrategy={autoSizeStrategy}
+              pagination
+              enableCharts={false}
+              cellSelection={true}
+              paginationPageSize={10}
+              paginationPageSizeSelector={paginationPageSizeSelector}
+              masterDetail
+              detailCellRendererParams={detailCellRendererParams}
+              quickFilterText={quickFilterText}
+              detailRowAutoHeight
+              getContextMenuItems={getContextMenuItems}
+              className="ag-theme-quartz w-full h-[calc(100vh-200px)] md:h-[500px]"
+            />
+          </div>
         </div>
       </div>
     </div>

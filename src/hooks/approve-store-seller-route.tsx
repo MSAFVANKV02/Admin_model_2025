@@ -17,7 +17,7 @@ export default function ApproveStoreSeller() {
     //     throw new Error("Store ID is missing.");
     //   }
     // console.log('ddasdasdasdasdasdas');
-    console.log();
+    // console.log();
 
     try {
         dispatch(setLoadingState(true));

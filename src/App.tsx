@@ -56,6 +56,7 @@ const MiniDrawer =  () => {
 
                 maxWidth: "1800px",
                 mx: "auto",
+                overflowX: "auto", 
               }}
             >
               <DrawerHeader />

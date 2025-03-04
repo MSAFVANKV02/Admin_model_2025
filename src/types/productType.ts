@@ -2,6 +2,8 @@ import { IBrand } from "./brandtypes";
 import { ICategory } from "./categorytypes";
 import { StoreTypes } from "./storeTypes";
 
+export type IProductStatus = "pending" | "approved" | "hold" | "rejected"
+
 export type IProducts = {
   _id?: string;
   product_owner?: "seller" | "admin" | "store";
@@ -31,6 +33,10 @@ export type IProducts = {
   is_published?: boolean;
   is_todays_deal?: boolean;
   is_best_selling?: boolean;
+  isDeleted:boolean;
+  published_stores:string[];
+  featured_stores?: string[];
+  todays_deal_stores?: string[];
 
   //   files section
   gallery_image?: File[] | string[];
@@ -69,7 +75,7 @@ export type IProducts = {
   updatedAt?: Date;
 
   //   admin side
-  status: "approved" | "hold" | "reject";
+  status: IProductStatus;
   reject_reason?: string;
 };
 // ====== type ends =================

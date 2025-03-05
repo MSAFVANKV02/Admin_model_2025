@@ -22,15 +22,17 @@ import {
 import NonGstGoodsDetails from "./gstGood_Details/Non_Gst_Goods_Details";
 import CategorySelection from "./CategorySelection";
 import BrandSelectTab from "@/components/global/brand-select";
+import { IBrand } from "@/types/brandtypes";
+import { ICategory } from "@/types/categorytypes";
 
 // Define the type for form values
 export interface GeneralFormValues {
   product_name: string;
   mrp: number;
   product_sku: string;
-  categoryId:string;
+  categoryId:string | ICategory;
   barcode?: string;
-  brand?: string;
+  brand?: string | IBrand;
   keywords: string[];
   minimum_quantity: number;
   product_weight?: number;
@@ -61,8 +63,8 @@ export default function GeneralSectionPage({
 Props) {
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
-  // console.log(errors, "errors");
-  console.log(values, "values");
+  console.log(errors, "errors");
+  // console.log(values, "values");
 
   const productFields: {
     id: keyof GeneralFormValues;

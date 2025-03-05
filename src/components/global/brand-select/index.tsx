@@ -37,14 +37,19 @@ const BrandSelectTab = ({ setFieldValue, values, className }: Props) => {
     [allBrands]
   );
 
+  const brandId = useMemo(() => {
+    return typeof values.brand === "string" ? values.brand : values.brand?._id;
+  }, [values.brand]);
+
   useEffect(() => {
     dispatch(getAllBrands("approved"));
   }, []);
 
   useEffect(() => {
-    if (values.brand) {
+
+    if (brandId) {
       const findBrand = brandOptions.find(
-        (option) => option._id === values.brand
+        (option) => option._id === brandId
       );
 
       const existedBrand = {
@@ -55,7 +60,7 @@ const BrandSelectTab = ({ setFieldValue, values, className }: Props) => {
 
       setBrands(existedBrand);
     }
-  }, [values.brand]);
+  }, [brandId]);
   return (
     <div className={cn("lg:w-3/4", className)}>
       <Select

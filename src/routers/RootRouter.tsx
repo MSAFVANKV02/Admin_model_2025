@@ -77,7 +77,8 @@ const rootRouter = createBrowserRouter(
           path: "/products",
           element: <ProductsLayout />, // Parent layout for Products
           children: [
-            { path: "add-new", element: <ProductAddPage /> },
+            { path: "add-new", element: <ProductAddPage /> }, // For new product
+            { path: "add-new/:id", element: <ProductAddPage /> },
             { path: "all", element: <AllProductsPage /> },
             { path: "category", element: <CategoryPage /> },
             { path: "brand", element: <BrandPage /> },

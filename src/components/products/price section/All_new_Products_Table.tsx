@@ -1,3 +1,4 @@
+import MyDeleteIcon from "@/components/icons/My_DeleteIcon";
 import { MySwitch } from "@/components/myUi/mySwitch";
 import { IProducts } from "@/types/productType";
 import React from "react";
@@ -31,6 +32,8 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
             </th>
             <th className="border text-xs text-textGray px-4 py-2">SKU ID</th>
             <th className="border text-xs text-textGray px-4 py-2">Sample</th>
+            <th className="border text-xs text-textGray px-4 py-2">action</th>
+
           </tr>
         </thead>
         <tbody>
@@ -81,7 +84,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       type="number"
                       min="0"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={variant.stock || 0}
+                      value={ variant.stock || 0}
                       onChange={(e) =>
                         setFieldValue(
                           `variations[${vIndex}].details[${index}].stock`,
@@ -98,7 +101,9 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       min="0"
                       max="100"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={variant.discount || 0}
+                      value={variant.discount ?? 0} 
+                      
+
                       onChange={(e) =>
                         setFieldValue(
                           `variations[${vIndex}].details[${index}].discount`,
@@ -176,6 +181,17 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       />
                     </td>
                   )}
+        {/* delete single variation inside variations array */}
+                  <td className="flex items-center justify-center">
+                    <MyDeleteIcon 
+                    onClick={()=>{
+                      setFieldValue(
+                        `variations[${vIndex}].details`,
+                        variation.details?.filter((_, i) => i!== index)
+                      );
+                    }}
+                    />
+                  </td>
                 </tr>
               ))}
             </React.Fragment>

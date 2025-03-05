@@ -20,8 +20,8 @@ export interface IProdAddRoot {
     price_per_pieces: PricePerPiece[]
     selectWise: string
     variations: Variation[]
-    cod: boolean
-    freeShipping: boolean
+    is_cod: boolean
+    is_free_shipping: boolean
     basePrice: number
     samplePrice: number
     discount: number

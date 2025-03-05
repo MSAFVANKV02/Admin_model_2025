@@ -58,8 +58,8 @@ export const InitialValues = {
   variations:[],
 
   // ===== shipping section =================
-  cod:false,
-  freeShipping:false,
+  is_cod:false,
+  is_free_shipping:false,
   
 }
 // export const InitialValues = {

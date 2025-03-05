@@ -15,6 +15,7 @@ import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
 import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
 import PricePerPiecesComponent from "@/components/products/Price_Per_Pieces_Component";
+import { useEffect } from "react";
 
 type Props = {
   setFieldValue: any;
@@ -30,6 +31,30 @@ export default function PriceStockSectionPage({
   console.log(errors, "error");
   console.log(values, "values");
 
+  useEffect(() => {
+    if (values.variations?.length > 0) {
+      const updatedVariations = values.variations.map((variation) => {
+        if (variation.details && variation.details.length > 0) {
+          const updatedDetails = variation.details.map((detail) => ({
+            ...detail,
+            discount:
+              detail.discount === 0 || !detail.discount
+                ? values.discount
+                : detail.discount,
+          }));
+
+          return { ...variation, details: updatedDetails };
+        } else {
+          return {
+            ...variation,
+            details: [{ discount: values.discount }], // If no details exist, create one
+          };
+        }
+      });
+
+      setFieldValue("variations", updatedVariations);
+    }
+  }, []);
 
   return (
     <div className="">
@@ -46,6 +71,7 @@ export default function PriceStockSectionPage({
           name="basePrice"
           placeholder="Enter Price"
           fieldAs={Input}
+          setFieldValue={setFieldValue}
         />
         {/* ===== samplePrice ===== */}
         <FormFieldGenal
@@ -56,6 +82,8 @@ export default function PriceStockSectionPage({
           name="samplePrice"
           placeholder="Enter Sample Price"
           fieldAs={Input}
+          setFieldValue={setFieldValue}
+
         />
         {/* ===== discount ===== */}
         <FormFieldGenal
@@ -66,11 +94,43 @@ export default function PriceStockSectionPage({
           name="discount"
           placeholder="Enter Discount"
           fieldAs={Input}
+          onChange={(e) => {
+            let discountValue = parseFloat(e.target.value);
+
+            // Ensure value is between 0 and 100
+            if (discountValue < 0) discountValue = 0;
+            if (discountValue > 100) discountValue = 100;
+            setFieldValue("discount", discountValue);
+
+            if (values.variations?.length > 0) {
+              const updatedVariations = values.variations.map((variation) => {
+                if (variation.details && variation.details.length > 0) {
+                  const updatedDetails = variation.details.map((detail) => ({
+                    ...detail,
+                    discount:
+                      detail.discount === 0 || !detail.discount
+                        ? discountValue
+                        : detail.discount,
+                  }));
+
+                  return { ...variation, details: updatedDetails };
+                } else {
+                  return {
+                    ...variation,
+                    details: [{ discount: discountValue }], // If no details exist, create one
+                  };
+                }
+              });
+
+              setFieldValue("variations", updatedVariations);
+            }
+          }}
         />
         {/* ===== discount type ===== */}
         <div className="flex justify-between md:flex-row flex-col gap-2 md:items-center">
           <Label className="text-sm text-textGray">Discount Type</Label>
           <Select
+            value={values.discount_type}
             onValueChange={(value) => {
               setFieldValue("discount_type", value);
             }}
@@ -93,6 +153,7 @@ export default function PriceStockSectionPage({
             <PricePerPiecesComponent
               pricePerPieces={values.price_per_pieces}
               setFieldValue={setFieldValue}
+              values={values}
             />
             <ErrorMessage
               name="pricePerPieces"
@@ -197,6 +258,9 @@ type FormFieldGenalProps = {
   fieldAs?: React.ElementType;
   fieldClassName?: string;
   type?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFieldValue?: (name: string, value: any) => void;
+
 };
 export function FormFieldGenal({
   className,
@@ -208,6 +272,8 @@ export function FormFieldGenal({
   fieldAs,
   fieldClassName,
   type = "text", // default type is text
+  onChange,
+  setFieldValue
 }: FormFieldGenalProps) {
   return (
     <div
@@ -228,8 +294,22 @@ export function FormFieldGenal({
           type={type}
           as={fieldAs}
           value={value} // Bind field value to Formik
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log("New Cess Value:", e.target.value);
+            const newValue = e.target.value;
+            if (setFieldValue) {
+              setFieldValue(name, newValue);
+            }
+            if (onChange) {
+              onChange(e);
+            }
+          }}
         />
-        <ErrorMessage name={name} component="span" className="text-red-500 text-xs" />
+        <ErrorMessage
+          name={name}
+          component="span"
+          className="text-red-500 text-xs"
+        />
       </div>
     </div>
   );

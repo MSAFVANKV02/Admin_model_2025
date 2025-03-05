@@ -6,6 +6,7 @@ import {
   GET_PRODUCTS_URL,
   RESTORE_DELETED_PRODUCT_URL,
   TOGGLE_PRODUCTS_URL,
+  UPDATE_PRODUCT_URL,
 } from "@/types/urlPath";
 import { API } from "../auth/route";
 import { IProdAddRoot } from "@/types/add_Prod_Types";
@@ -83,5 +84,12 @@ export const restore_Deleted_Product_Api = async (id?: string) =>
 
 export const get_Deleted_Product_Api = async () =>
   await API.get(`${GET_DELETED_PRODUCT_URL}`, {
+    withCredentials: true,
+  });
+
+
+  // 8. update product item
+export const update_Product_Api = async (data: Partial<IProdAddRoot>,id: string) =>
+  await API.put(`${UPDATE_PRODUCT_URL}/${id}`,data, {
     withCredentials: true,
   });

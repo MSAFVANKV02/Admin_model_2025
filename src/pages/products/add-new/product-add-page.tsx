@@ -5,7 +5,7 @@ import ProductLayout, {
   ProductHeader,
 } from "./product-layout";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import GeneralSection from "./Page_Sections/GeneralSection-page";
 import FilesMediaSectionPage from "./Page_Sections/FilesMeadiaSection-page";
 import PriceStockSectionPage from "./Page_Sections/PriceStockSection-page";
@@ -16,9 +16,12 @@ import { getValidationSchema } from "./ProductSchema";
 
 import AddProductsNavbar from "@/components/products/Add_Products_TaskBar";
 import AyButton from "@/components/myUi/AyButton";
-import { add_Product_Api } from "@/services/products/route";
+import { add_Product_Api, update_Product_Api } from "@/services/products/route";
 import { IProdAddRoot } from "@/types/add_Prod_Types";
 import { makeToast, makeToastError } from "@/utils/toaster";
+import { useQueryData } from "@/hooks/useQueryData";
+import { getAllProductsInAdmin } from "@/actions/products/productActions";
+import { IProducts } from "@/types/productType";
 
 const pageToStep: any = {
   general: 1,
@@ -28,6 +31,82 @@ const pageToStep: any = {
 };
 
 export default function ProductAddPage() {
+  const { id } = useParams();
+  const { data: fetchedProducts } = useQueryData(
+    ["edit-products"],
+    () =>
+      getAllProductsInAdmin([
+        {
+          key: "_id",
+          value: `${id}`,
+        },
+      ]),
+    !!id
+  );
+
+  const { data: product } = (fetchedProducts ?? {}) as {
+    status?: number;
+    data?: IProducts;
+  };
+
+  const editProduct = useMemo(() => {
+    if (!product) return null;
+    return Array.isArray(product) ? product[0] : product;
+  }, [product]);
+
+  console.log(editProduct, "edit product");
+
+  // const initialValues = useMemo(() => {
+  //   return editProduct ? { ...InitialValues, ...editProduct } : InitialValues;
+  // }, [editProduct]);
+  const initialValues = useMemo(() => {
+    if (!editProduct) return InitialValues;
+  
+    const relevantValues = {
+      product_name: editProduct.product_name || InitialValues.product_name,
+      mrp: editProduct.mrp || InitialValues.mrp,
+      product_sku: editProduct.product_sku || InitialValues.product_sku,
+      barcode: editProduct.barcode || InitialValues.barcode,
+      brand: editProduct.brand || InitialValues.brand,
+      categoryId: editProduct.categoryId || InitialValues.categoryId,
+      keywords: editProduct.keywords || InitialValues.keywords,
+      minimum_quantity: editProduct.minimum_quantity || InitialValues.minimum_quantity,
+      product_weight: editProduct.product_weight || InitialValues.product_weight,
+      product_dimensions: {
+        product_height: editProduct.product_dimensions?.product_height || InitialValues.product_dimensions.product_height,
+        product_length: editProduct.product_dimensions?.product_length || InitialValues.product_dimensions.product_length,
+        product_width: editProduct.product_dimensions?.product_width || InitialValues.product_dimensions.product_width,
+      },
+      tax_details: {
+        hsn_sac_number: editProduct.tax_details?.hsn_sac_number || InitialValues.tax_details.hsn_sac_number,
+        non_gst_goods: editProduct.tax_details?.non_gst_goods || InitialValues.tax_details.non_gst_goods,
+        calculation_types: editProduct.tax_details?.calculation_types || InitialValues.tax_details.calculation_types,
+        on_items_rate_details: editProduct.tax_details?.on_items_rate_details || InitialValues.tax_details.on_items_rate_details,
+        isCess: editProduct.tax_details?.isCess || InitialValues.tax_details.isCess,
+        igst: editProduct.tax_details?.igst || InitialValues.tax_details.igst,
+      },
+      is_featured_product: editProduct.is_featured_product ?? InitialValues.is_featured_product,
+      is_todays_deal: editProduct.is_todays_deal ?? InitialValues.is_todays_deal,
+      description: editProduct.description || InitialValues.description,
+      gallery_image: editProduct.gallery_image || InitialValues.gallery_image,
+      thumbnails: editProduct.thumbnails || InitialValues.thumbnails,
+      size_chart: editProduct.size_chart || InitialValues.size_chart,
+      basePrice: editProduct.basePrice || InitialValues.basePrice,
+      samplePrice: editProduct.samplePrice || InitialValues.samplePrice,
+      discount: editProduct.discount || InitialValues.discount,
+      discount_type: editProduct.discount_type || InitialValues.discount_type,
+      price_per_pieces: editProduct.price_per_pieces || InitialValues.price_per_pieces,
+      selectWise: editProduct.selectWise || InitialValues.selectWise,
+      variations: editProduct.variations || InitialValues.variations,
+      is_cod: editProduct.is_cod ?? InitialValues.is_cod,
+      is_free_shipping: editProduct.is_free_shipping ?? InitialValues.is_free_shipping,
+      status: editProduct.status || InitialValues.status,
+    };
+  
+    return relevantValues;
+  }, [editProduct]);
+  
+
   const { search, pathname } = useLocation(); // Access current URL
   const navigate = useNavigate(); // For navigation
   const { selectedPage, setSelectedPage } = useModal();
@@ -133,7 +212,7 @@ export default function ProductAddPage() {
   return (
     <ProductLayout>
       <Formik
-        initialValues={InitialValues}
+        initialValues={initialValues}
         validationSchema={getValidationSchema(currentStep)}
         enableReinitialize={true}
         onSubmit={async (values, { resetForm }) => {
@@ -177,12 +256,15 @@ export default function ProductAddPage() {
               price_per_pieces: values.price_per_pieces ?? [],
               selectWise: values.selectWise ?? "",
               variations: values.variations ?? [],
-              cod: values.cod ?? false,
-              freeShipping: values.freeShipping ?? false,
+              is_cod: values.is_cod ?? false,
+              is_free_shipping: values.is_free_shipping ?? false,
               status: values.status ?? "pending",
             };
 
-            const response = await add_Product_Api(productData);
+
+            const route = id ? update_Product_Api(productData,id) : add_Product_Api(productData);
+
+            const response = await route
             // console.log(response, "response product add");
 
             if (response.status === 200 || response.status === 201) {
@@ -245,7 +327,11 @@ export default function ProductAddPage() {
               </AyButton>
               {/* ------ */}
               <AyButton type="submit" title="">
-                {currentStep === 4 ? "save Product" : " Next"}
+                {currentStep === 4
+                  ? id
+                    ? "Edit Product"
+                    : "Save Product"
+                  : "Next"}
               </AyButton>
             </ProductFooter>
           </Form>

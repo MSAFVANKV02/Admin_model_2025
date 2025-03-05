@@ -60,8 +60,8 @@ export type IProducts = {
   store?: StoreTypes;
 
   // ===== shipping section =================
-  cod: boolean;
-  freeShipping: boolean;
+  is_cod: boolean;
+  is_free_shipping: boolean;
 
   // ==== after uses of user side =================
   rating_count?: number;

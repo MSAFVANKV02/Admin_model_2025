@@ -30,6 +30,7 @@ import MyCheckBox from "@/components/myUi/myCheckBox";
 import MyEditIcon from "@/components/icons/My_EditIcon";
 import { DeleteProductFn } from "@/actions/products/productActions";
 import My_Icon from "@/components/icons/My_Icon";
+import { useNavigate } from "react-router-dom";
 
 type IProps = {
   data: IProducts;
@@ -39,20 +40,26 @@ type IProps = {
 
 export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
   const { _id: productId } = data || {};
+  const navigate = useNavigate()
 
+// states ==
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [selectedStores, setSelectedStore] = useState<string[]>([]);
+  const [selectedField, setSelectedField] = useState<string>(
+    "is_featured_product"
+  );
 
+  // callbacks ==
   const { onChangeNewStatus } = useUpdateProductStatus(productId ?? "");
   const { onChangeNewToggle, isPending } = useUpdateToggleWithStore(
     productId ?? ""
   );
   const { softDeleteProductFn, restoreDeletedProductFn } = DeleteProductFn();
 
+
+  // data ==
   const { storeSeller } = useAppSelector((state) => state.storeSeller);
-  const [selectedStores, setSelectedStore] = useState<string[]>([]);
-  const [selectedField, setSelectedField] = useState<string>(
-    "is_featured_product"
-  );
+
 
   // const isOutOfStock = variations?.details?.some((variant: IVariants) => variant.stock <= 0) ?? false;
 
@@ -171,7 +178,9 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
               </ul>
             </DropdownMenuContent>
           </DropdownMenu>
-          <MyEditIcon onClick={() => {}} />
+          <MyEditIcon onClick={() => {
+            navigate(`/products/add-new/${productId}`);
+          }} />
           <MyDeleteIcon
             onClick={async () => {
              await softDeleteProductFn({ productId: productId });

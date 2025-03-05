@@ -233,8 +233,13 @@ export default function FilesMediaSectionPage({
             <FormFieldGenal
               setFieldValue={setFieldValue}
               // values={Array.isArray(values[field.id]) ? values[field.id] : []}
-              values={field.id === "size_chart" ? values[field.id] || "" : Array.isArray(values[field.id]) ? values[field.id] : []}
-
+              values={
+                field.id === "size_chart"
+                  ? values[field.id] || ""
+                  : Array.isArray(values[field.id])
+                  ? values[field.id]
+                  : []
+              }
               id={field.id}
               name={field.id}
               title={field.label}
@@ -328,7 +333,7 @@ export function FormFieldGenal({
 
   setFieldValue,
 
-  values ,
+  values,
   setIsOpen,
 }: FormFieldGenalProps) {
   const { openMediaDrawer } = useModal();
@@ -375,6 +380,7 @@ export function FormFieldGenal({
         />
         {name === "variations" ? (
           <>
+           <span className="span">{title}</span>
             {values.length > 0 && (
               <div className="flex flex-col">
                 <span className="span">Selected Product Images</span>
@@ -454,16 +460,15 @@ export function SelectedImages({
   alt,
   setFieldValue,
 }: SelectedImageProps) {
+  // console.log(value, "value in SelectedImages");
 
-  console.log(value,'value in SelectedImages');
-  
   return (
     <>
-    
-        <div className={cn("", className)}>
-          <span className="span">{title}</span>
-          <div className="grid grid-cols-3 w-[200px] gap-2">
-            {Array.isArray(value)? value?.map((image: any, index: number) => (
+      <div className={cn("", className)}>
+        <span className="span">{title}</span>
+        <div className="grid grid-cols-3 w-[200px] gap-2">
+          {Array.isArray(value) ? (
+            value?.map((image: any, index: number) => (
               <div className="" key={index}>
                 <div className="w-[50px] bg-gray-100 rounded-md relative mt-3">
                   <img src={image} alt={alt} className="object-cover " />
@@ -483,20 +488,20 @@ export function SelectedImages({
                   </Tooltip>
                 </div>
               </div>
-            )):(
-              <Tooltip title={`Color:`} placement="top">
-                {value && (
-                  <img
-                    className="h-12 w-12 rounded-full border border-gray-300"
-                    src={value}
-                    alt="gallery images"
-                  />
-                )}
-              </Tooltip>
-            )}
-          </div>
+            ))
+          ) : (
+            <Tooltip title={`Color:`} placement="top">
+              {value && (
+                <img
+                  className="h-12 w-12 rounded-full border border-gray-300"
+                  src={value}
+                  alt="gallery images"
+                />
+              )}
+            </Tooltip>
+          )}
         </div>
-   
+      </div>
     </>
   );
 }

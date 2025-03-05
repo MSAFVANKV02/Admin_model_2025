@@ -47,7 +47,7 @@ export default function ShippingSectionPage({
     gallery_image: "files-media",
     thumbnails: "files-media",
     variations: "files-media",
-    size_chart: "files-media",
+    sizeImages: "files-media",
     basePrice: "price-stock",
     samplePrice: "price-stock",
     discount: "price-stock",
@@ -61,7 +61,7 @@ export default function ShippingSectionPage({
 
   // Filter errors to get unresolved errors
   const unresolvedErrors = Object.keys(errors).filter((key): key is keyof typeof errorToPage =>
-    key in errorToPage && !["cod", "freeShipping"].includes(key)
+    key in errorToPage && !["is_cod", "is_free_shipping"].includes(key)
   );
 
   // Utility function to navigate to the error page
@@ -84,27 +84,27 @@ export default function ShippingSectionPage({
     <div className="xl:min-h-[60vh] md:min-h-[55vh] sm:min-h-[40vh] min-h-[50vh]">
       <div className="flex flex-col gap-4 lg:w-[30%]">
         <div className="flex items-center justify-between">
-          <Label htmlFor="cod" className="text-textGray">
+          <Label htmlFor="is_cod" className="text-textGray">
             COD
           </Label>
           <MySwitch
-            id="cod"
-            isOn={values.cod}
+            id="is_cod"
+            isOn={values.is_cod}
             handleToggle={() => {
-              setFieldValue("cod", !values.cod);
+              setFieldValue("is_cod", !values.is_cod);
             }}
           />
         </div>
         {/* free shipping */}
         <div className="flex items-center justify-between">
-          <Label htmlFor="freeShipping" className="text-textGray">
+          <Label htmlFor="is_free_shipping" className="text-textGray">
             Free Shipping
           </Label>
           <MySwitch
-            id="freeShipping"
-            isOn={values.freeShipping}
+            id="is_free_shipping"
+            isOn={values.is_free_shipping}
             handleToggle={() => {
-              setFieldValue("freeShipping", !values.freeShipping);
+              setFieldValue("is_free_shipping", !values.is_free_shipping);
             }}
           />
         </div>

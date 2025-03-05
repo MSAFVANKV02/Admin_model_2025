@@ -76,7 +76,7 @@ const InitialValues: IProducts = {
   gallery_image: [],
   thumbnails: [],
   // productImages: [],
-  sizeImages: [],
+  size_chart: [],
   // ===== price stock section =================
 
   basePrice: 0,

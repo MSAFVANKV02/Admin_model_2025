@@ -2,6 +2,7 @@ import {
   CHANGE_PRODUCT_STATUS_URL,
   CREATE_PRODUCT_URL,
   DELETE_PRODUCT_URL,
+  GET_DELETED_PRODUCT_URL,
   GET_PRODUCTS_URL,
   RESTORE_DELETED_PRODUCT_URL,
   TOGGLE_PRODUCTS_URL,
@@ -73,9 +74,14 @@ export const change_Product_Status_Api = (data: {
     });
 
 // 6. restore deleted item
-export const restore_Deleted_Product_Api = async (id: string) =>
-  await API.get(`${RESTORE_DELETED_PRODUCT_URL}/${id}`, {
+export const restore_Deleted_Product_Api = async (id?: string) =>
+  await API.put(`${RESTORE_DELETED_PRODUCT_URL}/${id}`,{}, {
     withCredentials: true,
   });
 
-// 7. bulk action
+// 7. get deleted products 
+
+export const get_Deleted_Product_Api = async () =>
+  await API.get(`${GET_DELETED_PRODUCT_URL}`, {
+    withCredentials: true,
+  });

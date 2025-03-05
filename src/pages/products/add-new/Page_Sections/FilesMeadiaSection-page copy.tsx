@@ -26,7 +26,7 @@
 //   gallery_image: File[];
 //   thumbnails: File[];
 //   variations: { image: File; colorCode: string; colorName: string }[];
-//   sizeImages: File[];
+//   size_chart: File[];
 // };
 
 // export default function FilesMediaSectionPage({
@@ -296,14 +296,14 @@
 //           onChange={(e) => handleFileChange(e, "variations")}
 //         />
 
-//         {/* sizeImages */}
+//         {/* size_chart */}
 //         <FormFieldGenal
-//           values={values.sizeImages}
+//           values={values.size_chart}
 //           setFieldValue={setFieldValue}
-//           id="sizeImages"
-//           name="sizeImages"
+//           id="size_chart"
+//           name="size_chart"
 //           title="Size chart"
-//           onChange={(e) => handleFileChange(e, "sizeImages")}
+//           onChange={(e) => handleFileChange(e, "size_chart")}
 //         />
 //       </div>
 
@@ -343,8 +343,8 @@
 //         )}
 
 //         <SelectedImages
-//           value={values.sizeImages}
-//           name="sizeImages"
+//           value={values.size_chart}
+//           name="size_chart"
 //           title="selected Size Images"
 //           alt="gallery images"
 //           setFieldValue={setFieldValue}

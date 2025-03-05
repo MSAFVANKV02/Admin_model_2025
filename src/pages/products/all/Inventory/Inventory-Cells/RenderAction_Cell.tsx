@@ -118,64 +118,68 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
 
   return (
     <div className="flex justify-center items-center">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <button className="p-2 rounded-md hover:bg-gray-100">
-            <MoreVertical size={18} />
-          </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="min-w-[250px] cursor-pointer"
-        >
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              openTaskModal();
-              dispatch(fetchSellerOrStoreDetails("storeSeller"));
-              // openTaskModal(productId)
-            }}
-          >
-            Change On Stores
-          </DropdownMenuItem>
-
-          <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
-            Duplicate
-          </DropdownMenuItem>
-          <ul>
-            {statusList.map(({ id, value, label }) => (
-              <DropdownMenuItem
-                className="cursor-pointer flex justify-between"
-                key={id}
-                onClick={async () => {
-                  await onChangeNewStatus(value as IProductStatus);
-                  refetch();
-                }}
-              >
-                {label}
-                {value === data.status && <Icon icon="charm:tick-double" />}
-              </DropdownMenuItem>
-            ))}
-          </ul>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
       {/* delete button */}
-      <MyEditIcon onClick={() => {}} />
 
       {data.isDeleted ? (
-        <My_Icon icon="mdi:restore"
-        onClick={()=>{
-          restoreDeletedProductFn(productId??"")
-        }}
+        <My_Icon
+          icon="mdi:restore"
+          onClick={async() => {
+            await restoreDeletedProductFn(productId ?? "");
+            refetch();
+          }}
         />
       ) : (
-        <MyDeleteIcon
-          onClick={() => {
-            softDeleteProductFn({ productId: productId });
-          }}
-          color="red"
-        />
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="p-2 rounded-md hover:bg-gray-100">
+                <MoreVertical size={18} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="min-w-[250px] cursor-pointer"
+            >
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  openTaskModal();
+                  dispatch(fetchSellerOrStoreDetails("storeSeller"));
+                  // openTaskModal(productId)
+                }}
+              >
+                Change On Stores
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
+                Duplicate
+              </DropdownMenuItem>
+              <ul>
+                {statusList.map(({ id, value, label }) => (
+                  <DropdownMenuItem
+                    className="cursor-pointer flex justify-between"
+                    key={id}
+                    onClick={async () => {
+                      await onChangeNewStatus(value as IProductStatus);
+                      refetch();
+                    }}
+                  >
+                    {label}
+                    {value === data.status && <Icon icon="charm:tick-double" />}
+                  </DropdownMenuItem>
+                ))}
+              </ul>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <MyEditIcon onClick={() => {}} />
+          <MyDeleteIcon
+            onClick={async () => {
+             await softDeleteProductFn({ productId: productId });
+             refetch();
+            }}
+            color="red"
+          />
+        </>
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>

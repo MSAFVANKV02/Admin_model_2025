@@ -90,6 +90,8 @@ export const CHANGE_PRODUCT_STATUS_URL = `/product_api/product/change-product-st
 // ==============****************====================
 export const DELETE_PRODUCT_URL = `/product_api/product/delete`;
 export const RESTORE_DELETED_PRODUCT_URL = `/product_api/product/restore`;
+export const GET_DELETED_PRODUCT_URL = `/product_api/product/deleted-products`;
+
 
 
 

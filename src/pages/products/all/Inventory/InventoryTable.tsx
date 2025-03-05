@@ -9,15 +9,18 @@ import { handleExportExcel } from "./Inventory-Cells/xlsx_downloader";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import useSearchFn from "@/hooks/useSeach-Fn";
-import AyButton from "@/components/myUi/AyButton";
+import { LoaderSkelton } from "./Inventory-Cells/Loader-Skelton";
+
+
 interface Props {
   gridTheme?: string;
   isDarkMode?: boolean;
   products: IProducts[];
   refetch: any;
+  loading : boolean;
 }
 
-const InventoryTable = ({ refetch, products }: Props) => {
+const InventoryTable = ({ refetch, products=[], loading }: Props) => {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const { filteredData: filteredProducts, handleSearch } =
     useSearchFn<IProducts>(products);
@@ -67,20 +70,18 @@ const InventoryTable = ({ refetch, products }: Props) => {
   >
     Clear Selected Rows
   </button> */}
-      <div className="flex justify-between py-5">
+      <div className="flex justify-end py-5">
+        
+
+        <div className="flex gap-4">
         <div className="ps-4">
           <Input
             type="search"
             placeholder="Search Product"
-            className="text-xs"
+            className="text-xs w-[300px]"
             onChange={handleSearch}
           />
         </div>
-
-        <div className="flex gap-4">
-          <AyButton title="" variant="outlined" outLineColor="gray" sx={{}}>
-            Trash
-          </AyButton>
 
           <Button
             onClick={() => {
@@ -101,18 +102,20 @@ const InventoryTable = ({ refetch, products }: Props) => {
           //   selectableRows
           //   onSelectedRowsChange={handleChange}
           //   clearSelectedRows={toggledClearRows}
+          progressPending={loading}
+          progressComponent={ <LoaderSkelton />}
           highlightOnHover
           pointerOnHover
           customStyles={CustomStylesInventory}
           pagination
           responsive
           expandableRows
-          //   expandableRowsComponent={ExpandableRowComponent}
           expandableRowExpanded={(row) => row._id === expandedRow}
           onRowExpandToggled={(_, row) => handleRowExpand(row)}
           expandableRowsComponent={ExpandableRowComponent}
         />
       </div>
+      {/* <LoaderSkelton /> */}
     </div>
   );
 };

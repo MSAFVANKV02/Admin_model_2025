@@ -15,7 +15,7 @@ export interface IProdAddRoot {
     is_todays_deal: boolean
     gallery_image: string[]
     thumbnails: string[]
-    sizeImages: string[]
+    size_chart: string
     discount_type: string
     price_per_pieces: PricePerPiece[]
     selectWise: string

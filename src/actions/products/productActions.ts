@@ -5,6 +5,7 @@ import { dispatch } from "@/redux/hook";
 import {
   change_Product_Status_Api,
   delete_Product_Api,
+  get_Deleted_Product_Api,
   get_Products_Api,
   restore_Deleted_Product_Api,
   toggle_Product_Api,
@@ -13,19 +14,25 @@ import { IProductStatus } from "@/types/productType";
 import { makeToast } from "@/utils/toaster";
 
 export const getAllProductsInAdmin = async (
-  filter?: { key: string; value: string }[]
+  filter?: { key: string; value: string }[],url?: string
 ) => {
   try {
-    const response = await get_Products_Api(filter);
-    if (response.status === 200) {
-      // return { status: 200, data: response.data.file };
+    // console.log(url,'url');
+    
+
+    const route = url === "deleted" ? await get_Deleted_Product_Api() : await get_Products_Api(filter);
+
+
+    const { data, status } = await route;
+    if (status === 200 || status === 201) {
+      // return { status: 200, data: data.file };
       return {
-        status: response.status,
-        data: response.data.products,
-        message: response.data.message,
+        status: status,
+        data: url === "deleted" ? data.data : data.products,
+        message: data.message,
       };
     }
-    console.log(response, "response");
+    // console.log( ");
   } catch (error) {
     console.log(error, "error getAllProductsInAdmin");
     return { status: 403, data: [], error: error };
@@ -155,7 +162,7 @@ const restoreDeletedProductFn = async (id:string) => {
     const response = await restore_Deleted_Product_Api(id);
 
     if (response.status === 200) {
-      dispatch(fetchProducts());
+      // dispatch(fetchProducts());
       makeToast(response.data.message)
 
       return {

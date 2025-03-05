@@ -47,7 +47,7 @@ export default function ShippingSectionPage({
     gallery_image: "files-media",
     thumbnails: "files-media",
     variations: "files-media",
-    sizeImages: "files-media",
+    size_chart: "files-media",
     basePrice: "price-stock",
     samplePrice: "price-stock",
     discount: "price-stock",

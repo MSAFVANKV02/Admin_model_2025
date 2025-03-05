@@ -169,7 +169,7 @@ export default function ProductAddPage() {
               description: values.description ?? "",
               gallery_image: values.gallery_image ?? [],
               thumbnails: values.thumbnails ?? [],
-              sizeImages: values.sizeImages ?? [],
+              size_chart: values.size_chart ?? "",
               basePrice: values.basePrice ?? 0,
               samplePrice: values.samplePrice ?? 0,
               discount: values.discount ?? 0,

@@ -1,12 +1,9 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { IconButton, Tooltip } from "@mui/material";
 import { Notifications } from "@mui/icons-material";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { makeToast } from "@/utils/toaster";
+import AyButton from "../myUi/AyButton";
 
 export default function NotificationBarSheet() {
   const notification = [
@@ -33,24 +30,37 @@ export default function NotificationBarSheet() {
     },
   ];
 
-  const handleClearNotifications = ()=>{
-    makeToast("Clear notifications")
-    
-  }
+  const handleClearNotifications = () => {
+    makeToast("Clear notifications");
+  };
 
   return (
     <Sheet>
       <SheetTrigger>
-      <Tooltip title="Notification">
+        <Tooltip title="Notification">
           {/* Wrap IconButton in a div to prevent button nesting */}
           <div>
             <IconButton>
-              <Notifications />
+              <Notifications className="text-[#8F8F8F]" />
             </IconButton>
           </div>
         </Tooltip>
       </SheetTrigger>
-      <SheetContent className="z-[10002] w-[400px] sm:w-[940px] " isClearBtn={true} onClear={handleClearNotifications}>
+      <SheetContent
+        className="z-[10002] w-[400px] sm:min-w-[500px] "
+        // isClearBtn={true}
+        // onClear={handleClearNotifications}
+      >
+        <div className="flex justify-between w-full items-start">
+          {/* <h2 className="text-lg font-semibold">Notifications</h2> */}
+          <AyButton variant="outlined" title="" onClick={handleClearNotifications}
+          sx={{
+            width:"fit-content"
+          }}
+          >
+            Clear All
+          </AyButton>
+        </div>
         <div className="flex flex-col gap-3 pt-10">
           {notification.map((item, index) => (
             <div
@@ -68,8 +78,10 @@ export default function NotificationBarSheet() {
                 <h3>{item.title}</h3>
                 <span className="span">{item.description}</span>
               </div>
-              <div className="ml-auto cursor-pointer">
-                <span className="capitalize text-textMain text-sm">Mark as Read</span>
+              <div className="ml-auto cursor-pointer break-words w-fit">
+                <span className="capitalize text-textMain text-sm ">
+                  Mark as Read
+                </span>
               </div>
             </div>
           ))}

@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import { MenuIcon } from "lucide-react";
-import { Fullscreen, PublicOutlined } from "@mui/icons-material";
 import {
   Dialog,
   DialogClose,
@@ -37,6 +36,11 @@ import { makeToast } from "@/utils/toaster";
 
 import { useAppSelector } from "@/redux/hook";
 import { useModal } from "@/providers/context/context";
+import { FullScreenSvg, GlobSvg } from "../icons/glob-icon";
+
+
+
+
 // import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -118,6 +122,7 @@ export default function NavAppBar({
       sx={{
         boxShadow: " rgba(33, 35, 38, 0.1) 0px 10px 10px -10px",
         display: "flex",
+        bgcolor:"#fff"
         // borderBottom:"0.9px solid #4E4E4E"
       }}
       open={open}
@@ -161,7 +166,9 @@ export default function NavAppBar({
           <Tooltip title="Full Screen">
             <div className="">
               <IconButton onClick={handleFullScreen}>
-                <Fullscreen />
+                {/* <Fullscreen /> */}
+                <FullScreenSvg />
+                {/* <Icon icon='iconamoon:screen-full' /> */}
               </IconButton>
             </div>
           </Tooltip>
@@ -188,7 +195,8 @@ export default function NavAppBar({
           <Tooltip title="home">
             <div className="">
               <IconButton onClick={() => handleClick("/dashboard")}>
-                <PublicOutlined />
+                {/* <PublicOutlined /> */}
+                <GlobSvg/>
               </IconButton>
             </div>
           </Tooltip>
@@ -217,21 +225,22 @@ export default function NavAppBar({
         ================================================ */}
           <Dialog>
             <DialogTrigger>
-              <div className="flex gap-3 ml-5">
+              <div className="flex items-center gap-3 ml-5">
                 <div className="flex flex-col text-start">
-                  <span className="text-sm font-medium text-gray-700">
-                    {currentAdmin?.role}
-                  </span>
-                  <span className=" text-gray-400">
+                <span className=" text-gray-700 text-sm">
                     {" "}
                     {currentAdmin?.name || currentAdmin?.email.split("@")[0]}
                   </span>
+                  <span className="text-xs font-medium text-gray-400">
+                    {currentAdmin?.role}
+                  </span>
+                
                 </div>
                 {/* ====== */}
-                <Avatar className="w-7 h-7">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>
-                    {currentAdmin?.name || "Admin"}
+                <Avatar className="w-9 h-9">
+                  <AvatarImage src="https://github.com/shadcn." />
+                  <AvatarFallback className=" bg-bgSoft backdrop-blur-sm">
+                    {currentAdmin?.name.charAt(0) || "Admin"}
                   </AvatarFallback>
                 </Avatar>
               </div>

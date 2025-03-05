@@ -141,7 +141,7 @@ export const FilesSchema = Yup.object({
     )
     .min(1, "At least one variation is required")
     .required("Variations are required"),
-  sizeImages: Yup.array()
+  size_chart: Yup.string()
     .min(1, "Must add Size Images")
     .required("Size Images are required"),
 });

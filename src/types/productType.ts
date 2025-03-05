@@ -39,8 +39,8 @@ export type IProducts = {
   todays_deal_stores?: string[];
 
   //   files section
-  gallery_image?: File[] | string[];
-  thumbnails: File[] | string[];
+  gallery_image?:  string[];
+  thumbnails:  string[];
   variations: {
     image: string;
     colorCode: string;
@@ -48,7 +48,7 @@ export type IProducts = {
     sample: boolean;
     details: IVariants[];
   }[];
-  sizeImages: File[] | string[];
+  size_chart:  string;
 
   // === price stock ===
   basePrice: number;

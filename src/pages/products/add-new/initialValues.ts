@@ -46,7 +46,7 @@ export const InitialValues = {
   gallery_image: [],
   thumbnails:[],
   // productImages: [],
-  sizeImages: [],
+  size_chart: "",
   // ===== price stock section =================
 
   basePrice:undefined,
@@ -110,7 +110,7 @@ export const InitialValues = {
 //   gallery_image: ["sasdasd"],
 //   thumbnails:["asdasd"],
 //   // productImages: [],
-//   sizeImages: ["asdasd"],
+//   size_chart: ["asdasd"],
 //   // ===== price stock section =================
 
 //   basePrice:2,

@@ -1,5 +1,6 @@
 import { get_Products_Api, toggle_Product_Api } from "@/services/products/route";
 import { IProducts } from "@/types/productType";
+import { makeToast, makeToastError } from "@/utils/toaster";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ProductType {
@@ -13,7 +14,7 @@ export const fetchProducts = createAsyncThunk("products/fetchProducts",
     try {
       const response = await get_Products_Api();
       if (response.status == 200 || response.data.success === true) {
-        console.log(response,'response');
+        // console.log(response,'response');
         
         return response.data.products;
       } else {
@@ -37,8 +38,10 @@ export const toggleProductButton = createAsyncThunk(
         // console.log(response);
   
         if (response.status == 200 || response.data.success === true) {
-          console.log(response.data,'media');
-          return response.data.products;
+          return { 
+            products: response.data.products, 
+            message: response.data.message || "Products fetched successfully" 
+          };
         } else {
           return rejectWithValue("Failed to fetch media details");
         }
@@ -74,21 +77,22 @@ const productSlice = createSlice({
       })
       .addCase(toggleProductButton.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        state.products = action.payload.products;
+        makeToast(action.payload.message)
       })
       .addCase(toggleProductButton.rejected, (state, action) => {
         state.loading = false;
-
-        // Check if payload is a string or an object and handle accordingly
+        let errorMessage = "Unknown error";
+  
         if (typeof action.payload === "string") {
-          state.error = action.payload; // String error message
+          errorMessage = action.payload;
         } else if (action.payload && typeof action.payload === "object") {
-          // Cast payload to 'any' to safely access 'data'
           const errorPayload = action.payload as any;
-          state.error = errorPayload?.data?.message || "Unknown error";
-        } else {
-          state.error = "Unknown error";
+          errorMessage = errorPayload?.data?.message || "Unknown error";
         }
+  
+        state.error = errorMessage;
+        makeToastError(errorMessage); // Show error as toast
       });
       // ==== fetch products
       builder

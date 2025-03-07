@@ -26,7 +26,7 @@ export const fetchSellerOrStoreDetails = createAsyncThunk(
 
       if (response.status == 200 || response.data.success === true) {
         // console.log(response.data,'storeSeller response');
-        return response.data.stores
+        return response.data.data
       } else {
         return rejectWithValue("Failed to fetch storeSeller details");
       }

@@ -32,7 +32,7 @@ const pageToStep: any = {
 
 export default function ProductAddPage() {
   const { id } = useParams();
-  const { data: fetchedProducts } = useQueryData(
+  const { data: fetchedProducts, refetch } = useQueryData(
     ["edit-products"],
     () =>
       getAllProductsInAdmin([
@@ -153,6 +153,13 @@ export default function ProductAddPage() {
     navigate(`${pathname}?q=${prevPage}`);
   };
 
+  const handleSaveComplete = () => {
+   
+    setCurrentStep(1); // Resetting the step
+    setSelectedPage("general"); // Resetting to the first step/page
+    navigate(`${pathname}?q=general`); // Redirect to the first page
+  }
+
   //   ==== switch pages =======
   const renderPageComponent = (
     setFieldValue: any,
@@ -269,7 +276,13 @@ export default function ProductAddPage() {
 
             if (response.status === 200 || response.status === 201) {
               makeToast(response.data.message ?? "Product Added Successfully");
-              resetForm();
+              handleSaveComplete()
+              if(id){
+                refetch()
+              }else{
+                resetForm();
+              }
+             
             }
           } catch (error: any) {
             // console.error("Product submission error:", error);

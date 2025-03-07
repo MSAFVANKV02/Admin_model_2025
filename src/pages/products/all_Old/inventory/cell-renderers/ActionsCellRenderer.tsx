@@ -80,17 +80,17 @@ import MyDeleteIcon from "@/components/icons/My_DeleteIcon";
   // useEffect(() => {
   //   if (!product) return;
   
-  //   const { featured_stores = [], unPublished_stores = [] } = product;
+  //   const { non_featured_stores = [], unnon_published_stores = [] } = product;
   
   //   let newSelectedStores: string[] = [];
   
   //   if (selectedField === "is_featured_product") {
-  //     newSelectedStores = featured_stores.filter(
-  //       (storeId: string) => !unPublished_stores.includes(storeId) // Ignore stores present in both
+  //     newSelectedStores = non_featured_stores.filter(
+  //       (storeId: string) => !unnon_published_stores.includes(storeId) // Ignore stores present in both
   //     );
   //   } else if (selectedField === "is_published") {
-  //     newSelectedStores = unPublished_stores.filter(
-  //       (storeId: string) => !featured_stores.includes(storeId) // Ignore stores present in both
+  //     newSelectedStores = unnon_published_stores.filter(
+  //       (storeId: string) => !non_featured_stores.includes(storeId) // Ignore stores present in both
   //     );
   //   }
   

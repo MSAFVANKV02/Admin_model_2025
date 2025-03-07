@@ -1,5 +1,5 @@
 import { useMutationData } from './useMutationData';
-import { changeProductStatus, changeProductToggle } from '@/actions/products/productActions';
+import { changeProductStatus, changeProductToggle, DeleteProductFn } from '@/actions/products/productActions';
 import { fetchProducts } from '@/redux/actions/product_Slice';
 import { dispatch } from '@/redux/hook';
 import { IProductStatus } from '@/types/productType';
@@ -26,14 +26,14 @@ export const useUpdateProductStatus = (productId: string) => {
 
 
 
-export const useUpdateToggleWithStore = (productId: string) => {
+export const useUpdateToggleWithStore = (productId: string,refetch:any) => {
   const { mutate, isPending } = useMutationData(
     ['change-toggle', productId],  // Ensure unique mutation key per product
     ({ fieldName, storeIds }: { fieldName: string; storeIds: string[]  }) => changeProductToggle({ productId, fieldName, storeIds }),  // Pass newStatus
     'product-toggle',
     (data) => {
       if (data.status === 200 || data.status === 201) {
-        dispatch(fetchProducts())
+        refetch();
       }
       //
     }
@@ -45,3 +45,29 @@ export const useUpdateToggleWithStore = (productId: string) => {
 
   return { onChangeNewToggle, isPending };
 };
+
+
+// 3. soft delete mutation
+export const useSoftDeleteProduct = (refetch:any) => {
+
+  const { softDeleteProductFn } = DeleteProductFn();
+
+
+  const {mutate, isPending} = useMutationData(
+    ["softDeleteProduct"],
+    ({productId}:{productId:string})=> softDeleteProductFn({productId:productId}),
+    "product-delete",
+    (data) => {
+      if (data.status === 200 || data.status === 201) {
+        refetch();
+      }
+      //
+    }
+  )
+
+  const onSoftDelete = (productId: string|undefined) => {
+    mutate({ productId });
+  };
+
+  return { onSoftDelete, isPending };
+}

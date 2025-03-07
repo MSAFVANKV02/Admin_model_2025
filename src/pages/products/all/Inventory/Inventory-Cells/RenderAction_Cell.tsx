@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useCallback, useEffect, useState } from "react";
 import { IProducts, IProductStatus } from "@/types/productType";
 import {
+  useSoftDeleteProduct,
   useUpdateProductStatus,
   useUpdateToggleWithStore,
 } from "@/hooks/use-product-statusChange";
@@ -52,9 +53,10 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
   // callbacks ==
   const { onChangeNewStatus } = useUpdateProductStatus(productId ?? "");
   const { onChangeNewToggle, isPending } = useUpdateToggleWithStore(
-    productId ?? ""
+    productId ?? "",refetch
   );
-  const { softDeleteProductFn, restoreDeletedProductFn } = DeleteProductFn();
+  const {  restoreDeletedProductFn } = DeleteProductFn();
+  const {onSoftDelete}= useSoftDeleteProduct(refetch)
 
 
   // data ==
@@ -91,34 +93,64 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
     );
   };
 
+  // useEffect(() => {
+  //   if (!data) return;
+
+  //   const {
+  //     non_featured_stores = [],
+  //     non_published_stores = [],
+  //     non_todays_deal_stores = [],
+  //   } = data;
+
+  //   let newSelectedStores: string[] = [];
+
+  //   if (selectedField === "is_featured_product") {
+  //     newSelectedStores = non_featured_stores.filter(
+  //       (storeId: string) => !non_published_stores.includes(storeId) // Ignore stores present in both
+  //     );
+  //   } else if (selectedField === "is_published") {
+  //     newSelectedStores = non_published_stores.filter(
+  //       (storeId: string) => !non_featured_stores.includes(storeId) // Ignore stores present in both
+  //     );
+  //   } else if (selectedField === "is_todays_deal") {
+  //     //   newSelectedStores = non_todays_deal_stores.filter(
+  //     //     (storeId: string) => !non_featured_stores.includes(storeId) && !non_published_stores.includes(storeId) // Corrected logic
+  //     //   );
+  //     newSelectedStores = [...non_todays_deal_stores];
+  //   }
+
+  //   setSelectedStore(newSelectedStores);
+  // }, [selectedField, data]);
   useEffect(() => {
     if (!data) return;
-
+  
     const {
-      featured_stores = [],
-      published_stores = [],
-      todays_deal_stores = [],
+      non_featured_stores = [],
+      non_published_stores = [],
+      non_todays_deal_stores = [],
     } = data;
-
+  
     let newSelectedStores: string[] = [];
-
+  
     if (selectedField === "is_featured_product") {
-      newSelectedStores = featured_stores.filter(
-        (storeId: string) => !published_stores.includes(storeId) // Ignore stores present in both
-      );
+      newSelectedStores = non_featured_stores
+        .map((store) => store.store)
+        .filter((storeId) =>
+          !non_published_stores.map((store) => store.store).includes(storeId) // Ignore stores present in both
+        );
     } else if (selectedField === "is_published") {
-      newSelectedStores = published_stores.filter(
-        (storeId: string) => !featured_stores.includes(storeId) // Ignore stores present in both
-      );
+      newSelectedStores = non_published_stores
+        .map((store) => store.store)
+        .filter((storeId) =>
+          !non_featured_stores.map((store) => store.store).includes(storeId) // Ignore stores present in both
+        );
     } else if (selectedField === "is_todays_deal") {
-      //   newSelectedStores = todays_deal_stores.filter(
-      //     (storeId: string) => !featured_stores.includes(storeId) && !published_stores.includes(storeId) // Corrected logic
-      //   );
-      newSelectedStores = [...todays_deal_stores];
+      newSelectedStores = non_todays_deal_stores.map((store) => store.store);
     }
-
+  
     setSelectedStore(newSelectedStores);
   }, [selectedField, data]);
+  
 
   // console.log(data);
   if (!data) return null;
@@ -158,9 +190,9 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
                 Change On Stores
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
+              {/* <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
                 Duplicate
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <ul>
                 {statusList.map(({ id, value, label }) => (
                   <DropdownMenuItem
@@ -183,8 +215,10 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
           }} />
           <MyDeleteIcon
             onClick={async () => {
-             await softDeleteProductFn({ productId: productId });
-             refetch();
+            //  await softDeleteProductFn({ productId: productId });
+            await onSoftDelete(productId);
+
+            //  refetch();
             }}
             color="red"
           />

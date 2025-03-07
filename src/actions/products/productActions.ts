@@ -34,7 +34,7 @@ export const getAllProductsInAdmin = async (
     }
     // console.log( ");
   } catch (error) {
-    console.log(error, "error getAllProductsInAdmin");
+    // console.log(error, "error getAllProductsInAdmin");
     return { status: 403, data: [], error: error };
   }
 };
@@ -54,9 +54,9 @@ export const changeProductStatus = async (
         message: response.data.message,
       };
     }
-    console.log(response, "response");
+    // console.log(response, "response");
   } catch (error) {
-    console.log(error, "error changeProductStatus");
+    // console.log(error, "error changeProductStatus");
     return { status: 403, data: [], error: error };
   }
 };
@@ -77,10 +77,10 @@ export const changeProductToggle = async (data: {
         message: response.data.message,
       };
     }
-    console.log(response, "response");
-  } catch (error) {
-    console.log(error, "error changeProductStatus");
-    return { status: 403, data: [], error: error };
+    // console.log(response, "response");
+  } catch (error:any) {
+    // console.log(error, "error changeProductStatus");
+    return { status: 403, data: [], error: error, message:error.response.data.message };
   }
 };
 
@@ -94,8 +94,8 @@ export const DeleteProductFn = () => {
       const response = await delete_Product_Api(data);
 
       if (response.status === 200) {
-        dispatch(fetchProducts());
-        makeToast(response.data.message)
+        // dispatch(fetchProducts());
+        // makeToast(response.data.message)
 
         return {
           status: response.status,
@@ -104,10 +104,10 @@ export const DeleteProductFn = () => {
         };
       
       }
-    } catch (error) {
-      console.log(error, "error toggle");
+    } catch (error:any) {
+      // console.log(error, "error soft delete line:108");
 
-      return { status: 403, data: [], error: error };
+      return { status: 403, data: [], error: error, message: error.response.data.message, };
     }
   };
 
@@ -126,10 +126,10 @@ export const DeleteProductFn = () => {
           message: response.data.message,
         };
       }
-    } catch (error) {
-      console.log(error, "error toggle");
+    } catch (error:any) {
+      // console.log(error, "error toggle");
 
-      return { status: 403, data: [], error: error };
+      return { status: 403, data: [], error: error,  message: error.response.data.message, };
     }
   };
 
@@ -150,10 +150,10 @@ export const DeleteProductFn = () => {
         message: response.data.message,
       };
     }
-  } catch (error) {
-    console.log(error, "error toggle");
+  } catch (error:any) {
+    // console.log(error, "error toggle");
 
-    return { status: 403, data: [], error: error };
+    return { status: 403, data: [], error: error,  message: error.response.data.message, };
   }
 };
 
@@ -171,10 +171,10 @@ const restoreDeletedProductFn = async (id:string) => {
         message: response.data.message,
       };
     }
-  } catch (error) {
-    console.log(error, "error toggle");
+  } catch (error:any) {
+    // console.log(error, "error toggle");
 
-    return { status: 403, data: [], error: error };
+    return { status: 403, data: [], error: error,  message: error.response.data.message, };
   }
 };
 

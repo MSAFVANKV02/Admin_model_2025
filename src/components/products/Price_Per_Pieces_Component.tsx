@@ -18,7 +18,7 @@ export default function PricePerPiecesComponent({
 }: Props) {
   const handleAddField = () => {
     const newField = {
-      min_Piece: values.minimum_quantity ? values.minimum_quantity : 0,
+      minPiece: values.minimum_quantity ? values.minimum_quantity : 0,
       max_Piece: 0,
       discount: 0,
     };
@@ -39,7 +39,7 @@ export default function PricePerPiecesComponent({
     field: keyof IPricePerPieces,
     value: number
   ) => {
-    if (field === "min_Piece" && values.minimum_quantity) {
+    if (field === "minPiece" && values.minimum_quantity) {
       value = Math.max(value, values.minimum_quantity); // Prevent entering value lower than minimum_quantity
     }
     const updatedFields = pricePerPieces.map((item, i) =>
@@ -64,8 +64,8 @@ export default function PricePerPiecesComponent({
                 className="w-[80px]"
                 placeholder="Min"
                 min={values.minimum_quantity ? values.minimum_quantity : 0}
-                value={field.min_Piece}
-                onChange={(e) => handleChange(index, "min_Piece", +e.target.value)}
+                value={field.minPiece}
+                onChange={(e) => handleChange(index, "minPiece", +e.target.value)}
               />
             </div>
             <span className="pt-3">-</span>
@@ -75,8 +75,8 @@ export default function PricePerPiecesComponent({
                 type="number"
                   className="w-[80px]"
                 placeholder="Max"
-                value={field.max_Piece}
-                onChange={(e) => handleChange(index, "max_Piece", +e.target.value)}
+                value={field.maxPiece}
+                onChange={(e) => handleChange(index, "maxPiece", +e.target.value)}
               />
             </div>
 

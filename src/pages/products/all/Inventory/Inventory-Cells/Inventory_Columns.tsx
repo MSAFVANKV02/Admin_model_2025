@@ -139,9 +139,9 @@ export const INVENTORY_COLUMNS = (
             refetch();
           }}
         />
-        {row.featured_stores && row.featured_stores.length > 0 && (
+        {row.non_featured_stores && row.non_featured_stores.length > 0 && (
           <span className="text-gray-500 text-xs capitalize  ">
-            hidden Stores : {row.featured_stores.length}
+            hidden Stores : {row.non_featured_stores.length}
           </span>
         )}
       </div>
@@ -171,9 +171,9 @@ export const INVENTORY_COLUMNS = (
             }, 100);
           }}
         />
-        {row.published_stores && row.published_stores.length > 0 && (
+        {row.non_published_stores && row.non_published_stores.length > 0 && (
           <span className="text-gray-500 text-xs capitalize  ">
-            hidden Stores : {row.published_stores.length}
+            hidden Stores : {row.non_published_stores.length}
           </span>
         )}
       </div>
@@ -202,9 +202,9 @@ export const INVENTORY_COLUMNS = (
             }, 100);
           }}
         />
-        {row.todays_deal_stores && row.todays_deal_stores.length > 0 && (
+        {row.non_todays_deal_stores && row.non_todays_deal_stores.length > 0 && (
           <span className="text-gray-500 text-xs capitalize  ">
-            hidden Stores : {row.todays_deal_stores.length}
+            hidden Stores : {row.non_todays_deal_stores.length}
           </span>
         )}
       </div>

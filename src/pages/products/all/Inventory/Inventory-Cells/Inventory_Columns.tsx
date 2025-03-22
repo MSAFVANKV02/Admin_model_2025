@@ -45,6 +45,12 @@ export const INVENTORY_COLUMNS = (
               <b>Name: </b>
               <span>{row.product_name || ""}</span>
             </div>
+              {/* === */}
+              <div className="w-full truncate flex items-center">
+              <b>Created By: </b>
+              <span>{row.createdBy?.role || ""} | {row.createdBy?.name || ""}</span>
+            </div>
+            {/* ====== */}
             {/* === */}
             <div className="w-full truncate flex items-center">
               <b>Brand: </b>

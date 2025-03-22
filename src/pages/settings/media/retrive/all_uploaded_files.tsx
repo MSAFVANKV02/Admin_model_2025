@@ -266,6 +266,7 @@ import { Trash } from "lucide-react";
 import { useQueryData } from "@/hooks/useQueryData";
 import { getAllMediaById } from "@/actions/media/mediaAction";
 import CheckBox from "@/components/myUi/checkBox";
+import MyCopyAction from "@/components/myUi/MyCopyAction";
 
 export interface IFileDataMedia {
   _id: string;
@@ -680,6 +681,12 @@ export default function AllUploadedFiles({
                               onClick={() =>
                                 handleDeleteFileFromServer(file?._id)
                               }
+                            />
+                              <MyCopyAction
+                              enabled={true}
+                              isCopy={`${file.imageurl}`}
+                              message="Image Copied "
+                              title=""
                             />
                           </div>
 

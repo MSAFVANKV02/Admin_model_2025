@@ -13,7 +13,7 @@ export default function SellerManagementPage() {
   const {isLogged} = useAppSelector((state)=> state.admin);
   const {storeSeller} = useAppSelector((state)=> state.storeSeller);
 
-console.log(isLogged,'isLogged');
+// console.log(isLogged,'isLogged');
 
 
   const [searchParams] = useSearchParams();

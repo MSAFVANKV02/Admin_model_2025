@@ -136,7 +136,7 @@ export const DeleteProductFn = () => {
 
   // 5. hard delete single categories ======
  // 2. hard delete all categories ======
- const hardDeleteSingleProductFn = async (data:{productId?: string, hardDelete?:boolean}) => {
+ const hardDeleteSingleProductFn = async (data:{productId: string, hardDelete:boolean}) => {
   try {
     const response = await delete_Product_Api(data);
 

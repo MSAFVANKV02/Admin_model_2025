@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useCallback, useEffect, useState } from "react";
 import { IProducts, IProductStatus } from "@/types/productType";
 import {
+  useHardDeleteProduct,
   useSoftDeleteProduct,
   useUpdateProductStatus,
   useUpdateToggleWithStore,
@@ -57,6 +58,8 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
   );
   const {  restoreDeletedProductFn } = DeleteProductFn();
   const {onSoftDelete}= useSoftDeleteProduct(refetch)
+  
+  const {onSoftDelete:onHardDelete}= useHardDeleteProduct(refetch)
 
 
   // data ==
@@ -160,13 +163,25 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
       {/* delete button */}
 
       {data.isDeleted ? (
-        <My_Icon
+        <>
+         <My_Icon
           icon="mdi:restore"
           onClick={async() => {
             await restoreDeletedProductFn(productId ?? "");
             refetch();
           }}
         />
+          <MyDeleteIcon
+            onClick={async () => {
+            //  await softDeleteProductFn({ productId: productId });
+            await onHardDelete(productId);
+
+            //  refetch();
+            }}
+            color="red"
+          />
+        </>
+       
       ) : (
         <>
           <DropdownMenu>

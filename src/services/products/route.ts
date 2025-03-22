@@ -9,11 +9,13 @@ import {
   UPDATE_PRODUCT_URL,
 } from "@/types/urlPath";
 import { API } from "../auth/route";
-import { IProdAddRoot } from "@/types/add_Prod_Types";
+// import { IProdAddRoot } from "@/types/add_Prod_Types";
 import { IProductStatus } from "@/types/productType";
 
 // * 1. Create a new Product ====
-export const add_Product_Api = (data: Partial<IProdAddRoot>) =>
+// export const add_Product_Api = (data: Partial<IProdAddRoot>) =>
+//   API.post(CREATE_PRODUCT_URL, data, { withCredentials: true });
+export const add_Product_Api = (data: any) =>
   API.post(CREATE_PRODUCT_URL, data, { withCredentials: true });
 
 // 2. get all product in Dashboard ==========
@@ -70,7 +72,7 @@ export const change_Product_Status_Api = (data: {
       withCredentials: true,
       data:{
         productId: data.productId, 
-        hardDelete: data.hardDelete, 
+        hardDelete: data.hardDelete ?? false,
       }
     });
 
@@ -89,7 +91,7 @@ export const get_Deleted_Product_Api = async () =>
 
 
   // 8. update product item
-export const update_Product_Api = async (data: Partial<IProdAddRoot>,id: string) =>
+export const update_Product_Api = async (data: any,id: string) =>
   await API.put(`${UPDATE_PRODUCT_URL}/${id}`,data, {
     withCredentials: true,
   });

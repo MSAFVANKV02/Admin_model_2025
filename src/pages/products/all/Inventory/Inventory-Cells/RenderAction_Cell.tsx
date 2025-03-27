@@ -139,17 +139,25 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
       newSelectedStores = non_featured_stores
         .map((store) => store.store)
         .filter((storeId) =>
-          !non_published_stores.map((store) => store.store).includes(storeId) // Ignore stores present in both
+         {
+          return storeId
+         }
         );
     } else if (selectedField === "is_published") {
       newSelectedStores = non_published_stores
         .map((store) => store.store)
         .filter((storeId) =>
-          !non_featured_stores.map((store) => store.store).includes(storeId) // Ignore stores present in both
+          // !non_featured_stores.map((store) => store.store).includes(storeId) 
+        {
+          return storeId
+         }
         );
     } else if (selectedField === "is_todays_deal") {
       newSelectedStores = non_todays_deal_stores.map((store) => store.store);
     }
+
+    console.log(newSelectedStores,'newSelectedStores');
+    
   
     setSelectedStore(newSelectedStores);
   }, [selectedField, data]);
@@ -295,9 +303,11 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
               }}
             >
               <Loader state={isPending}>
-                {selectedField === "is_published"
-                  ? "Hide Store"
-                  : "Feature Product"}
+              {selectedField === "is_published"
+                  ? "Unpublish Stores"
+                  :selectedField === "is_todays_deal" ?"Today's Deals": "Feature Product"}
+
+               
               </Loader>
             </AyButton>
           </div>

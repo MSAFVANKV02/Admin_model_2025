@@ -3,7 +3,7 @@ import {
   APPROVE_STORE_URL,
   CREATE_STORE_URL,
   GET_STORE_URL,
-} from "@/types/urlPath";
+} from "@/services/api/storeSeller-urlPath";
 import { API } from "../auth/route";
 import { IAdminStatus } from "@/types/storeTypes";
 

@@ -119,7 +119,7 @@ export default function StoreCreationPage() {
         initialValues={initialValues}
         validationSchema={getValidationSchema(selectedRegistration)}
         onSubmit={async (values, { resetForm }) => {
-          console.log(values);
+          // console.log(values);
 
           const formData = new FormData();
 

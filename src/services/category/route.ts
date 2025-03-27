@@ -7,7 +7,7 @@ import {
   SOFT_DELETE_CATEGORY_URL,
   TOGGLE_CATEGORY_URL,
   UPDATE_CATEGORY_URL,
-} from "@/types/urlPath";
+} from "@/services/api/category-urlPath";
 import { API } from "../auth/route";
 
 export const create_Category_Api = async (data: {

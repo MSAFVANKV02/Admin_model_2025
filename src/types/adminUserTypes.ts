@@ -2,6 +2,7 @@ export interface IAdminTypes {
   _id: string;
   name: string;
   email: string;
+  avatar:string;
   password: string;
   role: "admin" | "ecommerce" | "social-media";
   pages: string[];

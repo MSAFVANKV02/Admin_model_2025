@@ -7,7 +7,7 @@ import {
   RESTORE_DELETED_PRODUCT_URL,
   TOGGLE_PRODUCTS_URL,
   UPDATE_PRODUCT_URL,
-} from "@/types/urlPath";
+} from "@/services/api/product-urlPath";
 import { API } from "../auth/route";
 // import { IProdAddRoot } from "@/types/add_Prod_Types";
 import { IProductStatus } from "@/types/productType";

@@ -4,7 +4,7 @@ import {
   DELETE_MULTIPLE_MEDIA_URL,
   GET_MEDIA_BY_ID_URL,
   GET_MEDIA_URL,
-} from "@/types/urlPath";
+} from "@/services/api/media-urlPath";
 import { API } from "../auth/route";
 import Cookies from "js-cookie";
 

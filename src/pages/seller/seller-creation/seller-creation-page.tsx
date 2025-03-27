@@ -117,7 +117,7 @@ export default function SellerCreationPage() {
         initialValues={initialValues}
         validationSchema={getValidationSchema(selectedRegistration)}
         onSubmit={async (values, { resetForm }) => {
-          console.log(values);
+          // console.log(values);
 
           const formData = new FormData();
 
@@ -214,6 +214,7 @@ export default function SellerCreationPage() {
           } catch (error: any) {
             console.error(error);
             if (error.response?.data) {
+              console.log(error)
               makeToastError(error.response.data.message);
             } 
           } finally{
@@ -224,6 +225,9 @@ export default function SellerCreationPage() {
       >
         {({ values, setFieldValue, resetForm, isSubmitting }) => (
           <Form>
+            {/* <pre>
+              {JSON.stringify(errors, null, 2)}
+            </pre> */}
             {/* {getError(errors)} */}
             {/* <PageLayoutHeader className="fixed top-14  right-0  shadow-[0px_2px_9px_0px_#00000024] left-0 bg-white z-50"> */}
             <PageLayoutHeader className="f">

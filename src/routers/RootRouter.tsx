@@ -42,6 +42,7 @@ import PaymentSetupSettings from "@/pages/settings/payment-setups/payment-setups
 import ConversationPage from "@/pages/store/conversations/conversation-page";
 import UploadMediaPage from "@/pages/settings/media/upload-media-page";
 import AllUploadedFiles from "@/pages/settings/media/retrive/all_uploaded_files";
+import UserProfilePage from "@/pages/user-profile/user-profile-page";
 
 const rootRouter = createBrowserRouter(
   [
@@ -72,6 +73,14 @@ const rootRouter = createBrowserRouter(
               <DashboardPage />
             </ProtectedRoute>
           ),
+        },
+        {
+          path:"/admin/profile/",
+          element: <UserProfilePage />
+        },
+        {
+          path:"/admin/profile/:page",
+          element: <UserProfilePage />
         },
         {
           path: "/products",

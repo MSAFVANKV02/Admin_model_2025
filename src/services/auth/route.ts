@@ -8,7 +8,7 @@ import {
   GET_CURRENT_ADMIN_URL,
   LOGOUT_ADMIN_URL,
   UPDATE_SUB_ADMIN_URL,
-} from "@/types/urlPath";
+} from "@/services/api/urlPath";
 import axios from "axios";
 
 export const API = axios.create({

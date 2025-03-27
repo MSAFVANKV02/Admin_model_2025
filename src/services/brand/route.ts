@@ -6,7 +6,7 @@ import {
   SOFT_DELETE_SINGLE_BRAND_URL,
   UPDATE_BRAND_STATUS_URL,
   UPDATE_BRAND_URL,
-} from "@/types/urlPath";
+} from "@/services/api/brand-urlPath";
 import { API } from "../auth/route";
 import { IBrandGetStatus } from "@/types/brandtypes";
 import Cookies from "js-cookie";

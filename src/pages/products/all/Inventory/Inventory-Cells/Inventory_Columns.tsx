@@ -221,21 +221,7 @@ export const INVENTORY_COLUMNS = (
     name: "Actions",
     cell: (row) => (
       <>
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="p-2 rounded-md hover:bg-gray-100">
-              <MoreVertical size={18} />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => {}}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}} className="text-red-500">
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu> */}
-        {/* {row._id} */}
+       
         <ActionsCellRenderer data={row} refetch={refetch} isDarkMode={false} />
       </>
     ),

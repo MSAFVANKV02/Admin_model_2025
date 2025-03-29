@@ -4,7 +4,9 @@ interface FormattedDateProps {
   date?: string | number | Date; // The date to format
   showTime?: boolean;           // Show time (default: true)
   showSeconds?: boolean;        // Show seconds (default: true)
-  use12Hour?: boolean;          // Use 12-hour format (default: true)
+  use12Hour?: boolean;   
+  showMins?: boolean;          // Use 12-hour format (default: true)
+         // Use 12-hour format (default: true)
 }
 
 const MyClock: React.FC<FormattedDateProps> = ({
@@ -12,6 +14,7 @@ const MyClock: React.FC<FormattedDateProps> = ({
   showTime = true,
   showSeconds = true,
   use12Hour = true,
+  // showMins = true,  
 }) => {
   if (!date) {
     return <span>N/A</span>;
@@ -29,6 +32,9 @@ const MyClock: React.FC<FormattedDateProps> = ({
     if (showSeconds) {
       options.second = "2-digit";
     }
+    // if (showMins) {
+    //   options.minute = "2-digit";
+    // }
     options.hour12 = use12Hour;
   }
 

@@ -8,10 +8,10 @@ type Props = {
   values: IProducts;
   errors: any;
   sectionRefs: {
-    general: React.RefObject<HTMLDivElement>;
-    "files-media": React.RefObject<HTMLDivElement>;
-    "price-stock": React.RefObject<HTMLDivElement>;
-    shipping: React.RefObject<HTMLDivElement>;
+    general: React.RefObject<HTMLDivElement | null>;
+    "files-media": React.RefObject<HTMLDivElement | null>;
+    "price-stock": React.RefObject<HTMLDivElement | null>;
+    shipping: React.RefObject<HTMLDivElement | null>;
   };
 };
 

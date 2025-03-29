@@ -15,7 +15,6 @@ import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
 import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
 import PricePerPiecesComponent from "@/components/products/Price_Per_Pieces_Component";
-import { useEffect } from "react";
 
 type Props = {
   setFieldValue: any;
@@ -31,30 +30,30 @@ export default function PriceStockSectionPage({
   console.log(errors, "error");
   console.log(values, "values");
 
-  useEffect(() => {
-    if (values.variations?.length > 0) {
-      const updatedVariations = values.variations.map((variation) => {
-        if (variation.details && variation.details.length > 0) {
-          const updatedDetails = variation.details.map((detail) => ({
-            ...detail,
-            discount:
-              detail.discount === 0 || !detail.discount
-                ? values.discount
-                : detail.discount,
-          }));
+  // useEffect(() => {
+  //   if (values.variations?.length > 0) {
+  //     const updatedVariations = values.variations.map((variation) => {
+  //       if (variation.details && variation.details.length > 0) {
+  //         const updatedDetails = variation.details.map((detail) => ({
+  //           ...detail,
+  //           discount:
+  //             detail.discount === 0 || !detail.discount
+  //               ? values.discount
+  //               : detail.discount,
+  //         }));
 
-          return { ...variation, details: updatedDetails };
-        } else {
-          return {
-            ...variation,
-            details: [{ discount: values.discount }], // If no details exist, create one
-          };
-        }
-      });
+  //         return { ...variation, details: updatedDetails };
+  //       } else {
+  //         return {
+  //           ...variation,
+  //           details: [{ discount: values.discount }], // If no details exist, create one
+  //         };
+  //       }
+  //     });
 
-      setFieldValue("variations", updatedVariations);
-    }
-  }, []);
+  //     setFieldValue("variations", updatedVariations);
+  //   }
+  // }, []);
 
   return (
     <div className="">
@@ -229,6 +228,8 @@ export default function PriceStockSectionPage({
           </div>
         </div> */}
       </div>
+
+     
 
       {/* ======= All Selected Details In Table ======== */}
       <div className="flex justify-end mt-10 w-[90%]">

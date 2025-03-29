@@ -33,6 +33,6 @@ export const UPDATE_CUSTOMER_KYC_URL = `/user_api/admin/approveOrreject_Kyc`;
 
 
 // update profiles --------------------
-export const UPDATE_PROFILE_URL = `/user_api/store/editStore`;
-export const RESET_PASSWORD_URL = `/user_api/seller/change-password`;
+export const UPDATE_PROFILE_URL = `/user_api/admin/avatar`;
+export const RESET_PASSWORD_URL = `/user_api/admin/change-password`;
 export const DELETE_PROFILE_AVATAR_URL = `/user_api/seller/remove-avatar`;

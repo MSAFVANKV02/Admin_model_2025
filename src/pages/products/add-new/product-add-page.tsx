@@ -187,7 +187,7 @@ export default function ProductAddPage() {
     values: any,
     errors: any
   ) => {
-    console.log(values);
+    // console.log(values);
 
     switch (selectedPage || "general") {
       case "general":

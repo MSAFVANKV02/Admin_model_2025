@@ -1,6 +1,6 @@
 import { MySwitch } from "@/components/myUi/mySwitch";
 import { IProducts } from "@/types/productType";
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {
   values: IProducts | null;
@@ -8,6 +8,7 @@ type Props = {
 };
 
 export default function AllNewProductsTable({ values, setFieldValue }: Props) {
+  const [isDiscountChanged, setIsDiscountChanged] = useState(false)
   return (
     <div className="lg:w-[86%] overflow-x-auto">
       <table className="table-auto w-full ">
@@ -100,12 +101,18 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       min="0"
                       max="100"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={variant.discount || 0}
+                      value={isDiscountChanged?variant.discount:values?.discount || 0}
                       onChange={(e) =>
+                      {  
+                        setIsDiscountChanged(true);
+                        
                         setFieldValue(
                           `variations[${vIndex}].details[${index}].discount`,
                           parseFloat(e.target.value) || 0
                         )
+
+                      }
+                     
                       }
                     />
                   </td>
@@ -120,7 +127,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                         value={variant.bundleQuantity || 0}
                         onChange={(e) =>
                           setFieldValue(
-                            `variations[${vIndex}].details[${index}].bundle_quantity`,
+                            `variations[${vIndex}].details[${index}].bundleQuantity`,
                             parseFloat(e.target.value) || 0
                           )
                         }

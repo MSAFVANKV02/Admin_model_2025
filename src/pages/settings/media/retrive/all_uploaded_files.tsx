@@ -277,10 +277,10 @@ export interface IFileDataMedia {
   width: number;
   height: number;
   uploadedAt: Date;
-  category:IFIlesCategory
+  category: IFIlesCategory;
 }
 
-export type IFIlesCategory = "all"|"products"|"category"|"brand"
+export type IFIlesCategory = "all" | "products" | "category" | "brand";
 
 type Props = {
   onClick?: (selectedFiles: IFileDataMedia[], imageurl: string[]) => void;
@@ -297,7 +297,7 @@ export default function AllUploadedFiles({
   mediaType = "",
   selectedFiles = [],
   setSelectedFiles,
-  category="all"
+  category = "all",
 }: Props) {
   const { handleClick } = useNavigateClicks();
   // const { media: files } = useAppSelector((state) => state.media);
@@ -342,16 +342,20 @@ export default function AllUploadedFiles({
   //     )
   //   : [];
   const filteredFiles = Array.isArray(files)
-  ? files.filter((file) => {
-      const matchesCategory = category === "all" || file.category === category;
-      const matchesDate =
-        !date || new Date(file.uploadedAt).toDateString() === date.toDateString();
-      const matchesMediaType = mediaType === "" || file.format.startsWith(`${mediaType}/`);
+    ? files.filter((file) => {
+        const matchesCategory =
+          category === "all" || file.category === category;
+        const matchesDate =
+          !date ||
+          new Date(file.uploadedAt).toDateString() === date.toDateString();
+        const matchesMediaType =
+          mediaType === "" ||
+          file.format.startsWith(`${mediaType}/`) ||
+          file.format.endsWith(`${mediaType}`);
 
-      return matchesCategory && matchesDate && matchesMediaType;
-    })
-  : [];
-
+        return matchesCategory && matchesDate && matchesMediaType;
+      })
+    : [];
 
   const categorizedFiles = {
     image: filteredFiles.filter((file) => file.format.startsWith("image/")),
@@ -632,21 +636,28 @@ export default function AllUploadedFiles({
                           }}
                         >
                           {!onClick && (
-                           <>
-                             <div className="absolute top-2 shadow-xl left-2 ">
-                             <CheckBox  size="small" color="secondary"
-                               onChange={(checked) => {
-                                if (checked) {
-                                  // Add the checked ID
-                                  setDeleteIds((prev) => [...(prev || []), file._id]);
-                                } else {
-                                  // Remove unchecked ID
-                                  setDeleteIds((prev) => prev?.filter((id) => id !== file._id));
-                                }
-                              }}
-                             />
-                             </div>
-                            {/* <Input
+                            <>
+                              <div className="absolute top-2 shadow-xl left-2 ">
+                                <CheckBox
+                                  size="small"
+                                  color="secondary"
+                                  onChange={(checked) => {
+                                    if (checked) {
+                                      // Add the checked ID
+                                      setDeleteIds((prev) => [
+                                        ...(prev || []),
+                                        file._id,
+                                      ]);
+                                    } else {
+                                      // Remove unchecked ID
+                                      setDeleteIds((prev) =>
+                                        prev?.filter((id) => id !== file._id)
+                                      );
+                                    }
+                                  }}
+                                />
+                              </div>
+                              {/* <Input
                               type="checkbox"
                               className="w-4 h-4 absolute top-2 shadow-xl left-2 group-hover:block hidden"
                               checked={deleteIds?.includes(file._id) || false} // Check if ID is in deleteIds
@@ -665,7 +676,7 @@ export default function AllUploadedFiles({
                                 }
                               }}
                             /> */}
-                           </>
+                            </>
                           )}
 
                           <div
@@ -682,7 +693,7 @@ export default function AllUploadedFiles({
                                 handleDeleteFileFromServer(file?._id)
                               }
                             />
-                              <MyCopyAction
+                            <MyCopyAction
                               enabled={true}
                               isCopy={`${file.imageurl}`}
                               message="Image Copied "

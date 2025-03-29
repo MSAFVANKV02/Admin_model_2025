@@ -11,10 +11,11 @@ import Media_Files_Modal from "@/components/media/Media_Files_Modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 import {
-  delete_Profile_Avatar_Api,
   update_profile_Api,
 } from "@/services/profile/route";
 import { useNavigate } from "react-router-dom";
+import AyButton from "@/components/myUi/AyButton";
+import Loader from "@/components/global/loader";
 
 type FormData = {
   name: string;
@@ -30,28 +31,30 @@ const ProfilePageForm = () => {
   const { openMediaDrawer, mediaOpenDrawer } = useModal();
 
   const handleDeleteAvatar = async (setFieldValue: any) => {
-    if (!currentAdmin?.avatar) {
-      setFieldValue("avatar", "");
-      return;
-    }
+    setFieldValue("avatar", "");
+    return;
+    // if (!currentAdmin?.avatar) {
+    //   setFieldValue("avatar", "");
+    //   return;
+    // }
 
-    try {
-      const response = await delete_Profile_Avatar_Api(currentAdmin?._id ?? "");
+    // try {
+    //   const response = await delete_Profile_Avatar_Api(currentAdmin?._id ?? "");
 
-      if (response.status === 200) {
-        makeToast(response.data.message);
-        // console.log(response,'response');
+    //   if (response.status === 200) {
+    //     makeToast(response.data.message);
+    //     // console.log(response,'response');
 
-        setFieldValue("avatar", "");
-        dispatch(setCurrentAdminSlices(response.data.data));
-      }
-    } catch (error: any) {
-      if (error) {
-        makeToastError(
-          error.response.data.message || "Failed to delete avatar"
-        );
-      }
-    }
+    //     setFieldValue("avatar", "");
+    //     dispatch(setCurrentAdminSlices(response.data.data));
+    //   }
+    // } catch (error: any) {
+    //   if (error) {
+    //     makeToastError(
+    //       error.response.data.message || "Failed to delete avatar"
+    //     );
+    //   }
+    // }
   };
 
   return (
@@ -66,8 +69,7 @@ const ProfilePageForm = () => {
       onSubmit={async (value) => {
         try {
           const response = await update_profile_Api(
-            value,
-            currentAdmin?._id ?? ""
+            value.avatar,
           );
 
           if (response.status === 200) {
@@ -85,7 +87,7 @@ const ProfilePageForm = () => {
         }
       }}
     >
-      {({ values,  setFieldValue }) => (
+      {({ values,  setFieldValue, isSubmitting }) => (
         <Form className="space-y-3">
           <div className="sm:hidden block">
             <Icon
@@ -201,6 +203,7 @@ const ProfilePageForm = () => {
                 />
               </div>
             </div>
+            
 
             {/* 4. use email====== */}
             <div className="flex gap-5 md:flex-row flex-col w-full">
@@ -236,11 +239,11 @@ const ProfilePageForm = () => {
           </div>
 
           {/* Submit Button */}
-          {/* <div className="flex justify-end pt-3">
+          <div className="flex justify-end pt-3">
             <AyButton type="submit">
               <Loader state={isSubmitting}>Update</Loader>
             </AyButton>
-          </div> */}
+          </div>
         </Form>
       )}
     </Formik>

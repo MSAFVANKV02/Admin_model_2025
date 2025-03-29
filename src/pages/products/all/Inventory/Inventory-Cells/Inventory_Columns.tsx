@@ -8,6 +8,7 @@ import { ActionsCellRenderer } from "./RenderAction_Cell";
 import { Badge } from "@/components/ui/badge";
 import Image from "@/components/global/image";
 import { makeToastError } from "@/utils/toaster";
+import MyClock from "@/components/myUi/MyClock";
 export const INVENTORY_COLUMNS = (
   refetch: () => void
 ): TableColumn<IProducts>[] => [
@@ -23,11 +24,12 @@ export const INVENTORY_COLUMNS = (
     cell: (row) => {
       const variations = row.variations ?? [];
 
-
       const allSizes = (variations ?? [])
-      .flatMap((variant: any) => (variant.details ?? []).map((detail: any) => detail.size))
-      .join(", ");
-    
+        .flatMap((variant: any) =>
+          (variant.details ?? []).map((detail: any) => detail.size)
+        )
+        .join(", ");
+
       const allColors = variations
         .map((variant: any) => variant.colorName)
         .join(", ");
@@ -40,15 +42,20 @@ export const INVENTORY_COLUMNS = (
             className="w-14 h-11 rounded-md"
           />
 
-          <div className="flex flex-col gap-1 items-start w-full overflow-hidden">
-            <div className="w-full truncate flex items-center">
-              <b>Name: </b>
-              <span>{row.product_name || ""}</span>
+          <div className="flex flex-col gap-1 items-start w-full break-all">
+            <div className="w-full flex items-start gap-1 flex-wrap">
+              <b className="whitespace-nowrap">Name:</b>
+              <span className="break-words w-full">
+                {row.product_name || ""}sasdasadasdasdasdasdas
+              </span>
             </div>
-              {/* === */}
-              <div className="w-full truncate flex items-center">
+
+            {/* === */}
+            <div className="w-full  break-words flex items-center">
               <b>Created By: </b>
-              <span>{row.createdBy?.role || ""} | {row.createdBy?.name || ""}</span>
+              <span>
+                {row.createdBy?.role || ""} | {row.createdBy?.name || ""}
+              </span>
             </div>
             {/* ====== */}
             {/* === */}
@@ -76,9 +83,19 @@ export const INVENTORY_COLUMNS = (
       );
     },
 
-    sortable: true,
     grow: 1, // Makes this column take up more space
     width: "250px",
+  },
+  {
+    name: "Created At",
+    cell: (row) => (
+      <MyClock date={row.createdAt} showSeconds={false} use12Hour />
+    ),
+    sortable: true,
+    sortFunction: (rowA, rowB) =>
+      new Date(rowA.createdAt ?? "").getTime() -
+      new Date(rowB.createdAt ?? "").getTime(),
+    // minWidth:"fit-content"
   },
   {
     name: "Status",
@@ -104,6 +121,7 @@ export const INVENTORY_COLUMNS = (
         </Badge>
       );
     },
+    sortable: true,
     grow: 1,
     width: "150px",
   },
@@ -208,11 +226,12 @@ export const INVENTORY_COLUMNS = (
             }, 100);
           }}
         />
-        {row.non_todays_deal_stores && row.non_todays_deal_stores.length > 0 && (
-          <span className="text-gray-500 text-xs capitalize  ">
-            hidden Stores : {row.non_todays_deal_stores.length}
-          </span>
-        )}
+        {row.non_todays_deal_stores &&
+          row.non_todays_deal_stores.length > 0 && (
+            <span className="text-gray-500 text-xs capitalize  ">
+              hidden Stores : {row.non_todays_deal_stores.length}
+            </span>
+          )}
       </div>
     ),
     grow: 1,
@@ -221,7 +240,6 @@ export const INVENTORY_COLUMNS = (
     name: "Actions",
     cell: (row) => (
       <>
-       
         <ActionsCellRenderer data={row} refetch={refetch} isDarkMode={false} />
       </>
     ),

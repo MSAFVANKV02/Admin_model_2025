@@ -22,12 +22,13 @@ import { Update_Customer_Kyc_Api } from "@/services/customer/route";
 import { useAppDispatch } from "@/redux/hook";
 import { fetchCustomerDetails } from "@/redux/actions/customerSlice";
 import { makeToast, makeToastError } from "@/utils/toaster";
+import OpenMediaDrawer from "../myUi/OpenMediaDrawer";
 
 export default function KycDashModal() {
   const dispatch = useAppDispatch();
-  const { selectedTask, closeModal } = useModal(); // Get the modal context
+  const { selectedTask, closeModal, openModal } = useModal(); // Get the modal context
 
-  console.log(selectedTask,'selectedTask');
+  // console.log(selectedTask,'selectedTask');
 
   return (
     <TaskModal className="h-[85vh] lg:w-[40vw] sm:w-[70vw] w-full flex flex-col">
@@ -60,34 +61,35 @@ export default function KycDashModal() {
         onSubmit={async (values) => {
           // console.log("Form submitted", values);
 
-          const formData = new FormData();
+          // const formData = new FormData();
 
           // Append all KYC details to FormData
-          formData.append("businessName", values.businessName);
-          formData.append("emailId", values.emailId);
-          formData.append("buildingName", values.buildingName);
-          formData.append("street", values.street);
-          formData.append("pinCode", values.pinCode);
-          formData.append("state", values.state);
-          formData.append("country", values.country);
-          formData.append("proofType", values.proofType || ""); // Ensure proofType is a string
-          formData.append("action", values.kycStatus);
-          formData.append("feedback", values.feedback || "");
-          if (values.proof) {
-            formData.append("proof", values.proof); // Append the uploaded file
-          }
-          formData.append("gstNumber", values.gstNumber);
+          // formData.append("businessName", values.businessName);
+          // formData.append("emailId", values.emailId);
+          // formData.append("buildingName", values.buildingName);
+          // formData.append("street", values.street);
+          // formData.append("pinCode", values.pinCode);
+          // formData.append("state", values.state);
+          // formData.append("country", values.country);
+          // formData.append("proofType", values.proofType || ""); // Ensure proofType is a string
+          // formData.append("action", values.kycStatus);
+          // formData.append("feedback", values.feedback || "");
+          // if (values.proof) {
+          //   formData.append("proof", values.proof); // Append the uploaded file
+          // }
+          // formData.append("gstNumber", values.gstNumber);
 
           try {
             const response = await Update_Customer_Kyc_Api(
-              formData,
+              values,
               selectedTask?.kyc?._id ?? ""
             );
             if (response.status === 200) {
               dispatch(fetchCustomerDetails());
               makeToast(`${response.data.message}`);
+              openModal({user:selectedTask?.user , kyc: response.data.kyc }, "kyc_dash_modal");
             }
-            // console.log(response);
+            // console.log(response.data.kyc);
           } catch (error: any) {
             // console.error(error);
             if (error.response.data) {
@@ -334,8 +336,25 @@ export default function KycDashModal() {
                 <Label className="text-textGray mb-2 block text-sm font-medium">
                   Uploaded Document
                 </Label>
-                <div className="md:w-[70%] w-full flex items-start">
-                  <MyPdf value={selectedTask?.kyc.proof ?? ""} />
+                <div className="md:w-[70%] w-full flex items-start flex-col gap-1">
+                  <MyPdf value={values.proof ?? ""} isPdfShown />
+
+                  <Label htmlFor="proof" className="text-xs cursor-pointer underline">
+             
+                    <OpenMediaDrawer 
+                    name="proof"
+                    mediaType="pdf"
+                    values={values}
+                    title=""
+                    handleFileChange={(event)=>{
+                      const imgArray = event[0].imageurl;
+                      setFieldValue("proof", imgArray);
+                    }}
+
+                    />
+                 
+                    {/* <input type="file" /> */}
+                  </Label>
                   {/* <a
                     href={"/Invoice_INV1482989614215502 (16).pdf"}
                     target="_blank"

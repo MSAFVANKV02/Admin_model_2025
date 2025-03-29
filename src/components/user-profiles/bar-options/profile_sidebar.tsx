@@ -16,13 +16,13 @@ const ProfileSidebar = () => {
       slug: "profile",
       active: true,
     },
-    {
-      id: 2,
-      icon: "mdi:bank-outline",
-      title: "Billing",
-      slug: "billing",
-      active: false,
-    },
+    // {
+    //   id: 2,
+    //   icon: "mdi:bank-outline",
+    //   title: "Billing",
+    //   slug: "billing",
+    //   active: false,
+    // },
     {
       id: 3,
       icon: "material-symbols:security",

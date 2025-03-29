@@ -158,7 +158,7 @@ const AdminCreateForm = () => {
       }}
     >
       {({ isSubmitting , resetForm}) => (
-        <Form className="p-4 bg-white shadow-md rounded-md">
+        <Form className="p-4 bg-white border shadow-md rounded-md">
           <div className="my-5">
             <MyCopyAction
               enabled={isPasswordVisible}
@@ -168,7 +168,7 @@ const AdminCreateForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-bold">
+            <label htmlFor="name" className="block text-sm font-bold text-textGray mb-1">
               Name
             </label>
             <Field
@@ -176,17 +176,17 @@ const AdminCreateForm = () => {
               as={Input}
               name="name"
               placeholder="Enter name"
-              className="border p-2 w-full rounded"
+              className="border px-3 py-6 w-full rounded-md bg-gray-200"
             />
             <ErrorMessage
               name="name"
               component="div"
-              className="text-red-500 text-sm"
+              className="text-red-500 text-xs"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-bold">
+            <label htmlFor="email" className="block text-sm font-bold text-textGray mb-1">
               Email
             </label>
             <Field
@@ -195,17 +195,17 @@ const AdminCreateForm = () => {
               type="email"
               as={Input}
               placeholder="Enter email"
-              className="border p-2 w-full rounded"
+              className="border px-3 py-6 w-full rounded bg-gray-200"
             />
             <ErrorMessage
               name="email"
               component="div"
-              className="text-red-500 text-sm"
+              className="text-red-500 text-xs"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="mobile" className="block text-sm font-bold">
+            <label htmlFor="mobile" className="block text-sm font-bold text-textGray mb-1">
               Mobile
             </label>
             <Field
@@ -219,44 +219,45 @@ const AdminCreateForm = () => {
                 }
               }}
               placeholder="Enter Mobile number"
-              className="border p-2 w-full rounded"
+              className="border px-3 py-6 w-full rounded bg-gray-200"
             />
             <ErrorMessage
               name="mobile"
               component="div"
-              className="text-red-500 text-sm"
+              className="text-red-500 text-xs"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-bold">
+            <label htmlFor="password" className="block text-sm font-bold text-textGray mb-1">
               Password
             </label>
             <Field
               id="password"
               name="password"
+
               // type="password"
               as={Input}
               placeholder="Enter password"
-              className="border p-2 w-full rounded"
+              className="border px-3 py-6 w-full rounded bg-gray-200"
             />
             <ErrorMessage
               name="password"
               component="div"
-              className="text-red-500 text-sm"
+              className="text-red-500 text-xs"
             />
           </div>
           {editAdmin?.role !== "admin" && (
             <>
               <div className="mb-4">
-                <label htmlFor="role" className="block text-sm font-bold">
+                <label htmlFor="role" className="block text-sm font-bold text-textGray mb-1">
                   Role
                 </label>
                 <Field
                   as="select"
                   id="role"
                   name="role"
-                  className="border p-2 w-full rounded"
+                  className="border px-3 py-4 w-full rounded-md text-sm bg-gray-200"
                 >
                   {/* <option value="admin">Admin</option> */}
                   <option value="ecommerce">Ecommerce</option>
@@ -265,12 +266,12 @@ const AdminCreateForm = () => {
                 <ErrorMessage
                   name="role"
                   component="div"
-                  className="text-red-500 text-sm"
+                  className="text-red-500 text-xs"
                 />
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-bold">Pages</label>
+                <label className="block text-sm font-bold text-textGray mb-1">Accessible Pages</label>
                 <div className="grid grid-cols-2 gap-2">
                   {allPages.map((page) => (
                     <div key={page.segment} className="flex items-center">
@@ -293,7 +294,7 @@ const AdminCreateForm = () => {
                 <ErrorMessage
                   name="pages"
                   component="div"
-                  className="text-red-500 text-sm"
+                  className="text-red-500 text-xs"
                 />
               </div>
             </>

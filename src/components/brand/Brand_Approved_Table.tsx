@@ -84,7 +84,10 @@ export default function BrandApprovedTable({ brands }: Props) {
               >
                 <td className="py-3 px-4">{index + 1}</td>
                 <td className="py-3 px-4">{brand.name}</td>
-                <td className="py-3 px-4">{brand.createdBy}</td>
+                <td className="py-3 px-4 flex flex-col break-words max-w-[200px]">
+                  <span className="">{brand.createdBy}</span>
+                  <span className=""><b>Owner: </b>{brand.certificateOwnerName}</span>
+                </td>
                 <td className="py-3 px-4">{brand.status}</td>
 
                 <td className="py-3 px-4 ">

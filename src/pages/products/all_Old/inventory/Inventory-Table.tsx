@@ -229,7 +229,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
                   toggleProductButton({
                     fieldName: "is_featured_product",
                     productId: data._id ?? "",
-                    storeId: [],
+                    storeIds: [],
                   })
                 );
                 refetch();
@@ -260,7 +260,7 @@ export const InventoryTable: FunctionComponent<Props> = ({
                   toggleProductButton({
                     fieldName: "is_published",
                     productId: data._id ?? "",
-                    storeId: [],
+                    storeIds: [],
                   })
                 );
                 refetch();
@@ -284,10 +284,9 @@ export const InventoryTable: FunctionComponent<Props> = ({
     // },
     {
       field: "actions",
-      cellRenderer:  ActionsCellRenderer,
+      cellRenderer: ActionsCellRenderer,
       minWidth: 90,
-    }
-    
+    },
   ]);
 
   //   const defaultColDef = useMemo<ColDef>(

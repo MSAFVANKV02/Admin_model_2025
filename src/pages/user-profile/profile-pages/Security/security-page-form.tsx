@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const validationSchema = Yup.object().shape({
   password: Yup.string().required("Current password is required"),
   newPassword: Yup.string()
-    .min(6, "Password must be at least 8 characters")
+    .min(6, "Password must be at least 6 characters")
     .required("New password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("newPassword")], "Passwords must match")

@@ -32,8 +32,8 @@ export const Get_Customer_Api = async () =>
 export const Update_Customer_Kyc_Api = async (data: any, kycId: string) =>
     await API.post(`${UPDATE_CUSTOMER_KYC_URL}/${kycId}`, data, {
       withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data", // Ensure Axios sets the correct headers
-      },
+      // headers: {
+      //   "Content-Type": "multipart/form-data", // Ensure Axios sets the correct headers
+      // },
     });
   

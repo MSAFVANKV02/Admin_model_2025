@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import ProfileSidebar from "../../components/user-profiles/bar-options/profile_sidebar";
 import ProfilePageForm from "./profile-pages/Profile/profile-page-form";
 import SecurityPageForm from "./profile-pages/Security/security-page-form";
-import BankDetailsProfileForm from "./profile-pages/bank-details/bank-details-form";
 
 const UserProfilePage = () => {
   const { page } = useParams();
@@ -14,8 +13,8 @@ const UserProfilePage = () => {
       case "security":
         return <SecurityPageForm />;
 
-      case "billing":
-        return <BankDetailsProfileForm />;
+      // case "billing":
+      //   return <BankDetailsProfileForm />;
 
       default:
         return <ProfilePageForm />;

@@ -4,18 +4,20 @@ import {
   changeProductToggle,
   DeleteProductFn,
 } from "@/actions/products/productActions";
-import { fetchProducts } from "@/redux/actions/product_Slice";
-import { dispatch } from "@/redux/hook";
+
 import { IProductStatus } from "@/types/productType";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const useUpdateProductStatus = (productId: string) => {
+  const client = useQueryClient()
   const { mutate } = useMutationData(
     ["change-status", productId], // Ensure unique mutation key per product
     (newStatus: IProductStatus) => changeProductStatus(productId, newStatus), // Pass newStatus
     "product-status",
     (data) => {
       if (data.status === 200 || data.status === 201) {
-        dispatch(fetchProducts());
+        // dispatch(fetchProducts());
+        client.invalidateQueries({queryKey:["all-products"]})
       }
       //
     }

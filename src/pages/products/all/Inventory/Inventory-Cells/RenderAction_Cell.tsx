@@ -156,7 +156,7 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
       newSelectedStores = non_todays_deal_stores.map((store) => store.store);
     }
 
-    console.log(newSelectedStores,'newSelectedStores');
+    // console.log(newSelectedStores,'newSelectedStores');
     
   
     setSelectedStore(newSelectedStores);
@@ -223,7 +223,7 @@ export const ActionsCellRenderer = ({ data, refetch }: IProps) => {
                     key={id}
                     onClick={async () => {
                       await onChangeNewStatus(value as IProductStatus);
-                      refetch();
+                      // refetch();
                     }}
                   >
                     {label}

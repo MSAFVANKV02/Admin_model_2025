@@ -1,0 +1,2 @@
+react data table https://github.com/ag-grid/ag-grid-demos/tree/main/inventory/react
+react data table install first = npm i ag-grid-enterprise

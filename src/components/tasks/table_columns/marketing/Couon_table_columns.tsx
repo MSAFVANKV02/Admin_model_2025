@@ -1,42 +1,42 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ICoupon } from "@/types/types"; // Make sure this path matches your project structure
+import { ICouponType } from "@/types/ICouponTypes";
 
 // Define the columns for the coupon table
-export const CouponTableColumn: ColumnDef<ICoupon>[] = [
+export const CouponTableColumn: ColumnDef<ICouponType>[] = [
   {
     accessorKey: "coupon_code",
     header: () => <div className="font-bold text-black max-w-32">Coupon Code</div>,
-    cell: ({ row }) => <div>{row.original.coupon_code}</div>,
+    cell: ({ row }) => <div>{row.original.code}</div>,
   },
   {
     accessorKey: "discount_type",
     header: () => <div className="font-bold text-black max-w-32">Discount Type</div>,
-    cell: ({ row }) => <div>{row.original.discount_type}</div>,
+    cell: ({ row }) => <div>{row.original.discountType}</div>,
   },
   {
     accessorKey: "discount_amount",
     header: () => <div className="font-bold text-black max-w-32">Discount Amount</div>,
-    cell: ({ row }) => <div>{row.original.discount_amount}</div>,
+    cell: ({ row }) => <div>{row.original.discountValue}</div>,
   },
   {
     accessorKey: "minimum_purchase_amount",
     header: () => <div className="font-bold text-black max-w-32">Min Purchase Amount</div>,
-    cell: ({ row }) => <div>{row.original.minimum_purchase_amount}</div>,
+    cell: ({ row }) => <div>{row.original.minOrderAmount}</div>,
   },
   {
     accessorKey: "start_date",
     header: () => <div className="font-bold text-black max-w-32">Start Date</div>,
-    cell: ({ row }) => <div>{new Date(row.original.start_date).toLocaleDateString()}</div>,
+    cell: ({ row }) => <div>{new Date(row.original.startDate).toLocaleDateString()}</div>,
   },
   {
     accessorKey: "expired_at",
     header: () => <div className="font-bold text-black max-w-32">Expiration Date</div>,
-    cell: ({ row }) => <div>{new Date(row.original.expired_at).toLocaleDateString()}</div>,
+    cell: ({ row }) => <div>{new Date(row.original.expiryDate).toLocaleDateString()}</div>,
   },
   {
     accessorKey: "is_active",
     header: () => <div className="font-bold text-black max-w-32">Active Status</div>,
-    cell: ({ row }) => <div>{row.original.is_active ? "Active" : "Inactive"}</div>,
+    cell: ({ row }) => <div>{row.original.isActive ? "Active" : "Inactive"}</div>,
   },
   {
     accessorKey: "actions",

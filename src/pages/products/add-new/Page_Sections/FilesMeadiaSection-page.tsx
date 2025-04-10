@@ -47,6 +47,10 @@ export default function FilesMediaSectionPage({
     mediaType?: "pdf" | "image" | "videos" | "xl" | "";
   } | null>(null);
 
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null
+  );
+
   const [localProductImages, setProductLocalImages] = useState<
     { image: string; colorCode: string; colorName: string }[]
   >([]);
@@ -70,7 +74,7 @@ export default function FilesMediaSectionPage({
           const requiredHeight = 600;
 
           // Validate the image dimensions from the IFileDataMedia object
-          if (file.width !== requiredWidth || file.height !== requiredHeight) {
+          if (!file) {
             throw new Error(
               `Image must be ${requiredWidth}x${requiredHeight}px`
             );
@@ -80,7 +84,7 @@ export default function FilesMediaSectionPage({
           const requiredHeight = 300;
 
           // Validate the image dimensions from the IFileDataMedia object
-          if (file.width !== requiredWidth || file.height !== requiredHeight) {
+          if (!file) {
             throw new Error(
               `Thumbnail must be ${requiredWidth}x${requiredHeight}px`
             );
@@ -243,6 +247,7 @@ export default function FilesMediaSectionPage({
               id={field.id}
               name={field.id}
               title={field.label}
+              setIsOpen={setIsOpen}
             />
           </div>
         ))}
@@ -278,6 +283,8 @@ export default function FilesMediaSectionPage({
             setProductLocalImages={setProductLocalImages}
             productLocalImages={localProductImages}
             setSelectedColor={setSelectedColor}
+            selectedImageIndex={selectedImageIndex} // ✅
+            setSelectedImageIndex={setSelectedImageIndex}
             values={values}
           />
         </TaskModalContent>
@@ -380,7 +387,7 @@ export function FormFieldGenal({
         />
         {name === "variations" ? (
           <>
-           <span className="span">{title}</span>
+            <span className="span">{title}</span>
             {values.length > 0 && (
               <div className="flex flex-col">
                 <span className="span">Selected Product Images</span>

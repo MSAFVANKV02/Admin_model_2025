@@ -1,37 +1,17 @@
 // import CouponsTable from "@/components/marketing/Coupons_Table";
-import CouponsForm from "@/components/marketing/coupon_forms/Coupons_Form";
-import CouponsFormForProduct from "@/components/marketing/coupon_forms/Coupons_Form_Product";
-import CouponsFormForStore from "@/components/marketing/coupon_forms/Coupons_Form_Store";
+import AllCouponsCreateForm from "@/components/marketing/coupon_forms/All_Coupons_Create_Form";
+
 import CouponsFormForWelcome from "@/components/marketing/coupon_forms/Coupons_Form_Wlcome";
 
 import AyButton from "@/components/myUi/AyButton";
 import { CouponTableColumn } from "@/components/tasks/table_columns/marketing/Couon_table_columns";
 import { DataTable } from "@/components/tasks/task_components/data-table";
-import { ICoupon } from "@/types/types";
+import { getCouponsRedux } from "@/redux/actions/coupon_slice";
+import { dispatch, useAppSelector } from "@/redux/hook";
+
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Select from 'react-select';
-
-const coupons: ICoupon[] = [
-  {
-    id: "1",
-    coupon_code: "DISCOUNT10",
-    discount_type: "percentage",
-    discount_amount: 10,
-    minimum_purchase_amount: 50,
-    start_date: new Date("2025-01-01"),
-    expired_at: new Date("2025-12-31"),
-    is_active: true,
-    applicable_brand_id: ["brand1"],
-    applicable_category_id: ["category1"],
-    applicable_product_id: ["product1"],
-    applicable_store_id: ["store1"],
-    applicable_seller_id: ["seller1"],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  // Add more coupon objects here
-];
 
 type CouponOption = {
   value: string;
@@ -39,9 +19,9 @@ type CouponOption = {
 };
 
 const couponOptions: CouponOption[] = [
-  { value: "product", label: "For Product" },
-  { value: "store", label: "For Store" },
-  { value: "total_order", label: "For Total Order" },
+  { value: "product", label: "Normal Type" },
+  // { value: "store", label: "For Store" },
+  // { value: "total_order", label: "For Total Order" },
   { value: "welcome_coupon", label: "Welcome Coupon" },
 ];
 
@@ -51,6 +31,7 @@ export default function MarketingPage() {
   const navigate = useNavigate();
   const [view, setView] = useState(false);
   const [selectedCouponType, setSelectedCouponType] = useState<CouponOption | null>(null);
+  const {coupons} = useAppSelector((state)=>state.coupons)
 
   const params = searchParams.get("add");
 
@@ -76,18 +57,32 @@ export default function MarketingPage() {
     }
   }, [searchParams, params]);
 
+  useEffect(()=>{
+    dispatch(getCouponsRedux())
+  },[])
+
+  // const renderFormContent = () => {
+  //   switch (selectedCouponType?.value) {
+  //     case "product":
+  //       return   <CouponsFormForProduct/>;
+  //     case "store":
+  //       return <CouponsFormForStore />;
+  //     case "total_order":
+  //       return <CouponsForm />;
+  //     case "welcome_coupon":
+  //       return <CouponsFormForWelcome />;
+  //     default:
+  //       return <p>Select a coupon type to start.</p>;
+  //   }
+  // };
   const renderFormContent = () => {
     switch (selectedCouponType?.value) {
       case "product":
-        return   <CouponsFormForProduct/>;
-      case "store":
-        return <CouponsFormForStore />;
-      case "total_order":
-        return <CouponsForm />;
+        return   <AllCouponsCreateForm/>;
       case "welcome_coupon":
         return <CouponsFormForWelcome />;
       default:
-        return <p>Select a coupon type to start.</p>;
+        return  <AllCouponsCreateForm/>;
     }
   };
 

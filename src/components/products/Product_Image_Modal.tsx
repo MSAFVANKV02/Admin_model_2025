@@ -153,7 +153,7 @@
 //             className="w-10 h-10"
 //           />
 //           <div className="w-[70%] relative">
-          
+
 //             <Select
 //               onValueChange={(value) => {
 //                 // if (value === "addNew") {
@@ -233,6 +233,8 @@ import { makeToastError } from "@/utils/toaster";
 import { useEffect, useState } from "react";
 import ColorPicker from "../myUi/ColorPicker";
 import { IProducts } from "@/types/productType";
+import Media_Files_Modal from "../media/Media_Files_Modal";
+import { useModal } from "@/providers/context/context";
 
 interface Color {
   value: string;
@@ -257,6 +259,8 @@ type MetadataFormProps = {
   setIsOpen: (value: boolean) => void;
   setSelectedColor: (value: boolean) => void;
   values: IProducts;
+  selectedImageIndex: number | null;
+  setSelectedImageIndex:any
 };
 
 export const ProductImageModal = ({
@@ -265,6 +269,8 @@ export const ProductImageModal = ({
   setFieldValue,
   setSelectedColor,
   values,
+  selectedImageIndex,
+  setSelectedImageIndex
 }: MetadataFormProps) => {
   const [colorOptions, setColorOptions] = useState<
     { code: string; name: string }[]
@@ -274,8 +280,9 @@ export const ProductImageModal = ({
     { code: "#3357FF", name: "Blue" },
   ]);
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const { openMediaDrawer } = useModal();
 
-  console.log(productLocalImages, "productLocalImages");
+  // console.log(productLocalImages, "productLocalImages");
 
   const handleColorChange = (
     index: number,
@@ -357,24 +364,27 @@ export const ProductImageModal = ({
 
   return (
     <div className="flex flex-col gap-3 h-[350px] overflow-y-auto relative">
-        {showColorPicker && (
-              <div className="absolute z-50 left-1/2 top-0">
-                <ColorPicker
-                  setShowColor={setShowColorPicker}
-                  onSaveColor={handleSaveNewColor}
-                  colorOptions={colorOptions}
-                />
-              </div>
-            )}
+      {showColorPicker && (
+        <div className="absolute z-50 left-1/2 top-0">
+          <ColorPicker
+            setShowColor={setShowColorPicker}
+            onSaveColor={handleSaveNewColor}
+            colorOptions={colorOptions}
+          />
+        </div>
+      )}
       {productLocalImages.map((product, index) => (
         <div key={index} className="flex justify-between">
           <img
             src={product.image}
             alt=""
             className="w-10 h-10"
+            onClick={() => {
+              setSelectedImageIndex(index);
+              openMediaDrawer();
+            }}
           />
           <div className="w-[70%] relative">
-          
             <Select
               onValueChange={(value) => {
                 // if (value === "addNew") {
@@ -436,6 +446,35 @@ export const ProductImageModal = ({
           </Tooltip>
         </div>
       ))}
+
+      <Media_Files_Modal
+        category="products"
+        fieldName={"variations"}
+        multiple={true}
+        mediaType={"image"}
+        handleFileUpload={(event) => {
+          const imgUrl = event[0].imageurl;
+
+          const updatedVariations = [...values.variations];
+          const index = selectedImageIndex;
+        
+          if (index !== null && updatedVariations[index]) {
+            updatedVariations[index] = {
+              ...updatedVariations[index],
+              image: imgUrl,
+            };
+        
+            setFieldValue("variations", updatedVariations);
+        
+            const updatedLocalImages = [...productLocalImages];
+            updatedLocalImages[index] = {
+              ...updatedLocalImages[index],
+              image: imgUrl,
+            };
+            setProductLocalImages(updatedLocalImages);
+          }
+        }}
+      />
     </div>
   );
 };

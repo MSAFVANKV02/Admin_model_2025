@@ -19,7 +19,7 @@ export default function PricePerPiecesComponent({
   const handleAddField = () => {
     const newField = {
       minPiece: values.minimum_quantity ? values.minimum_quantity : 0,
-      max_Piece: 0,
+      max_Piece: Infinity,
       discount: 0,
     };
     setFieldValue("price_per_pieces", [...pricePerPieces, newField]);
@@ -82,7 +82,7 @@ export default function PricePerPiecesComponent({
 
             <span className="pt-3">=</span>
             <div className="flex flex-col items-center">
-              {index === 0 && <span className="text-white select-none">discount</span>}
+              {index === 0 && <span className="text-textGray text-xs select-none">discount</span>}
               <Input
                 type="number"
                 className="w-full"

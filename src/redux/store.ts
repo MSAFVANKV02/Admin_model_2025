@@ -7,6 +7,8 @@ import loadingReducer from "@/redux/actions/loadingSlice"
 import mediaReducer from "@/redux/actions/mediaSlice"
 import brandReducer from "@/redux/actions/brandsSlice";
 import productsReducer from "@/redux/actions/product_Slice"
+import couponsReducer from "@/redux/actions/coupon_slice"
+
 
 
 
@@ -30,7 +32,9 @@ const rootReducer = combineReducers({
   loading: loadingReducer, //
   media: mediaReducer,
   brand: brandReducer,
-  products: productsReducer
+  products: productsReducer,
+  coupons: couponsReducer
+
 
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,50 +1,81 @@
-import { getAllProductsInAdmin } from "@/actions/products/productActions";
+import { getAllDataList } from "@/actions/coupon/couponAction";
 import MultiSelect from "@/components/myUi/MultiSelect";
 import { Label } from "@/components/ui/label";
+import { GetSessionStorage, SessionStorageAllPaths } from "@/hooks/use-sessioStorage";
 import { useQueryData } from "@/hooks/useQueryData";
-import { ICouponType } from "@/types/ICouponTypes";
-import { IProducts, SelectOption } from "@/types/productType";
+import { ICouponType, IGetAllDataType } from "@/types/ICouponTypes";
+import { SelectOption } from "@/types/productType";
 import { ErrorMessage } from "formik";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 type Props = {
   title: string;
-  setFieldValue: any;
+  setFieldValue: (field: string, value: any) => void;
   values: Partial<ICouponType>;
   name: keyof Partial<ICouponType>;
   index: number;
-  placeholder?:string
+  placeholder?: string;
+  type: keyof IGetAllDataType;
 };
 
-const CouponSelections = ({ title, setFieldValue, index, name,  placeholder }: Props) => {
+const CouponSelections = ({
+  title,
+  setFieldValue,
+  name,
+  index,
+  placeholder,
+  type,
+}: Props) => {
+  const [searchParams] = useSearchParams();
+  const { coupon } = SessionStorageAllPaths();
   const [selectedProducts, setSelectedProducts] = useState<SelectOption[]>([]);
 
-  const {
-    data: fetchedProducts,
-    isFetching,
-    refetch,
-  } = useQueryData(
-    ["all-products"],
-    () =>
-      getAllProductsInAdmin(
-        [
-          {
-            key: "",
-            value: "",
-          },
-        ],
-        undefined
-      ) // Wrap in an arrow function
+
+  const editId = useMemo(() => {
+    return searchParams.get("editId");
+  }, [searchParams]);
+
+  const rawEditData = GetSessionStorage(coupon);
+  const editData = rawEditData
+    ? (JSON.parse(rawEditData) as ICouponType)
+    : null;
+
+  const { data: fetchedAllData } = useQueryData(["all-data"], () =>
+    getAllDataList()
   );
-  // console.log(fetchedProducts,'fetchedProducts');
 
-  // const { products } = useAppSelector((state) => state.products);
+  // console.log(name);
 
-  const { data: product = [] } = (fetchedProducts ?? {}) as {
-    status?: number;
-    data?: IProducts[];
-  };
 
+  
+
+  const options: SelectOption[] = useMemo(() => {
+    const allData = (fetchedAllData as { data?: IGetAllDataType })?.data;
+    const raw = allData?.[type] || [];
+    return raw.map((item: any) => ({
+      _id: item._id,
+      name: item.name || item.title || item.storeName || "Unknown",
+    }));
+  }, [fetchedAllData, type]);
+
+  useEffect(() => {
+    if (editId && editData && options.length > 0) {
+      const selectedRaw = editData[name];
+      const selectedIds = Array.isArray(selectedRaw) ? selectedRaw : [];
+  // console.log(selectedIds,'sss');
+      
+  
+      const selectedOptions = options.filter((option) =>
+        selectedIds.includes(option._id)
+      );
+  
+      setSelectedProducts(selectedOptions);
+    }
+  }, [editId]);
+
+  
+  
 
   return (
     <div key={index}>
@@ -55,23 +86,29 @@ const CouponSelections = ({ title, setFieldValue, index, name,  placeholder }: P
         >
           {title}
         </Label>
+
         <MultiSelect
+          options={options}
           placeholder={placeholder}
           className="lg:w-3/4 border-slate-600"
-          fieldName="applicable_product_id"
-        //   options={productOptions}
-          selectedValue={selectedProducts} // ensure it's an array
-          setSelectedValues={(fieldName, selectedOptions) => {
+          fieldName={name as string}
+          selectedValue={selectedProducts}
+          setSelectedValues={(_, selectedOptions) => {
+            // console.log(selectedOptions);
+          
+            const selectedArray = Array.isArray(selectedOptions) ? selectedOptions : [];
+          
             setFieldValue(
-              fieldName,
-              selectedOptions.map((option: SelectOption) => option?._id)
+              name,
+              selectedArray.map((option: SelectOption) => option?._id)
             );
-            setSelectedProducts(selectedOptions);
+            setSelectedProducts(selectedArray);
           }}
+          
         />
 
         <ErrorMessage
-          name={name}
+          name={name as string}
           component="span"
           className="text-red-500 text-xs"
         />

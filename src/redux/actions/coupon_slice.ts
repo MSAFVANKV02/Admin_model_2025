@@ -1,4 +1,4 @@
-import { get_Coupons_Api } from "@/services/coupons/route";
+import { delete_Coupons_Api, get_Coupons_Api } from "@/services/coupons/route";
 
 import { ICouponType } from "@/types/ICouponTypes";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -17,6 +17,20 @@ export const getCouponsRedux = createAsyncThunk(
       const response = await get_Coupons_Api();
 
       return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
+export const deleteCouponsRedux = createAsyncThunk(
+  "coupon/deleteCouponsRedux",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await delete_Coupons_Api(id);
+      console.log(response, "delete coupon");
+
+      return id;
     } catch (error: any) {
       return rejectWithValue(error.response.data.message);
     }
@@ -57,6 +71,20 @@ const couponSlice = createSlice({
         state.loading = false;
       })
       .addCase(getCouponsRedux.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loading = false;
+      })
+      .addCase(deleteCouponsRedux.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteCouponsRedux.fulfilled, (state, action) => {
+        
+
+        state.coupons = state.coupons.filter(coupon => coupon._id !== action.payload);
+        state.loading = false;
+      })
+      .addCase(deleteCouponsRedux.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loading = false;
       });

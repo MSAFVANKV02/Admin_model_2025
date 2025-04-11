@@ -13,7 +13,8 @@ export interface ICouponType {
     applicableStores: string[]
     applicableSellers: string[]
     applicableCategories: string[]
-    applicableProducts: string[]
+    applicableProducts: string[];
+    applicableBrands: string[];
     applicablePurchaseType: "ALL"|"FIRST_PURCHASE"|"REPEAT_CUSTOMER"|"BULK_PURCHASE"
     minPurchaseCount: number
     minPurchaseAmountThreshold: number
@@ -27,3 +28,36 @@ export interface ICouponType {
   }
 
 
+  export interface IGetAllDataType {
+    products: Product[]
+    categories: Category[]
+    brands: Brand[]
+    stores: Store[]
+    sellers: Seller[]
+  }
+  
+  export interface Product {
+    _id: string
+    name: string
+  }
+  
+  export interface Category {
+    _id: string
+    name: string
+  }
+  
+  export interface Brand {
+    _id: string
+    name: string
+  }
+  
+  export interface Store {
+    _id: string
+    name: string
+  }
+  
+  export interface Seller {
+    _id: string
+    name: string
+  }
+  

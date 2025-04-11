@@ -61,7 +61,7 @@ export default function AllProductsPage() {
   //   }
   // }
 
-  console.log(product,'products');
+  // console.log(product,'products');
   
 
   return (

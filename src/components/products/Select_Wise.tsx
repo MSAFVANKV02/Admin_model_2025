@@ -1,4 +1,4 @@
-import { IProducts, SelectOption } from "@/types/productType";
+import { IProducts } from "@/types/productType";
 import { Label } from "../ui/label";
 import {
   Select,
@@ -40,55 +40,55 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
     },
   ]);
 
-  const [selectedSizes, setSelectedSizes] = useState<SelectOption[]>([]) || [];
+  // const [selectedSizes, setSelectedSizes] = useState<SelectOption[]>([]) || [];
 
-  const handleSizeChange = (selected: SelectOption[]) => {
-    if (values.variations.length === 0) {
-      makeToastError("Please select a color variant");
-      return;
-    }
+  // const handleSizeChange = (selected: SelectOption[]) => {
+  //   if (values.variations.length === 0) {
+  //     makeToastError("Please select a color variant");
+  //     return;
+  //   }
 
-    // Update the selected sizes
-    setSelectedSizes(selected);
+  //   // Update the selected sizes
+  //   setSelectedSizes(selected);
 
-    // Ensure that we initialize details if it's empty and update sizes correctly
-    setFieldValue(
-      "variations",
-      values.variations.map((variation) => {
-        // Initialize details if it's empty and update sizes
-        const updatedDetails = selected.map((size) => {
-          const existingDetail = variation.details.find(
-            (detail) => detail.size === size.name
-          );
+  //   // Ensure that we initialize details if it's empty and update sizes correctly
+  //   setFieldValue(
+  //     "variations",
+  //     values.variations.map((variation) => {
+  //       // Initialize details if it's empty and update sizes
+  //       const updatedDetails = selected.map((size) => {
+  //         const existingDetail = variation.details.find(
+  //           (detail) => detail.size === size.name
+  //         );
 
-          // If the size exists, update it, otherwise create a new entry
-          return {
-            ...existingDetail, // Retain existing properties if size already exists
-            size: size.name, // Update size (in case of new addition)
-            stock: existingDetail?.stock || 0, // Retain or set default
-            discount: existingDetail?.discount || 0,
-            selling_price: existingDetail?.selling_price || 0,
-            skuId: existingDetail?.skuId || "",
-          };
-        });
+  //         // If the size exists, update it, otherwise create a new entry
+  //         return {
+  //           ...existingDetail, // Retain existing properties if size already exists
+  //           size: size.name, // Update size (in case of new addition)
+  //           stock: existingDetail?.stock || 0, // Retain or set default
+  //           discount: existingDetail?.discount || 0,
+  //           selling_price: existingDetail?.selling_price || 0,
+  //           skuId: existingDetail?.skuId || "",
+  //         };
+  //       });
 
-        // If the details array is empty, initialize it with the new size
-        return {
-          ...variation,
-          details: updatedDetails.length
-            ? updatedDetails
-            : selected.map((size) => ({
-                size: size.name,
-                stock: 0,
-                discount: 0,
-                selling_price: 0,
-                skuId: "",
-              })),
-          sample: variation.sample || false, // Sample moved outside details
-        };
-      })
-    );
-  };
+  //       // If the details array is empty, initialize it with the new size
+  //       return {
+  //         ...variation,
+  //         details: updatedDetails.length
+  //           ? updatedDetails
+  //           : selected.map((size) => ({
+  //               size: size.name,
+  //               stock: 0,
+  //               discount: 0,
+  //               selling_price: 0,
+  //               skuId: "",
+  //             })),
+  //         sample: variation.sample || false, // Sample moved outside details
+  //       };
+  //     })
+  //   );
+  // };
 
   return (
     <div>

@@ -1,16 +1,15 @@
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
+
 import { useEffect, useMemo, useState } from "react";
 
 import { dispatch, useAppSelector } from "@/redux/hook";
 import { getSizesRedux } from "@/redux/actions/product_Slice";
-import { makeToastError } from "@/utils/toaster";
+
 import { IProducts, SelectOption } from "@/types/productType";
 import AyButton from "@/components/myUi/AyButton";
 import AddNewSize from "@/components/size/Add_New_Size";
 import MultiSelect from "@/components/myUi/MultiSelect";
 
-const animatedComponents = makeAnimated();
+// const animatedComponents = makeAnimated();
 
 type Props = {
   setFieldValue: any;
@@ -54,42 +53,42 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
     }
   }, [sizes]);
 
-  const handleSizeChange = (selected: SelectOption[] | null) => {
-    if (!selected) return;
+  // const handleSizeChange = (selected: SelectOption[] | null) => {
+  //   if (!selected) return;
 
-    // Fix: Use references from `selectOptions`
-    const updatedSelected = selected.map(
-      (sel) => selectOptions.find((opt) => opt.label === sel.label) || sel
-    );
+  //   // Fix: Use references from `selectOptions`
+  //   const updatedSelected = selected.map(
+  //     (sel) => selectOptions.find((opt) => opt.label === sel.label) || sel
+  //   );
 
-    setSelectedSizes(updatedSelected);
+  //   setSelectedSizes(updatedSelected);
 
-    setFieldValue(
-      "variations",
-      values.variations.map((variation) => {
-        const updatedDetails = updatedSelected.map((size) => {
-          const existingDetail = variation.details.find(
-            (detail) => detail.size === size.label
-          );
+  //   setFieldValue(
+  //     "variations",
+  //     values.variations.map((variation) => {
+  //       const updatedDetails = updatedSelected.map((size) => {
+  //         const existingDetail = variation.details.find(
+  //           (detail) => detail.size === size.label
+  //         );
 
-          return {
-            ...existingDetail,
-            size: size.label,
-            stock: existingDetail?.stock || 0,
-            discount: existingDetail?.discount || 0,
-            selling_price: existingDetail?.selling_price || 0,
-            skuId: existingDetail?.skuId || "",
-          };
-        });
+  //         return {
+  //           ...existingDetail,
+  //           size: size.label,
+  //           stock: existingDetail?.stock || 0,
+  //           discount: existingDetail?.discount || 0,
+  //           selling_price: existingDetail?.selling_price || 0,
+  //           skuId: existingDetail?.skuId || "",
+  //         };
+  //       });
 
-        return {
-          ...variation,
-          details: updatedDetails,
-          sample: variation.sample || false,
-        };
-      })
-    );
-  };
+  //       return {
+  //         ...variation,
+  //         details: updatedDetails,
+  //         sample: variation.sample || false,
+  //       };
+  //     })
+  //   );
+  // };
 
   // useEffect(() => {
   //   const handleClickOutside = (event: MouseEvent) => {
@@ -108,11 +107,11 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
   //   };
   // }, []);
 
-  const formatOptionLabel = (option: SelectOption) => (
-    <div className="flex items-center">
-      <span>{option.label}</span>
-    </div>
-  );
+  // const formatOptionLabel = (option: SelectOption) => (
+  //   <div className="flex items-center">
+  //     <span>{option.label}</span>
+  //   </div>
+  // );
 
   return (
     <div className={className}>

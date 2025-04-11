@@ -148,13 +148,13 @@ Props) {
         );
       },
     },
-    {
-      id: "minimum_quantity",
-      title: "Minimum Qty*",
-      name: "minimum_quantity",
-      fileType: "number",
-      placeholder: "Enter Minimum Qty",
-    },
+    // {
+    //   id: "minimum_quantity",
+    //   title: "Minimum Qty*",
+    //   name: "minimum_quantity",
+    //   fileType: "number",
+    //   placeholder: "Enter Minimum Qty",
+    // },
     {
       id: "product_weight",
       title: "Product product_weight in gm",

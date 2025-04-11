@@ -8,7 +8,11 @@ type Props = {
 };
 
 export default function AllNewProductsTable({ values, setFieldValue }: Props) {
-  const [isDiscountChanged, setIsDiscountChanged] = useState(false)
+  // const [isDiscountChanged, setIsDiscountChanged] = useState(false)
+  const [changedDiscountIndexes, setChangedDiscountIndexes] = useState<
+    Set<string>
+  >(new Set());
+
   return (
     <div className="lg:w-[86%] overflow-x-auto">
       <table className="table-auto w-full ">
@@ -27,11 +31,13 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                 Bundle Quantity
               </th>
             )}
-            <th className="border text-xs text-textGray px-4 py-2">
+            {/* <th className="border text-xs text-textGray px-4 py-2">
               Selling Price
-            </th>
+            </th> */}
             <th className="border text-xs text-textGray px-4 py-2">SKU ID</th>
-            <th className="border text-xs text-textGray px-4 py-2">Variant Name</th>
+            <th className="border text-xs text-textGray px-4 py-2">
+              Variant Name
+            </th>
             <th className="border text-xs text-textGray px-4 py-2">Sample</th>
           </tr>
         </thead>
@@ -101,19 +107,34 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                       min="0"
                       max="100"
                       className="w-full border rounded px-2 text-center py-2"
-                      value={isDiscountChanged?variant.discount:values?.discount || 0}
-                      onChange={(e) =>
-                      {  
-                        setIsDiscountChanged(true);
-                        
+                      // value={isDiscountChanged?variant.discount:values?.discount || 0}
+                      // onChange={(e) =>
+                      // {
+                      //   setIsDiscountChanged(true);
+
+                      //   setFieldValue(
+                      //     `variations[${vIndex}].details[${index}].discount`,
+                      //     parseFloat(e.target.value) || 0
+                      //   )
+
+                      // }
+
+                      // }
+                      value={
+                        changedDiscountIndexes.has(`${vIndex}-${index}`)
+                          ? variant.discount
+                          : values?.discount || 0
+                      }
+                      onChange={(e) => {
+                        const newSet = new Set(changedDiscountIndexes);
+                        newSet.add(`${vIndex}-${index}`);
+                        setChangedDiscountIndexes(newSet);
+
                         setFieldValue(
                           `variations[${vIndex}].details[${index}].discount`,
                           parseFloat(e.target.value) || 0
-                        )
-
-                      }
-                     
-                      }
+                        );
+                      }}
                     />
                   </td>
 
@@ -136,7 +157,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                   )}
 
                   {/* Selling Price */}
-                  <td className="border px-4 py-1 text-center">
+                  {/* <td className="border px-4 py-1 text-center">
                     <input
                       type="number"
                       min="0"
@@ -149,7 +170,7 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                         )
                       }
                     />
-                  </td>
+                  </td> */}
 
                   {/* SKU ID */}
                   <td className="border px-4 py-1 text-center">
@@ -167,8 +188,8 @@ export default function AllNewProductsTable({ values, setFieldValue }: Props) {
                     />
                   </td>
 
-                   {/* SKU ID */}
-                   <td className="border px-4 py-1 text-center">
+                  {/* SKU ID */}
+                  <td className="border px-4 py-1 text-center">
                     <input
                       type="text"
                       className="l border rounded min-w-[150px] w-full px-2 text-center py-2"

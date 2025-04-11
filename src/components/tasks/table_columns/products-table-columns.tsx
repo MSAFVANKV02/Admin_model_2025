@@ -145,7 +145,7 @@ export const ProductTableColumns: ColumnDef<IProducts>[] = [
                 <span className="span">{price.min_Piece}</span>-
                 <span className="span">{price.max_Piece} pieces</span>
               </div>
-              ${price.discount}
+              ${price.purchase_Amount}
             </div>
           ))}
         </div>

@@ -288,7 +288,7 @@ export type IPricePerPieces = {
   _id?: string;
   minPiece?: number;
   maxPiece?: number;
-  discount: number;
+  purchase_Amount: number;
 };
 
 export type IVariantsDetails = {

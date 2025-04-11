@@ -60,7 +60,7 @@ export interface IProdAddRoot {
   export interface PricePerPiece {
     minPiece: number
     maxPiece: number
-    discount: number
+    purchase_Amount: number
   }
   
   export interface Variation {

@@ -27,8 +27,8 @@ export default function PriceStockSectionPage({
   setFieldValue,
   errors,
 }: Props) {
-  console.log(errors, "error");
-  console.log(values, "values");
+  // console.log(errors, "error");
+  // console.log(values, "values");
 
   // useEffect(() => {
   //   if (values.variations?.length > 0) {
@@ -62,7 +62,7 @@ export default function PriceStockSectionPage({
      flex-col gap-4"
       >
         {/* ===== basePrice ===== */}
-        <FormFieldGenal
+        {/* <FormFieldGenal
           value={values.basePrice}
           title="Base Price"
           type="number"
@@ -71,7 +71,7 @@ export default function PriceStockSectionPage({
           placeholder="Enter Price"
           fieldAs={Input}
           setFieldValue={setFieldValue}
-        />
+        /> */}
         {/* ===== samplePrice ===== */}
         <FormFieldGenal
           value={values.samplePrice}
@@ -82,7 +82,6 @@ export default function PriceStockSectionPage({
           placeholder="Enter Sample Price"
           fieldAs={Input}
           setFieldValue={setFieldValue}
-
         />
         {/* ===== discount ===== */}
         <FormFieldGenal
@@ -229,8 +228,6 @@ export default function PriceStockSectionPage({
         </div> */}
       </div>
 
-     
-
       {/* ======= All Selected Details In Table ======== */}
       <div className="flex justify-end mt-10 w-[90%]">
         <AllNewProductsTable values={values} setFieldValue={setFieldValue} />
@@ -261,7 +258,6 @@ type FormFieldGenalProps = {
   type?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setFieldValue?: (name: string, value: any) => void;
-
 };
 export function FormFieldGenal({
   className,
@@ -274,7 +270,7 @@ export function FormFieldGenal({
   fieldClassName,
   type = "text", // default type is text
   onChange,
-  setFieldValue
+  setFieldValue,
 }: FormFieldGenalProps) {
   return (
     <div

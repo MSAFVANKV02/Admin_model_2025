@@ -9,10 +9,9 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import AyButton from "../myUi/AyButton";
-import MultiSelect from "../myUi/MultiSelect";
 import { makeToastError } from "@/utils/toaster";
-import AddNewSize from "../size/Add_New_Size";
 import BundleCreation from "../size/Bundle_Creation";
+import SizeSelectTab from "../global/size-select";
 
 type Props = {
   setFieldValue: (field: string, value: any) => void;
@@ -21,12 +20,8 @@ type Props = {
 };
 
 export default function SelectWise({ setFieldValue, values, errors }: Props) {
-  const [sizeOptions] = useState([
-    { _id: "S", name: "S" },
-    { _id: "M", name: "M" },
-    { _id: "L", name: "L" },
-  ]);
-  const [newSize, setNewSize] = useState(false);
+
+
   const [newBundle, setBundle] = useState(false);
   const [selectedBundles] = useState([
     {
@@ -103,37 +98,20 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
             Select size
           </Label>
           <div className=" md:w-3/4">
-            <div className="flex gap-3 md:flex-row flex-col md:items-center">
-              <MultiSelect
-                fieldName="sizes"
-                selectedValue={selectedSizes}
-                setSelectedValues={(_, value) => {
-                  handleSizeChange(value);
-                }}
-                options={sizeOptions}
+            <div className="flex gap-3 md:flex-row flex-col md:items-center w-full">
+              <SizeSelectTab 
+              className="w-full"
+              setFieldValue={setFieldValue}
+              values={values}
               />
-
-              <AyButton
-                title="Add New Size"
-                sx={{
-                  border: "1px dotted #EC922B",
-                  bgcolor: "#F3F3F3",
-                  color: "#737373",
-                  py: "0.6rem",
-                }}
-                outLineColor=""
-                variant="outlined"
-                onClick={() => setNewSize(true)}
-              />
+            
             </div>
 
             {<span className="text-red-500 text-xs">{errors.variations}</span>}
           </div>
 
           {/* add new sizes */}
-          <div className="absolute top-14 -right-0 z-50">
-            <AddNewSize isOpen={newSize} onClose={() => setNewSize(false)} />
-          </div>
+        
         </div>
       ) : (
         <div className="flex justify-between items-center w-full relative">

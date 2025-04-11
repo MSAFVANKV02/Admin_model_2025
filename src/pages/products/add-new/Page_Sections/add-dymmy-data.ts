@@ -80,7 +80,7 @@ export const handleSetDummyData = (setFieldValue: any) => {
     price_per_pieces: [
       {
         minPiece: 10,
-        discount: 10,
+        purchase_Amount: 10,
         maxPiece: 100,
       },
     ],

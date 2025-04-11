@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { IPricePerPieces, IProducts } from "@/types/productType";
 import { Icon } from "@iconify/react";
 import { makeToastError } from "@/utils/toaster";
+import { useEffect } from "react";
 
 type Props = {
   pricePerPieces: IPricePerPieces[];
@@ -20,7 +21,7 @@ export default function PricePerPiecesComponent({
     const newField = {
       minPiece: values.minimum_quantity ? values.minimum_quantity : 0,
       max_Piece: Infinity,
-      discount: 0,
+      purchase_Amount: 0,
     };
     setFieldValue("price_per_pieces", [...pricePerPieces, newField]);
   };
@@ -33,6 +34,17 @@ export default function PricePerPiecesComponent({
     const updatedFields = pricePerPieces.filter((_, i) => i !== index);
     setFieldValue("price_per_pieces", updatedFields);
   };
+
+  useEffect(() => {
+    if (pricePerPieces.length === 0) {
+      const defaultEntry = {
+        minPiece: values.minimum_quantity || 1,
+        maxPiece: Infinity,
+        purchase_Amount: 0,
+      };
+      setFieldValue("price_per_pieces", [defaultEntry]);
+    }
+  }, [pricePerPieces, setFieldValue, values.minimum_quantity]);
 
   const handleChange = (
     index: number,
@@ -82,13 +94,13 @@ export default function PricePerPiecesComponent({
 
             <span className="pt-3">=</span>
             <div className="flex flex-col items-center">
-              {index === 0 && <span className="text-textGray text-xs select-none">discount</span>}
+              {index === 0 && <span className="text-textGray text-xs select-none">Piece Price</span>}
               <Input
                 type="number"
                 className="w-full"
                 placeholder="Discount"
-                value={field.discount}
-                onChange={(e) => handleChange(index, "discount", +e.target.value)}
+                value={field.purchase_Amount}
+                onChange={(e) => handleChange(index, "purchase_Amount", +e.target.value)}
               />
             </div>
             <button onClick={() => handleRemoveField(index)}>

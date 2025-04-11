@@ -84,7 +84,7 @@ export default function FilesMediaSectionPage({
           const requiredHeight = 300;
 
           // Validate the image dimensions from the IFileDataMedia object
-          if (!file) {
+          if (file.width !== requiredWidth || file.height !== requiredHeight) {
             throw new Error(
               `Thumbnail must be ${requiredWidth}x${requiredHeight}px`
             );

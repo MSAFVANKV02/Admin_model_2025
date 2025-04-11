@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MySwitch } from "@/components/myUi/mySwitch";
 import AyButton from "@/components/myUi/AyButton";
-import { SelectOption } from "@/types/productType";
 
 import { ICouponType } from "@/types/ICouponTypes";
 import CouponSelections from "./copon_selections/Coupon_Selections";
@@ -56,11 +55,11 @@ const validationSchema = Yup.object().shape({
   //   .required("Applicable products are required"),
 });
 
-const productOptions: SelectOption[] = [
-  { _id: "product_1", name: "Product 1" },
-  { _id: "product_2", name: "Product 2" },
-  { _id: "product_3", name: "Product 3" },
-];
+// const productOptions: SelectOption[] = [
+//   { _id: "product_1", name: "Product 1" },
+//   { _id: "product_2", name: "Product 2" },
+//   { _id: "product_3", name: "Product 3" },
+// ];
 
 export default function AllCouponsCreateForm() {
   const { setIsOpen } = useModal();

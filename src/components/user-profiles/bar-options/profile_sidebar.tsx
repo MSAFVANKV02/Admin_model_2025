@@ -30,6 +30,13 @@ const ProfileSidebar = () => {
       slug: "security",
       active: false,
     },
+    {
+      id: 4,
+      icon: "material-symbols:notification-settings-outline-rounded",
+      title: "Notifications",
+      slug: "notifications",
+      active: false,
+    },
   ];
   return (
     <div className="p-5 flex flex-col justify-between h-full  ">

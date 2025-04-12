@@ -74,7 +74,7 @@ export default function FilesMediaSectionPage({
           const requiredHeight = 600;
 
           // Validate the image dimensions from the IFileDataMedia object
-          if (!file) {
+          if (file.width !== requiredWidth || file.height !== requiredHeight) {
             throw new Error(
               `Image must be ${requiredWidth}x${requiredHeight}px`
             );

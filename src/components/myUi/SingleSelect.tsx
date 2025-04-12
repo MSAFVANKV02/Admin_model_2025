@@ -1,5 +1,5 @@
 import { SelectOption } from "@/types/productType";
-import Select, { MultiValue } from "react-select";
+import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { customStyles } from "../products/Custom_styles";
 import { cn } from "@/lib/utils";
@@ -7,39 +7,38 @@ import { cn } from "@/lib/utils";
 const animatedComponents = makeAnimated();
 
 type Props = {
-  setSelectedValues: (fieldName: string, value: SelectOption[]) => void;
-  selectedValue: MultiValue<SelectOption>;
+  setSelectedValue: (fieldName: string, value: SelectOption | null) => void;
+  selectedValue: SelectOption | null;
   options: SelectOption[];
   fieldName: string;
-  className?: string; 
-  placeholder?: string; 
-  isDisabled?:boolean
+  className?: string;
+  placeholder?: string;
+  isDisabled?: boolean;
 };
 
-export default function MultiSelect({
-  setSelectedValues,
+export default function SingleSelect({
+  setSelectedValue,
   selectedValue,
   options,
   fieldName,
   className,
-  placeholder='Select sizes',
-  isDisabled
+  placeholder = "Select an option",
+  isDisabled,
 }: Props) {
   return (
     <Select
-      isMulti
+      isMulti={false}
       components={animatedComponents}
       isDisabled={isDisabled}
-      className={cn(`w-full`,className)}
+      className={cn("w-full", className)}
       styles={customStyles}
       value={selectedValue}
       placeholder={placeholder}
-      closeMenuOnSelect={false}
       options={options}
       getOptionLabel={(e: SelectOption) => e.name}
       getOptionValue={(e: SelectOption) => e._id}
       onChange={(selected) => {
-        setSelectedValues(fieldName, selected as SelectOption[]);
+        setSelectedValue(fieldName, selected as SelectOption);
       }}
     />
   );

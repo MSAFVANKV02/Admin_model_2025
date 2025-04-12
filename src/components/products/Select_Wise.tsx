@@ -1,17 +1,10 @@
 import { IProducts } from "@/types/productType";
 import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { useState } from "react";
-import AyButton from "../myUi/AyButton";
-import { makeToastError } from "@/utils/toaster";
 import BundleCreation from "../size/Bundle_Creation";
 import SizeSelectTab from "../global/size-select";
+import BundleSizeSelect from "../global/bundle-size-select";
 
 type Props = {
   setFieldValue: (field: string, value: any) => void;
@@ -20,25 +13,24 @@ type Props = {
 };
 
 export default function SelectWise({ setFieldValue, values, errors }: Props) {
-
-// selee
+  // selee
   const [newBundle, setBundle] = useState(false);
-  const [selectedBundles] = useState([
-    {
-      name: "New",
-      bundle: [
-        { size: "S", quantity: 2 },
-        { size: "m", quantity: 2 },
-      ],
-    },
-    {
-      name: "Fashion B2b",
-      bundle: [
-        { size: "S", quantity: 2 },
-        { size: "l", quantity: 2 },
-      ],
-    },
-  ]);
+  // const [selectedBundles] = useState([
+  //   {
+  //     name: "New",
+  //     bundle: [
+  //       { size: "S", quantity: 2 },
+  //       { size: "m", quantity: 2 },
+  //     ],
+  //   },
+  //   {
+  //     name: "Fashion B2b",
+  //     bundle: [
+  //       { size: "S", quantity: 2 },
+  //       { size: "l", quantity: 2 },
+  //     ],
+  //   },
+  // ]);
 
   // const [selectedSizes, setSelectedSizes] = useState<SelectOption[]>([]) || [];
 
@@ -99,27 +91,28 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
           </Label>
           <div className=" md:w-3/4">
             <div className="flex gap-3 md:flex-row flex-col md:items-center w-full">
-              <SizeSelectTab 
-              className="w-full"
-              setFieldValue={setFieldValue}
-              values={values}
+              <SizeSelectTab
+                className="w-full"
+                setFieldValue={setFieldValue}
+                values={values}
               />
-            
             </div>
-
-            {<span className="text-red-500 text-xs">{errors.variations}</span>}
           </div>
 
           {/* add new sizes */}
-        
         </div>
       ) : (
         <div className="flex justify-between items-center w-full relative">
           <Label htmlFor="size" className="text-textGray">
             Select Bundle
           </Label>
-          <div className="flex w-3/4 gap-3 items-center">
-            <Select
+          <div className=" w-3/4 gap-3 items-center">
+            <BundleSizeSelect
+              className="w-full"
+              setFieldValue={setFieldValue}
+              values={values}
+            />
+            {/* <Select
               onValueChange={(value) => {
                 if (values.variations.length === 0) {
                   makeToastError("Please select a color variant");
@@ -169,9 +162,9 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
 
-            <AyButton
+            {/* <AyButton
               title="Add New Bundle"
               outLineColor=""
               sx={{
@@ -182,7 +175,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
               }}
               variant="outlined"
               onClick={() => setBundle(true)}
-            />
+            /> */}
             <div className="absolute top-14 -right-0 z-50">
               <BundleCreation
                 isOpen={newBundle}
@@ -192,6 +185,7 @@ export default function SelectWise({ setFieldValue, values, errors }: Props) {
           </div>
         </div>
       )}
+      {<span className="text-red-500 text-xs">{errors.variations}</span>}
     </div>
   );
 }

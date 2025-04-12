@@ -2,12 +2,12 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { dispatch, useAppSelector } from "@/redux/hook";
-import { getSizesRedux } from "@/redux/actions/product_Slice";
 
 import { IProducts, SelectOption } from "@/types/productType";
 import AyButton from "@/components/myUi/AyButton";
 import AddNewSize from "@/components/size/Add_New_Size";
 import MultiSelect from "@/components/myUi/MultiSelect";
+import { getSizesRedux } from "@/redux/actions/size_color_Slice";
 
 // const animatedComponents = makeAnimated();
 
@@ -27,9 +27,9 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
 
   // console.log(productLocalImages);
 
-  const { sizes } = useAppSelector((state) => state.products);
+  const { sizes } = useAppSelector((state) => state.sizeColor);
   const [newSize, setNewSize] = useState(false);
-  console.log(sizes);
+  // console.log(sizes);
 
   const selectOptions = useMemo(() => {
     return colorOptions.map((size) => ({
@@ -133,6 +133,7 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
         className="lg:w-3/4 border-slate-600"
         fieldName={"variations"}
         selectedValue={selectedSizes}
+        isDisabled={values.variations.length === 0}
         setSelectedValues={(_, selectedOptions) => {
           // console.log(selectedOptions);
 

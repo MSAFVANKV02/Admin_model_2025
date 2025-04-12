@@ -3,9 +3,9 @@ import makeAnimated from "react-select/animated";
 import { useEffect, useMemo,  useState } from "react";
 
 import { dispatch, useAppSelector } from "@/redux/hook";
-import { getColorsRedux } from "@/redux/actions/product_Slice";
 import { makeToastError } from "@/utils/toaster";
 import { IProducts } from "@/types/productType";
+import { getColorsRedux } from "@/redux/actions/size_color_Slice";
 
 
 const animatedComponents = makeAnimated();
@@ -59,7 +59,7 @@ const ColorVariantSelectTab = ({
   // console.log(productLocalImages);
   
 
-  const { colors } = useAppSelector((state) => state.products);
+  const { colors } = useAppSelector((state) => state.sizeColor);
 
   const selectOptions = useMemo(() => {
     return colorOptions.map((color) => ({

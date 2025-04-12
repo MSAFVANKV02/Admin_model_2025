@@ -1,4 +1,5 @@
-import { getSizesRedux } from "@/redux/actions/product_Slice";
+
+import { getSizesRedux } from "@/redux/actions/size_color_Slice";
 import { dispatch } from "@/redux/hook";
 import { create_New_Size_Api } from "@/services/extra/route";
 import { makeToast, makeToastError } from "@/utils/toaster";

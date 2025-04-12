@@ -3,6 +3,10 @@ import MultiSelect from "../myUi/MultiSelect";
 import { SelectOption } from "@/types/productType";
 import AyButton from "../myUi/AyButton";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { dispatch, useAppSelector } from "@/redux/hook";
+import { create_New__Bundle_Size_Api } from "@/services/extra/route";
+import { makeToast } from "@/utils/toaster";
+import { getBundleSizesRedux } from "@/redux/actions/size_color_Slice";
 
 type Props = {
   onClose: () => void; // Callback to close the component
@@ -11,11 +15,8 @@ type Props = {
 
 export default function BundleCreation({ onClose, isOpen }: Props) {
   const sizePickerRef = useRef<HTMLDivElement | null>(null);
-  const [sizeOptions] = useState([
-    { _id: "S", name: "S" },
-    { _id: "M", name: "M" },
-    { _id: "L", name: "L" },
-  ]);
+  const { sizes } = useAppSelector((state) => state.sizeColor);
+
   const [selectedBundles, setSelectedBundles] = useState<
     { size: string; quantity: number }[]
   >([]);
@@ -60,19 +61,43 @@ export default function BundleCreation({ onClose, isOpen }: Props) {
     setSelectedSizes((prev) => prev.filter((option) => option.name !== size));
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (bundleName === "") {
       return setError("Please create a name");
     }
     if (selectedBundles.length === 0) {
       return setError("Please select a size");
     }
+
     const dataToSave = {
       name: bundleName,
-      bundles: selectedBundles,
+      bundle: selectedBundles,
     };
-    console.log("Saved Data:", dataToSave);
+    // console.log(dataToSave, "dataToSave");
+
+    try {
+      const { data, status } = await create_New__Bundle_Size_Api(dataToSave);
+      // console.log("Saved Data:", data);
+      if (status === 201) {
+        makeToast(data.message);
+        setBundleName("");
+        setSelectedBundles([]);
+        setSelectedSizes([]);
+        onClose();
+        dispatch(getBundleSizesRedux());
+      }
+
+      // Optional: Reset and close
+    } catch (error: any) {
+      if (error) {
+        console.error("Error saving bundle:", error);
+        makeToast(error.response.data.message);
+        setError("Failed to save bundle. Try again.");
+      }
+    }
+    // console.log("Saved Data:", dataToSave);
     // Further save logic here
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bundleName, selectedBundles]);
   return (
     <>
@@ -94,7 +119,7 @@ export default function BundleCreation({ onClose, isOpen }: Props) {
               }));
               setSelectedBundles(newBundles);
             }}
-            options={sizeOptions}
+            options={sizes}
           />
           {/* Name Input */}
           <input

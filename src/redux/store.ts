@@ -8,6 +8,8 @@ import mediaReducer from "@/redux/actions/mediaSlice"
 import brandReducer from "@/redux/actions/brandsSlice";
 import productsReducer from "@/redux/actions/product_Slice"
 import couponsReducer from "@/redux/actions/coupon_slice"
+import sizeColorReducer from "@/redux/actions/size_color_Slice"
+
 
 
 
@@ -33,7 +35,9 @@ const rootReducer = combineReducers({
   media: mediaReducer,
   brand: brandReducer,
   products: productsReducer,
+  sizeColor: sizeColorReducer,
   coupons: couponsReducer
+
 
 
 });

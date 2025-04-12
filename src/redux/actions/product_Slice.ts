@@ -1,4 +1,4 @@
-import { get_Colors_Api, get_Size_Api } from "@/services/extra/route";
+
 import {
   get_Products_Api,
   toggle_Product_Api,
@@ -11,8 +11,7 @@ interface ProductType {
   products: IProducts[];
   loading: boolean;
   error: string | null;
-  colors: { _id: string; colorName: string; colorCode: string }[];
-  sizes: { _id: string; name: string; createdAt: Date; updatedAt: Date }[];
+  
 }
 
 export const fetchProducts = createAsyncThunk(
@@ -33,40 +32,7 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-// get colors
-export const getColorsRedux = createAsyncThunk(
-  "products/getColors",
-  async () => {
-    try {
-      // const { data, status } = await getAllColorsAction();
-      const { data, status } = await get_Colors_Api();
 
-      if (status === 200) {
-        return data.data; // This should be the array of colors
-      } else {
-        throw new Error("Failed to fetch colors");
-      }
-    } catch (error: any) {
-      throw new Error(error.response ? error.response.data : "Network error");
-    }
-  }
-);
-
-// get sizes
-export const getSizesRedux = createAsyncThunk("products/getSizes", async () => {
-  try {
-    // const { data, status } = await getAllColorsAction();
-    const { data, status } = await get_Size_Api();
-
-    if (status === 200) {
-      return data.data; // This should be the array of colors
-    } else {
-      throw new Error("Failed to fetch colors");
-    }
-  } catch (error: any) {
-    throw new Error(error.response ? error.response.data : "Network error");
-  }
-});
 
 export const toggleProductButton = createAsyncThunk(
   "products/toggleProductButton",
@@ -103,8 +69,6 @@ export const toggleProductButton = createAsyncThunk(
 const initialState: ProductType = {
   products: [],
   loading: false,
-  colors: [],
-  sizes: [],
   error: null,
 };
 //
@@ -166,32 +130,7 @@ const productSlice = createSlice({
         }
       });
     // color case
-    builder
-      .addCase(getColorsRedux.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getColorsRedux.fulfilled, (state, action) => {
-        state.loading = false;
-        state.colors = action.payload; // ✅ store colors
-      })
-      .addCase(getColorsRedux.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch colors";
-        makeToastError(state.error);
-      })
-      // sizes
-      .addCase(getSizesRedux.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getSizesRedux.fulfilled, (state, action) => {
-        state.loading = false;
-        state.sizes = action.payload; // ✅ store colors
-      })
-      .addCase(getSizesRedux.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch Sizes";
-        makeToastError(state.error);
-      });
+  
   },
 });
 

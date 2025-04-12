@@ -1,4 +1,3 @@
-
 // // =================================================================
 // import CloseIcon from "@mui/icons-material/Close";
 
@@ -238,15 +237,15 @@
 
 //           const updatedVariations = [...values.variations];
 //           const index = selectedImageIndex;
-        
+
 //           if (index !== null && updatedVariations[index]) {
 //             updatedVariations[index] = {
 //               ...updatedVariations[index],
 //               image: imgUrl,
 //             };
-        
+
 //             setFieldValue("variations", updatedVariations);
-        
+
 //             const updatedLocalImages = [...productLocalImages];
 //             updatedLocalImages[index] = {
 //               ...updatedLocalImages[index],
@@ -278,8 +277,8 @@ import Media_Files_Modal from "../media/Media_Files_Modal";
 import { useModal } from "@/providers/context/context";
 import { create_New_Color_Api } from "@/services/extra/route";
 import { dispatch, useAppSelector } from "@/redux/hook";
-import { getColorsRedux } from "@/redux/actions/product_Slice";
 import ColorVariantSelectTab from "../global/color-select";
+import { getColorsRedux } from "@/redux/actions/size_color_Slice";
 
 interface Color {
   value: string;
@@ -327,9 +326,8 @@ export const ProductImageModal = ({
   const [showColorPicker, setShowColorPicker] = useState(false);
   const { openMediaDrawer } = useModal();
 
-  const { colors } = useAppSelector((state) => state.products);
+  const { colors } = useAppSelector((state) => state.sizeColor);
 
- 
   const handleDeleteImage = (index: number) => {
     // Get the image being deleted
     const imageToDelete = productLocalImages[index];
@@ -443,7 +441,6 @@ export const ProductImageModal = ({
               setSelectedColor={setSelectedColor}
               setProductLocalImages={setProductLocalImages}
             />
-          
           </div>
           <Tooltip title="Delete" placement="top">
             <button
@@ -472,7 +469,6 @@ export const ProductImageModal = ({
           // console.log(updatedVariations,'updatedVariations');
 
           // console.log(index,'image index');
-          
 
           if (index !== null && updatedVariations[index]) {
             updatedVariations[index] = {

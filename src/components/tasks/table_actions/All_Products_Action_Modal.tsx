@@ -2,7 +2,7 @@
 //   TaskModalContent,
 //   TaskModalFooter,
 // } from "@/components/modals/TaskModal";
-// import { useModal } from "@/providers/context/context";
+// import { UseModal } from "@/providers/context/context";
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -95,7 +95,7 @@
 // };
 
 // export default function AllProductsActionModal({ product }: Props) {
-//   const { openProductModal, selectedProducts, closeModal } = useModal();
+//   const { openProductModal, selectedProducts, closeModal } = UseModal();
 //   const { downloadStockReport } = useDownloadXl();
 
 //   const [initialValues, setInitialValues] = useState<IProducts>(InitialValues);

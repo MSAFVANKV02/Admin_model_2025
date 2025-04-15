@@ -4,7 +4,7 @@ import {
   CategoryColumnMain,
 } from "@/components/tasks/table_columns/category-table-columns";
 import { DataTable } from "@/components/tasks/task_components/data-table";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { useEffect, useMemo, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
@@ -17,7 +17,7 @@ import {  getCategories } from "@/redux/actions/category_Slice";
 export default function CategoryPage() {
   const categories = useAppSelector((state) => state.category.categories);
   const [isMain, setIsMain] = useState(true);
-  const { setIsOpen, setSelectedCategory } = useModal();
+  const { setIsOpen, setSelectedCategory } = UseModal();
   const dispatch = useAppDispatch();
 
   const filterMainCat = useMemo(

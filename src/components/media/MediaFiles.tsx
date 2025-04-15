@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
@@ -25,7 +25,7 @@ export default function MediaFiles({
 
   title
 }: Props) {
-    const {setIsOpen} = useModal();
+    const {setIsOpen} = UseModal();
 
     // console.log(setFieldValues,'setFieldValues');
     

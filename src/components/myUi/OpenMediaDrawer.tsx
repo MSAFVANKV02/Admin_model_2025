@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { Label } from "../ui/label";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import Media_Files_Modal from "../media/Media_Files_Modal";
 import { IMediaDataType } from "@/types/types";
 import { ErrorMessage } from "formik";
@@ -43,7 +43,7 @@ const OpenMediaDrawer = ({
   subTitle="Upload"
 }: Props) => {
   const { openMediaDrawer, openDrawerFieldName, setDrawerFieldName } =
-    useModal();
+    UseModal();
 
   return (
     <>

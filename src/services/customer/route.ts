@@ -1,4 +1,4 @@
-import { CUSTOMER_DETAILS_URL, UPDATE_CUSTOMER_KYC_URL } from "@/services/api/urlPath";
+import { CUSTOMER_DETAILS_URL, DELETE_CUSTOMER_USER_URL, UPDATE_CUSTOMER_KYC_URL, UPDATE_CUSTOMER_USER_URL } from "@/services/api/urlPath";
 import { API } from "../auth/route";
 
 
@@ -36,4 +36,20 @@ export const Update_Customer_Kyc_Api = async (data: any, kycId: string) =>
       //   "Content-Type": "multipart/form-data", // Ensure Axios sets the correct headers
       // },
     });
+
+
+    export const Update_Customer_User_Api = async (data: any, userId: string) =>
+      await API.put(`${UPDATE_CUSTOMER_USER_URL}/${userId}`, data, {
+        withCredentials: true,
+        // headers: {
+        //   "Content-Type": "multipart/form-data", // Ensure Axios sets the correct headers
+        // },
+      });
   
+
+      export const delete_Customer_User_Api = async (userId: string, type: "soft" | "hard"|"restore"|"block") =>
+        await API.delete(`${DELETE_CUSTOMER_USER_URL}/${userId}`, {
+          data: { type }, // 👈 send body here
+          withCredentials: true,
+        });
+      

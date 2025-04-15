@@ -3,7 +3,7 @@ import MyDeleteIcon from "@/components/icons/My_DeleteIcon";
 import MyEditIcon from "@/components/icons/My_EditIcon";
 import Modal from "@/components/modals/main";
 import AyButton from "@/components/myUi/AyButton";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { ICategory } from "@/types/categorytypes";
 import { useState } from "react";
 
@@ -13,7 +13,7 @@ type Props = {
 
 export default function CategoryAddModal({ product }: Props) {
   const [open, setOpen] = useState(false);
-  const { openCategoryModal } = useModal();
+  const { openCategoryModal } = UseModal();
   const { softDeleteCategoryFn, hardDeleteSingleCategoryFn } = DeleteCategory();
   return (
     <div className="flex gap-3">

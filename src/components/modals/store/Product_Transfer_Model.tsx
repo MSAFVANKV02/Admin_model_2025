@@ -1,4 +1,4 @@
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import TaskModal, { TaskModalContent, TaskModalHeader } from "../TaskModal";
 import MyCloseIcon from "@/components/icons/My_CloseIcon";
 import ProductTransferTable from "@/pages/store/product-transfer/product_transfer_table";
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import MyPdf from "@/components/myUi/MyPdf";
 
 export default function ProductTransferModel() {
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
   return (
     <div>
       <TaskModal className="md:w-[50%] sm:w-[80%] w-full md:px-10 sm:px-5 px-1">

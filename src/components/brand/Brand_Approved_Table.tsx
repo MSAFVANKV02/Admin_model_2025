@@ -11,7 +11,7 @@ import { dispatch } from "@/redux/hook";
 import { makeToast, makeToastError } from "@/utils/toaster";
 import My_Icon from "../icons/My_Icon";
 import MyEyeIcon from "../icons/My_EyeIcon";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import BrandDetailsModal from "./Brand_Details_Modal";
 
 type Props = {
@@ -23,7 +23,7 @@ export default function BrandApprovedTable({ brands }: Props) {
   // const {selectedBrand} = useAppSelector((state)=> state.brand)
   const { hardDeleteSingleBrandFn, softDeleteBrandFn } = DeleteBrands();
   const [errorImg,setErrorImg] = useState(false);
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
 
 
   const handleDownload = async (

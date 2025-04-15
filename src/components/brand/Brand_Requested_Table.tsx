@@ -1,4 +1,4 @@
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import MyEyeIcon from "../icons/My_EyeIcon";
 import TaskModal, {
   TaskModalContent,
@@ -20,7 +20,7 @@ export default function BrandRequestedTable({ brands }: Props) {
   const dispatch = useAppDispatch();
   const [errorImg,setErrorImg] = useState(false);
 
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
 
   return (
     <div className="overflow-x-auto rounded-lg border mt-5 h-[68vh] overflow-y-auto ">

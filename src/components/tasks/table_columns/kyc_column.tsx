@@ -13,6 +13,11 @@ import { IUserProps } from "@/types/adminUserTypes";
 export const kycColumn: ColumnDef<IUserProps>[] = [
   // export const kycColumn = ({ isDashboard=true }: KycColumnProps): ColumnDef<IUserProps>[] => [
     {
+      accessorKey: "user.name", // Corrected accessor to target nested property
+      header: "Business Name",
+      cell: ({ row }) => <span className="span">{row.original.user.name}</span>,
+    },
+    {
       accessorKey: "kyc.businessName", // Corrected accessor to target nested property
       header: "Business Name",
       cell: ({ row }) => <span className="span">{row.original.kyc.businessName}</span>,

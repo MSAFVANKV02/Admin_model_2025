@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { ErrorMessage } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { useState } from "react";
 import TaskModal, {
   TaskModalContent,
@@ -36,7 +36,7 @@ export default function FilesMediaSectionPage({
   values,
 }: Props) {
   // console.log(values, "values");
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
   const [selectedFieldName, setSelectedFieldName] = useState<{
     id: keyof FileFormValues;
     name: keyof FileFormValues;
@@ -343,7 +343,7 @@ export function FormFieldGenal({
   values,
   setIsOpen,
 }: FormFieldGenalProps) {
-  const { openMediaDrawer } = useModal();
+  const { openMediaDrawer } = UseModal();
 
   return (
     <div

@@ -14,7 +14,7 @@
 // import ColorPicker from "../myUi/ColorPicker";
 // import { IProducts } from "@/types/productType";
 // import Media_Files_Modal from "../media/Media_Files_Modal";
-// import { useModal } from "@/providers/context/context";
+// import { UseModal } from "@/providers/context/context";
 
 // interface Color {
 //   value: string;
@@ -60,7 +60,7 @@
 //     { code: "#3357FF", name: "Blue" },
 //   ]);
 //   const [showColorPicker, setShowColorPicker] = useState(false);
-//   const { openMediaDrawer } = useModal();
+//   const { openMediaDrawer } = UseModal();
 
 //   // console.log(productLocalImages, "productLocalImages");
 
@@ -274,7 +274,7 @@ import { useEffect, useState } from "react";
 import ColorPicker from "../myUi/ColorPicker";
 import { IProducts } from "@/types/productType";
 import Media_Files_Modal from "../media/Media_Files_Modal";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { create_New_Color_Api } from "@/services/extra/route";
 import { dispatch, useAppSelector } from "@/redux/hook";
 import ColorVariantSelectTab from "../global/color-select";
@@ -324,7 +324,7 @@ export const ProductImageModal = ({
     // { code: "#3357FF", name: "Blue" },
   ]);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const { openMediaDrawer } = useModal();
+  const { openMediaDrawer } = UseModal();
 
   const { colors } = useAppSelector((state) => state.sizeColor);
 

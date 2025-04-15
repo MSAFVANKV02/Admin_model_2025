@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import ApproveStoreSeller from "@/hooks/approve-store-seller-route";
 import { registrationTypes } from "@/pages/store/store-creation/store_input_filds";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
 import { dispatch, useAppSelector } from "@/redux/hook";
 import { update_storeOrSeller_Api } from "@/services/profile/route";
@@ -27,7 +27,7 @@ type Props = {
 };
 
 export default function StoreTableAction({ data }: Props) {
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
   const [selectedData, setSelectedData] = useState<StoreTypes | null>(null);
 
   const isLoading = useAppSelector((state) => state.loading.loadingState);

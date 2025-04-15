@@ -21,6 +21,7 @@ export interface IUserDetailsType {
   _id: string;
   mobile: string;
   isVerified: boolean;
+  isDeleted: boolean;
   isRegistered: boolean;
   isBlocked: boolean;
   policyVerified: boolean;
@@ -34,6 +35,7 @@ export interface IUserDetailsType {
   name: string;
   pinCode: string;
   shopName: string;
+  email:string;
 }
 
 export interface IKycProps {

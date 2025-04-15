@@ -1,9 +1,9 @@
 import MyEyeIcon from "@/components/icons/My_EyeIcon";
 import ProductTransferModel from "@/components/modals/store/Product_Transfer_Model";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 
 export default function StoreProductTransferAction() {
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
   return (
     <div>
       <MyEyeIcon

@@ -125,7 +125,7 @@ export function DataTable<TData, TValue>({
                   className={`${row.index % 2 === 0 ?"bg-gray-50":""}`}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="align-top">
+                    <TableCell key={cell.id} className="align-">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

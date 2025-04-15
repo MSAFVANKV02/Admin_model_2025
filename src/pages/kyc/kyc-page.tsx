@@ -31,7 +31,7 @@ export default function KycPage() {
           data={filteredCustomer} // Use filtered data
           columns={kycColumn}
           enableSearch
-          searchWith="businessName"
+          searchWith="kyc.businessName"
           enableView
         />
       </div>

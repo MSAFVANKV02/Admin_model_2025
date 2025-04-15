@@ -27,6 +27,10 @@ export const LOGOUT_ADMIN_URL = `/user_api/admin/logoutAdmin`;
 // ------ customer --------------------
 export const CUSTOMER_DETAILS_URL = `/user_api/admin/getUsersWithkyc`;
 export const UPDATE_CUSTOMER_KYC_URL = `/user_api/admin/approveOrreject_Kyc`;
+export const UPDATE_CUSTOMER_USER_URL = `/user_api/admin/update-user`;
+export const DELETE_CUSTOMER_USER_URL = `/user_api/admin/delete-user`;
+
+
 
 
 

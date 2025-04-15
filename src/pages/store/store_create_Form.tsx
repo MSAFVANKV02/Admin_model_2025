@@ -3,7 +3,7 @@
 // import { FormField } from "@/components/myUi/FormField";
 // import { Input } from "@/components/ui/input";
 // import useNavigateClicks from "@/hooks/useClicks";
-// import { useModal } from "@/providers/context/context";
+// import { UseModal } from "@/providers/context/context";
 // import { Create_Store_Api } from "@/services/store/route";
 // import { StoreTypes } from "@/types/storeTypes";
 // import { makeToast, makeToastError } from "@/utils/toaster";
@@ -63,7 +63,7 @@
 //   const [googleAddress, setGoogleAddress] = useState<string>("");
 //   // const location = useLocation();
 
-//   const { setIsOpen } = useModal();
+//   const { setIsOpen } = UseModal();
 
 //   const initialValues: StoreTypes = {
 //     name: "",

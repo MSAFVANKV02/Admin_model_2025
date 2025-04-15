@@ -183,10 +183,10 @@
 // };
 
 // // Custom hook to use the ModalContext
-// export const useModal = () => {
+// export const UseModal = () => {
 //   const context = useContext(ModalContext);
 //   if (!context) {
-//     throw new Error("useModal must be used within a ModalProvider");
+//     throw new Error("UseModal must be used within a ModalProvider");
 //   }
 //   return context;
 // };
@@ -406,11 +406,11 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 };
 
 // Custom hook to use the ModalContext
-export const useModal =  <T,>() => {
+export const UseModal =  <T,>() => {
   // const context = useContext(ModalContext);
   const context = useContext(ModalContext as React.Context<ModalContextType<T> | undefined>);
   if (!context) {
-    throw new Error("useModal must be used within a ModalProvider");
+    throw new Error("UseModal must be used within a ModalProvider");
   }
   return context;
 };

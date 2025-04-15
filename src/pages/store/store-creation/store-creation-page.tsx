@@ -21,7 +21,7 @@ import { makeToast, makeToastError } from "@/utils/toaster";
 import { FormField } from "@/components/myUi/FormField";
 import { Input } from "@/components/ui/input";
 import AyButton from "@/components/myUi/AyButton";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import GoogleMap from "@/components/google/GoogleMap";
 import { Label } from "@/components/ui/label";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -46,7 +46,7 @@ export default function StoreCreationPage() {
   const [googleAddress, setGoogleAddress] = useState<string>("");
   // const location = useLocation();
 
-  const { setIsOpen } = useModal();
+  const { setIsOpen } = UseModal();
 
   const handleSetGoogleLocation = useCallback(() => {
     setIsOpen(true);

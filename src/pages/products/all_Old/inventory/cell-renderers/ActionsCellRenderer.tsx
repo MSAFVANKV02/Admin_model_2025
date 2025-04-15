@@ -20,7 +20,7 @@
 //   TaskModalFooter,
 //   TaskModalHeader,
 // } from "@/components/modals/TaskModal";
-// import { useModal } from "@/providers/context/context";
+// import { UseModal } from "@/providers/context/context";
 // import { dispatch, useAppSelector } from "@/redux/hook";
 // import { fetchSellerOrStoreDetails } from "@/redux/actions/storeSellerSlice";
 // import AyButton from "@/components/myUi/AyButton";
@@ -43,7 +43,7 @@
 //   const { onChangeNewStatus } = useUpdateProductStatus(productId);
 //   const { onChangeNewToggle, isPending } = useUpdateToggleWithStore(productId),;
 
-//   const { setIsOpen } = useModal();
+//   const { setIsOpen } = UseModal();
 //   const { storeSeller } = useAppSelector((state) => state.storeSeller);
 //   const [selectedStores, setSelectedStore] = useState<string[]>([]);
 //   const [selectedField, setSelectedField] = useState<string>(

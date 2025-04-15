@@ -15,7 +15,7 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Field, Form, Formik } from "formik";
-import { useModal } from "@/providers/context/context";
+import { UseModal } from "@/providers/context/context";
 import MyPdf from "../myUi/MyPdf";
 import MyCloseIcon from "../icons/My_CloseIcon";
 import { Update_Customer_Kyc_Api } from "@/services/customer/route";
@@ -26,7 +26,7 @@ import OpenMediaDrawer from "../myUi/OpenMediaDrawer";
 
 export default function KycDashModal() {
   const dispatch = useAppDispatch();
-  const { selectedTask, closeModal, openModal } = useModal(); // Get the modal context
+  const { selectedTask, closeModal, openModal } = UseModal(); // Get the modal context
 
   // console.log(selectedTask,'selectedTask');
 
@@ -45,6 +45,7 @@ export default function KycDashModal() {
       <Formik
         initialValues={{
           businessName: selectedTask ? selectedTask.kyc?.businessName : "",
+          // name: selectedTask ? selectedTask.user?.name : "",
           emailId: selectedTask ? selectedTask.kyc?.emailId : "",
           buildingName: selectedTask ? selectedTask.kyc.buildingName : "",
           street: selectedTask ? selectedTask.kyc.street : "",
@@ -53,7 +54,7 @@ export default function KycDashModal() {
           state: selectedTask ? selectedTask.kyc.state : "",
           country: selectedTask ? selectedTask.kyc.country : "",
           proof: selectedTask ? selectedTask.kyc.proof : "",
-          action: selectedTask ? selectedTask.kyc?.status  : "pending",
+          action: selectedTask ? selectedTask.kyc?.status : "pending",
           proofType: selectedTask ? selectedTask.kyc.proofType : "",
           gstNumber: selectedTask ? selectedTask.kyc?.gstNumber : "",
           feedback: selectedTask ? selectedTask.kyc?.kycFeedback : "",
@@ -87,7 +88,10 @@ export default function KycDashModal() {
             if (response.status === 200) {
               dispatch(fetchCustomerDetails());
               makeToast(`${response.data.message}`);
-              openModal({user:selectedTask?.user , kyc: response.data.kyc }, "kyc_dash_modal");
+              openModal(
+                { user: selectedTask?.user, kyc: response.data.kyc },
+                "kyc_dash_modal"
+              );
             }
             // console.log(response.data.kyc);
           } catch (error: any) {
@@ -101,6 +105,21 @@ export default function KycDashModal() {
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className="flex flex-col gap-4">
             <TaskModalContent className="space-y-5">
+              {/* Business Name */}
+              {/* <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
+                <Label className="text-textGray mb-2 block text-sm font-medium">
+                  User Name
+                </Label>
+                <Field
+                  name="name"
+                  id="name"
+                  value={values.name}
+                  as={Input}
+                  className="md:w-[70%] w-full rounded-lg"
+                  placeholder="Enter Business Name"
+                />
+              </div> */}
+
               {/* Business Name */}
               <div className="flex justify-between md:flex-row flex-col gap-2 items-center">
                 <Label className="text-textGray mb-2 block text-sm font-medium">
@@ -281,7 +300,6 @@ export default function KycDashModal() {
                     <SelectValue placeholder="Select Status" />
                   </SelectTrigger>
                   <SelectContent className="z-[10004]">
-                  
                     <SelectItem
                       value="Udyam Aadhaar"
                       disabled={
@@ -339,20 +357,21 @@ export default function KycDashModal() {
                 <div className="md:w-[70%] w-full flex items-start flex-col gap-1">
                   <MyPdf value={values.proof ?? ""} isPdfShown />
 
-                  <Label htmlFor="proof" className="text-xs cursor-pointer underline">
-             
-                    <OpenMediaDrawer 
-                    name="proof"
-                    mediaType="pdf"
-                    values={values}
-                    title=""
-                    handleFileChange={(event)=>{
-                      const imgArray = event[0].imageurl;
-                      setFieldValue("proof", imgArray);
-                    }}
-
+                  <Label
+                    htmlFor="proof"
+                    className="text-xs cursor-pointer underline"
+                  >
+                    <OpenMediaDrawer
+                      name="proof"
+                      mediaType="pdf"
+                      values={values}
+                      title=""
+                      handleFileChange={(event) => {
+                        const imgArray = event[0].imageurl;
+                        setFieldValue("proof", imgArray);
+                      }}
                     />
-                 
+
                     {/* <input type="file" /> */}
                   </Label>
                   {/* <a
@@ -378,7 +397,7 @@ export default function KycDashModal() {
                   Status
                 </Label>
                 <Select
-                name="kycStatus"
+                  name="kycStatus"
                   value={values.action}
                   onValueChange={(value) => setFieldValue("action", value)}
                 >

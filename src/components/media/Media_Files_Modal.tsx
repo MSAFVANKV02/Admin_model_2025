@@ -140,7 +140,7 @@ function MediaFilesModal({
     >
       {/* <DrawerTrigger>Open</DrawerTrigger> */}
       <div className="mx-auto w-full max-w-sm ">
-        <DrawerContent className="z-[20001] mx-auto max-w-screen-xl w-full h-[85vh] max-h-[85vh] flex flex-col rounded-lg border bg-background p-4">
+        <DrawerContent className="z-[10001] mx-auto max-w-screen-xl w-full h-[85vh] max-h-[85vh] flex flex-col rounded-lg border bg-background p-4">
           <DrawerHeader className="flex-shrink-0">
             <DrawerTitle className="flex justify-end">
               <MyCloseIcon

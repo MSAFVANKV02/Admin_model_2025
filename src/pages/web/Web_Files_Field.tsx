@@ -45,18 +45,19 @@ function WebFilesField({
           <div key={index} className="flex items-center gap-4 p-2 rounded">
             <div className="relative w-16 h-16">
               <Link
-                to={
-                  typeof imageObj.imageUrl === "string"
-                    ? imageObj.imageUrl
-                    : URL.createObjectURL(imageObj.imageUrl)
-                }
+                // to={
+                //   typeof imageObj.imageUrl === "string"
+                //     ? imageObj.imageUrl
+                //     : URL.createObjectURL(imageObj.imageUrl)
+                // }
+                to={imageObj.imageUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
                   src={imageObj.imageUrl}
-                  alt={`Slider ${index + 1}`}
-                  className="w-full h-full object-cover border rounded-lg"
+                  alt={`img ${index + 1}`}
+                  className="w-full h-full object-cover border rounded-lg text-xs"
                 />
               </Link>
 

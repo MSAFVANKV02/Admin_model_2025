@@ -53,6 +53,8 @@ export default function WebBannerForm() {
     setFieldValue: (field: keyof FormData, value: any) => void
   ) => {
     const selectedFiles = Array.from(src);
+    // console.log(selectedFiles,'selectedFiles');
+    
 
     // Restrict login_page to only 1 image
     if (fieldName === "login_page" && selectedFiles.length > 1) {
@@ -64,7 +66,7 @@ export default function WebBannerForm() {
     if (fieldName === "login_page") {
       setFieldValue(fieldName, [
         {
-          imageUrl: selectedFiles[0],
+          imageUrl: selectedFiles[0].imageurl,
           imageLink: "https://ayaboo.com/",
         },
       ]);
@@ -165,7 +167,7 @@ export default function WebBannerForm() {
       fileType: "text",
       label: "Kyc Slider",
       haveImageLink: false,
-      multiple: false,
+      multiple: true,
       mediaType: "image",
     },
     {

@@ -21,6 +21,7 @@ const standardFontsDir = normalizePath(
 export default defineConfig({
   plugins: [
     react(),
+    
     viteStaticCopy({
       targets: [
         {

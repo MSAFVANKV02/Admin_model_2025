@@ -4,6 +4,7 @@ export const InitialValues = {
   product_sku: '',
   barcode: '',
   brand: '',
+  bundle_details:null,
   categoryId:'',
   keywords: [],
   minimum_quantity: undefined,

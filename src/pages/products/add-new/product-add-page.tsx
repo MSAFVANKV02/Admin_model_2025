@@ -124,6 +124,8 @@ export default function ProductAddPage() {
       is_free_shipping:
         editProduct.is_free_shipping ?? InitialValues.is_free_shipping,
       status: editProduct.status || InitialValues.status,
+      bundle_details:
+        editProduct.bundle_details || InitialValues.bundle_details,
     };
 
     return relevantValues;
@@ -285,9 +287,20 @@ export default function ProductAddPage() {
             //   status: values.status ?? "pending",
             // };
 
+            const productPayload = {
+              ...values,
+              ...(values.selectWise === "bundle"
+                ? {}
+                : { bundle_details: [] }),
+            };
+
             const route = id
-              ? update_Product_Api(values, id)
-              : add_Product_Api(values);
+              ? update_Product_Api(productPayload, id)
+              : add_Product_Api(productPayload);
+
+            // const route = id
+            //   ? update_Product_Api(values, id)
+            //   : add_Product_Api(values);
 
             const response = await route;
             // console.log(response, "response product add");

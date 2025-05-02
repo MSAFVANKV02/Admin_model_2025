@@ -28,7 +28,7 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
     { name: string; _id: string }[]
   >([]);
 
-  // console.log(productLocalImages);
+  console.log(values,'values');
 
   const { sizes } = useAppSelector((state) => state.sizeColor);
   const [newSize, setNewSize] = useState(false);
@@ -56,19 +56,20 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
     }
   }, [sizes]);
 
- 
   const formatOptionLabel = (option: SelectOption, { context }: any) => {
     return (
       <div className="flex items-center">
         <span>{option.name}</span>
-  
+
         {context === "menu" && (
           <button
             className="ml-auto hover:text-red-500"
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(deleteColorsSizeRedux({ id: option._id, value: "size" }));
+              dispatch(
+                deleteColorsSizeRedux({ id: option._id, value: "size" })
+              );
             }}
           >
             <Icon icon="mdi:delete" />
@@ -77,7 +78,31 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
       </div>
     );
   };
-  
+
+  useEffect(() => {
+    if (
+      values?.variations?.length > 0 &&
+      selectedSizes.length === 0 && // prevent overwriting manual selections
+      sizes.length > 0
+    ) {
+      const allSizesInVariations = values.variations
+        .flatMap((variation) => variation.details || [])
+        .map((detail) => detail.size);
+
+      // Remove duplicates
+      const uniqueSizeNames = Array.from(new Set(allSizesInVariations));
+
+      // Match with actual size objects from options
+      const matchedSizes = sizes
+        .filter((s) => uniqueSizeNames.includes(s.name))
+        .map((s) => ({
+          name: s.name,
+          _id: s._id,
+        }));
+
+      setSelectedSizes(matchedSizes);
+    }
+  }, [values.variations, sizes]);
 
   return (
     <div className={className}>
@@ -110,6 +135,32 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
 
           setSelectedSizes(selectedArray);
 
+          // setFieldValue(
+          //   "variations",
+          //   values.variations.map((variation) => {
+          //     const updatedDetails = selectedArray.map((size) => {
+          //       const existingDetail = variation.details.find(
+          //         (detail) => detail.size === size.name
+          //       );
+
+          //       return {
+          //         ...existingDetail,
+          //         size: size.name,
+          //         stock: existingDetail?.stock || 0,
+          //         discount: existingDetail?.discount || 0,
+          //         selling_price: existingDetail?.selling_price || 0,
+          //         skuId: existingDetail?.skuId || "",
+          //       };
+          //     });
+
+          //     return {
+          //       ...variation,
+          //       details: updatedDetails,
+          //       sample: variation.sample || false,
+          //     };
+          //   })
+          // );
+
           setFieldValue(
             "variations",
             values.variations.map((variation) => {
@@ -118,23 +169,41 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
                   (detail) => detail.size === size.name
                 );
 
-                return {
-                  ...existingDetail,
-                  size: size.name,
-                  stock: existingDetail?.stock || 0,
-                  discount: existingDetail?.discount || 0,
-                  selling_price: existingDetail?.selling_price || 0,
-                  skuId: existingDetail?.skuId || "",
-                };
+                return existingDetail
+                  ? { ...existingDetail }
+                  : {
+                      size: size.name,
+                      stock: 0,
+                      discount: 0,
+                      selling_price: 0,
+                      skuId: "",
+                    };
               });
+
+              // Keep only sizes that are still selected
+              const filteredOldDetails = variation.details.filter((detail) =>
+                selectedArray.some((s) => s.name === detail.size)
+              );
+
+              // Merge filtered old details with any new ones that aren't in the old list
+              const finalDetails = [
+                ...filteredOldDetails.filter(
+                  (oldDetail) =>
+                    !updatedDetails.find(
+                      (newDetail) => newDetail.size === oldDetail.size
+                    )
+                ),
+                ...updatedDetails,
+              ];
 
               return {
                 ...variation,
-                details: updatedDetails,
+                details: finalDetails,
                 sample: variation.sample || false,
               };
             })
           );
+
           // setSelectedProducts(selectedArray);
         }}
       />

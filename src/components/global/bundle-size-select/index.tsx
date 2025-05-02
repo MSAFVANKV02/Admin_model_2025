@@ -154,6 +154,7 @@ const BundleSizeSelect = ({ values, className, setFieldValue }: Props) => {
   const [newSize, setNewSize] = useState(false);
 
   const { bundles } = useAppSelector((state) => state.sizeColor);
+  // console.log(bundles,'bundles');
 
   const selectOptions = useMemo(
     () =>
@@ -218,6 +219,10 @@ const BundleSizeSelect = ({ values, className, setFieldValue }: Props) => {
           );
 
           if (!selectedBundle) return;
+
+          if (values.selectWise === "bundle") {
+            setFieldValue("bundle_details", selectedBundle.bundle);
+          }
 
           setFieldValue(
             "variations",

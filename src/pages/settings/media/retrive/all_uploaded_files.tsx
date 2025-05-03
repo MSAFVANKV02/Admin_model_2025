@@ -280,7 +280,16 @@ export interface IFileDataMedia {
   category: IFIlesCategory;
 }
 
-export type IFIlesCategory = "all" | "products" | "category" | "brand";
+// export type IFIlesCategory = "all" | "products" | "category" | "brand";
+export type IFIlesCategory =
+  | "all"
+  | "products"
+  | "category"
+  | "brand"
+  | "coverImage"
+  | "homeSlider"
+  | "bannerImages"
+  | "flashDeals"|"";
 
 type Props = {
   onClick?: (selectedFiles: IFileDataMedia[], imageurl: string[]) => void;

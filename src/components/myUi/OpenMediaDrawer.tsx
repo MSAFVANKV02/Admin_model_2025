@@ -6,7 +6,7 @@ import { UseModal } from "@/providers/context/context";
 import Media_Files_Modal from "../media/Media_Files_Modal";
 import { IMediaDataType } from "@/types/types";
 import { ErrorMessage } from "formik";
-import { IFileDataMedia } from "@/pages/settings/media/retrive/all_uploaded_files";
+import { IFileDataMedia, IFIlesCategory } from "@/pages/settings/media/retrive/all_uploaded_files";
 import MyDeleteIcon from "../icons/My_DeleteIcon";
 
 type Props = {
@@ -22,6 +22,7 @@ type Props = {
   IColor?: string; // Icon color for disabled state
   name: string;
   mediaType?: IMediaDataType;
+  category?: IFIlesCategory;
   multiple?: boolean;
   handleFileChange?: (event: IFileDataMedia[], fieldName: string) => void;
 };
@@ -40,6 +41,7 @@ const OpenMediaDrawer = ({
   multiple,
   values,
   onDelete,
+  category,
   subTitle="Upload"
 }: Props) => {
   const { openMediaDrawer, openDrawerFieldName, setDrawerFieldName } =
@@ -113,6 +115,7 @@ const OpenMediaDrawer = ({
       </div>{" "}
       {name === openDrawerFieldName && (
         <Media_Files_Modal
+        category={category}
           multiple={multiple}
           fieldName={name}
           mediaType={mediaType}

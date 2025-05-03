@@ -70,7 +70,7 @@ export default function UploadMediaPage() {
             files: [],
             category: "all",
           }}
-          onSubmit={async (values,{resetForm}) => {
+          onSubmit={async (values, { resetForm }) => {
             if (values.files.length === 0) {
               makeToastError("Please select at least one file.");
               return;
@@ -84,9 +84,11 @@ export default function UploadMediaPage() {
 
             try {
               const response = await Create_Media_Api(formData);
-              if(response.status === 200) {
-                makeToast(`${response.data.message || 'Media uploaded successfully.'}`);
-                resetForm()
+              if (response.status === 200) {
+                makeToast(
+                  `${response.data.message || "Media uploaded successfully."}`
+                );
+                resetForm();
               }
               console.log("Upload response:", response);
               // alert("Files uploaded successfully!");
@@ -114,7 +116,14 @@ export default function UploadMediaPage() {
                     <SelectItem value="all">all</SelectItem>
                     <SelectItem value="products">Products</SelectItem>
                     <SelectItem value="category">category</SelectItem>
-                    <SelectItem value="brand">brand</SelectItem>
+                    <SelectItem value="brand">Brand Images</SelectItem>
+                    <SelectItem value="homeSlider">
+                      Home Banner Slider
+                    </SelectItem>
+                    <SelectItem value="seasonalFav">Seasonal Pages</SelectItem>
+                    <SelectItem value="coverImage">Cover Image</SelectItem>
+                    <SelectItem value="bannerImages">Banner Image</SelectItem>
+                    <SelectItem value="flashDeals">Flash Banners</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

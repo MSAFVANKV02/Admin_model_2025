@@ -5,6 +5,7 @@ import {
   GET_ALL_PURCHASED_PRODUCT_URL,
   GET_DELETED_PRODUCT_URL,
   GET_PRODUCTS_URL,
+  RE_ARRANGE_TODAYS_DEAL_PRODUCTS_URL,
   RESTORE_DELETED_PRODUCT_URL,
   TOGGLE_PRODUCTS_URL,
   UPDATE_PRODUCT_URL,
@@ -108,3 +109,16 @@ export const get_All_Purchased_Products_Api = () => {
     withCredentials: true,
   });
 };
+
+
+
+
+
+  // ======= rea arrange todays deals products
+  export const reArrange_Todays_Deals_Api = async (data: {
+    productId:string;
+    todaysIndex:number
+  }[]) =>
+    await API.patch(`${RE_ARRANGE_TODAYS_DEAL_PRODUCTS_URL}`,data, {
+      withCredentials: true,
+    });

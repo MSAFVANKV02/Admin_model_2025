@@ -21,3 +21,7 @@ export const GET_DELETED_PRODUCT_URL = `/product_api/product/deleted-products`;
 // ============ EDIT  PRODUCTS =========================
 // ==============****************====================
 export const UPDATE_PRODUCT_URL = `/product_api/product`;
+
+
+// rearange
+export const RE_ARRANGE_TODAYS_DEAL_PRODUCTS_URL = `/product/todays-index`;

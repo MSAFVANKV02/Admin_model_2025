@@ -6,7 +6,7 @@ import { makeToast, makeToastError } from "@/utils/toaster";
 import AyButton from "@/components/myUi/AyButton";
 import WebFilesField from "./Web_Files_Field";
 
-import { IFileDataMedia } from "../settings/media/retrive/all_uploaded_files";
+import { IFileDataMedia } from "../../settings/media/retrive/all_uploaded_files";
 import OpenMediaDrawer from "@/components/myUi/OpenMediaDrawer";
 
 type FormData = {

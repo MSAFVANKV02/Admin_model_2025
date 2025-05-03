@@ -108,7 +108,14 @@ export default function ProductAddPage() {
         editProduct.is_featured_product ?? InitialValues.is_featured_product,
       is_todays_deal:
         editProduct.is_todays_deal ?? InitialValues.is_todays_deal,
+
       description: editProduct.description || InitialValues.description,
+      special_features:
+        editProduct.special_features || InitialValues.special_features,
+      product_details:
+        editProduct.product_details || InitialValues.product_details,
+      care_guid: editProduct.care_guid || InitialValues.care_guid,
+
       gallery_image: editProduct.gallery_image || InitialValues.gallery_image,
       thumbnails: editProduct.thumbnails || InitialValues.thumbnails,
       size_chart: editProduct.size_chart || InitialValues.size_chart,
@@ -289,9 +296,7 @@ export default function ProductAddPage() {
 
             const productPayload = {
               ...values,
-              ...(values.selectWise === "bundle"
-                ? {}
-                : { bundle_details: [] }),
+              ...(values.selectWise === "bundle" ? {} : { bundle_details: [] }),
             };
 
             const route = id

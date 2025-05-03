@@ -30,7 +30,7 @@ export interface GeneralFormValues {
   product_name: string;
   mrp: number;
   product_sku: string;
-  categoryId:string | ICategory;
+  categoryId: string | ICategory;
   barcode?: string;
   brand?: string | IBrand;
   keywords: string[];
@@ -41,7 +41,10 @@ export interface GeneralFormValues {
   tax_details: ITaxDetails;
   status: boolean;
   is_todays_deal: boolean;
-  description?: string;
+  description: string;
+  product_details: string;
+  special_features: string;
+  care_guid: string;
 
   is_featured_product: boolean;
 }
@@ -56,14 +59,14 @@ type Props = {
 export default function GeneralSectionPage({
   values,
   setFieldValue,
-  errors
+  errors,
 }: // errors
 // errors,
 
 Props) {
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
-  console.log(errors, "errors");
+  // console.log(errors, "errors");
   // console.log(values, "values");
 
   const productFields: {
@@ -118,11 +121,11 @@ Props) {
         return (
           <div className="flex justify-between lg:flex-row flex-col gap-3">
             <Label className="text-textGray text-sm">Brand</Label>
-           <BrandSelectTab 
-            setFieldValue={setFieldValue}
-            values={values}
-            errors={errors}
-           />
+            <BrandSelectTab
+              setFieldValue={setFieldValue}
+              values={values}
+              errors={errors}
+            />
           </div>
         );
       },
@@ -190,7 +193,7 @@ Props) {
                 title={field.title ?? ""}
                 id={field.id}
                 name={field.name}
-                type={field.fileType }
+                type={field.fileType}
                 placeholder={field.placeholder}
                 setFieldValue={setFieldValue}
                 fieldAs={Input}
@@ -250,7 +253,7 @@ Props) {
                 id="product_dimensions.product_length"
                 name="product_dimensions.product_length"
                 placeholder="product_length"
-                 type="number"
+                type="number"
                 className={cn(` p-6`)}
                 as={Input}
                 value={values.product_dimensions.product_length} // Bind field value to Formik
@@ -268,9 +271,38 @@ Props) {
         <TiptapCareGuide
           label="Description"
           careGuide={values.description ?? ""}
-          onChange={(value) =>{
+          onChange={(value) => {
             setFieldValue("description", value);
-            console.log(value)}}
+            // console.log(value)
+          }}
+        />
+        {/* #text editor special_features ==== */}
+        <TiptapCareGuide
+          label="Special Features"
+          careGuide={values.special_features ?? ""}
+          onChange={(value) => {
+            setFieldValue("special_features", value);
+            // console.log(value)
+          }}
+        />
+
+        {/* #text editor product_details ==== */}
+        <TiptapCareGuide
+          label="Special Features"
+          careGuide={values.product_details ?? ""}
+          onChange={(value) => {
+            setFieldValue("product_details", value);
+            // console.log(value)
+          }}
+        />
+        {/* #text editor care_guid ==== */}
+        <TiptapCareGuide
+          label="Special Features"
+          careGuide={values.care_guid ?? ""}
+          onChange={(value) => {
+            setFieldValue("care_guid", value);
+            // console.log(value)
+          }}
         />
 
         {/* #Tax details ======= */}
@@ -341,7 +373,7 @@ Props) {
           fieldAs={Input}
           disabled={!values.tax_details.isCess}
           value={`${values.tax_details.cess}`} // Bind field value to Formik
-          setFieldValue={setFieldValue} 
+          setFieldValue={setFieldValue}
         />
         {/* #status toggle ========= */}
         <b>Status</b>
@@ -382,7 +414,7 @@ Props) {
       {/* ================  Category Selection =====================
       ============================================================== */}
       <div className="flex-grow border rounded-sm p-4 space-y-5">
-      <b>Product Category</b>
+        <b>Product Category</b>
         {/* <hr /> */}
 
         <CategorySelection setFieldValue={setFieldValue} values={values} />
@@ -518,7 +550,7 @@ export function FormFieldGenal({
                 value={value}
                 disabled={disabled}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log("New Cess Value:", e.target.value);
+                  // console.log("New Cess Value:", e.target.value);
                   const newValue = e.target.value;
                   if (setFieldValue) {
                     setFieldValue(name, newValue);

@@ -29,7 +29,7 @@ export type IAdsBannerTypes =
   | "home_slider_1"
   | "home_slider_2"
   | "home_slider_3"
-  | "home_banner"
+  | "ads"
   | "kyc_slider"
   | "login_page"
   |"";

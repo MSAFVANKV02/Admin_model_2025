@@ -28,7 +28,7 @@ const SizeSelectTab = ({ values, className, setFieldValue }: Props) => {
     { name: string; _id: string }[]
   >([]);
 
-  console.log(values,'values');
+  // console.log(values,'values');
 
   const { sizes } = useAppSelector((state) => state.sizeColor);
   const [newSize, setNewSize] = useState(false);

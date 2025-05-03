@@ -21,11 +21,11 @@ function SelectSlider() {
 
   const handleBannerChange = (event: any) => {
     const selected = event.target.value;
-    const newBanner = selected.replace(/_/g, "-");
+    // const newBanner = selected.replace(/_/g, "-");
     if (typeParam === "all-slider-1") {
-      navigate(`/web-setup?banner=${newBanner}&type=all-slider-1`);
+      navigate(`/web-setup?banner=${selected}&type=all-slider-1`);
     } else {
-      navigate(`/web-setup?banner=${newBanner}&type=cr-slider-1`);
+      navigate(`/web-setup?banner=${selected}&type=cr-slider-1`);
     }
   };
   return (

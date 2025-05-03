@@ -9,7 +9,7 @@ function HomeSliderGeneratePage() {
   const location = useLocation();
 
   const query = new URLSearchParams(location.search);
-  const bannerParam = query.get("banner") || "home-slider-1";
+  const bannerParam = query.get("banner") || "home_slider_1";
   // const typeParam = query.get("type") || "cr-slider-1";
 
   const currentBanner = bannerParam.replace(/-/g, "_");
@@ -20,11 +20,12 @@ function HomeSliderGeneratePage() {
         tabs={[
           {
             title: "All Cover Images",
-            url: `/web-setup?banner=${currentBanner.replace(
-              /_/g,
-              "-"
-            )}&type=all-slider-1`,
-            value: "all-slider-1",
+            // url: `/web-setup?banner=${currentBanner.replace(
+            //   /_/g,
+            //   "-"
+            // )}&type=all-home-slider`,
+            url: `/web-setup?banner=${currentBanner}&type=all-home-slider`,
+            value: "all-home-slider",
             children: (
               <div>
                 <SelectSlider />
@@ -34,11 +35,8 @@ function HomeSliderGeneratePage() {
           },
           {
             title: "Create Slider Images",
-            url: `/web-setup?banner=${currentBanner.replace(
-              /_/g,
-              "-"
-            )}&type=cr-slider-1`,
-            value: "cr-slider-1",
+            url: `/web-setup?banner=${currentBanner}&type=cr-home-slider`,
+            value: "cr-home-slider",
             children: (
               <div>
                 <SelectSlider />

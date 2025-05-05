@@ -76,7 +76,13 @@ const CreateHomeSliders = () => {
         }}
       >
         {({ values, setFieldValue }) => (
-          <Form className="max-w-screen-md mt-5">
+          <Form className="max-w-screen-md mt-5 space-y-2">
+            <ol className="flex flex-col list-decimal text-xs bg-yellow-50 p-5 text-yellow-700 border border-yellow-700">
+              {/* <li>Banner Hight : screen width {">"} 768px = 350px</li>
+              <li>Banner Hight : screen width {">"} 640px = 200px</li> */}
+              <li>Banner Hight : 350px</li>
+              <li>Banner Width : Fit to screen</li>
+            </ol>
             {/*1. select an redirectUrl */}
             <div className="flex flex-col gap-3">
               {values.bannerImages.map((coverImage, index) => (

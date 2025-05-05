@@ -15,6 +15,7 @@ import { Checkbox, styled } from "@mui/material";
 import SelectWise from "@/components/products/Select_Wise";
 import AllNewProductsTable from "@/components/products/price section/All_new_Products_Table";
 import PricePerPiecesComponent from "@/components/products/Price_Per_Pieces_Component";
+import { useEffect } from "react";
 
 type Props = {
   setFieldValue: any;
@@ -30,30 +31,30 @@ export default function PriceStockSectionPage({
   // console.log(errors, "error");
   // console.log(values, "values");
 
-  // useEffect(() => {
-  //   if (values.variations?.length > 0) {
-  //     const updatedVariations = values.variations.map((variation) => {
-  //       if (variation.details && variation.details.length > 0) {
-  //         const updatedDetails = variation.details.map((detail) => ({
-  //           ...detail,
-  //           discount:
-  //             detail.discount === 0 || !detail.discount
-  //               ? values.discount
-  //               : detail.discount,
-  //         }));
+  useEffect(() => {
+    if (values.variations?.length > 0) {
+      const updatedVariations = values.variations.map((variation) => {
+        if (variation.details && variation.details.length > 0) {
+          const updatedDetails = variation.details.map((detail) => ({
+            ...detail,
+            discount:
+              detail.discount === 0 || !detail.discount
+                ? values.discount
+                : detail.discount,
+          }));
 
-  //         return { ...variation, details: updatedDetails };
-  //       } else {
-  //         return {
-  //           ...variation,
-  //           details: [{ discount: values.discount }], // If no details exist, create one
-  //         };
-  //       }
-  //     });
+          return { ...variation, details: updatedDetails };
+        } else {
+          return {
+            ...variation,
+            details: [{ discount: values.discount }], // If no details exist, create one
+          };
+        }
+      });
 
-  //     setFieldValue("variations", updatedVariations);
-  //   }
-  // }, []);
+      setFieldValue("variations", updatedVariations);
+    }
+  }, []);
 
   return (
     <div className="">
@@ -62,7 +63,7 @@ export default function PriceStockSectionPage({
      flex-col gap-4"
       >
         {/* ===== basePrice ===== */}
-        {/* <FormFieldGenal
+        <FormFieldGenal
           value={values.basePrice}
           title="Base Price"
           type="number"
@@ -71,7 +72,7 @@ export default function PriceStockSectionPage({
           placeholder="Enter Price"
           fieldAs={Input}
           setFieldValue={setFieldValue}
-        /> */}
+        />
         {/* ===== samplePrice ===== */}
         <FormFieldGenal
           value={values.samplePrice}
@@ -92,12 +93,51 @@ export default function PriceStockSectionPage({
           name="discount"
           placeholder="Enter Discount"
           fieldAs={Input}
+          // onChange={(e) => {
+          //   let discountValue = parseFloat(e.target.value);
+
+          //   // Ensure value is between 0 and 100
+          //   if (discountValue < 0) discountValue = 0;
+          //   if (discountValue > 100) discountValue = 100;
+          //   setFieldValue("discount", discountValue);
+
+          //   if (values.variations?.length > 0) {
+          //     const updatedVariations = values.variations.map((variation) => {
+          //       if (variation.details && variation.details.length > 0) {
+          //         const updatedDetails = variation.details.map((detail) => ({
+          //           ...detail,
+          //           discount:
+          //             detail.discount === 0 || !detail.discount
+          //               ? discountValue
+          //               : detail.discount,
+          //         }));
+
+          //         return { ...variation, details: updatedDetails };
+          //       } else {
+          //         return {
+          //           ...variation,
+          //           details: [{ discount: discountValue }], // If no details exist, create one
+          //         };
+          //       }
+          //     });
+
+          //     setFieldValue("variations", updatedVariations);
+          //   }
+          // }}
           onChange={(e) => {
             let discountValue = parseFloat(e.target.value);
 
-            // Ensure value is between 0 and 100
+            // Enforce rules based on discount_type
             if (discountValue < 0) discountValue = 0;
-            if (discountValue > 100) discountValue = 100;
+
+            if (values.discount_type === "percentage") {
+              if (discountValue > 100) discountValue = 100;
+            } else if (values.discount_type === "flat") {
+              const mrp = values.basePrice || 0;
+
+              if (discountValue >= mrp) discountValue = mrp - 1;
+            }
+
             setFieldValue("discount", discountValue);
 
             if (values.variations?.length > 0) {
@@ -115,7 +155,7 @@ export default function PriceStockSectionPage({
                 } else {
                   return {
                     ...variation,
-                    details: [{ discount: discountValue }], // If no details exist, create one
+                    details: [{ discount: discountValue }],
                   };
                 }
               });

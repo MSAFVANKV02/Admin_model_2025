@@ -45,6 +45,8 @@ function AllHomeSliders() {
 
   return (
     <div className="flex flex-col gap-3 justify-center  ">
+
+
      
       {product.length > 0 ? (
         <ImageSlider images={images} refetch={refetch} />

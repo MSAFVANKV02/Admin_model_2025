@@ -16,6 +16,7 @@ function HomeSliderGeneratePage() {
 
   return (
     <div>
+      
       <MyPageTab
         tabs={[
           {
